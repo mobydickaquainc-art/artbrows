@@ -1,0 +1,103 @@
+{
+  "id": "2026-07-27-founder-methodology-7484",
+  "title": "원장 극사실 방법론 소개 (4장) (Gemini · 실험)",
+  "slug": "2026-07-27-founder-methodology-7484",
+  "status": "draft",
+  "createdAt": "2026-07-27T02:06:36.797Z",
+  "updatedAt": "2026-07-27T02:07:04.342Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "원장 극사실 방법론 소개 (4장)",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "VOL 12",
+          "brand": "ARTBROWS",
+          "headline": "선을 넘어\n결이 되다",
+          "subheadline": "극사실눈썹 창시자의 완벽한 통제",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-02.png",
+          "signatureLabel": "MIJI JANG · 2026",
+          "bottomLabel": "ARTbrows · MIJI JANG"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "극사실눈썹 창시자 · 20년 마스터"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "THE METHODOLOGY",
+          "leftTitle": "결의 법칙\n1234321",
+          "leftItems": [
+            {
+              "num": "01",
+              "text": "텐션",
+              "sub": "피부 저항을 읽는 예민한 감각"
+            },
+            {
+              "num": "02",
+              "text": "각도",
+              "sub": "실제 모와 일치하는 정밀한 궤적"
+            },
+            {
+              "num": "03",
+              "text": "압력",
+              "sub": "0.1mm 타깃, 손끝의 묵직한 무게"
+            },
+            {
+              "num": "04",
+              "text": "배열",
+              "sub": "사람과 똑같은 결의 흐름"
+            },
+            {
+              "num": "05",
+              "text": "극사실",
+              "sub": "그림이 아닌 진짜 털의 구현"
+            }
+          ],
+          "rightHeadline": "HYPER REAL",
+          "rightPrice": "극사실 169만",
+          "rightFootnote": "5,000회 이상의 데이터가 증명하는 유일무이한 결과"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "headline": "소수에게만\n직접 가르칩니다",
+          "highlight": "창업반 890만 · 6+6 무제한",
+          "signature": "ARTbrows",
+          "cta": "마스터 클래스 상담 →",
+          "ctaHref": "/masterclass",
+          "subline": "900여 명 배출 · 선릉/삼성 본원 프라이빗 교육"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ai-generated/client/client-02.png",
+          "bottomLabel": "손끝의 무게, 20년의 증명",
+          "topLabel": "MASTER'S TOUCH"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ai-generated/client/client-03.png",
+          "bottomLabel": "진짜 머리카락이야. 극사실의 정점.",
+          "topLabel": "HYPER REALISM"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "aspect": "portrait"
+}

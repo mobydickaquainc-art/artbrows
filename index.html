@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ARTbrows · 극사실눈썹 창시자 통합 포털</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+:root{--apricot:#FBEAE2;--apricot2:#F7DCD2;--cream:#FFFBF5;--ink:#2A1D1A;--muted:#9A6A5E;--coral:#FF7A66;--hotpink:#FF6F84;--gold:#E8B872;--plum:#5A3A4A;--line:#F0D6CC;--done:#5BAE8A;--doing:#E8A33D;--wait:#C2A9A0;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.7;overflow-x:hidden}
+.serif{font-family:'Nanum Myeongjo',serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.eyebrow{letter-spacing:.4em;font-size:12px;color:var(--coral);font-weight:800}
+.grad{background:linear-gradient(95deg,#FF6F84,#FF7A66 45%,#E8B872);-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(16px);background:rgba(255,251,245,.72);border-bottom:1px solid rgba(240,214,204,.6)}
+.nav-in{max-width:1200px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:16px}
+.logo{font-weight:900;font-size:21px;letter-spacing:.02em}
+.logo span{color:var(--coral)}
+.nav-links{margin-left:auto;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.nav-links a{padding:8px 13px;border-radius:999px;font-size:13.5px;font-weight:700;color:#6b4f48;transition:.15s}
+.nav-links a:hover{background:#fff;color:var(--ink)}
+.admin-group{display:flex;align-items:center;gap:4px;margin-left:6px;padding-left:10px;border-left:1px solid var(--line)}
+.admin-group .lk{font-size:10px;color:var(--muted);font-weight:800}
+.nav-links a.adm{background:#FFE9E3;color:#C2503B}
+.nav-cta{background:var(--hotpink);color:#fff!important;padding:9px 17px!important;box-shadow:0 8px 18px rgba(255,111,132,.3)}
+header.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('assets/portal-hero.png') center/cover;animation:zoom 18s ease-in-out infinite alternate}
+@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(75deg,rgba(255,251,245,.18) 0%,rgba(255,251,245,.5) 40%,rgba(255,251,245,.93) 76%)}
+.hero-in{position:relative;z-index:2;width:100%}
+.hero .wrap{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.hero .eyebrow{margin-bottom:14px}
+.hero h1{font-size:76px;line-height:1.18;font-weight:800;margin-bottom:22px}
+.hero h1 em{font-style:normal}
+.hero p{color:#5a4540;font-size:19px;max-width:520px;margin-bottom:34px;font-weight:500}
+.hero-btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.btn{display:inline-block;font-weight:800;padding:15px 32px;border-radius:999px;font-size:15.5px;transition:.18s}
+.btn-primary{background:var(--hotpink);color:#fff;box-shadow:0 12px 28px rgba(255,111,132,.4)}
+.btn-primary:hover{transform:translateY(-3px)}
+.btn-ghost{background:rgba(255,255,255,.7);color:var(--ink);border:1px solid var(--line);backdrop-filter:blur(6px)}
+.btn-ghost:hover{border-color:var(--coral);color:var(--coral)}
+.scrolldown{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.2em;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+section{padding:96px 0;position:relative}
+.reveal{opacity:0;transform:translateY(30px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.sec-head{text-align:center;margin-bottom:52px}
+.sec-head h2{font-size:38px;font-weight:800;margin-top:10px}
+.sec-head p{color:var(--muted);font-size:15px;margin-top:8px}
+.hl{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:-58px;position:relative;z-index:5}
+.hl .c{background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center;box-shadow:0 12px 30px rgba(232,169,155,.18)}
+.hl .v{font-size:28px;font-weight:900}
+.hl .k{font-size:13px;color:var(--muted);font-weight:700;margin-top:4px}
+.brand-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.quote{font-size:30px;line-height:1.6;font-weight:400}
+.quote b{color:var(--hotpink)}
+.brand-card{background:linear-gradient(160deg,#fff,#FFF3EF);border-radius:24px;padding:32px;box-shadow:0 14px 36px rgba(232,169,155,.22);border:1px solid var(--line)}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill{background:var(--apricot);border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13px;font-weight:700}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.member{background:var(--cream);border-radius:24px;padding:30px;text-align:center;box-shadow:0 10px 28px rgba(232,169,155,.18);border:1px solid var(--line);transition:.2s}
+.member:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(255,111,132,.22)}
+.member .av{width:72px;height:72px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:27px}
+.member .nm{font-weight:800;font-size:19px}
+.member .ro{font-size:13px;color:var(--coral);font-weight:700;margin:4px 0 10px}
+.member .now{font-size:13px;color:var(--muted)}
+.stat-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.step{text-align:center;padding:0 14px;position:relative}
+.step::before{content:"";position:absolute;top:24px;left:-50%;width:100%;height:3px;background:var(--line);z-index:0}
+.step:first-child::before{display:none}
+.step.done::before,.step.doing::before{background:linear-gradient(90deg,#FF8FA3,#FF7A66)}
+.step .dot{width:50px;height:50px;border-radius:50%;margin:0 auto 16px;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;background:var(--wait);font-size:18px}
+.step.done .dot{background:var(--done)}.step.doing .dot{background:linear-gradient(135deg,#FF8FA3,#FF7A66)}
+.step h4{font-size:15.5px;margin-bottom:6px}
+.step p{font-size:12.5px;color:var(--muted)}
+.step .badge{display:inline-block;margin-top:9px;font-size:11px;font-weight:800;padding:3px 11px;border-radius:999px;color:#fff}
+.bd-done{background:var(--done)}.bd-doing{background:var(--doing)}.bd-wait{background:var(--wait)}
+.works{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.work{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:20px;transition:.18s;display:block}
+.work:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(232,169,155,.3);border-color:var(--coral)}
+.work .ext{font-size:11px;font-weight:800;color:var(--coral)}
+.work .fn{font-weight:800;font-size:14.5px;margin-top:6px}
+.work .fd{font-size:12.5px;color:var(--muted);margin-top:3px}
+.work.feat{background:linear-gradient(140deg,#FF6F84,#FF7A66);color:#fff;border:none}
+.work.feat .ext,.work.feat .fd{color:rgba(255,255,255,.9)}
+.gstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.gstrip img{width:100%;height:210px;object-fit:cover;border-radius:16px;box-shadow:0 8px 22px rgba(232,169,155,.25);transition:.2s}
+.gstrip img:hover{transform:scale(1.04)}
+.gstrip .ph{height:210px;border-radius:16px;background:linear-gradient(135deg,#FFE3D6,#FFD2DC);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--hotpink);font-weight:800;font-size:13px;line-height:1.5}
+#admin{background:linear-gradient(180deg,#FFF3EF,#FBEAE2)}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.tool{background:var(--cream);border-radius:24px;padding:32px;box-shadow:0 12px 30px rgba(232,169,155,.22);display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);transition:.18s}
+.tool:hover{transform:translateY(-4px)}
+.tool .tag{align-self:flex-start;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px}
+.tag-live{background:#E2F3EC;color:#2F8C68}.tag-soon{background:#FCEFD9;color:#B9831F}
+.tool h3{font-size:22px}.tool p{font-size:14px;color:var(--muted)}
+.tool .go{margin-top:8px;font-weight:800;color:var(--hotpink)}
+.tool.disabled{opacity:.72}
+footer{background:var(--plum);color:#F6E6DF;text-align:center;padding:54px 24px}
+footer .fcta{display:inline-block;margin:10px 0 18px;background:var(--hotpink);color:#fff;padding:13px 30px;border-radius:999px;font-weight:800}
+.fl{font-size:13px;opacity:.85;line-height:1.9}
+@media(max-width:860px){.hero h1{font-size:44px}.hero .wrap{text-align:right}.brand-grid,.tools{grid-template-columns:1fr}.team,.hl{grid-template-columns:1fr 1fr}.works,.gstrip{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr;gap:22px}.step::before{display:none}.nav-links{display:none}}
+</style></head>
+<body>
+<nav><div class="nav-in">
+  <a href="#top" class="logo">ART<span>brows</span></a>
+  <div class="nav-links">
+    <a href="#brand">브랜드</a><a href="#team">AI 직원</a><a href="#roadmap">로드맵</a>
+    <a href="#works">작업물</a><a href="gallery.html">갤러리</a><a href="자료실.html" style="background:linear-gradient(135deg,#A8E6B3,#5BAE8A);color:#fff!important;font-weight:800">📚 자료실</a><a href="face-lab/v4/" style="background:linear-gradient(135deg,#C45A6B,#A84658);color:#fff!important;font-weight:800">🔬 Face Lab v4 ★ NEW</a><a href="개발과정.html">개발 과정</a><a href="회의록.html">회의록</a><a href="Blender-3D-Lab.html" style="background:linear-gradient(135deg,#FF6F84,#FF8FBB);color:#fff!important;font-weight:800">★ 3D Lab</a>
+    <span class="admin-group"><span class="lk">관리자</span>
+      <a class="adm" href="ARTbrows-업무보고-대시보드.html">업무 보고</a>
+      <a class="adm" href="webapp.html">웹앱</a></span>
+    <a class="nav-cta" href="landing-pages/artbrows-모집-럭셔리에디토리얼.html">상담 신청</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-in"><div class="wrap">
+    <div class="eyebrow">ARTBROWS · SINCE THE ORIGINAL</div>
+    <h1 class="serif">극사실눈썹의 <em class="grad">창시자</em>,<br>그 모든 것을 한 곳에서</h1>
+    <p>한국 반영구 1위 아카데미 · 프리미엄 소수정예 — 브랜드부터 콘텐츠 갤러리, 업무 보고, 앞으로의 웹앱까지 잇는 통합 포털.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="landing-pages/artbrows-모집-럭셔리에디토리얼.html">수강 상담 신청</a>
+      <a class="btn btn-ghost" href="gallery.html">콘텐츠 갤러리 →</a>
+    </div>
+  </div></div>
+  <div class="scrolldown">SCROLL ↓</div>
+</header>
+
+<section style="padding-top:0;padding-bottom:0"><div class="wrap">
+  <div class="hl reveal">
+    <div class="c"><div class="v grad">No.1</div><div class="k">한국 반영구 아카데미</div></div>
+    <div class="c"><div class="v grad">창시자</div><div class="k">극사실눈썹 직강</div></div>
+    <div class="c"><div class="v grad">소수정예</div><div class="k">프리미엄 모집</div></div>
+    <div class="c"><div class="v grad">상담 신청</div><div class="k">지금 모집 중</div></div>
+  </div>
+</div></section>
+
+<section id="brand"><div class="wrap reveal">
+  <div class="sec-head"><div class="eyebrow">BRAND</div><h2 class="serif">브랜드 소개</h2><p>원본을 만든 손에서 배운다는 것</p></div>
+  <div class="brand-grid">
+    <div>
+      <p class="quote serif">"극사실눈썹 <b>창시자</b>에게,<br>소수만 직접 배운다."</p>
+      <p style="margin-top:20px;color:#5a4540;font-size:15.5px">기술은 따라 할 수 있어도 기준은 만든 사람에게서 나옵니다. 한국 반영구 1위 아카데미, 장미지 원장이 원리부터 디자인 감각까지 직접 전합니다. 인원을 좁힌 소수정예이기에 가능한 깊이입니다.</p>
+    </div>
+    <div class="brand-card">
+      <h3 style="font-size:17px;margin-bottom:8px">브랜드 한눈에</h3>
+      <p style="font-size:14px;color:var(--muted)">프리미엄 + 친근, 럭셔리 에디토리얼 무드. 가격이 아닌 희소성과 직강 가치로 설득합니다.</p>
+      <div class="pillrow">
+        <span class="pill">극사실눈썹 창시자</span><span class="pill">반영구 1위 아카데미</span>
+        <span class="pill">소수정예 직강</span><span class="pill">상담 신청 중심</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="team" style="background:linear-gradient(180deg,#fff,#FFFBF5)"><div class="wrap reveal">
+  <div class="sec-head"><div class="eyebrow">TEAM</div><h2 class="serif">AI 직원 소개</h2><p>사람 PD가 방향을 잡고, AI 직원이 실무를 빠르게 실행합니다</p></div>
+  <div class="team">
+    <div class="member"><div class="av" style="background:#2A1D1A">정</div><div class="nm">정주</div><div class="ro">PD · 총괄 (사람)</div><div class="now"><span class="stat-dot" style="background:var(--done)"></span>프로젝트 총괄 · 방향 결정</div></div>
+    <div class="member"><div class="av" style="background:linear-gradient(135deg,#FF8FA3,#FF7A66)">이</div><div class="nm">이서연</div><div class="ro">기획·마케팅 (AI)</div><div class="now"><span class="stat-dot" style="background:var(--done)"></span>로드맵·콘텐츠·퍼널 기획</div></div>
+    <div class="member"><div class="av" style="background:linear-gradient(135deg,#FFC93C,#FF7A66)">유</div><div class="nm">유나</div><div class="ro">그래픽·비주얼 (AI)</div><div class="now"><span class="stat-dot" style="background:var(--done)"></span>힉스필드로 카드·쇼츠 제작</div></div>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap reveal">
+  <div class="sec-head"><div class="eyebrow">ROADMAP</div><h2 class="serif">로드맵 · 진행 현황</h2><p>기획 → 플랜 → 스케줄 → 개발 (하네스 공법) · 현재 Phase 1</p></div>
+  <div class="steps">
+    <div class="step done"><div class="dot">0</div><h4>기반 정비</h4><p>도구·직원·산출물</p><span class="badge bd-done">완료 100%</span></div>
+    <div class="step doing"><div class="dot">1</div><h4>인스타 모집 콘텐츠</h4><p>카드·쇼츠 제작</p><span class="badge bd-doing">진행 중 65%</span></div>
+    <div class="step wait"><div class="dot">2</div><h4>광고 플랫폼·퍼널</h4><p>상세페이지→상담</p><span class="badge bd-wait">대기</span></div>
+    <div class="step wait"><div class="dot">3</div><h4>콘텐츠 자동화 웹앱</h4><p>자동 생성 툴</p><span class="badge bd-wait">대기</span></div>
+  </div>
+</div></section>
+
+<section id="works" style="background:linear-gradient(180deg,#FFFBF5,#fff)"><div class="wrap reveal">
+  <div class="sec-head"><div class="eyebrow">OPS · 운영진 관리 (내부 전용)</div><h2 class="serif">운영진 관리 포털</h2><p>★ 외부 사용자 진입은 <a href="platform.html" style="color:#FF4D7E;font-weight:700">platform.html</a> 「ARTbrows Platform (2 SaaS)」 — 이 페이지는 모든 자료·일지·도구 관리용</p></div>
+  <div class="works">
+    <a class="work feat" href="ARTbrows-개발기획서-v1.0.html" style="background:linear-gradient(135deg,#0B0907,#1A0E08);color:#E0C088;border:2px solid #E0C088;box-shadow:0 30px 80px rgba(224,192,136,0.40)"><div class="ext" style="background:#E0C088;color:#0B0907">📘 ★★★★★ 06/30 OFFICIAL PRD v1.0</div><div class="fn" style="color:#E0C088;font-weight:900;font-family:'Nanum Myeongjo',serif">📘 ARTbrows 전체 개발 기획서 v1.0 — 임원진 전용 ★</div><div class="fd" style="color:#F5C7AD">17 섹션 통합 PRD · 3 SaaS · 23 메뉴 · 8 직원 · 56 task · 3개월 KPI 3.2억 추정 · 결정 18 확정 / 6 대기 · 대표님·원장님 승인 대기</div></a>
+    <a class="work feat" href="3SaaS-마스터컨트롤-20260629.html" style="background:linear-gradient(135deg,#0B0907,#3D2818);color:#FFB78A;border-color:#FFB78A;box-shadow:0 30px 80px rgba(255,184,138,0.35)"><div class="ext" style="background:#FFB78A;color:#0B0907">⚡⚡⚡⚡ 06/29 3 SAAS MASTER CONTROL</div><div class="fn" style="color:#FFB78A;font-weight:900">⚡⚡⚡⚡ 3 SaaS 마스터 컨트롤 타워 — 본격 기획 시작 ★★★★</div><div class="fd" style="color:#F5C7AD">3 SaaS 진행률 + 8 직원 (기존 5 + 신규 3 PM 김다은·박서윤·최예진) + 자율 발전 (Goal·Loop·하네스) + 차주 7일 일정 + 결정 대기 3건</div></a>
+    <a class="work feat" href="강의-일정-내용-상세-20260629.html" style="background:linear-gradient(135deg,#FFE5D0,#FAD7C7);color:#3D2818;border-color:#FF4D7E;box-shadow:0 22px 60px rgba(255,77,126,0.25)"><div class="ext" style="background:#FF4D7E;color:#fff">★★★ 06/29 강의 일정+내용 상세 (모비딕 패턴)</div><div class="fn" style="color:#3D2818;font-weight:900">★★★ 강의 일정 + 강의 내용 통합 상세페이지 ★ NEW</div><div class="fd" style="color:#5D4636">모비딕 「제품→상세」 패턴 응용. 5 강의 카테고리 + 원장님 마스터 작품 6점 (장미지 서명 3점) + 자동 광고 흐름</div></a>
+    <a class="work feat" href="실행순서-우선순위-20260629.html" style="background:linear-gradient(135deg,#FF4D7E,#FFB78A);color:#fff;border-color:#3D2818;box-shadow:0 28px 80px rgba(255,77,126,0.45)"><div class="ext" style="background:#3D2818;color:#fff">⚡⚡⚡ 06/29 실행 순서 v1.0 ★★★</div><div class="fn" style="color:#fff;font-weight:900">⚡⚡⚡ 실행 순서 & 우선순위 — 7 Phase 로드맵 ★★★</div><div class="fd" style="color:#FFE5D0">「오늘 즉시 3개」 + 7 Phase (3개월) + 인사이트 30+ 우선순위 매트릭스 + 매주 의사결정 흐름</div></a>
+    <a class="work feat" href="회의-사진-갤러리-20260629.html" style="background:linear-gradient(135deg,#3D2818,#0B0907);color:#FFB78A;border-color:#E8455B;box-shadow:0 18px 50px rgba(232,69,91,0.25)"><div class="ext" style="background:#E8455B;color:#fff">★ 06/29 회의 사진 9장</div><div class="fn" style="color:#FFB78A;font-weight:800">★ 회의 사진 갤러리 — 중국 벤치마크 4장 + 손글씨 노트 5장 (정교 다이어그램 포함)</div><div class="fd" style="color:#F5C7AD">「眉匠美學 DR.EYEBR...」 + 「공리 같다」 카피 + 라이브 + 2 SaaS + 정교 비즈니스 모델 다이어그램</div></a>
+    <a class="work feat" href="platform.html" style="background:linear-gradient(135deg,#FF4D7E,#FFB78A);color:#fff;border-color:#3D2818;box-shadow:0 28px 80px rgba(255,77,126,0.4)"><div class="ext" style="background:#3D2818;color:#FFB78A">★★★★★★ 06/29 EXTERNAL 외부 진입</div><div class="fn" style="color:#fff;font-weight:900">★★★★★★ ARTbrows Platform — 2 SaaS 외부 진입 ★★</div><div class="fd" style="color:#FFE5D0">「외부 사용자 진입점」 미니멀 2 카드 — A 광고툴 + B 시뮬. 일반인 친화 모바일 우선. 이게 외부 노출용 메인.</div></a>
+    <a class="work feat" href="ARTbrows-플랫폼-비전-20260629.html" style="background:linear-gradient(135deg,#0B0907,#3D2818);color:#FFB78A;border-color:#FFB78A;box-shadow:0 24px 70px rgba(255,184,138,0.3)"><div class="ext" style="background:#FFB78A;color:#0B0907">★★★★★ 06/29 PLATFORM VISION ★</div><div class="fn" style="color:#FFB78A;font-weight:800">★★★★★ ARTbrows 플랫폼 비전 (운영진 상세)</div><div class="fd" style="color:#F5C7AD">2 SaaS 구조 + 6축 모듈 + UX 6 원칙 + AEO/GEO + 출시 로드맵 4단계 + 광고 매체 1~3순위 + KPI</div></a>
+    <a class="work feat" href="Face-Lab-v7-펜슬-디지털트윈-20260629.html" style="background:linear-gradient(135deg,#FF4D7E,#E8A99B);color:#fff;border-color:#3D2818;box-shadow:0 20px 60px rgba(255,77,126,0.35)"><div class="ext" style="background:#3D2818;color:#FFB78A">★★★★ 06/29 v7 진짜 상품 ★</div><div class="fn" style="color:#fff;font-weight:800">★★★★ Face Lab v7 「펜슬 디지털 트윈」 — ARTbrows 진짜 상품 ★</div><div class="fd" style="color:#FFE5D0">원장님 펜슬 = 30년 노하우 디지털 트윈. 정면+측면 입력 / 원장님 패턴 라이브러리 / 2D+3D 출력 / 베타 07-21</div></a>
+    <a class="work feat" href="MetaHuman-활용가이드-20260629.html" style="background:linear-gradient(135deg,#FAD7C7,#F5C7AD);color:#3D2818;border-color:#FF4D7E;box-shadow:0 12px 36px rgba(255,77,126,0.2)"><div class="ext" style="background:#FF4D7E;color:#fff">★★★ 06/29 MetaHuman 활용 가이드</div><div class="fn" style="color:#3D2818;font-weight:800">★★★ MetaHuman 활용 가이드 — ARTbrows 9 시나리오 ★</div><div class="fd" style="color:#5D4636">인스타·v6 시뮬·STORY 10·hero·디지털 분신·B2B·중국·영상·VR + 우선순위 + ROI + 윤리 가드 (한 페이지 전체)</div></a>
+    <a class="work feat" href="v6-MetaHuman-워크플로-매뉴얼-20260629.html" style="background:linear-gradient(135deg,#1A1A2A,#0B0907);color:#F5EDE3;border-color:#FFB78A"><div class="ext" style="background:#FFB78A;color:#0B0907">★ 07/01 차주 v6 매뉴얼</div><div class="fn" style="color:#E0C088">★ v6 MetaHuman 5일 매뉴얼 + 5 페르소나 Reference</div><div class="fd" style="color:#D6C9B8">Unreal MCP 등록 완료 · 5 페르소나(수아·하영·예린·민지·지우) 사전 생성 · $60 진입 · 차주 5일 자동화</div></a>
+    <a class="work feat" href="미팅-통합-발표-20260629.html" style="background:linear-gradient(135deg,#FFE5D0,#FAD7C7);color:#3D2818;border-color:#FF4D7E;box-shadow:0 16px 50px rgba(255,77,126,0.25)"><div class="ext" style="background:#FF4D7E;color:#fff">⭐⭐⭐⭐⭐ 06/29 미팅 통합 발표 ★</div><div class="fn" style="color:#3D2818;font-weight:800">⭐ 오늘 미팅 한 페이지 결산 ★ D-Day (6/22~28 한 주 + Face Lab v5 완주)</div><div class="fd" style="color:#5D4636">TL;DR + v5.8 그리드 + 5직원 합의 + 5결정 + 자료 활용 + 다음 주 + MetaHuman 차주 + 7 빠른 진입</div></a>
+    <a class="work feat" href="face-lab/3d/v5-human.html" style="background:linear-gradient(135deg,#0F1428,#0B0907);color:#F5EDE3;border-color:#FFD8B3"><div class="ext" style="background:#FFD8B3;color:#0B0907">⭐⭐⭐⭐ 06/29 v5.8 미팅 결정타</div><div class="fn" style="color:#E0C088">⭐⭐⭐⭐ Face Lab v5.8 — 실사 사진 BEFORE/AFTER × 4 무드 8컷</div><div class="fd" style="color:#D6C9B8">같은 인물 시술 전후 × 4 환경 일관성 · 진짜 사람 사진 수준 · 12크 · 학원 표준화의 결정적 시각 증명</div></a>
+    <a class="work feat" href="MetaHuman-도입-계획-20260629.html" style="background:linear-gradient(135deg,#2A1F0F,#0B0907);color:#F5EDE3;border-color:#FFD87A"><div class="ext" style="background:#FFD87A;color:#0B0907">★ 07/01 차주 MetaHuman</div><div class="fn" style="color:#E0C088">★ MetaHuman 도입 계획 (차주 07-01~05)</div><div class="fd" style="color:#D6C9B8">Unreal 5.8 + MetaHuman 1체 시범 · Blender export · v5 템플릿 재활용 · $60 진입 · 5직원 합의 정합</div></a>
+    <a class="work feat" href="원장님-미팅-시나리오-20260629.html" style="background:linear-gradient(135deg,#2A1F1A,#0B0907);color:#F5EDE3;border-color:#FFB78A"><div class="ext" style="background:#FFB78A;color:#0B0907">⭐ 06/29 미팅 시나리오</div><div class="fn" style="color:#E0C088">★ 원장님 미팅 시나리오 — 30분 분 단위 토킹 포인트</div><div class="fd" style="color:#D6C9B8">9 장면 + 5 결정 분기 매트릭스 + 백업 시나리오 + 미팅 후 30분 액션 체크리스트</div></a>
+    <a class="work feat" href="face-lab/v4/" style="background:linear-gradient(135deg,#3A1A22,#0B0907);color:#F5EDE3;border-color:#C45A6B"><div class="ext" style="background:#C45A6B;color:#fff">★ 06/28 Face Lab v4 PoC ★ LIVE</div><div class="fn" style="color:#E0C088">★ v4 「리얼 시뮬레이션」 BEFORE/AFTER 슬라이더</div><div class="fd" style="color:#D6C9B8">실제 사진 위 드래그 비교 + 240 케이스 8 카드 + PIPA 동의 시연 + 카카오 CTA + 4 트랙 진행</div></a>
+    <a class="work feat" href="회의-20260628-리얼시뮬레이션.html" style="background:linear-gradient(135deg,#2A1A1F,#0B0907);color:#F5EDE3;border-color:#FF8FBB"><div class="ext" style="background:#FF8FBB;color:#0B0907">★ 06/28 5직원 리서치 회의</div><div class="fn" style="color:#E0C088">★ 「리얼 + 이쁨」 시술 시뮬레이션 도입 (4 트랙)</div><div class="fd" style="color:#D6C9B8">FLUX Kontext + 240 케이스 + PIPA 가드 + 카카오 워터마크 · Sephora +112% · 6개월 LTV 5.4배</div></a>
+    <a class="work feat" href="face-lab/" style="background:linear-gradient(135deg,#3A1A22,#0B0907);color:#F5EDE3;border-color:#C45A6B"><div class="ext" style="background:#C45A6B;color:#fff">🔬 06/28 Face Lab v3 강화</div><div class="fn" style="color:#E0C088">★ Face Lab v3 — 사진 위 추천 눈썹 실시간 시각화</div><div class="fd" style="color:#D6C9B8">눈썹뼈 5요소 진단 + 모든 룰 graphify 출처 + 카카오 상담 신청 통합 · 김민서 첫 작업</div></a>
+    <a class="work feat" href="자료실.html" style="background:linear-gradient(135deg,#1F2A1E,#0B0907);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">📚 06/28 자료실 NEW 메뉴</div><div class="fn" style="color:#E0C088">★ 원장님 자료실 — 장미지 원장 노하우 라이브러리</div><div class="fd" style="color:#D6C9B8">5 카테고리 · 11 핵심 파일 · 6.5GB · 카테고리 필터 + 활용 매핑 + 가공본 + 갱신 이력</div></a>
+    <a class="work feat" href="STORY-10-소묘시리즈-콘셉트-20260628.html" style="background:linear-gradient(135deg,#2A1F2A,#0B0907);color:#F5EDE3;border-color:#FFB78A"><div class="ext" style="background:#FFB78A;color:#0B0907">★ 06/28 STORY 10 콘셉트</div><div class="fn" style="color:#E0C088">★ 소묘 시리즈 4편 콘셉트 시안 (원장님 자료 첫 활용)</div><div class="fd" style="color:#D6C9B8">10-A·B·C 하린 성장 + 10-D 준현 남성편 · 출처 극사실소묘 1·2·3·남자.key · 36크 견적</div></a>
+    <a class="work feat" href="원장님-미팅-보고-20260629.html" style="background:linear-gradient(135deg,#3A1F2A,#0B0907);color:#F5EDE3;border-color:#FF4D7E"><div class="ext" style="background:#FF4D7E;color:#0B0907">★ 06/29 원장님 미팅 보고서</div><div class="fn" style="color:#E0C088">★ 장미지 원장님 정기 미팅 (한 주 6/22~28)</div><div class="fd" style="color:#D6C9B8">「원장님 자료가 일하기 시작했다」 · 11 신규 산출 · 43크 · 블록커 1 해제 · 4가지 결정 요청</div></a>
+    <a class="work feat" href="회의-20260628-원장님미팅준비.html" style="background:linear-gradient(135deg,#1F2A1E,#0B0907);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/28 5직원 회의</div><div class="fn" style="color:#E0C088">★ 원장님 미팅 준비 회의 (5직원)</div><div class="fd" style="color:#D6C9B8">06/22 리마인드 + 한 주 매트릭스 + 5직원 발언 + 합의 보강 5건</div></a>
+    <a class="work feat" href="graphify/graph.html" style="background:linear-gradient(135deg,#1F1F2A,#0B0907);color:#F5EDE3;border-color:#BB8FFF"><div class="ext" style="background:#BB8FFF;color:#0B0907">★ 06/28 graphify 지식 그래프</div><div class="fn" style="color:#E0C088">★ 원장님 자료 지식 그래프 (118 nodes · 16 communities)</div><div class="fd" style="color:#D6C9B8">_extracted 66 파일 인터랙티브 그래프 · god node: 극사실눈썹·안면비율·안면골격 · 8 핵심 질문 자동 추출</div></a>
+    <a class="work feat" href="원장님-자료-수령확인-20260627.html" style="background:linear-gradient(135deg,#1F2A1E,#0B0907);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/27 원장님 자료 수령</div><div class="fn" style="color:#E0C088">★ 원장님 자료 수령 확인 + 활용 매핑 v2</div><div class="fd" style="color:#D6C9B8">13일 대기 종결 · 5 카테고리 6.5GB · TOP 5 자산 우선순위 · graphify 정리 대기</div></a>
+    <a class="work feat" href="assets/시리즈-시그니처편/캐러셀-시그니처-1.png" style="background:linear-gradient(135deg,#3A1F2A,#0B0907);color:#F5EDE3;border-color:#FF4D7E"><div class="ext" style="background:#FF4D7E;color:#0B0907">★ 06/27 STORY 09 NEW</div><div class="fn" style="color:#E0C088">★ 시그니처 자체 검증 캐러셀 5장 + 썸네일</div><div class="fd" style="color:#D6C9B8">PoC-07 베스트 컷 활용 · 후킹·SIGNATURE·MACRO·PROOF·CTA · 시리즈 8편 합류 · 0크</div></a>
+    <a class="work feat" href="회의-20260627-다음액션.html" style="background:linear-gradient(135deg,#1F2A1E,#0B0907);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/27 전직원 회의</div><div class="fn" style="color:#E0C088">★ Blender 4 PoC 정리 + 다음 액션 (3직원 합의)</div><div class="fd" style="color:#D6C9B8">PoC-07 베스트 · 합의 권고: 옵션 B 이번 주 + D 다음 주 + 카카오·Netlify 결단</div></a>
+    <a class="work feat" href="Blender-MCP-Bake-Phase2-20260626.html" style="background:linear-gradient(135deg,#2A241A,#0B0907);color:#F5EDE3;border-color:#F4D4A8"><div class="ext" style="background:#F4D4A8;color:#0B0907">⚠ 06/26 Bake Phase 2 · 정직 보고</div><div class="fn" style="color:#E0C088">⚠ Bake Phase 2 — 측면 한계 진단 (옵션 A→C 전환)</div><div class="fd" style="color:#D6C9B8">4 PoC 종합 · 마케팅 베스트=PoC-07 · 진짜 정답=옵션 C(마네킹 재제작 33크) 또는 D(Meshy Pro)</div></a>
+    <a class="work feat" href="Blender-MCP-Bake-PoC-20260626.html" style="background:linear-gradient(135deg,#1F2A1E,#0B0907);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/26 Cycles Bake (옵션 a)</div><div class="fn" style="color:#E0C088">★ Cycles Bake PoC — 정답 path 검증</div><div class="fd" style="color:#D6C9B8">Shrinkwrap + Bake → 영구 텍스처 · 3 각도 자연 (정면·45°·클로즈업) · Phase 2 측면 대기</div></a>
+    <a class="work feat" href="Blender-MCP-UV-PoC-20260626.html" style="background:linear-gradient(135deg,#2A241A,#0B0907);color:#F5EDE3;border-color:#F4D4A8"><div class="ext" style="background:#F4D4A8;color:#0B0907">⚠ 06/26 UV PoC · 한계 보고</div><div class="fn" style="color:#E0C088">★ UV 매핑 영구 텍스처 PoC (옵션2)</div><div class="fd" style="color:#D6C9B8">정면·클로즈업 △ · 측면 ✗ · Meshy GLB UV 한계 정량 측정 + a/b/c/d/e 옵션</div></a>
+    <a class="work feat" href="Blender-MCP-시술전후-PoC-20260625.html" style="background:linear-gradient(135deg,#2A1A1F,#0B0907);color:#F5EDE3;border-color:#FFD87A"><div class="ext" style="background:#FFD87A;color:#0B0907">★ 06/25 PoC 실행 결과</div><div class="fn" style="color:#E0C088">★ 시술 전후 텍스처 스왑 PoC (대표님 1+6 채택)</div><div class="fd" style="color:#D6C9B8">템플릿 8 함수 + 4 각도 × 전/후 = 8 컷 + 4×2 그리드 · 2 크레딧 · 단가 96%↓ 검증</div></a>
+    <a class="work feat" href="회의-20260625-블렌더효과.html" style="background:linear-gradient(135deg,#2A1F1A,#0B0907);color:#F5EDE3;border-color:#FF8FBB"><div class="ext" style="background:#FF8FBB;color:#0B0907">★ 06/25 전직원 회의</div><div class="fn" style="color:#E0C088">★ Blender MCP 효과 평가 (4직원 발언)</div><div class="fd" style="color:#D6C9B8">이서연·유나·한승철·클로드 정량 분석 · 단가 92%↓ · 시술 전후 PoC 권고 · 옵션 1~5</div></a>
+    <a class="work feat" href="face-lab/3d/" style="background:linear-gradient(135deg,#1F2A3A,#0B0907);color:#F5EDE3;border-color:#9FC8FF"><div class="ext" style="background:#9FC8FF;color:#0B0907">★ 06/24 Phase 2 PoC</div><div class="fn" style="color:#E0C088">★ Face Lab 3D 시연 (model-viewer)</div><div class="fd" style="color:#D6C9B8">Higgsfield image_to_3d + Google &lt;model-viewer&gt; · 2D 사진 → 회전·줌 가능 3D 메쉬 시연</div></a>
+    <a class="work feat" href="face-lab/" style="background:linear-gradient(135deg,#3A1F2F,#0B0907);color:#F5EDE3;border-color:#FF8FBB"><div class="ext" style="background:#FF8FBB;color:#0B0907">★ 06/24 LIVE PoC</div><div class="fn" style="color:#E0C088">★ Face Lab Phase 1 PoC — 얼굴 비율 미학 진단</div><div class="fd" style="color:#D6C9B8">MediaPipe 478 랜드마크 + 8 비율 룰 + 8 스타일 진단 + 추천 눈썹 8 형 · 사진 업로드 즉시 분석</div></a>
+    <a class="work feat" href="원장님자료-분석리포트-20260624.html" style="background:linear-gradient(135deg,#2A2014,#0B0907);color:#F5EDE3;border-color:#FFD87A"><div class="ext" style="background:#FFD87A;color:#0B0907">★ 06/24 자료 분석</div><div class="fn" style="color:#E0C088">★ 장미지 원장님 자료 종합 분석 리포트</div><div class="fd" style="color:#D6C9B8">22 항목 미학 + 8 스타일 + 5 피부 + 중국 강사 4명 · Face Lab 즉시 코드화 가능 (블록커 ② 해제)</div></a>
+    <a class="work feat" href="회의록-20260622-오늘결정사항.html" style="background:linear-gradient(135deg,#3A2F1F,#0B0907);color:#F5EDE3;border-color:#D4AF37"><div class="ext" style="background:#D4AF37;color:#0B0907">★ 06/22 오늘 회의록</div><div class="fn" style="color:#E0C088">★ 오늘 회의 결정사항 종합 (A~M)</div><div class="fd" style="color:#D6C9B8">플랫폼 10기둥 · 게시 정책 · 신규 인원 4명 · 정기 출장 · Face Lab · 쇼핑몰 · 광고 · STORY 08 · 블록커 3건</div></a>
+    <a class="work feat" href="회의자료-20260622-통합.html" style="background:linear-gradient(135deg,#2A1E1A,#0B0907);color:#F5EDE3;border-color:#D4AF37"><div class="ext" style="background:#D4AF37;color:#0B0907">★ 06/22 10시 회의 통합본</div><div class="fn" style="color:#E0C088">★ 임원진 회의 자료 통합 (1 페이지)</div><div class="fd" style="color:#D6C9B8">한 주 작업 + 플랫폼 컨셉 10기둥 + 광고 결정 + 원장님 확인 + 기획자 역할 분배</div></a>
+    <a class="work feat" href="assets/시리즈-싱글맘편/싱글맘편-쇼츠-실사완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 08 · 싱글맘편 (실사)</div><div class="fd">엄마의 시간을, 아이에게 · 24초 · 06/22 NEW</div></a>
+    <a class="work feat" href="assets/시리즈-부업맘편/부업맘편-쇼츠-실사완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 04 · 부업맘편 (실사)</div><div class="fd">엄마가 빛나면, 우리도 빛납니다 · 24초 · 06/22 NEW</div></a>
+    <a class="work feat" href="얼굴비율-미학-기획-20260622.html" style="background:linear-gradient(135deg,#1A1F2A,#080A10);color:#F5EDE3;border-color:#9FC8FF"><div class="ext" style="background:#9FC8FF;color:#0B0907">★ 06/22 신규 메뉴 v2</div><div class="fn" style="color:#E0C088">★ Face Lab — 얼굴 종합 미학·성형 시뮬레이션</div><div class="fd" style="color:#D6C9B8">Phase 1 눈썹 진단 → Phase 2 3D + 어림/이쁨 → Phase 3 성형 시뮬레이션 (대폭 확장)</div></a>
+    <a class="work feat" href="레드노트-리서치-20260622.html" style="background:linear-gradient(135deg,#2A1A2A,#0B080F);color:#F5EDE3;border-color:#BB8FFF"><div class="ext" style="background:#BB8FFF;color:#0B0907">★ 06/22 리서치</div><div class="fn" style="color:#E0C088">레드노트 AI 얼굴 미학 리서치</div><div class="fd" style="color:#D6C9B8">8 도구 분석 + 2026 트렌드 + 4 진입 전략 + 17 출처 + 위험 6종</div></a>
+    <a class="work feat" href="personas/김민서-페이스랩.md" style="background:linear-gradient(135deg,#1F2A2F,#080F12);color:#F5EDE3;border-color:#A8E6E6"><div class="ext" style="background:#A8E6E6;color:#0B0907">★ NEW 채용</div><div class="fn" style="color:#E0C088">김민서 — Face Lab 리드 (신규 AI 직원)</div><div class="fd" style="color:#D6C9B8">KAIST AI 박사 + 뷰티 테크 6년차 · 컴퓨터 비전·3D·인지 미학·법적 윤리</div></a>
+    <a class="work feat" href="쇼핑몰-준비-체크리스트-20260622.html" style="background:linear-gradient(135deg,#2A1A14,#0B0907);color:#F5EDE3;border-color:#FFD87A"><div class="ext" style="background:#FFD87A;color:#0B0907">★ 06/22 NEW</div><div class="fn" style="color:#E0C088">★ 쇼핑몰 준비 체크리스트 (4주 로드맵)</div><div class="fd" style="color:#D6C9B8">즉시 결정 7건 + 책임자 분배 + 상품 9종 + Supabase 9테이블 + 다음 액션</div></a>
+    <a class="work feat" href="단발캐릭터-시트-20260622.html" style="background:linear-gradient(135deg,#1F1A2A,#0B0815);color:#F5EDE3;border-color:#BB8FFF"><div class="ext" style="background:#BB8FFF;color:#0B0907">★ 06/22 NEW</div><div class="fn" style="color:#E0C088">단발 모델 캐릭터 시트</div><div class="fd" style="color:#D6C9B8">4컷(측면·미소·진지·니트) + 활용 계획 5종 · 회의 후 정식 등록</div></a>
+    <a class="work feat" href="운영진-로그인.html" style="background:linear-gradient(135deg,#1F1611,#0B0907);color:#F5EDE3;border-color:#D4AF37"><div class="ext" style="background:#D4AF37;color:#0B0907">★ 06/22 LOGIN</div><div class="fn" style="color:#E0C088">운영진 로그인 (guest/guest)</div><div class="fd" style="color:#D6C9B8">시연 계정 guest/guest 또는 admin/admin → 임원진 신청 조회 진입</div></a>
+    <a class="work feat" href="임원진-신청조회.html" style="background:linear-gradient(135deg,#1F2A1E,#0B130C);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/22 LIVE</div><div class="fn" style="color:#E0C088">임원진 신청 조회 (운영진 방)</div><div class="fd" style="color:#D6C9B8">광고 → enroll → DB → 임원진 방 · 모킹 5건 + KPI 5종 + 광고별 분석</div></a>
+    <a class="work feat" href="통과-분배-체크리스트-20260622.html" style="background:linear-gradient(135deg,#3A2A3F,#160B1A);color:#F5EDE3;border-color:#BB8FFF"><div class="ext" style="background:#BB8FFF;color:#0B0907">★ 06/22 회의 체크</div><div class="fn" style="color:#E0C088">통과·재분배 체크리스트</div><div class="fd" style="color:#D6C9B8">자산별 운영진 영구 / 유저 라이브 / 둘 다 / 보류 4지선다 · 회의 후 일괄 재분배</div></a>
+    <a class="work feat" href="수강신청-설문-시연.html" style="background:linear-gradient(135deg,#1F2A1E,#0B130C);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/22 LIVE</div><div class="fn" style="color:#E0C088">수강신청 설문 흐름 시연</div><div class="fd" style="color:#D6C9B8">인스타 광고 → enroll 폼 → Supabase DB → admin/history</div></a>
+    <a class="work feat" href="문의게시판-시연.html" style="background:linear-gradient(135deg,#1F2A1E,#0B130C);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/22 LIVE</div><div class="fn" style="color:#E0C088">문의 게시판 시연</div><div class="fd" style="color:#D6C9B8">8 필드 + 비밀글 + 샘플 5건 + 분류 6종 + 흐름 6단계</div></a>
+    <a class="work feat" href="임원진-보고-20260622.html" style="background:linear-gradient(135deg,#3A2A1F,#0B0907);color:#F5EDE3;border-color:#D4AF37"><div class="ext" style="background:#D4AF37;color:#0B0907">★ 06/22 10시 회의</div><div class="fn" style="color:#E0C088">임원진 회의 보고 — 지난 한 주</div><div class="fd" style="color:#D6C9B8">6/15~6/22 모든 산출물 클릭 가능 · 인터랙티브 타임라인</div></a>
+    <a class="work feat" href="assets/시리즈-신부편/신부편-쇼츠-실사완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 03 · 신부편 (실사)</div><div class="fd">가장 빛나는 날, 가장 자신 있는 한 줄 · 24초 · 06/22 NEW</div></a>
+    <a class="work feat" href="assets/시리즈-직장인편/직장인편-쇼츠-실사완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 02 · 직장인편 (실사)</div><div class="fd">전공이 달라도, 전문가가 됩니다 · 24초 · 06/22 NEW</div></a>
+    <a class="work feat" href="docs/DM-응대-매뉴얼-v1.md" style="background:linear-gradient(135deg,#2A211C,#0B0907);color:#F5EDE3;border-color:#D4AF37"><div class="ext" style="background:#D4AF37;color:#0B0907">★ NEW · 06/22 v1</div><div class="fn" style="color:#E0C088">DM 응대 매뉴얼 5종</div><div class="fd" style="color:#D6C9B8">카카오 채널 보류 17일째 대응 · 인사·일정·가격·정원·상담 예약</div></a>
+    <a class="work feat" href="회의-20260622-이번주.html" style="background:linear-gradient(135deg,#1F2A1E,#0B130C);color:#F5EDE3;border-color:#A8E6B3"><div class="ext" style="background:#A8E6B3;color:#0B0907">★ 06/22 회의</div><div class="fn" style="color:#E0C088">전직원 이번주 회의</div><div class="fd" style="color:#D6C9B8">블록커 3건 + 직원 4명 발언 + 우선순위 1~4 선택</div></a>
+    <a class="work feat" href="하영-실사-20260621.html" style="background:linear-gradient(135deg,#2A1E2B,#160E1A);color:#F5EDE3;border-color:#D4AF37"><div class="ext" style="background:#D4AF37;color:#0B0907">★ 06/21 종합</div><div class="fn" style="color:#E0C088">STORY 07 미용편 · 실사 전환 종합</div><div class="fd" style="color:#D6C9B8">컷·영상·썸네일·캐러셀·그리드 6 섹션 · A4-F 한 페이지</div></a>
+    <a class="work feat" href="assets/시리즈-미용편/미용편-쇼츠-실사완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 07 · 미용편 (묶음)</div><div class="fd">기술 위에, 한 줄 더 · 24초 · 실사 4컷</div></a>
+    <a class="work feat" href="assets/시리즈-미용편/미용편-쇼츠-단발모델.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 07-B · 미용편 (단발)</div><div class="fd">병행 운영 · 젊은 발랄 톤 · 24초</div></a>
+    <a class="work feat" href="assets/모집카드시안/캐러셀-직장-1.png"><div class="ext">▦ 캐러셀</div><div class="fn">「직장 안에서, 한 발 더」</div><div class="fd">STORY 02 ↔ 07 시너지 · 6장</div></a>
+    <a class="work" href="docs/직장-캐러셀-운영가이드.md"><div class="ext">MD</div><div class="fn">직장 캐러셀 운영가이드</div><div class="fd">캡션·해시태그·게시 타이밍·KPI</div></a>
+    <a class="work feat" href="assets/모집카드시안/인스타-그리드-9칸-실사.png"><div class="ext">▦ 그리드</div><div class="fn">인스타 9칸 모킹 v3</div><div class="fd">07/07-B + 캐러셀 2종 반영 · 폰 프레임</div></a>
+    <a class="work" href="docs/인스타-그리드-운영가이드.md"><div class="ext">MD</div><div class="fn">인스타 운영가이드 v3</div><div class="fd">3주 캘린더 · 하이라이트 6종 · 캡션 4종 신설</div></a>
+    <a class="work feat" href="https://eyebrows.staris.cloud" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#2A211C,#0B0907);color:#F5EDE3;border-color:#A8854E"><div class="ext" style="background:#C9A66B;color:#0B0907">★ LIVE</div><div class="fn" style="color:#E0C088">새 메인 사이트 ↗</div><div class="fd" style="color:#D6C9B8">eyebrows.staris.cloud · 선릉·청담 톤 · Next.js + Supabase</div></a>
+    <a class="work feat" href="광고-IG-69만원.html" style="background:linear-gradient(135deg,#1E1A17,#161311);color:#F5EDE3;border-color:#C9A66B"><div class="ext" style="background:#C9A66B;color:#0B0907">NEW · 06/16</div><div class="fn" style="color:#E0C088">인스타 광고 4종 · 69만원 모집</div><div class="fd" style="color:#D6C9B8">Higgsfield 1:1 시안 (hero/매크로/시술/CTA) · 광고 클릭 URL 가이드</div></a>
+    <a class="work feat" href="translate-zh.html"><div class="ext">06/15</div><div class="fn">중국어 강의 번역 (Beta)</div><div class="fd">faster-whisper STT + GPT 자동 한국어 번역 · 데모 영상 47 세그먼트</div></a>
+    <a class="work feat" href="전체-기획-설계-도식.html"><div class="ext">06/15</div><div class="fn">전체 기획·설계 도식</div><div class="fd">9 섹션 · 결정·톤·아키텍처·라운드 로드맵</div></a>
+    <a class="work feat" href="오늘-방향성-도식.html"><div class="ext">06/15</div><div class="fn">5축 전략 방향성</div><div class="fd">자동포스팅·AI응답·중·미·웹앱</div></a>
+    <a class="work feat" href="회의-20260615-플랫폼구조.html"><div class="ext">06/15</div><div class="fn">전직원 회의록 · 플랫폼 구조</div><div class="fd">이서연·유나·한승철(신규 CTO)·클로드</div></a>
+    <a class="work" href="메인홈.html"><div class="ext">HTML</div><div class="fn">새 메인홈 (정적 사본)</div><div class="fd">청담 톤 + portrait C · 정적 미리보기</div></a>
+    <a class="work feat" href="gallery.html"><div class="ext">NEW</div><div class="fn">콘텐츠 갤러리 →</div><div class="fd">이미지·영상 모아보기</div></a>
+    <a class="work feat" href="https://youtube.com/shorts/Eni8T-MTRrs"><div class="ext">▶ 쇼츠</div><div class="fn">성장 스토리 쇼츠</div><div class="fd">평범했던 그녀의 새로운 시작 · 유튜브</div></a>
+    <a class="work feat" href="assets/시리즈-미대생편/미대생편-쇼츠-완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">STORY 06 · 미대생편</div><div class="fd">전공 너머, 새로운 한 발 · 24초</div></a>
+    <a class="work" href="docs/유튜브-게시-미대생편-패키지.md"><div class="ext">MD</div><div class="fn">미대생편 게시 패키지</div><div class="fd">시리즈 6편 완결</div></a>
+    <a class="work" href="docs/artbrows-전체로드맵.md"><div class="ext">MD</div><div class="fn">전체 로드맵</div><div class="fd">4단계 플랜</div></a>
+    <a class="work" href="docs/artbrows-기획마케팅안.html"><div class="ext">HTML</div><div class="fn">기획·마케팅안</div><div class="fd">포지셔닝·퍼널</div></a>
+    <a class="work" href="개발과정.html"><div class="ext">HTML</div><div class="fn">개발 과정</div><div class="fd">구축 일지</div></a>
+    <a class="work" href="landing-pages/artbrows-모집-럭셔리에디토리얼.html"><div class="ext">HTML</div><div class="fn">모집 상세 · 럭셔리</div><div class="fd">에디토리얼</div></a>
+    <a class="work" href="landing-pages/artbrows-모집-기본.html"><div class="ext">HTML</div><div class="fn">모집 상세 · 기본</div><div class="fd">수강생 모집</div></a>
+    <a class="work" href="personas/유나-그래픽디자이너.md"><div class="ext">MD</div><div class="fn">유나 페르소나</div><div class="fd">그래픽 AI</div></a>
+    <a class="work" href="assets/artbrows-파이프라인-비용도식.svg"><div class="ext">SVG</div><div class="fn">파이프라인 도식</div><div class="fd">제작·비용</div></a>
+  </div>
+  <div class="gstrip">
+    <img src="assets/모집카드시안/artbrows-모집카드B-완성.png" alt="모집 카드 완성본">
+    <img src="assets/모집카드시안/artbrows-모집카드-시안B.png" alt="시안 B">
+    <img src="assets/모집카드시안/artbrows-모집카드-시안A.png" alt="시안 A">
+    <img src="assets/성장기/컷5-결.png" alt="성장 스토리 · 전문가 변신">
+    <a href="gallery.html" class="ph">+ 갤러리에서<br>모두 보기 →</a>
+  </div>
+</div></section>
+
+<section id="admin"><div class="wrap reveal">
+  <div class="sec-head"><div class="eyebrow">ADMIN · 내부</div><h2 class="serif">관리자 도구</h2><p>대표님·회장님 보고용 · 내부 전용</p></div>
+  <div class="tools">
+    <a class="tool" href="ARTbrows-업무보고-대시보드.html"><span class="tag tag-live">● 가동 중</span><h3>업무 보고 대시보드</h3><p>단계·로드맵 진행률, AI 직원 현황, 작업 진행과 작업물, 일일 로그를 한 화면에서.</p><span class="go">열기 →</span></a>
+    <a class="tool" href="https://eyebrows.staris.cloud/admin/history" target="_blank" rel="noopener"><span class="tag tag-live">● 라이브</span><h3>활동 히스토리</h3><p>학원 사이트(eyebrows)에서 일어나는 모든 활동(모집 신청·문자 발송·결제·로그인)이 시간순으로 자동 기록·확인.</p><span class="go">열기 ↗</span></a>
+    <a class="tool" href="https://eyebrows.staris.cloud/admin" target="_blank" rel="noopener"><span class="tag tag-live">● 라이브</span><h3>학원 관리자</h3><p>모집 신청 리스트 + 💬 문자 발송 모달 (Solapi 연동). 새 lead 들어오면 여기서 즉시 응대.</p><span class="go">열기 ↗</span></a>
+    <a class="tool disabled" href="webapp.html"><span class="tag tag-soon">○ 준비 중</span><h3>콘텐츠 자동화 웹앱</h3><p>블로그·인스타 콘텐츠를 자동 생성하는 웹앱. Phase 3에서 개발 예정입니다.</p><span class="go">미리 보기 →</span></a>
+  </div>
+</div></section>
+
+<footer>
+  <div class="eyebrow" style="color:#FFB4A3">ARTBROWS</div>
+  <p class="serif" style="font-size:24px;margin:10px 0">극사실눈썹 창시자에게, 소수만 직접 배운다</p>
+  <a class="fcta" href="landing-pages/artbrows-모집-럭셔리에디토리얼.html">수강 상담 신청</a>
+  <div class="fl">통합 포털 · 공개(브랜드·갤러리·모집) + 관리자(업무 보고·웹앱)<br>PD 정주 · AI 직원 이서연(기획)·유나(그래픽) · 하네스 공법으로 운영</div>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body></html>

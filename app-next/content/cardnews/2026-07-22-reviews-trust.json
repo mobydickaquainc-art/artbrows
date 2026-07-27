@@ -1,0 +1,106 @@
+{
+  "id": "2026-07-22-reviews-trust",
+  "title": "수강생 리얼 후기 · 8,000+ 시술 · 4.5★ 신뢰",
+  "slug": "2026-07-22-reviews-trust",
+  "status": "draft",
+  "createdAt": "2026-07-22T20:45:00.000Z",
+  "updatedAt": "2026-07-22T20:45:00.000Z",
+  "defaultLang": "ko",
+  "aspect": "portrait",
+  "translations": {
+    "ko": {
+      "title": "수강생 후기 · 신뢰",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "REVIEW 2026",
+          "brand": "ARTBROWS",
+          "headline": "8,000명의\n선택이\n증명합니다.",
+          "subheadline": "누적 시술 · 수강 만족도 · 20년 원장 크래프트",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-01.png",
+          "imageAlt": "장미지 원장 · 극사실눈썹 창시자",
+          "signatureLabel": "MIJI JANG · 2026"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "8,000명이 원장님을\n선택했습니다.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER · 20 YEARS"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "TRUSTED SINCE 2005 · 정본 데이터",
+          "leftTitle": "숫자로 증명되는\n원장의 크래프트",
+          "leftItems": [
+            { "num": "01", "text": "누적 시술 8,000+", "sub": "2026-06 기준 정본 · 12년간 축적" },
+            { "num": "02", "text": "수강 만족도 4.5★", "sub": "2026-05 기준 · 실제 수강생 응답" },
+            { "num": "03", "text": "누적 수강생 900+", "sub": "1세대 원장에게 직접 배운 아티스트" },
+            { "num": "04", "text": "20년+ 경력", "sub": "반영구 초창기부터 지금까지" },
+            { "num": "05", "text": "창업 성공 수백+", "sub": "본 아카데미 수강 후 창업 성공" }
+          ],
+          "rightHeadline": "장미지\n원장",
+          "rightPrice": "8,000+",
+          "rightFootnote": "누적 시술 · 자체 집계 정본 (2026-06)"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "review",
+          "imageSrc": "/brand/ai-generated/client/client-02.png",
+          "imageAlt": "수강생 시술 순간 · 실제 신뢰의 자세",
+          "bottomLabel": "「원장님이 진짜 마스터세요」",
+          "cornerBadge": "REAL REVIEW"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "극사실눈썹 창시자"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "review",
+          "imageSrc": "/brand/ai-generated/client/client-03.png",
+          "imageAlt": "수강생 · 완성 후 만족의 순간",
+          "bottomLabel": "「내가 배우고 싶은 그 기술이었다」"
+        },
+        {
+          "kind": "atelier-scene",
+          "category": "classroom",
+          "imageSrc": "/brand/ai-generated/atelier/atelier-04.png",
+          "imageAlt": "선릉 아틀리에 · 원장 1:1 지도",
+          "eyebrow": "SEONLEUNG · 원장 1:1 실습 지도",
+          "headline": "손끝의 무게,\n30년 경력.",
+          "bottomColumns": [
+            { "label": "본원",     "value": "선릉·삼성" },
+            { "label": "수강",     "value": "900+ 배출" },
+            { "label": "만족도",   "value": "4.5★" }
+          ]
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "review",
+          "imageSrc": "/brand/ai-generated/client/client-04.png",
+          "imageAlt": "수강생 · 창업 후 자신감",
+          "bottomLabel": "「본 아카데미가 내 인생을 바꿨어요」"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "eyebrow": "NOW ENROLLING · 15기",
+          "headline": "8,000명의 신뢰,\n다음은 당신의 커리어입니다.",
+          "highlight": "당신의 커리어",
+          "signature": "Miji Jang",
+          "cta": "교육 상담 신청 →",
+          "ctaHref": "/enroll",
+          "subline": "선릉·삼성 본원 · 원장 직접 지도 · 소수정예"
+        }
+      ]
+    },
+    "en": { "title": "", "slides": [] },
+    "zh": { "title": "", "slides": [] }
+  }
+}

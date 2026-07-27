@@ -1,0 +1,111 @@
+{
+  "id": "2026-07-20-hyperreal-brow-15th",
+  "title": "극사실눈썹 · 원장 직강 · 3일 169만원",
+  "slug": "2026-07-20-hyperreal-brow-15th",
+  "status": "draft",
+  "createdAt": "2026-07-20T15:40:00.000Z",
+  "updatedAt": "2026-07-20T18:15:00.000Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "극사실눈썹 강의",
+      "slides": [
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/macro/macro-02.png",
+          "imageAlt": "극사실눈썹 매크로 · 개별 결 razor sharp",
+          "bottomLabel": "SINCE 1세대 · 장미지눈썹연구소"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER · 20 YEARS"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/hand-pencil/hand-04.png",
+          "imageAlt": "마스터 손끝 · 극사실 기술 · 원장 시연",
+          "bottomLabel": "MASTER CLASS · 원장 1:1 직접 지도"
+        },
+        {
+          "kind": "signature-style",
+          "category": "founder",
+          "concept": {
+            "title": "BRAND CONCEPT",
+            "formula": ["예술 Art", "기술 Technique", "철학 Philosophy"],
+            "result": "= 극사실눈썹",
+            "caption": "「진짜 머리카락이야 · 진짜 눈썹이야 · 원래 색깔 아니었어?」"
+          },
+          "style": {
+            "title": "SIGNATURE STYLE",
+            "items": [
+              { "label": "HAIR",      "desc": "털 방향 · 결 · 굵기 · 밀도 30년 패턴" },
+              { "label": "TECHNIQUE", "desc": "시술 전 펜슬 설계 · 클레임 거의 0" },
+              { "label": "MASTER",    "desc": "원장 20년+ · 5,000+ 시술" },
+              { "label": "TRUST",     "desc": "특허 3장 · 900여명 수강 배출" }
+            ]
+          }
+        },
+        {
+          "kind": "macro-close-up",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/before-after/ba-01.png",
+          "imageAlt": "여성 극사실눈썹 시술 결과 · 자연 결",
+          "overlayLabel": "REAL RESULT",
+          "quote": "3일이면 됩니다.\n단 · 이지 미수강자에게는\n권하지 않습니다.",
+          "by": "장미지 · 20년+ 경력"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/hero-mood/hero-portrait-G.png",
+          "imageAlt": "극사실 완성 · K-idol 톤 · 신뢰",
+          "bottomLabel": "장미지 원장의 단 하나의 아틀리에"
+        },
+        {
+          "kind": "umbrella-4cats",
+          "category": "founder",
+          "eyebrow": "極写実 · THE HYPERREAL UNIVERSE",
+          "headline": "극사실 · 4대 카테고리",
+          "killer": "진짜 머리카락이야 · 진짜 눈썹이야 · 원래 입술 색깔 아니었어?",
+          "cats": [
+            { "key": "brow",     "label": "눈썹",     "badge": "진행 중", "active": true },
+            { "key": "eyeline",  "label": "아이라인", "badge": "준비 중", "active": false },
+            { "key": "lip",      "label": "입술",     "badge": "준비 중", "active": false },
+            { "key": "hairline", "label": "헤어라인", "badge": "준비 중", "active": false }
+          ],
+          "footnote": "극사실 = 반영구 전 영역의 통일된 철학"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "TUITION · 극사실눈썹",
+          "leftTitle": "누구를 위한 강의",
+          "leftItems": [
+            { "text": "이미 반영구 경험 있는 원장·시술자" },
+            { "text": "저가 → 프리미엄 극사실 전환 원하시는 분" },
+            { "text": "다른 학원 졸업 후 「진짜 결」 배우고 싶은 분" },
+            { "text": "지방 원장 · 3일 집중 가능한 분" },
+            { "text": "1:1 원장 코칭 · 프리미엄 아틀리에" }
+          ],
+          "rightHeadline": "3일\n원장 직강",
+          "rightPrice": "169만원",
+          "rightFootnote": "창업반 660 통합 권장"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ads/ig-69/04-cta-typo.png",
+          "imageAlt": "소수에게만 직접 가르칩니다 · SINCE THE ORIGINAL",
+          "bottomLabel": "장미지 원장 · 12년 연구 · 선릉 아틀리에"
+        }
+      ]
+    },
+    "en": { "title": "", "slides": [] },
+    "zh": { "title": "", "slides": [] }
+  }
+}

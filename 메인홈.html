@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>장미지눈썹연구소 · 극사실눈썹 창시자</title>
+<meta name="description" content="극사실눈썹 창시자 장미지 원장. 선릉의 무게로, 사람의 얼굴을 다시 정의합니다.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&family=Inter:wght@300;400;500;700&display=swap');
+:root{
+  --bg-deep:#0B0907; --bg-card:#161311; --bg-card2:#1E1A17; --bg-soft:#221C18;
+  --text:#F5EDE3; --text-soft:#D6C9B8; --muted:#8A7E72; --line:#2A211C; --line-soft:#1E1816;
+  --gold:#C9A66B; --gold-light:#E0C088; --gold-deep:#A8854E;
+  --nude:#E8D9C2; --nude-deep:#B8A285;
+  --crimson:#A04438;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-deep);color:var(--text);font-family:'Noto Sans KR','Inter',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Nanum Myeongjo',serif;font-weight:400}
+.serif b{font-weight:800}
+.mono{font-family:'Inter',sans-serif;letter-spacing:.1em;font-weight:400}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+
+/* ========================
+   NAV
+======================== */
+nav.top{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,9,7,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+.nav-row{display:flex;align-items:center;gap:26px;padding:16px 0}
+.nav-row .brand{font-family:'Nanum Myeongjo',serif;font-size:18px;font-weight:700;letter-spacing:-.01em}
+.nav-row .brand .sub{font-family:'Inter',sans-serif;font-size:10px;color:var(--gold);letter-spacing:.3em;margin-left:10px;font-weight:500;text-transform:uppercase}
+.nav-row ul{list-style:none;display:flex;gap:22px;margin-left:auto}
+.nav-row ul a{font-size:12.5px;color:var(--text-soft);letter-spacing:.04em;transition:color .15s}
+.nav-row ul a:hover{color:var(--gold-light)}
+.nav-row .lang{display:flex;gap:6px;margin-left:18px}
+.nav-row .lang button{background:transparent;border:1px solid var(--line);color:var(--muted);font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:.15em;padding:5px 10px;cursor:pointer;transition:all .15s}
+.nav-row .lang button.on{border-color:var(--gold-deep);color:var(--gold-light)}
+.nav-row .cta{margin-left:14px;background:var(--gold);color:var(--bg-deep);padding:9px 20px;font-weight:700;font-size:12.5px;letter-spacing:.06em;border:none;cursor:pointer;transition:background .15s}
+.nav-row .cta:hover{background:var(--gold-light)}
+
+/* ========================
+   HERO
+======================== */
+.hero{padding:170px 0 100px;background:radial-gradient(ellipse 70% 60% at 60% 20%,#2A211C 0%,transparent 60%),var(--bg-deep);position:relative;overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.hero .eyebrow{font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:.55em;color:var(--gold);font-weight:500;text-transform:uppercase;margin-bottom:22px}
+.hero h1{font-family:'Nanum Myeongjo',serif;font-size:64px;font-weight:300;line-height:1.18;letter-spacing:-.015em;margin-bottom:24px}
+.hero h1 em{font-style:normal;font-weight:800}
+.hero h1 .gold{color:var(--gold)}
+.hero .lead{font-size:16.5px;color:var(--text-soft);line-height:1.95;max-width:500px;margin-bottom:34px;font-weight:300}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero .ctas a{padding:14px 28px;font-size:13px;letter-spacing:.15em;font-weight:700;text-transform:uppercase}
+.hero .ctas .primary{background:var(--gold);color:var(--bg-deep)}
+.hero .ctas .ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.hero .ctas a:hover{transform:translateY(-1px);transition:transform .15s}
+
+.hero .figure{aspect-ratio:4/5;background:#0B0907;border:1px solid var(--line);position:relative;overflow:hidden}
+.hero .figure-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(11,9,7,.85) 100%);pointer-events:none}
+.hero .figure .label{position:absolute;bottom:24px;left:24px;font-family:'Inter',sans-serif;font-size:10.5px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;z-index:2;font-weight:600}
+
+/* ========================
+   STATEMENT (절제된 메시지)
+======================== */
+.stmt{padding:120px 0;border-top:1px solid var(--line-soft);text-align:center}
+.stmt .mark{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;margin-bottom:34px}
+.stmt h2{font-family:'Nanum Myeongjo',serif;font-size:38px;font-weight:300;line-height:1.55;max-width:880px;margin:0 auto;letter-spacing:-.005em}
+.stmt h2 b{font-weight:700;color:var(--gold-light)}
+.stmt .signature{margin-top:36px;color:var(--muted);font-size:12.5px;letter-spacing:.3em;font-family:'Inter',sans-serif;text-transform:uppercase}
+
+/* ========================
+   PILLARS
+======================== */
+.pillars{padding:100px 0;background:var(--bg-card)}
+.sec-head{margin-bottom:48px;text-align:center}
+.sec-head .mark{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+.sec-head h2{font-family:'Nanum Myeongjo',serif;font-size:32px;font-weight:400;letter-spacing:-.005em}
+.sec-head h2 b{font-weight:800;color:var(--gold-light)}
+.sec-head p{color:var(--muted);font-size:14px;margin-top:10px;max-width:620px;margin-left:auto;margin-right:auto}
+
+.pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.pillar{background:var(--bg-card);transition:background .2s;display:flex;flex-direction:column}
+.pillar:hover{background:var(--bg-card2)}
+.pillar .img{aspect-ratio:4/3;background:#0B0907;overflow:hidden;position:relative}
+.pillar .img img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85) contrast(1.05)}
+.pillar .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(22,19,17,.9));pointer-events:none}
+.pillar .body{padding:24px 24px 30px}
+.pillar .ord{font-family:'Inter',sans-serif;font-size:11px;color:var(--gold);letter-spacing:.3em;margin-bottom:12px;font-weight:500}
+.pillar h3{font-family:'Nanum Myeongjo',serif;font-size:19px;font-weight:700;margin-bottom:10px;letter-spacing:-.01em;line-height:1.4}
+.pillar p{font-size:12.5px;color:var(--text-soft);line-height:1.8}
+
+/* ========================
+   TWO TRACKS (두 갈래 진입)
+======================== */
+.tracks{padding:100px 0;background:var(--bg-deep)}
+.track-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.track{background:var(--bg-card);border:1px solid var(--line);padding:54px 44px;position:relative;transition:all .25s;cursor:pointer;min-height:340px;display:flex;flex-direction:column;justify-content:space-between}
+.track:hover{border-color:var(--gold-deep);background:var(--bg-card2);transform:translateY(-2px)}
+.track .ord{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.4em;color:var(--gold);font-weight:500;text-transform:uppercase;margin-bottom:20px}
+.track h3{font-family:'Nanum Myeongjo',serif;font-size:36px;font-weight:300;line-height:1.25;margin-bottom:18px;letter-spacing:-.01em}
+.track h3 b{font-weight:800;color:var(--gold-light)}
+.track p{color:var(--text-soft);font-size:14px;line-height:1.85;margin-bottom:22px;font-weight:300}
+.track .stat{display:flex;gap:24px;margin-bottom:24px;border-top:1px solid var(--line);padding-top:18px}
+.track .stat div{flex:1}
+.track .stat .num{font-family:'Inter',sans-serif;font-size:21px;font-weight:700;color:var(--gold-light);line-height:1}
+.track .stat .lbl{font-size:11px;color:var(--muted);letter-spacing:.1em;margin-top:6px}
+.track .go{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.25em;color:var(--gold);font-weight:600;text-transform:uppercase;margin-top:auto}
+.track .go::after{content:" →"}
+
+/* ========================
+   FIVE AXES (Tier 2B 카드)
+======================== */
+.axes{padding:100px 0;background:var(--bg-card)}
+.axis-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.axis{background:var(--bg-deep);border:1px solid var(--line);padding:30px 22px;transition:all .2s}
+.axis:hover{border-color:var(--gold-deep)}
+.axis .ord{font-family:'Inter',sans-serif;font-size:11px;color:var(--gold);letter-spacing:.3em;font-weight:600;margin-bottom:14px}
+.axis h4{font-family:'Nanum Myeongjo',serif;font-size:18px;font-weight:700;line-height:1.4;margin-bottom:10px}
+.axis p{font-size:12px;color:var(--text-soft);line-height:1.8}
+.axis .status{font-family:'Inter',sans-serif;font-size:9.5px;letter-spacing:.2em;color:var(--gold-deep);margin-top:14px;text-transform:uppercase;font-weight:500}
+
+/* ========================
+   GLOBAL (한·영·중)
+======================== */
+.global{padding:120px 0;background:var(--bg-deep);text-align:center}
+.global .langs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:880px;margin:38px auto 0}
+.global .lang-card{background:var(--bg-card);border:1px solid var(--line);padding:34px 24px}
+.global .lang-card .flag{font-family:'Nanum Myeongjo',serif;font-size:34px;color:var(--gold);font-weight:700;letter-spacing:.04em;margin-bottom:14px;line-height:1}
+.global .lang-card h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.global .lang-card p{font-size:12.5px;color:var(--text-soft);line-height:1.85}
+.global .lang-card .ch{font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:.2em;color:var(--gold-light);margin-top:14px;font-weight:600}
+
+/* ========================
+   CTA
+======================== */
+.cta-band{padding:120px 28px;text-align:center;background:linear-gradient(135deg,#1E1A17,#0B0907)}
+.cta-band h2{font-family:'Nanum Myeongjo',serif;font-size:42px;font-weight:300;line-height:1.35;margin-bottom:18px;letter-spacing:-.01em}
+.cta-band h2 b{font-weight:800;color:var(--gold-light)}
+.cta-band p{color:var(--text-soft);font-size:15px;max-width:580px;margin:0 auto 38px;line-height:1.85}
+.cta-band a{display:inline-block;background:var(--gold);color:var(--bg-deep);padding:16px 44px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;transition:background .15s}
+.cta-band a:hover{background:var(--gold-light)}
+
+/* ========================
+   FOOTER
+======================== */
+footer{padding:60px 0 40px;border-top:1px solid var(--line);background:var(--bg-deep)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;margin-bottom:36px}
+.foot-grid h5{font-family:'Inter',sans-serif;font-size:11px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:12px;font-weight:600}
+.foot-grid p,.foot-grid li{font-size:12.5px;color:var(--text-soft);line-height:1.95;list-style:none;font-weight:300}
+.foot-grid li a:hover{color:var(--gold-light)}
+.foot-grid .brand-mark{font-family:'Nanum Myeongjo',serif;font-size:20px;font-weight:700;margin-bottom:14px;color:var(--text)}
+.foot-grid .brand-mark span{font-family:'Inter',sans-serif;font-size:10px;color:var(--gold);letter-spacing:.3em;margin-left:8px;text-transform:uppercase;font-weight:500}
+.foot-bottom{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;font-family:'Inter',sans-serif;letter-spacing:.1em}
+.foot-bottom .pg{display:flex;gap:14px;align-items:center}
+.foot-bottom .pg span{padding:5px 12px;border:1px solid var(--line);font-size:10px;letter-spacing:.15em;color:var(--text-soft)}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .hero{padding:140px 0 80px}
+  .hero .grid{grid-template-columns:1fr;gap:40px}
+  .hero h1{font-size:46px}
+  .stmt h2{font-size:28px}
+  .pillar-grid{grid-template-columns:1fr 1fr}
+  .track-grid{grid-template-columns:1fr}
+  .axis-grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .hero h1{font-size:36px}
+  .stmt h2{font-size:22px}
+  .nav-row ul{display:none}
+  .pillar-grid,.axis-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .cta-band h2{font-size:28px}
+}
+</style></head>
+<body>
+
+<!-- NAV -->
+<nav class="top"><div class="wrap"><div class="nav-row">
+  <div class="brand">장미지<span class="sub">eyebrows main</span></div>
+  <ul>
+    <li><a href="#stmt">철학</a></li>
+    <li><a href="#pillars">시그니처</a></li>
+    <li><a href="#tracks">메뉴</a></li>
+    <li><a href="#axes">새 트랙</a></li>
+    <li><a href="#global">글로벌</a></li>
+    <li><a href="https://jangmiji.staris.cloud" target="_blank" rel="noopener" style="color:var(--gold-light);border-left:1px solid var(--line);padding-left:22px;margin-left:4px">운영진 ↗</a></li>
+  </ul>
+  <div class="lang">
+    <button class="on" data-lang="ko">KO</button>
+    <button data-lang="en">EN</button>
+    <button data-lang="zh">中</button>
+  </div>
+  <button class="cta" onclick="location.href='/enroll'">상담 신청</button>
+</div></div></nav>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap"><div class="grid">
+  <div>
+    <div class="eyebrow">SINCE THE ORIGINAL · SEONLEUNG ATELIER</div>
+    <h1 class="serif"><em>극사실눈썹</em>,<br>그 <span class="gold">원본</span>의 손에서.</h1>
+    <p class="lead">사람의 얼굴을 가장 사람답게 — 그것이 우리가 매일 찾는 한 줄의 결입니다. 선릉의 무게로, 손끝의 깊이로, 다시 정의합니다.</p>
+    <div class="ctas">
+      <a href="/enroll" class="primary">수강 상담 신청</a>
+      <a href="#stmt" class="ghost">철학 읽기</a>
+    </div>
+  </div>
+  <div class="figure">
+    <img src="assets/메인홈무드/hero-portrait-E-셀카무드.png" alt="原相机直出 — 자연광 셀카 무드 (Higgsfield Soul, 실사 채택본 2026-06-18)" style="width:100%;height:100%;object-fit:cover;display:block">
+    <div class="figure-overlay"></div>
+    <div class="label">原相机直出 · NATURAL · WILD BROW</div>
+  </div>
+</div></div></section>
+
+<!-- STATEMENT -->
+<section class="stmt" id="stmt"><div class="wrap">
+  <div class="mark">PHILOSOPHY</div>
+  <h2 class="serif">눈썹은 화장이 아니라 <b>골격의 연장</b>입니다.<br>그 결을 사람답게 따라가는 일이, 우리가 12년간 다듬어 온 단 하나의 기술입니다.</h2>
+  <div class="signature">— JANG MI-JI, FOUNDER</div>
+</div></section>
+
+<!-- PILLARS -->
+<section class="pillars" id="pillars"><div class="wrap">
+  <div class="sec-head">
+    <div class="mark">SIGNATURE</div>
+    <h2 class="serif">네 개의 <b>중심축</b></h2>
+    <p>창시자의 손에서 직접 — 선릉·봉은사 아틀리에가 다듬어 온 네 가지 기준.</p>
+  </div>
+  <div class="pillar-grid">
+    <div class="pillar">
+      <div class="img"><img src="assets/메인홈무드/pillar-eyebrow.png" alt="극사실 눈썹 매크로"></div>
+      <div class="body">
+        <div class="ord">01</div>
+        <h3 class="serif">극사실 시그니처</h3>
+        <p>한 올 한 올의 결, 모공의 깊이, 골상의 흐름. 자연 그대로의 사실성을 시술의 첫 기준으로.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="img"><img src="assets/메인홈무드/pillar-hand.png" alt="시술 손과 펜"></div>
+      <div class="body">
+        <div class="ord">02</div>
+        <h3 class="serif">소수 정예 마스터클래스</h3>
+        <p>창시자가 직접 가르치는 1:1 코칭. 같은 기수에 소수만 — 손끝까지 닿게.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="img"><img src="assets/메인홈무드/global-cheongdam.png" alt="선릉 야경"></div>
+      <div class="body">
+        <div class="ord">03</div>
+        <h3 class="serif">한·중·미 글로벌 라인</h3>
+        <p>국내를 넘어 그 결을 그대로. 위챗·인스타·미주 시장으로 확장 중.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="img"><img src="assets/메인홈무드/hero-atelier.png" alt="선릉 아틀리에"></div>
+      <div class="body">
+        <div class="ord">04</div>
+        <h3 class="serif">평생 케어 · 평생 락인</h3>
+        <p>수강 1회로 끝나지 않습니다. 수강생 전용 채널과 평생 업데이트로 연결.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- TWO TRACKS -->
+<section class="tracks" id="tracks"><div class="wrap">
+  <div class="sec-head">
+    <div class="mark">CHOOSE YOUR PATH</div>
+    <h2 class="serif">두 갈래로 <b>들어옵니다</b></h2>
+    <p>이미 만들어 온 길과, 오늘부터의 새 흐름. 어느 쪽이든 같은 손에서 시작됩니다.</p>
+  </div>
+  <div class="track-grid">
+    <a class="track" href="index.html">
+      <div>
+        <div class="ord">A · EXISTING WORKS</div>
+        <h3 class="serif">기존 작업물과 <b>모집 시리즈</b></h3>
+        <p>지금까지 다듬어 온 6편의 STORY 시리즈, 갤러리, 모집 상세페이지, 회의록·개발 과정. 살구핑크 톤의 모집 퍼널을 그대로 운영합니다.</p>
+        <div class="stat">
+          <div><div class="num">6</div><div class="lbl">STORY 시리즈</div></div>
+          <div><div class="num">12+</div><div class="lbl">콘텐츠 자료</div></div>
+          <div><div class="num">∞</div><div class="lbl">평생 라이브러리</div></div>
+        </div>
+      </div>
+      <div class="go">기존 포털 진입</div>
+    </a>
+    <a class="track" href="#axes" style="border-color:var(--gold-deep);background:linear-gradient(135deg,var(--bg-card2),var(--bg-card))">
+      <div>
+        <div class="ord">B · TODAY ONWARDS</div>
+        <h3 class="serif">오늘부터의 <b>새 흐름 5축</b></h3>
+        <p>일일 자동 포스팅, 다채널 AI 응답, 중국·미국 진출, 통합 자동화 웹앱. 2026-06-15 부터 시작된 새 트랙을 한곳에서.</p>
+        <div class="stat">
+          <div><div class="num">5</div><div class="lbl">전략 축</div></div>
+          <div><div class="num">3</div><div class="lbl">언어</div></div>
+          <div><div class="num">2026-09</div><div class="lbl">LA 진출</div></div>
+        </div>
+      </div>
+      <div class="go">새 트랙 보기</div>
+    </a>
+  </div>
+</div></section>
+
+<!-- AXES -->
+<section class="axes" id="axes"><div class="wrap">
+  <div class="sec-head">
+    <div class="mark">FIVE AXES</div>
+    <h2 class="serif">오늘부터의 <b>5축</b></h2>
+    <p>2026-06-15 정해진 새 전략 트랙. 각각의 라운드로 진행됩니다.</p>
+  </div>
+  <div class="axis-grid">
+    <div class="axis">
+      <div class="ord">AXIS 01</div>
+      <h4 class="serif">일일 자동 포스팅</h4>
+      <p>인스타·위챗 매일 발행. 스케줄러 + AI 카피·이미지 자동 생성.</p>
+      <div class="status">PLANNED · R4</div>
+    </div>
+    <div class="axis">
+      <div class="ord">AXIS 02</div>
+      <h4 class="serif">다채널 AI 응답</h4>
+      <p>DM·카카오·위챗·전화. 24시간 1차 응대 → 상담 신청 유도.</p>
+      <div class="status">PLANNED · R5</div>
+    </div>
+    <div class="axis">
+      <div class="ord">AXIS 03</div>
+      <h4 class="serif">중국 진출 — 위챗</h4>
+      <p>위챗 광고·공식계정·중문 콘텐츠 운영. 중화권 수강 라인 구축.</p>
+      <div class="status">PLANNED · R6</div>
+    </div>
+    <div class="axis">
+      <div class="ord">AXIS 04</div>
+      <h4 class="serif">미국 진출 — LA</h4>
+      <p>2026-09 초 LA 시장조사 출장. 영문 채널 + 미주 한인·아시안 라인.</p>
+      <div class="status">SCHEDULED · 2026-09</div>
+    </div>
+    <div class="axis" style="border-color:var(--gold-deep);background:var(--bg-card2)">
+      <div class="ord">AXIS 05</div>
+      <h4 class="serif">통합 자동화 웹앱</h4>
+      <p>위 1·2·3·4를 한 대시보드로. <a href="translate-zh.html" style="color:var(--gold-light);text-decoration:underline">중국어 강의 번역</a> 메뉴 작동 중.</p>
+      <div class="status" style="color:var(--gold-light)">IN PROGRESS · R3</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- GLOBAL -->
+<section class="global" id="global"><div class="wrap">
+  <div class="sec-head">
+    <div class="mark">GLOBAL · 한 · 영 · 중</div>
+    <h2 class="serif">선릉의 결, <b>세 언어로</b></h2>
+    <p>한국에서 시작된 기술을 영어·중국어로 동시 운영합니다.</p>
+  </div>
+  <div class="langs">
+    <div class="lang-card">
+      <div class="flag">韓</div>
+      <h4>한국 — 본진</h4>
+      <p>선릉 아틀리에 · 인스타 · 카카오 채널 · 모집 시리즈 6편</p>
+      <div class="ch">서비스 중</div>
+    </div>
+    <div class="lang-card">
+      <div class="flag">中</div>
+      <h4>中文 — 위챗 라인</h4>
+      <p>위챗 광고 · 공식계정 · 中文 콘텐츠 톤 매뉴얼 (라운드 6)</p>
+      <div class="ch">준비 중</div>
+    </div>
+    <div class="lang-card">
+      <div class="flag">EN</div>
+      <h4>English — LA</h4>
+      <p>9월 초 LA 시장조사 · 영문 랜딩 · 미주 한인·아시안 라인 (라운드 7)</p>
+      <div class="ch">2026 / 09 시작</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <h2 class="serif">소수에게만 직접 가르칩니다.<br><b>창시자의 손에서.</b></h2>
+  <p>같은 기수에 소수만 — 무게 있는 시작을 원하시면 상담을 신청하세요.</p>
+  <a href="/enroll">상담 신청 →</a>
+</section>
+
+<!-- FOOTER -->
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div>
+      <div class="brand-mark">장미지<span>eyebrows main</span></div>
+      <p>극사실눈썹 창시자 장미지 원장의 선릉 아틀리에. 한·영·중 3개 언어로 동시 운영.</p>
+    </div>
+    <div>
+      <h5>BRAND</h5>
+      <ul>
+        <li><a href="#stmt">철학</a></li>
+        <li><a href="#pillars">시그니처</a></li>
+        <li><a href="index.html">기존 작업물</a></li>
+        <li><a href="gallery.html">갤러리</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>NEW TRACKS</h5>
+      <ul>
+        <li><a href="#axes">5축 전체</a></li>
+        <li><a href="translate-zh.html">중국어 강의 번역</a></li>
+        <li><a href="전체-기획-설계-도식.html">기획 설계도</a></li>
+        <li><a href="회의-20260615-플랫폼구조.html">회의록</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>CONTACT</h5>
+      <ul>
+        <li><a href="/enroll">상담 신청</a></li>
+        <li>카카오 채널 · 인스타 DM</li>
+        <li>위챗 (中文) · 영문 (Coming)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 JANGMIJI · STARIS · ALL RIGHTS RESERVED</span>
+    <div class="pg">
+      <span>TOSS PAYMENTS</span>
+      <span>KAKAO PAY</span>
+    </div>
+  </div>
+</div></footer>
+
+<script>
+  // 언어 토글 (mock — 실제 콘텐츠 번역은 라운드 6·7에서 적용)
+  document.querySelectorAll('.lang button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lang button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const lang = btn.dataset.lang;
+      if(lang === 'en') alert('English content — coming with 2026-09 LA launch. (라운드 7)');
+      else if(lang === 'zh') alert('中文版 — 위챗 트랙 준비 중 (라운드 6)');
+    });
+  });
+</script>
+
+</body></html>

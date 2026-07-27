@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blender MCP · Cycles Bake PoC (옵션 a) · 2026-06-26 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  .verdict{background:#1c2a1c;border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;font-size:14px;color:#c8e6c9;margin-bottom:14px}
+  .verdict b{color:#a8e6b3}
+  .partial{background:#2a2418;border:1px solid #5a4828;border-radius:10px;padding:14px 18px;font-size:14px;color:#f4e0a8;margin-bottom:14px}
+  .partial b{color:#f4c47a}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;font-weight:700;margin-right:6px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.partial{color:#f4d4a8}
+  td.fail{color:#f4a8a8}
+  .grid-img{display:block;margin:20px auto;max-width:100%;border:1px solid #242425;border-radius:8px}
+  .triplet{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
+  .triplet .col{background:#161617;border:1px solid #242425;border-radius:8px;padding:10px}
+  .triplet .col h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:14px;margin-bottom:6px}
+  .triplet img{width:100%;display:block;border-radius:4px}
+  .triplet .col .lbl{font-size:11px;color:#8a8a84;text-align:center;letter-spacing:1px;padding:5px 0}
+  .pipe{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px;font-family:Consolas,monospace;font-size:13px;color:#9ad9a6;line-height:1.7;overflow-x:auto}
+  .pipe .step{color:#d4af37;font-weight:700}
+  .pipe .arrow{color:#666}
+  .pipe .note{color:#f4d4a8;font-size:11px}
+  .options{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 22px;margin-top:8px}
+  .options h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  .options .opt{padding:14px 16px;background:#1c1c1d;border-radius:8px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+  .options .opt .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;flex-shrink:0;line-height:1;width:40px;text-align:center}
+  .options .opt .body b{font-size:15px;color:#e7e5e1;display:block;margin-bottom:4px}
+  .options .opt .body p{font-size:13px;color:#9a9a93;line-height:1.55;margin:0}
+  .options .opt .body .cost{font-size:11.5px;color:#d4af37;letter-spacing:1px;margin-top:4px;font-weight:600}
+  .options .opt.reco{border:1px solid #d4af37;background:linear-gradient(135deg,#1c1c1d,#2a241a)}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>Cycles Bake PoC</em> — 옵션 a · Phase 1</h1>
+<p class="sub">2026-06-26 · 대표님 옵션 a 채택 실행 결과 · 어제 측면 한계의 정답 path 검증 (Bake + Shrinkwrap)</p>
+
+<div class="goal"><b>🎯 목표</b>Cycles Bake로 데칼 평면 → 마네킹 UV에 영구 베이크 → 4 각도 모두 자연 <br>
+<span style="color:#a8e6b3"><b>결과:</b> 정면·45°·클로즈업 ✅ (어제 PoC-06 한계 해결) · 측면만 평면 데칼 한정 (Phase 2 대기)</span></div>
+
+<div class="verdict"><b>✅ 핵심 검증:</b> Cycles Bake pipeline 정상 작동. <strong>어제 데칼 평면(PoC-05) 방식보다 깔끔</strong>하고, <strong>UV 직접 페인트(PoC-06)의 4 각도 한계 해결.</strong> 3 각도 자연 + 1 각도 한계 = Bake가 정답 path.</div>
+
+<div class="partial"><b>⚠ 측면 한계 (예상대로):</b> 정면 데칼만 박았기 때문에 측면 카메라에서는 baked 영역 안 보임. Phase 2 = 좌·우 측면 평면 추가 → 추가 Bake로 측면 영역도 cover.</div>
+
+<div class="meta-bar">
+  <div><b>잔량</b>352.46 → <strong>352.46</strong> (오늘 0 크)</div>
+  <div><b>총 자산</b>11 (베이크 텍스처 2 · 렌더 8 · 그리드 1)</div>
+  <div><b>Bake 시간</b>약 30초 (32 samples, 2048×2048)</div>
+  <div><b>비교 우위</b>PoC-05·06 대비 +1 각도 자연 (45°)</div>
+</div>
+
+<!-- A. Bake Pipeline -->
+<section>
+  <h2><span class="num">A</span>Bake 파이프라인 (Phase 1)</h2>
+  <div class="pipe">
+<span class="step">[1]</span> 데칼 평면 추가 (정면, size 0.36×0.108, Subdivide 32×32 → 1156 verts)<br>
+   <span class="arrow">↓</span><br>
+<span class="step">[2]</span> Shrinkwrap modifier (target=Mesh_0, mode=NEAREST_SURFACEPOINT, offset=0.005)<br>
+   <span class="arrow">↓</span> <span class="note">→ 평면이 마네킹 정면 곡면 따라 휨 (Y range -0.395 ~ -0.321)</span><br>
+<span class="step">[3]</span> 데칼 머티리얼: Emission + MixRGB (matte_white + brow_color, invert(tex)→alpha)<br>
+   <span class="arrow">↓</span><br>
+<span class="step">[4]</span> 마네킹 머티리얼: ARTbrows_BakeTarget Image Texture 노드 추가 (2048×2048, active)<br>
+   <span class="arrow">↓</span><br>
+<span class="step">[5]</span> Cycles Bake: type=EMIT, use_selected_to_active, cage_extrusion=0.02, margin=8, 32 samples<br>
+   <span class="arrow">↓</span> <span class="note">→ 베이크 결과: 데칼 닿은 마네킹 UV 영역에 매트 화이트 + 좌·우 눈썹 baked</span><br>
+<span class="step">[6]</span> PIL 후처리: 검정 픽셀(4.12M개, 데칼 안 닿은 영역) → 매트 화이트 변환<br>
+   <span class="arrow">↓</span><br>
+<span class="step">[7]</span> 마네킹 BSDF.Base Color ← fixed 베이크 텍스처 연결 · 데칼 평면 hide<br>
+   <span class="arrow">↓</span><br>
+<span class="step">[8]</span> 4 각도 × 전/후 = 8 렌더 (전 = blank 텍스처, 후 = fixed bake)
+  </div>
+</section>
+
+<!-- B. 4 각도 결과 -->
+<section>
+  <h2><span class="num">B</span>4 각도 × 전/후 결과 (8 렌더)</h2>
+  <img class="grid-img" src="assets/blender-renders/PoC-07-GRID-cycles-bake-before-after.png" alt="Cycles Bake 그리드 4x2" style="max-width:540px">
+  <table>
+    <tr><th>각도</th><th>결과</th><th>분석</th></tr>
+    <tr><td>A. 정면 (Front)</td><td class="win">✅ 자연</td><td>데칼 영역(사각형) 내 좌·우 눈썹 확연. PoC-05보다 깔끔</td></tr>
+    <tr><td>B. 45° 사선 (Front_45)</td><td class="win">✅ 자연</td><td><strong>PoC-06이 못 풀었던 45° 한계 해결.</strong> 사선에서도 베이크 영역 보임</td></tr>
+    <tr><td>C. 측면 (Right_Profile)</td><td class="fail">⚠ 한계 (예상)</td><td>정면 데칼만 박아서 측면 UV는 매트 화이트 그대로 → Phase 2 필요</td></tr>
+    <tr><td>D. 클로즈업 (Macro)</td><td class="win">✅ 자연</td><td>정면 가까이 데칼 영역+눈썹 명확. 「극사실」 매크로 컷 가능</td></tr>
+  </table>
+</section>
+
+<!-- C. 3 PoC 비교 -->
+<section>
+  <h2><span class="num">C</span>PoC-05 (데칼 평면) vs PoC-06 (UV 페인트) vs PoC-07 (Bake) — 정면 비교</h2>
+  <div class="triplet">
+    <div class="col">
+      <h3>PoC-05 데칼 평면 (06/25)</h3>
+      <img src="assets/blender-renders/PoC-05-A-Front-after.png" alt="PoC-05 Front">
+      <div class="lbl">✅ 정면 OK · 그러나 평면 데칼은 4각도 종속</div>
+    </div>
+    <div class="col">
+      <h3>PoC-06 UV 페인트 (06/26 오전)</h3>
+      <img src="assets/blender-renders/PoC-06-A-Front-after.png" alt="PoC-06 Front">
+      <div class="lbl">△ 점 형태로 작음 · 모든 각도 한계</div>
+    </div>
+    <div class="col">
+      <h3>PoC-07 Cycles Bake (06/26 오후)</h3>
+      <img src="assets/blender-renders/PoC-07-A-Front-after.png" alt="PoC-07 Front">
+      <div class="lbl">✅ 영구 텍스처 · 3 각도 자연</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>지표</th><th>PoC-05 데칼 평면</th><th>PoC-06 UV 페인트</th><th>PoC-07 Cycles Bake ★</th></tr>
+    <tr><td>정면</td><td class="win">✅</td><td class="partial">△ 점</td><td class="win">✅ + 영구</td></tr>
+    <tr><td>45° 사선</td><td class="partial">△ 작아짐</td><td class="fail">✗</td><td class="win">✅</td></tr>
+    <tr><td>측면</td><td class="fail">✗</td><td class="fail">✗</td><td class="fail">⚠ Phase 2 필요</td></tr>
+    <tr><td>클로즈업</td><td class="win">✅</td><td class="partial">△ 점</td><td class="win">✅</td></tr>
+    <tr><td>영구 자산</td><td class="fail">평면 + 텍스처 (런타임 결합)</td><td class="partial">텍스처 영구 (UV 한계)</td><td class="win">텍스처 영구 (UV island 일관)</td></tr>
+    <tr><td>비용</td><td>2 크</td><td>0 크</td><td>0 크 (베이크는 무료)</td></tr>
+  </table>
+</section>
+
+<!-- D. 측면 클로즈업 -->
+<section>
+  <h2><span class="num">D</span>측면 한계 시각 — Phase 2 작전 필요</h2>
+  <div class="triplet" style="grid-template-columns:1fr 1fr">
+    <div class="col">
+      <h3>측면 (Right_Profile)</h3>
+      <img src="assets/blender-renders/PoC-07-C-Right_Profile-after.png" alt="측면 한계">
+      <div class="lbl">측면 카메라에서 baked 영역 안 보임 = 정면 데칼만 박았기 때문</div>
+    </div>
+    <div class="col">
+      <h3>해결 = 좌·우 측면 평면 추가 + 추가 Bake</h3>
+      <p style="font-size:13px;color:#cbc8c1;line-height:1.7">
+      추가 평면 2개 (좌측·우측 머리 곡면 위치) + Shrinkwrap + 동일 머티리얼<br>
+      → use_clear=False로 추가 Bake → 측면 UV island 영역도 매트 화이트 + 옅은 눈썹 여백 박힘<br>
+      → 4 각도 모두 자연 완성
+      </p>
+      <p style="font-size:12px;color:#9a9a93;margin-top:8px"><strong>예상 시간:</strong> 30분 · 0 크</p>
+    </div>
+  </div>
+</section>
+
+<!-- E. 다음 단계 -->
+<div class="options">
+  <h3>대표님 결정 — 다음 한 발 (1글자 답)</h3>
+
+  <div class="opt reco"><div class="n">A</div><div class="body">
+    <b>Phase 2 진입 — 측면 평면 좌·우 추가 + 다시 Bake (4 각도 완성)</b>
+    <p>오늘 검증된 Bake pipeline 위에 추가 평면 2개 + 추가 Bake. 4 각도 모두 자연. 같은 텍스처 + 측면 영역도 cover.</p>
+    <p class="cost">0 크 · 30분 · 권장 ★</p>
+  </div></div>
+
+  <div class="opt"><div class="n">B</div><div class="body">
+    <b>지금 PoC-07 결과로 만족 + 인스타 캐러셀 5장 시리즈 합류</b>
+    <p>3 각도(Front·45°·Macro) Bake 컷이 충분히 자연. 측면 컷 제외하고 5장 캐러셀 게시. 시리즈 8편 합류.</p>
+    <p class="cost">0 크 · 30분</p>
+  </div></div>
+
+  <div class="opt"><div class="n">C</div><div class="body">
+    <b>마네킹 GLB 재제작 — 「눈썹 포함」 source image</b>
+    <p>nano_banana_pro로 「자연 눈썹 있는 마네킹」 source 1장 생성 → Meshy image_to_3d → UV에 baked-in 영구. 4 각도 자연 + 모델 재사용.</p>
+    <p class="cost">2+31 = 33 크 · 10분 (잔량 352→319)</p>
+  </div></div>
+
+  <div class="opt"><div class="n">D</div><div class="body">
+    <b>Meshy Pro $20/월 + 5종 페르소나 GLB 일괄 (STEP 2)</b>
+    <p>한승철 어제 권고 본격 진입. 페르소나당 source image에 미리 눈썹 박고 5종 일괄. 「수아·하영·예린·민지·지우」 시술 전후 캐러셀 가능.</p>
+    <p class="cost">$20/월 + ~50 크 · 반나절</p>
+  </div></div>
+
+  <div class="opt"><div class="n">E</div><div class="body">
+    <b>보류 — 다른 블록커(카카오·원장님 자료) 집중</b>
+    <p>3 PoC로 Blender 라인 검증 충분. 잔량 보존 + 인스타 D+1 게시·카카오 채널 결단·원장님 자료 수령에 집중.</p>
+    <p class="cost">0 크 · 즉시</p>
+  </div></div>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 운영진 전용 (cloudflared 임시 터널 / _site)</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="Blender-MCP-시술전후-PoC-20260625.html">PoC-05 (데칼)</a> · <a href="Blender-MCP-UV-PoC-20260626.html">PoC-06 (UV 페인트)</a> · <a href="회의-20260625-블렌더효과.html">06/25 전직원 회의</a> · <a href="docs/PROGRESS.md">PROGRESS.md</a></p>
+</footer>
+
+</body>
+</html>

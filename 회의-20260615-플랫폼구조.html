@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전직원 회의 — 플랫폼 구조 · 2026-06-15</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap');
+:root{
+  --apricot:#FBEAE2;--cream:#FFFBF5;--ink:#2A1D1A;--muted:#9A6A5E;
+  --coral:#FF7A66;--hotpink:#FF6F84;--gold:#E8B872;--line:#F0D6CC;--plum:#5A3A4A;--done:#5BAE8A;
+  --new-theme:#5A3A4A;--new-accent:#E8B872;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--apricot);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.65;min-height:100vh;display:flex;flex-direction:column;padding-bottom:30px}
+.serif{font-family:'Nanum Myeongjo',serif}
+a{color:inherit;text-decoration:none}
+.top{padding:18px 26px;display:flex;gap:14px;align-items:center}
+.top a{font-weight:800;font-size:17px}
+.top a span{color:var(--coral)}
+.top .sep{color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px;width:100%}
+
+.eyebrow{letter-spacing:.4em;font-size:11px;color:var(--coral);font-weight:800;text-align:center}
+h1.title{text-align:center;font-size:38px;font-weight:400;margin:8px 0 4px}
+.subtitle{text-align:center;color:var(--muted);font-size:14px;margin-bottom:26px}
+.subtitle b{color:var(--ink)}
+
+/* PLATFORM MAP */
+.map{background:var(--cream);border-radius:20px;padding:24px;margin:18px 0;box-shadow:0 8px 24px rgba(232,169,155,.18)}
+.map h2{font-size:18px;font-weight:800;margin-bottom:16px;display:flex;gap:10px;align-items:center}
+.map h2::before{content:"";display:block;width:6px;height:22px;background:var(--coral);border-radius:3px}
+
+.platform{display:grid;grid-template-columns:1fr;gap:14px}
+.tier{background:var(--apricot);border-radius:14px;padding:16px 18px;border-left:4px solid var(--coral)}
+.tier .label{font-size:12px;letter-spacing:.3em;font-weight:800;color:var(--coral);margin-bottom:8px}
+.tier .name{font-size:15px;font-weight:800;margin-bottom:6px}
+.tier .desc{font-size:12.5px;color:#6a4a40}
+
+.section{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col{background:var(--apricot);border-radius:14px;padding:18px;border-top:5px solid var(--coral)}
+.col.new{border-top-color:var(--new-accent);background:linear-gradient(180deg,#FFF6E7,#FBEAE2)}
+.col h3{font-size:15.5px;font-weight:800;margin-bottom:4px}
+.col .chip{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:99px;background:#fff;color:var(--ink);display:inline-block;margin-bottom:10px}
+.col.new .chip{background:var(--new-theme);color:#FFD9CF}
+.col ul{list-style:none}
+.col li{position:relative;padding-left:16px;margin:7px 0;font-size:13px;color:#4a3530}
+.col li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--coral)}
+.col.new li::before{background:var(--new-accent)}
+.col li b{font-weight:800}
+.col li small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+
+/* MEETING */
+.meeting{background:var(--cream);border-radius:20px;padding:24px 26px;margin-top:18px;box-shadow:0 6px 18px rgba(232,169,155,.14)}
+.meeting h2{font-size:20px;font-weight:800;margin-bottom:6px}
+.meeting .meta{font-size:12px;color:var(--muted);margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.meeting .meta b{color:var(--ink)}
+
+.speak{background:var(--apricot);border-radius:14px;padding:16px 18px;margin:10px 0;border-left:3px solid var(--coral)}
+.speak.lead{border-left-color:var(--hotpink);background:#FFF0EE}
+.speak.cto{border-left-color:var(--plum);background:#F1ECF1}
+.speak.bd{border-left-color:var(--gold);background:#FBF3E1}
+.speak.dz{border-left-color:#5BAE8A;background:#E8F4EC}
+.speak .who{font-weight:800;font-size:14.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.speak .who .role{font-size:11px;color:var(--muted);font-weight:700}
+.speak .who .tag{font-size:10.5px;background:var(--ink);color:#FFD9CF;padding:2px 8px;border-radius:99px;font-weight:800}
+.speak.lead .who .tag{background:var(--hotpink);color:#fff}
+.speak.cto .who .tag{background:var(--plum)}
+.speak.bd .who .tag{background:var(--gold);color:var(--ink)}
+.speak.dz .who .tag{background:#5BAE8A;color:#fff}
+.speak p{font-size:14px;line-height:1.7;color:#3a2a26}
+.speak ul{margin-top:6px;padding-left:18px;font-size:13.5px;color:#3a2a26}
+.speak li{margin:3px 0}
+.speak .quote{font-style:italic;color:var(--muted);font-size:13px;margin-top:8px;border-left:2px solid var(--line);padding-left:10px}
+
+/* LOOP DIAGRAM */
+.loop{background:linear-gradient(135deg,#FFF6E7,#FBEAE2);border-radius:18px;padding:22px;margin-top:18px;border:2px dashed var(--gold)}
+.loop h3{font-size:16px;font-weight:800;color:var(--plum);margin-bottom:14px;text-align:center}
+.loop h3 span{color:var(--hotpink)}
+.loop-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.loop-step{background:#fff;border-radius:12px;padding:12px 8px;text-align:center;font-size:12px;position:relative;border:1px solid var(--line)}
+.loop-step .n{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--coral);color:#fff;align-items:center;justify-content:center;font-weight:900;font-size:12px;margin-bottom:5px}
+.loop-step b{display:block;font-size:13px;font-weight:800;margin-bottom:3px}
+.loop-step small{color:var(--muted);font-size:11px;line-height:1.4}
+.loop-feedback{text-align:center;font-size:13px;font-weight:700;color:var(--plum);margin-top:8px;padding:8px;background:#fff;border-radius:10px}
+.loop-feedback span{color:var(--hotpink);font-weight:800}
+
+/* DECISIONS */
+.decision{background:linear-gradient(135deg,#FFF1ED,#FBEAE2);border:1.5px dashed var(--coral);border-radius:14px;padding:18px 22px;margin-top:18px}
+.decision h3{font-size:15px;font-weight:800;color:var(--hotpink);margin-bottom:10px}
+.decision ul{list-style:none}
+.decision li{position:relative;padding-left:22px;margin:7px 0;font-size:14px;font-weight:600}
+.decision li::before{content:"?";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--hotpink);color:#fff;text-align:center;font-size:12px;font-weight:900;line-height:18px}
+.decision li.done::before{content:"✓";background:var(--done)}
+
+footer{text-align:center;padding:24px;color:var(--muted);font-size:12.5px}
+@media(max-width:900px){.section{grid-template-columns:1fr}.loop-grid{grid-template-columns:1fr 1fr 1fr}}
+</style></head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a href="index.html">← ART<span>brows</span> 홈</a>
+    <span class="sep">/</span>
+    <a href="회의록.html" style="color:var(--muted);font-size:14px">회의록</a>
+    <span class="sep">/</span>
+    <span style="color:var(--muted);font-size:13px">2026-06-15 플랫폼 회의</span>
+  </div>
+
+  <div class="eyebrow">ALL-HANDS MEETING</div>
+  <h1 class="title serif">전직원 플랫폼 회의</h1>
+  <p class="subtitle">2026-06-15 · 의제: <b>플랫폼 전체 구성 + 신규 테마</b> · 신규 채용 발표(한승철)</p>
+
+  <!-- 플랫폼 평면 구조도 -->
+  <div class="map">
+    <h2>플랫폼 평면 구조</h2>
+
+    <div class="tier">
+      <div class="label">TIER 1 · 진입</div>
+      <div class="name">ARTbrows 통합 포털 (홈)</div>
+      <div class="desc"><code>index.html</code> · 살구핑크 톤 · 두 갈래(기존 / 오늘부터)로 분기</div>
+    </div>
+
+    <div class="section">
+      <div class="col">
+        <h3>기존 (Phase 1·2 · 유지)</h3>
+        <span class="chip">EXISTING</span>
+        <ul>
+          <li><b>업무 대시보드</b><small>실시간 진행상황·KPI</small></li>
+          <li><b>회의록</b><small>전사 회의 기록</small></li>
+          <li><b>개발 과정</b><small>여기까지 어떻게 왔는지</small></li>
+          <li><b>갤러리</b><small>완성 산출물</small></li>
+          <li><b>시리즈 랜딩 6편</b><small>모집 퍼널 (직장인·신부·미대생·미용·시니어·부업맘)</small></li>
+          <li><b>콘텐츠 자동화 웹앱 (placeholder)</b><small>webapp.html · Phase 3</small></li>
+        </ul>
+      </div>
+      <div class="col new">
+        <h3>신규 — 오늘의 테마 (2026-06-15~)</h3>
+        <span class="chip">NEW THEME</span>
+        <ul>
+          <li><b>방향성 도식 (5축 전략)</b><small>오늘-방향성-도식.html</small></li>
+          <li><b>중국어 강의 번역</b><small>translate-zh.html · STT + 3-엔진 비교 (개발 중)</small></li>
+          <li><b>일일 자동 포스팅</b><small>인스타·위챗 매일 · 미구현</small></li>
+          <li><b>다채널 AI 자동 응답</b><small>인스타 DM·카카오·위챗·전화 · 미구현</small></li>
+          <li><b>글로벌 진출 — 중국(위챗) · 미국(LA)</b><small>9월 초 LA 시장조사 · 미구현</small></li>
+          <li><b>비주얼 톤: 리얼 극사실</b><small>모든 신규 비주얼 통일 원칙</small></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tier" style="margin-top:14px;border-left-color:var(--plum)">
+      <div class="label" style="color:var(--plum)">TIER 0 · 백엔드 · 인프라</div>
+      <div class="name">한승철(신규 채용) 담당 영역</div>
+      <div class="desc">
+        Flask STT 서버(5099) · 정적 서버(8088) · DB 미정 · 키 관리(<code>.env</code>) · 모비딕 표준(맥미니 + Tailscale + launchd) · 영상 처리 파이프라인 · 향후 자동포스팅 잡 큐
+      </div>
+    </div>
+  </div>
+
+  <!-- 개발 루프 -->
+  <div class="loop">
+    <h3>모든 개발은 <span>하네스 공법 루프</span> 로 진행</h3>
+    <div class="loop-grid">
+      <div class="loop-step"><span class="n">1</span><b>기획</b><small>목적·범위·문제 정의</small></div>
+      <div class="loop-step"><span class="n">2</span><b>설계</b><small>아키텍처·DB·API</small></div>
+      <div class="loop-step"><span class="n">3</span><b>UI · UX</b><small>화면·동선·톤</small></div>
+      <div class="loop-step"><span class="n">4</span><b>스케줄</b><small>비용·일정</small></div>
+      <div class="loop-step"><span class="n">5</span><b>개발</b><small>구현·검수</small></div>
+    </div>
+    <div class="loop-feedback">
+      ⓺ 결과 측정 · 갭 분석 →  부족 단계로 재진입 →  <span>목표 도달까지 무한 루프</span>
+    </div>
+  </div>
+
+  <!-- 회의록 -->
+  <div class="meeting">
+    <h2>전직원 발언</h2>
+    <div class="meta">
+      <b>참석:</b> 장미지 AI 연구소장 · 이서연(기획·마케팅) · 유나(그래픽) · <b style="color:var(--plum)">한승철(풀스택 · 신규)</b> · 클로드 코드(주관)<br>
+      <b>안건:</b> ① 플랫폼 전체 구성 ② 신규 테마 정리 ③ 신규 채용 인사 ④ 첫 루프 우선순위
+    </div>
+
+    <div class="speak lead">
+      <div class="who">이서연 <span class="role">기획·마케팅</span> <span class="tag">PLANNER</span></div>
+      <p>오늘 정리된 5축 — 일일 자동 포스팅·다채널 AI 응답·중국·미국·웹앱 — 이걸 <b>한 페이지에 5장 카드</b>로 보여주는 신규 진입점이 필요해요.
+      기존 포털과 시각적으로 살짝 차이를 두되 (살구핑크 베이스는 유지) 같은 브랜드 안에서 "오늘부터" 라는 신호만 명확하게.</p>
+      <div class="quote">"포지셔닝은 그대로. 다만 오늘부터의 흐름은 시청자가 한눈에 알게."</div>
+    </div>
+
+    <div class="speak">
+      <div class="who">유나 <span class="role">그래픽·비주얼</span> <span class="tag">VISUAL</span></div>
+      <p>비주얼 톤 <b>리얼 극사실</b> 박혔으니, 신규 5축 카드 이미지는 모두 <b>极致写实 + 자연광 + 셀카 톤</b>으로 갈게요.
+      코믹 톤 ✗ — 다 빼고 정리. 신규 진입 페이지 hero 컷은 어두운 배경 + 자연광 한 컷으로 잡으면 기존 톤과 매끄럽게 이어집니다.</p>
+      <div class="quote">"코믹 다 뺐어요. 이제 진짜 사진 같은 결로만."</div>
+    </div>
+
+    <div class="speak cto">
+      <div class="who">한승철 <span class="role">풀스택 · CTO급 · 신규</span> <span class="tag">CTO</span></div>
+      <p>안녕하세요, 한승철입니다. 들어와서 보니 PoC 가 이미 돌고 있고 (Flask + faster-whisper + 영상 업로드 UI), 그 자체는 잘 만들었습니다.
+      다만 운영급으로 가려면 결정해야 할 게 있습니다.</p>
+      <ul>
+        <li><b>DB</b>: 지금은 파일(JSON) 기반. 5축 다 붙으면 잡 큐·세션·결과물 메타데이터가 필요 → <b>SQLite → PostgreSQL 단계적</b> 권장.</li>
+        <li><b>인증</b>: 외부 노출 전 단순 패스워드 게이트라도. 키(.env)는 절대 리포에 안 올라가게.</li>
+        <li><b>인프라</b>: 모비딕 표준 따라 맥미니 + Tailscale + launchd. Docker 안 씀.</li>
+        <li><b>잡 큐</b>: 영상 STT·번역·렌더링이 분 단위로 길어지면 동기 응답 안 됨 → <b>비동기 잡 큐(BullMQ 또는 RQ)</b>.</li>
+        <li><b>비용</b>: API 3종(Claude·GPT·Gemini) 동시 호출은 비용 3배. 일반은 1엔진, "비교 모드"만 3엔진.</li>
+      </ul>
+      <div class="quote">"화려한 거 없이 단단하게. '이게 정말 지금 필요한가요'를 늘 묻겠습니다."</div>
+    </div>
+
+    <div class="speak dz">
+      <div class="who">클로드 코드 <span class="role">진행·기록</span> <span class="tag">CC</span></div>
+      <p>한승철 의견 반영해서 <b>이번 루프(라운드 2)</b> 의 ⑥ 결과 측정 → 다음 루프 우선순위 제안:</p>
+      <ul>
+        <li><b>라운드 2 (현재)</b>: 번역 비교 UI 완성 → 1차 합격 후 라운드 3 진입</li>
+        <li><b>라운드 3</b>: 한승철이 ② 설계(DB · 인증 · 잡 큐) 끝낸 뒤 → 일일 자동 포스팅 ① 기획 시작</li>
+        <li><b>라운드 4+</b>: 다채널 AI 응답 · 위챗 · LA 진출 — 각각 별 루프</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 결정 사항 / 대기 -->
+  <div class="decision">
+    <h3>오늘 결정 사항 + 대기 항목 (대표님 확정 필요)</h3>
+    <ul>
+      <li class="done">한승철(풀스택 시니어) AI 에이전트 <b>채용 확정</b> · 첫 임무: 플랫폼 ② 설계</li>
+      <li class="done">모든 개발은 <b>하네스 공법 루프</b> (기획→설계→UI/UX→스케줄→개발→측정→재진입) 적용</li>
+      <li class="done">기존 자산은 그대로 유지, <b>신규는 "오늘의 테마"로 묶어 별도 진입점</b></li>
+      <li class="done">비주얼 톤: <b>리얼 극사실</b> 통일 · 코믹 금지</li>
+      <li>홈(index.html)에 <b>"오늘부터" 신규 테마 카드 섹션</b> 추가? (예/아니오)</li>
+      <li>중국어 번역 비교 — Claude API 키도 발급할지, GPT + Gemini 2-way 로 충분한지</li>
+      <li>DB 선택 시점 — 라운드 2 끝나는 대로 SQLite 도입? 아니면 라운드 3 시작 시점?</li>
+      <li>외부 노출 (Netlify · 가비아 staris.cloud) — 신규 메뉴도 같은 도메인 / 서브경로?</li>
+      <li>일일 자동 포스팅 — 어떤 채널부터? 인스타(한)·위챗(중)·인스타(영) 중 우선순위</li>
+    </ul>
+  </div>
+
+  <footer>
+    ARTbrows 전직원 회의 · 2026-06-15 · <a href="회의록.html" style="color:var(--hotpink);font-weight:800">회의록 전체</a> · <a href="오늘-방향성-도식.html" style="color:var(--hotpink);font-weight:800">오늘 방향성 도식</a>
+  </footer>
+
+</div>
+</body></html>

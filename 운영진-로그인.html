@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>운영진 로그인 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:linear-gradient(135deg,#0B0907 0%,#1F1611 50%,#0B0907 100%);color:#e7e5e1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{background:#161617;border:1px solid #2a2a2a;border-radius:16px;padding:42px 38px;width:100%;max-width:420px;box-shadow:0 24px 48px rgba(0,0,0,0.4)}
+  .brand{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:36px;letter-spacing:10px;color:#D4AF37;text-align:center;text-transform:uppercase;margin-bottom:6px}
+  .sub{text-align:center;font-size:12px;color:#8a8a84;letter-spacing:4px;margin-bottom:30px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;text-align:center;margin-bottom:8px}
+  h1 em{color:#D4AF37;font-style:normal}
+  .desc{font-size:12.5px;color:#9a9a93;text-align:center;margin-bottom:24px;line-height:1.55}
+  .row{margin-bottom:14px}
+  label{display:block;font-size:11px;color:#9a9a93;letter-spacing:2px;margin-bottom:5px;font-weight:700}
+  input{width:100%;padding:14px 16px;border:1px solid #2a2a2a;background:#0c0c0d;border-radius:10px;color:#e7e5e1;font-size:14px;font-family:inherit}
+  input:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 2px rgba(212,175,55,0.18)}
+  button{width:100%;background:#D4AF37;color:#0B0907;font-family:'Nanum Myeongjo',serif;font-weight:800;padding:15px;border:0;border-radius:30px;font-size:16px;letter-spacing:6px;cursor:pointer;margin-top:6px;transition:background 0.15s}
+  button:hover{background:#A8854E}
+  .hint{margin-top:22px;padding:14px 16px;background:#0c0c0d;border:1px dashed #2a2a2a;border-radius:8px;font-size:12px;color:#9a9a93;line-height:1.6}
+  .hint b{color:#D4AF37}
+  .hint code{background:#1a1a1b;padding:2px 6px;border-radius:4px;color:#a8e6b3;font-family:monospace;font-size:11.5px}
+  .error{margin-top:10px;font-size:12px;color:#ff8a8a;text-align:center;min-height:16px}
+  .footer{margin-top:24px;text-align:center;font-size:10.5px;color:#666;letter-spacing:1px}
+  .footer a{color:#D4AF37;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand">ARTBROWS</div>
+  <div class="sub">ADMIN · 운영진 전용</div>
+  <h1>운영진 <em>로그인</em></h1>
+  <p class="desc">신청 조회·운영 통계·문의 관리</p>
+
+  <form id="f" onsubmit="return doLogin(event)">
+    <div class="row">
+      <label>아이디</label>
+      <input type="text" id="u" autocomplete="username" placeholder="guest 또는 admin" required>
+    </div>
+    <div class="row">
+      <label>비밀번호</label>
+      <input type="password" id="p" autocomplete="current-password" placeholder="••••••" required>
+    </div>
+    <button type="submit">로그인</button>
+    <div class="error" id="err"></div>
+  </form>
+
+  <div class="hint">
+    <b>★ 회의 시연 모드</b><br>
+    시연 계정 — <code>guest / guest</code> 또는 <code>admin / admin</code><br>
+    실 운영 계정은 라이브 사이트 (<a href="https://eyebrows.staris.cloud" style="color:#D4AF37">eyebrows.staris.cloud</a>) git push 자격증명 받은 후 회의 결정대로 셋업.
+  </div>
+
+  <div class="footer">
+    ARTbrows · 운영진 (스테이징) · cloudflared 임시 터널
+    · <a href="index.html">← 메인 포털</a>
+  </div>
+</div>
+
+<script>
+  function doLogin(e){
+    e.preventDefault();
+    const u = document.getElementById('u').value.trim().toLowerCase();
+    const p = document.getElementById('p').value.trim();
+    const err = document.getElementById('err');
+    const ok = (u==='guest' && p==='guest') || (u==='admin' && p==='admin');
+    if(ok){
+      err.style.color='#a8e6b3';
+      err.textContent = '✓ 로그인 성공 — 신청 조회로 이동';
+      try { sessionStorage.setItem('artbrows_admin', u); } catch(_) {}
+      setTimeout(()=> { location.href = '임원진-신청조회.html'; }, 400);
+    } else {
+      err.style.color='#ff8a8a';
+      err.textContent = '아이디 또는 비밀번호가 잘못되었습니다 (시연: guest/guest 또는 admin/admin)';
+    }
+    return false;
+  }
+</script>
+
+</body>
+</html>

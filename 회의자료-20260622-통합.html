@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임원진 회의 자료 통합 · 2026-06-22 10:00 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:30px 24px 60px;line-height:1.6;max-width:1280px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:36px;margin-bottom:8px;letter-spacing:-1px}
+  h1 em{color:#d4af37;font-style:normal}
+  .lead{color:#bdb9b1;font-size:15px;margin-bottom:6px}
+  .lead b{color:#d4af37}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin:18px 0 28px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;margin-right:6px}
+
+  /* 빠른 진입 박스 — 최상단 */
+  .quick{background:linear-gradient(135deg,#1f2a1e,#0a1a0c);border:2px solid #a8e6b3;border-radius:14px;padding:20px 24px;margin-bottom:30px}
+  .quick h2{font-family:'Nanum Myeongjo',serif;color:#a8e6b3;font-size:18px;margin-bottom:14px;letter-spacing:1px}
+  .quick .row{display:flex;flex-wrap:wrap;gap:10px}
+  .quick a{display:inline-block;padding:10px 18px;background:#161617;border:1px solid #a8e6b3;color:#a8e6b3;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:0.5px}
+  .quick a:hover{background:#a8e6b3;color:#0b0907}
+  .quick a.gold{border-color:#d4af37;color:#d4af37}
+  .quick a.gold:hover{background:#d4af37;color:#0b0907}
+
+  /* 안건 / 블록커 */
+  .agenda,.blockers{margin-bottom:28px}
+  h2.section{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:24px;margin:6px 0 14px;padding-bottom:10px;border-bottom:1px solid #2a2a2a}
+  h2.section .n{color:#d4af37;margin-right:10px;font-family:'Cormorant Garamond',serif;font-size:30px;vertical-align:-2px}
+  .agenda ol{padding-left:22px;font-size:14.5px;line-height:1.85;color:#cbc8c1}
+  .agenda li{margin-bottom:6px}
+  .agenda li b{color:#e7e5e1}
+  .agenda li em{color:#d4af37;font-style:normal}
+  .agenda li::marker{color:#d4af37}
+  .blocker-card{background:#2a1818;border:1px solid #5a2828;border-radius:10px;padding:14px 18px;margin-bottom:10px;font-size:14px;color:#f4c4c0;display:flex;gap:14px;align-items:flex-start}
+  .blocker-card .num{font-family:'Cormorant Garamond',serif;font-size:28px;color:#ffb0a8;font-weight:700;line-height:1;flex-shrink:0}
+  .blocker-card b{color:#ffb0a8}
+
+  /* KPI */
+  .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:28px}
+  .kpi{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 12px;text-align:center}
+  .kpi .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:34px;color:#d4af37;line-height:1}
+  .kpi .l{font-size:11px;color:#9a9a93;margin-top:5px;letter-spacing:1px}
+
+  /* 일자별 작업 */
+  .day{margin-bottom:34px;background:#0e0e0f;border-left:3px solid #d4af37;padding:18px 22px 20px;border-radius:0 10px 10px 0}
+  .day.today{border-left-color:#a8e6b3}
+  .day-head{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+  .day-head .date{font-family:'Cormorant Garamond',serif;font-size:26px;color:#d4af37;font-weight:700;letter-spacing:1px}
+  .day-head .title{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#e7e5e1}
+  .day.today .day-head .date{color:#a8e6b3}
+  .day-lead{color:#bdb9b1;font-size:13.5px;margin-bottom:14px}
+  .day-lead strong{color:#d4af37}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .item{background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform 0.15s,border-color 0.15s}
+  .item:hover{transform:translateY(-3px);border-color:#d4af37}
+  .item .thumb{aspect-ratio:1/1;background:#0c0c0d;display:block;overflow:hidden;position:relative}
+  .item .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .item .thumb video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+  .item .thumb.v::after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.9);font-size:46px;text-shadow:0 2px 8px rgba(0,0,0,0.6);pointer-events:none}
+  .item .thumb.doc{aspect-ratio:5/3;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:36px;color:#d4af37;background:linear-gradient(135deg,#1a1a1c,#0c0c0d);font-weight:700;letter-spacing:6px}
+  .item .body{padding:10px 12px;font-size:12px;display:flex;flex-direction:column;gap:4px;flex:1}
+  .item .body .ttl{font-weight:700;color:#e7e5e1;font-size:13px;line-height:1.4}
+  .item .body .desc{color:#9a9a93;line-height:1.5}
+  .item .body .chip{display:inline-block;font-size:9.5px;background:#264d2a;color:#a8e6b3;padding:2px 7px;border-radius:8px;letter-spacing:1px;font-weight:700;align-self:flex-start;margin-top:2px}
+  .item .body .chip.gold{background:#d4af37;color:#0b0907}
+
+  /* 시연 흐름 */
+  .demo{background:#161617;border:1px solid #d4af37;border-radius:12px;padding:18px 22px;margin-bottom:28px}
+  .demo h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:17px;margin-bottom:12px}
+  .demo-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+  .demo-step{background:#0c0c0d;border:1px solid #2a2a2a;border-radius:8px;padding:12px 10px;text-align:center;position:relative;font-size:12px}
+  .demo-step .n{font-family:'Cormorant Garamond',serif;font-size:26px;color:#d4af37;line-height:1;font-weight:700}
+  .demo-step .t{font-weight:700;color:#e7e5e1;margin-top:6px}
+  .demo-step .d{color:#9a9a93;margin-top:2px;font-size:10.5px}
+  .demo-step:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:50%;transform:translateY(-50%);color:#d4af37;font-size:16px;font-weight:700}
+
+  /* 결정 요청 */
+  .decision{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 24px;margin-bottom:28px}
+  .decision h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  table.dec{width:100%;border-collapse:collapse;font-size:13px}
+  table.dec th,table.dec td{border:1px solid #2a2a2a;padding:10px 12px;text-align:left;vertical-align:top}
+  table.dec th{background:#1a1a1b;color:#d4af37;font-weight:700;font-size:12px;letter-spacing:1px}
+  table.dec td b{color:#e7e5e1}
+  table.dec td .badge{display:inline-block;background:#2a2a2a;color:#cbc8c1;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;letter-spacing:1px}
+  table.dec td .badge.now{background:#d4af37;color:#0b0907}
+
+  /* 플랫폼 컨셉 — 대전환 */
+  .platform{background:linear-gradient(135deg,#1a1a3a,#0a0a1a);border:2px solid #bb8fff;border-radius:14px;padding:24px 26px;margin-bottom:28px}
+  .platform h3{font-family:'Nanum Myeongjo',serif;color:#bb8fff;font-size:22px;margin-bottom:8px;letter-spacing:-0.5px}
+  .platform .lead{color:#cbc8ff;font-size:14px;margin-bottom:18px;line-height:1.7}
+  .platform .lead b{color:#bb8fff}
+  .platform .lead em{color:#ffd87a;font-style:normal;font-weight:700}
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+  .pillar{background:#0c0c1a;border:1px solid #2a2a4a;border-radius:10px;padding:14px 16px}
+  .pillar .ic{font-family:'Cormorant Garamond',serif;font-size:26px;color:#bb8fff;font-weight:700;line-height:1;margin-bottom:6px}
+  .pillar .t{font-weight:800;color:#e7e5e1;font-size:14px;margin-bottom:4px}
+  .pillar .d{font-size:11.5px;color:#9a9aaa;line-height:1.55}
+  .bench{background:#0c0c1a;border:1px dashed #3a3a5a;border-radius:10px;padding:14px 18px;font-size:13px;color:#cbc8ff;line-height:1.65;margin-top:10px}
+  .bench b{color:#ffd87a}
+
+  /* 다음 주 플랜 */
+  .next{background:#161617;border:1px solid #6fb0ff;border-radius:12px;padding:18px 22px;margin-bottom:28px}
+  .next h3{font-family:'Nanum Myeongjo',serif;color:#6fb0ff;font-size:17px;margin-bottom:12px}
+  .next ul{padding-left:20px;font-size:13.5px;line-height:1.8;color:#cbc8c1}
+  .next li::marker{color:#6fb0ff}
+  .next li b{color:#e7e5e1}
+
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+
+  @media (max-width:880px){
+    .kpi-row{grid-template-columns:repeat(3,1fr)}
+    .demo-flow{grid-template-columns:repeat(2,1fr)}
+    .demo-step:not(:last-child)::after{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<h1><em>임원진 회의 자료</em> — 2026-06-22 (월) 10:00</h1>
+<p class="lead">한 주 작업 전체 + 시연 자산 + 회의 안건 · <b>모든 항목 클릭 = 즉시 결과물 확인</b></p>
+
+<div class="meta-bar">
+  <div><b>의장</b>박정주 대표님 + 장미지 원장님</div>
+  <div><b>출석</b>이서연 · 유나 · 한승철 · 클로드</div>
+  <div><b>기간</b>2026-06-15 ~ 06-22</div>
+  <div><b>크레딧 잔량</b>684</div>
+  <div><b>이번 주 사용</b>약 36 크레딧</div>
+  <div><b>★ 정례 회의</b>매주 월 10:00 (다음 정례 = 6/29)</div>
+  <div><b>★ 기획자 합류</b>6/29 사전 참가 + 7/1 정식 출근</div>
+  <div><b>★ 이태민 본부장</b>합류 예정 (일자 확인 — 7/6 추정)</div>
+  <div><b>★ 9월 초 해외 출장</b>차이나타운 + 코리아타운 시장 조사 (위치 확인 필요 · LA / 중국 본토)</div>
+</div>
+
+<!-- 빠른 진입 -->
+<div class="quick">
+  <h2>★ 회의 중 빠른 진입 — 시연 URL 5종</h2>
+  <div class="row">
+    <a class="gold" href="운영진-로그인.html" target="_blank">★ 운영진 로그인 (admin/admin)</a>
+    <a href="임원진-신청조회.html" target="_blank">★ 임원진 신청 조회</a>
+    <a href="수강신청-설문-시연.html" target="_blank">수강신청 설문 흐름</a>
+    <a href="문의게시판-시연.html" target="_blank">문의 게시판</a>
+    <a href="통과-분배-체크리스트-20260622.html" target="_blank">통과·재분배 체크리스트</a>
+    <a href="https://eyebrows.staris.cloud/enroll" target="_blank">LIVE — eyebrows.staris.cloud/enroll</a>
+    <a href="https://eyebrows.staris.cloud/admin/history" target="_blank">LIVE — admin/history</a>
+  </div>
+</div>
+
+<!-- KPI -->
+<h2 class="section"><span class="n">01</span>한 주 KPI</h2>
+<div class="kpi-row">
+  <div class="kpi"><div class="n">+8</div><div class="l">신규 산출물</div></div>
+  <div class="kpi"><div class="n">+5</div><div class="l">시리즈 실사 전환</div></div>
+  <div class="kpi"><div class="n">+18</div><div class="l">캐러셀 슬라이드</div></div>
+  <div class="kpi"><div class="n">+4</div><div class="l">시연 페이지</div></div>
+  <div class="kpi"><div class="n">3</div><div class="l">블록커</div></div>
+  <div class="kpi"><div class="n">36</div><div class="l">크레딧 사용</div></div>
+</div>
+
+<!-- 안건 -->
+<div class="agenda">
+  <h2 class="section"><span class="n">02</span>오늘 회의 안건</h2>
+  <ol>
+    <li><b>★ 오늘 반드시 정할 것 — 인스타 광고 4종</b> — <em>광고 이미지 4종 채택 + 광고 클릭 URL + 도착 페이지(수강신청 폼) 8 필드 확정</em></li>
+    <li><b>★ 플랫폼 컨셉 대전환 확정</b> — 통합 플랫폼 10 기둥(쇼핑몰·자동 콘텐츠·AI Agent·빌링·CS AI·소상공인 지원 등) 우선순위</li>
+    <li><b>★ 장미지 원장님 확인</b> — 실사 톤·쇼츠 영상·캐러셀·전체 컨셉이 원장님 생각과 맞는지</li>
+    <li><b>★ 기획자 연계 방식 + 역할 분배</b> — 기획자가 해줘야 할 일과 대표님이 직접 할 일 분리</li>
+    <li><b>지난 한 주 작업 보고 + 시연</b> — 5개 시연 페이지 + 시리즈 실사 4편 + 수강신청·문의 흐름</li>
+    <li><b>블록커 3건 결단</b> — 카카오톡 채널 · 원장님 자료 수령 · Netlify git 자격증명</li>
+    <li><b>통과·재분배 체크리스트</b> — 자산별 운영진 영구 / 유저 라이브 / 둘 다 / 보류 4지선다 결정</li>
+    <li><b>수강신청·문의 라이브 배포</b> — Supabase inquiries 테이블 + admin/inquiry 페이지 + Google Sheet 동기화</li>
+    <li><b>다음 주 우선순위</b> — 시리즈 추가 실사 전환(01·05·06) / 광고 집행 / 운영 가이드 운영 시작 / 단발 모델 캐릭터 확장 (D+C)</li>
+    <li><b>운영진/유저 홈페이지 분리 정책</b> — 매번 게시 위치 확인 룰 운영 적용 + 혼재 자산 일괄 재분배</li>
+  </ol>
+</div>
+
+<!-- ★ 오늘 반드시 정해야 할 것 — 인스타 광고 -->
+<div class="decision" style="border-color:#ffd87a;background:linear-gradient(135deg,#2a2014,#0f0a05)">
+  <h3 style="color:#ffd87a">★ 오늘 반드시 정할 것 — 인스타 광고 LIVE 셋업</h3>
+  <p class="lead" style="color:#cbc8c1;font-size:13.5px;margin-bottom:14px">광고 4종(2026-06-16 제작) → 인스타 광고관리자 송출 → 클릭 시 <b style="color:#ffd87a">eyebrows.staris.cloud/enroll</b> 도착 → 수강신청 폼 입력 → Supabase DB → 임원진 방.<br>오늘 결정 = 광고 이미지 채택 + UTM + 폼 8 필드 + 일 광고비.</p>
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+    <a class="item" href="assets/광고/IG-69만원/01-hero-portrait.png" target="_blank">
+      <div class="thumb sq"><img src="assets/광고/IG-69만원/01-hero-portrait.png" alt=""></div>
+      <div class="body"><div class="ttl">광고 01 · HERO PORTRAIT</div><div class="desc">인물 메인 hero</div><span class="chip gold">채택 여부</span></div>
+    </a>
+    <a class="item" href="assets/광고/IG-69만원/02-eyebrow-macro.png" target="_blank">
+      <div class="thumb sq"><img src="assets/광고/IG-69만원/02-eyebrow-macro.png" alt=""></div>
+      <div class="body"><div class="ttl">광고 02 · EYEBROW MACRO</div><div class="desc">매크로 시술 디테일</div><span class="chip gold">채택 여부</span></div>
+    </a>
+    <a class="item" href="assets/광고/IG-69만원/03-curriculum.png" target="_blank">
+      <div class="thumb sq"><img src="assets/광고/IG-69만원/03-curriculum.png" alt=""></div>
+      <div class="body"><div class="ttl">광고 03 · CURRICULUM</div><div class="desc">커리큘럼 3단계</div><span class="chip gold">채택 여부</span></div>
+    </a>
+    <a class="item" href="assets/광고/IG-69만원/04-cta-typo.png" target="_blank">
+      <div class="thumb sq"><img src="assets/광고/IG-69만원/04-cta-typo.png" alt=""></div>
+      <div class="body"><div class="ttl">광고 04 · CTA TYPO</div><div class="desc">타이포 CTA</div><span class="chip gold">채택 여부</span></div>
+    </a>
+  </div>
+  <table class="dec">
+    <thead><tr><th>결정 항목</th><th style="width:18%">현재 안</th><th>제안</th></tr></thead>
+    <tbody>
+      <tr><td><b>광고 4종 채택</b></td><td>4종 모두 후보</td><td>1차 = CURRICULUM(03) + CTA TYPO(04) 가장 전환력 강함. 2종 먼저 송출 → A/B</td></tr>
+      <tr><td><b>광고 클릭 URL</b></td><td>eyebrows.staris.cloud/enroll</td><td>+ UTM 4종 분리 (utm_source=ig&amp;utm_campaign=ad01_hero 등 ) → 임원진 방에서 광고별 전환율 분리 표시</td></tr>
+      <tr><td><b>수강신청 폼 8 필드</b></td><td>이름·연락처·과정·시기·직업·상담방식·유입·메모</td><td>유미코리아 모방 + 「관심 시술 추가 항목」(눈썹/아이라인/입술/SMP/속눈썹) 5 선택 추가 검토</td></tr>
+      <tr><td><b>일 광고비</b></td><td>—</td><td>1차 1~3만원/일 × 7일 테스트 → CPA·전환율 측정 후 본격 확장</td></tr>
+      <tr><td><b>광고 카피</b></td><td>—</td><td>「극사실눈썹 창시자 직강 · 69만원 평생 수강 · 소수정예」 + STORY 시리즈 헤드라인 4종 활용</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ★ 장미지 원장님 확인 -->
+<div class="decision" style="border-color:#ff8fbb;background:linear-gradient(135deg,#2a141a,#0f0508)">
+  <h3 style="color:#ff8fbb">★ 장미지 원장님 확인 요청 사항</h3>
+  <p class="lead" style="color:#cbc8c1;font-size:13.5px;margin-bottom:14px">대표님 회의 결정 사항이지만 원장님 「최종 확인」 필수 — 브랜드 메시지·시술 가치·과정 디테일.</p>
+  <table class="dec">
+    <thead><tr><th style="width:32%">확인 항목</th><th>원장님 확인 포인트</th></tr></thead>
+    <tbody>
+      <tr><td><b>전체 컨셉</b></td><td>「극사실눈썹 창시자에게, 소수만 직접 배운다」 + 「선릉·봉은사 본진 · 럭셔리 메타포」 + 「과정 = 평생 수강」 — 원장님 추구 가치와 일치?</td></tr>
+      <tr><td><b>실사 톤</b></td><td>일러스트 → 실사 전환 (시리즈 02·03·07·07-B 완료) — 「과거 일러스트는 보존, 신규는 실사」 방향 OK?</td></tr>
+      <tr><td><b>쇼츠 영상 4편</b></td><td>STORY 02 직장인편 · STORY 03 신부편 · STORY 07 미용편 묶음 · STORY 07-B 미용편 단발 — 시나리오·자막·인물 모두 원장님 의도와 일치?</td></tr>
+      <tr><td><b>인스타 광고 이미지</b></td><td>4종(HERO·MACRO·CURRICULUM·CTA TYPO) — 원장님 얼굴 노출 정책 + 시술 매크로 사용 가능 여부</td></tr>
+      <tr><td><b>69만원 · 평생 수강</b></td><td>가격·환불·차수 정책 — 폼 응답 시 어떻게 안내할지 원장님 컨펌</td></tr>
+      <tr><td><b>K1 카톡방 락인</b></td><td>등록 완료 → K1 자동 초대 흐름 — 원장님 직접 운영 의향 / 운영진 위임 의향</td></tr>
+      <tr><td><b>커리큘럼 3단계</b></td><td>디자인 분석 → 극사실 드로잉 → 시술·보정 — 디테일 (시간·실습 비율·교재) 원장님 노하우 자료 수령 대기</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ★ 기획자 역할 분배 -->
+<div class="decision" style="border-color:#9fc8ff;background:linear-gradient(135deg,#14202a,#05080f)">
+  <h3 style="color:#9fc8ff">★ 기획자 ↔ 대표님 역할 분배</h3>
+  <p class="lead" style="color:#cbc8c1;font-size:13.5px;margin-bottom:14px">통합 플랫폼 R1 셋업 시 기획자(외부 협력자)와 대표님(박정주) 직접 할 일 분리.</p>
+  <table class="dec">
+    <thead><tr><th style="width:36%">영역</th><th style="width:32%">기획자가 할 일</th><th>대표님이 할 일</th></tr></thead>
+    <tbody>
+      <tr><td><b>플랫폼 컨셉·IA</b></td><td>유미코리아 벤치마크 분석 · 사이트맵 · 페이지별 와이어프레임 · 유저 플로</td><td>최종 컨셉 결단 · 원장님 컨펌 받기</td></tr>
+      <tr><td><b>콘텐츠·카피</b></td><td>광고 카피 · 랜딩 카피 · 캡션 · 캐러셀 후킹 멘트 · 다국어 번역 검수</td><td>브랜드 톤 결정 · 카피 최종 승인</td></tr>
+      <tr><td><b>인스타 광고 운영</b></td><td>Meta 광고관리자 셋업 · 일 예산 조정 · 광고 ID 별 KPI 측정 · 매주 보고</td><td>예산 결정 · 광고 채택 · A/B 결과 의사결정</td></tr>
+      <tr><td><b>수강신청·CS</b></td><td>DM 응답 1차 · 상담 예약 캘린더 관리 · 문의 게시판 답변</td><td>상담 직접 · K1 초대 · 등록 결정</td></tr>
+      <tr><td><b>쇼핑몰·결제</b></td><td>상품 등록 · 재고 관리 · 토스/카카오 PG 연동 검수</td><td>상품 라인업 결정 · 가격 정책 · 마진</td></tr>
+      <tr><td><b>AI Agent 콘텐츠 자동화</b></td><td>매일 자동 콘텐츠 워크플로 운영 · AI 결과물 1차 검수 · 게시 일정 조율</td><td>AI 페르소나 정체성 결정 · 큰 방향 가이드</td></tr>
+      <tr><td><b>장미지 원장님 관계</b></td><td>—</td><td>주기적 컨펌 · 노하우 자료 수령 · K1 운영 협의</td></tr>
+      <tr><td><b>기술·인프라</b></td><td>Next.js·Supabase·Vercel·도메인 셋업 · 배포 · 유지보수</td><td>자격증명 제공 · 결정 (호스팅·도메인)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 블록커 -->
+<div class="blockers">
+  <h2 class="section"><span class="n">03</span>핵심 블록커 3건 (계속 미해결)</h2>
+  <div class="blocker-card"><div class="num">①</div><div><b>카카오톡 채널</b> — 6/6부터 <b>17일째 보류</b>. DM 매뉴얼 v1 으로 임시 대응 중. 5분 결정으로 풀림. <br>인스타 D+1 게시 시작 시 「상담 신청」 활성화 시급.</div></div>
+  <div class="blocker-card"><div class="num">②</div><div><b>장미지 원장님 노하우 자료</b> — 6/15 약속. 수령 미확인. REVIEWS 카드·실제 후기·시술 사진 모든 자료 대기. <br>받으면 즉시 카드·캐러셀에 반영 가능.</div></div>
+  <div class="blocker-card"><div class="num">③</div><div><b>Netlify git 배포 자격증명</b> — jangmiji.staris.cloud 라이브 영구 채널 잠금. 현재 cloudflared 임시 터널만. <br>15분 작업으로 풀림.</div></div>
+</div>
+
+<!-- 일자별 작업 -->
+<h2 class="section"><span class="n">04</span>지난 한 주 작업 (6/15 ~ 6/22)</h2>
+
+<div class="day">
+  <div class="day-head"><span class="date">06/15</span><span class="title">플랫폼 리브랜드 + 신규 채용 + 5축 결정</span></div>
+  <div class="day-lead"><strong>단 하루에 결정된 큰 흐름</strong> — 새 도메인 · 톤 · CTO 채용 · 9개 컨펌 · 5축 트랙 + 중국어 번역 메뉴</div>
+  <div class="grid">
+    <a class="item" href="메인홈.html" target="_blank">
+      <div class="thumb"><img src="assets/메인홈무드/hero-portrait-E-셀카무드.png" alt=""></div>
+      <div class="body"><div class="ttl">새 메인홈 (선릉·청담 톤)</div><div class="desc">Hero · 4 Pillars · 5 Axes · 3 Lang · CTA</div><span class="chip">HTML</span></div>
+    </a>
+    <a class="item" href="전체-기획-설계-도식.html" target="_blank">
+      <div class="thumb doc">설계</div>
+      <div class="body"><div class="ttl">전체 기획·설계 도식 9 섹션</div><div class="desc">결정·톤·구조·5축·아키텍처·라운드</div><span class="chip">HTML</span></div>
+    </a>
+    <a class="item" href="오늘-방향성-도식.html" target="_blank">
+      <div class="thumb doc">5축</div>
+      <div class="body"><div class="ttl">5축 전략 방향성 도식</div><div class="desc">자동포스팅·AI응답·중·미·웹앱</div><span class="chip">HTML</span></div>
+    </a>
+    <a class="item" href="회의-20260615-플랫폼구조.html" target="_blank">
+      <div class="thumb doc">회의</div>
+      <div class="body"><div class="ttl">전직원 회의록 · 플랫폼 구조</div><div class="desc">이서연·유나·한승철 + 9개 컨펌</div><span class="chip">HTML</span></div>
+    </a>
+    <a class="item" href="translate-zh.html" target="_blank">
+      <div class="thumb doc">번역</div>
+      <div class="body"><div class="ttl">중국어 강의 번역 PoC</div><div class="desc">faster-whisper + GPT/Gemini</div><span class="chip">HTML</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-head"><span class="date">06/18</span><span class="title">비주얼 톤 전면 재확정 (실사 통일) + 번역 캐시</span></div>
+  <div class="day-lead">「<strong>애니풍은 안맞아서 쇼츠영상도 리얼로</strong>」 대표님 지시. 신규 자산은 실사만. 기존 일러스트 시리즈는 「과거 자산」 보존</div>
+  <div class="grid">
+    <a class="item" href="assets/실사테스트-20260618/02-hero-아시안여성-셀카무드.png" target="_blank">
+      <div class="thumb"><img src="assets/실사테스트-20260618/02-hero-아시안여성-셀카무드.png" alt=""></div>
+      <div class="body"><div class="ttl">실사 테스트 02 — 셀카 무드</div><div class="desc">小红书 「原相机直出」 톤 · 메인홈 hero 채택</div><span class="chip gold">PICK</span></div>
+    </a>
+    <a class="item" href="assets/실사테스트-20260618/03-hero-아틀리에-드로잉.png" target="_blank">
+      <div class="thumb"><img src="assets/실사테스트-20260618/03-hero-아틀리에-드로잉.png" alt=""></div>
+      <div class="body"><div class="ttl">실사 테스트 03 — 아틀리에</div><div class="desc">STORY 07 컷2 채택 · 본 주 시리즈 톤 기준</div><span class="chip gold">PICK</span></div>
+    </a>
+    <a class="item" href="translate-zh.html" target="_blank">
+      <div class="thumb doc">캐시</div>
+      <div class="body"><div class="ttl">중국어 번역 SQLite 캐시</div><div class="desc">SHA-256 키로 재번역 방지</div><span class="chip">LIVE</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-head"><span class="date">06/19</span><span class="title">전직원 회의 — 실사 채택본 결정</span></div>
+  <div class="day-lead">유나 추천 채택: 02 셀카무드 + 03 아틀리에. 01 살롱은 「준비된 미소」 톤 충돌로 보류</div>
+  <div class="grid">
+    <a class="item" href="비교-실사시안-20260619.html" target="_blank">
+      <div class="thumb doc">비교</div>
+      <div class="body"><div class="ttl">실사 시안 비교 페이지 (3장)</div><div class="desc">회의 채택 결과 + STORY 07 컷1 시도</div><span class="chip">HTML</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-head"><span class="date">06/21</span><span class="title">STORY 07 미용편 실사 전환 + 캐러셀 + 그리드 v3</span></div>
+  <div class="day-lead">하루 종일 진행: <strong>묶음 + 단발 병행</strong> 시리즈 + 직장 캐러셀 + 9칸 그리드 v3 + 운영가이드 v3 · 16 크레딧</div>
+  <div class="grid">
+    <a class="item" href="하영-실사-20260621.html" target="_blank">
+      <div class="thumb"><img src="assets/시리즈-미용편/실사-컷2-승.png" alt=""></div>
+      <div class="body"><div class="ttl">★ STORY 07 하영편 종합 페이지</div><div class="desc">컷·영상·썸네일·캐러셀·그리드 7 섹션</div><span class="chip gold">★ 메인</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-미용편/미용편-쇼츠-실사완성.mp4" target="_blank">
+      <div class="thumb v"><video src="assets/시리즈-미용편/미용편-쇼츠-실사완성.mp4" muted preload="metadata"></video></div>
+      <div class="body"><div class="ttl">미용편 쇼츠 (묶음 · 차분)</div><div class="desc">24초 · 「기술 위에, 한 줄 더」</div><span class="chip gold">▶ 재생</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-미용편/미용편-쇼츠-단발모델.mp4" target="_blank">
+      <div class="thumb v"><video src="assets/시리즈-미용편/미용편-쇼츠-단발모델.mp4" muted preload="metadata"></video></div>
+      <div class="body"><div class="ttl">미용편 쇼츠 (단발 07-B)</div><div class="desc">A/B 운영 · 젊은 발랄 톤</div><span class="chip gold">▶ 재생</span></div>
+    </a>
+    <a class="item" href="assets/모집카드시안/캐러셀-직장-1.png" target="_blank">
+      <div class="thumb"><img src="assets/모집카드시안/캐러셀-직장-1.png" alt=""></div>
+      <div class="body"><div class="ttl">「직장 안에서, 한 발 더」 캐러셀</div><div class="desc">STORY 02 ↔ 07 시너지 · 6장</div><span class="chip">▦ 6장</span></div>
+    </a>
+    <a class="item" href="docs/직장-캐러셀-운영가이드.md" target="_blank">
+      <div class="thumb doc">가이드</div>
+      <div class="body"><div class="ttl">직장 캐러셀 운영가이드</div><div class="desc">캡션·해시태그·게시 타이밍·KPI</div><span class="chip">MD</span></div>
+    </a>
+    <a class="item" href="docs/인스타-그리드-운영가이드.md" target="_blank">
+      <div class="thumb doc">v3·v4</div>
+      <div class="body"><div class="ttl">인스타 그리드 운영가이드</div><div class="desc">3주 캘린더 · 6 하이라이트 · 4 캡션</div><span class="chip">MD</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="day today">
+  <div class="day-head"><span class="date">06/22</span><span class="title">전직원 회의 + DM 매뉴얼 + STORY 02·03·04 실사 + 그리드 v4 + 시연 자산 5종 (★ 오늘 회의)</span></div>
+  <div class="day-lead">오늘 진행 — <strong>회의 결정 3건 실행 + 시리즈 실사 3편 추가 전환 + 그리드 v4 + 회의 시연 5종 + 운영진 로그인 시스템</strong> · 26 크레딧</div>
+  <div class="grid">
+    <a class="item" href="회의-20260622-이번주.html" target="_blank">
+      <div class="thumb doc">회의록</div>
+      <div class="body"><div class="ttl">전직원 이번주 회의록</div><div class="desc">블록커 3건 + 4명 발언 + 우선순위 4안</div><span class="chip gold">★ 회의록</span></div>
+    </a>
+    <a class="item" href="docs/DM-응대-매뉴얼-v1.md" target="_blank">
+      <div class="thumb doc">DM</div>
+      <div class="body"><div class="ttl">DM 응대 매뉴얼 v1 (5종)</div><div class="desc">인사·일정·가격·정원·상담 예약</div><span class="chip gold">MD</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-직장인편/직장인편-쇼츠-실사완성.mp4" target="_blank">
+      <div class="thumb v"><video src="assets/시리즈-직장인편/직장인편-쇼츠-실사완성.mp4" muted preload="metadata"></video></div>
+      <div class="body"><div class="ttl">STORY 02 직장인편 쇼츠 (실사)</div><div class="desc">「전공이 달라도, 전문가가 됩니다」</div><span class="chip gold">▶ 재생</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-신부편/신부편-쇼츠-실사완성.mp4" target="_blank">
+      <div class="thumb v"><video src="assets/시리즈-신부편/신부편-쇼츠-실사완성.mp4" muted preload="metadata"></video></div>
+      <div class="body"><div class="ttl">STORY 03 신부편 쇼츠 (실사)</div><div class="desc">「가장 빛나는 날, 가장 자신 있는 한 줄」</div><span class="chip gold">▶ 재생</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-부업맘편/부업맘편-쇼츠-실사완성.mp4" target="_blank">
+      <div class="thumb v"><video src="assets/시리즈-부업맘편/부업맘편-쇼츠-실사완성.mp4" muted preload="metadata"></video></div>
+      <div class="body"><div class="ttl">STORY 04 부업맘편 쇼츠 (실사) ★ 회의 직전 합성</div><div class="desc">「엄마가 빛나면, 우리도 빛납니다」 · 24초</div><span class="chip gold">▶ 재생</span></div>
+    </a>
+    <a class="item" href="assets/모집카드시안/썸네일-부업맘편-실사-1080.png" target="_blank">
+      <div class="thumb"><img src="assets/모집카드시안/썸네일-부업맘편-실사-1080.png" alt=""></div>
+      <div class="body"><div class="ttl">부업맘편 실사 썸네일</div><div class="desc">STORY 04 · 1080×1080</div><span class="chip">PNG</span></div>
+    </a>
+    <a class="item" href="단발캐릭터-시트-20260622.html" target="_blank" style="border-color:#bb8fff">
+      <div class="thumb"><img src="assets/시리즈-미용편/단발-캐릭터-미소.png" alt=""></div>
+      <div class="body"><div class="ttl" style="color:#bb8fff">★ 단발 모델 캐릭터 시트</div><div class="desc">4컷 + 활용 계획 5종</div><span class="chip" style="background:#bb8fff;color:#0b0907">★ 회의용</span></div>
+    </a>
+    <a class="item" href="쇼핑몰-준비-체크리스트-20260622.html" target="_blank" style="border-color:#ffd87a">
+      <div class="thumb doc" style="color:#ffd87a">쇼핑몰</div>
+      <div class="body"><div class="ttl" style="color:#ffd87a">★ 쇼핑몰 준비 체크리스트</div><div class="desc">4주 로드맵 + 즉시 결정 7건 + 책임자 분배 + Supabase 9테이블 + 상품 9종</div><span class="chip" style="background:#ffd87a;color:#0b0907">★ 회의 결정용</span></div>
+    </a>
+    <a class="item" href="얼굴비율-미학-기획-20260622.html" target="_blank" style="border-color:#9fc8ff">
+      <div class="thumb doc" style="color:#9fc8ff">Face Lab</div>
+      <div class="body"><div class="ttl" style="color:#9fc8ff">★ 얼굴 비율 미학 + 눈썹 진단 (신규 메뉴)</div><div class="desc">MediaPipe + 황금비 + 추천 눈썹 8형 + 무료/프리미엄/마스터 3 단계</div><span class="chip" style="background:#9fc8ff;color:#0b0907">★ R3 출시</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-싱글맘편/싱글맘편-쇼츠-실사완성.mp4" target="_blank">
+      <div class="thumb v"><video src="assets/시리즈-싱글맘편/싱글맘편-쇼츠-실사완성.mp4" muted preload="metadata"></video></div>
+      <div class="body"><div class="ttl">STORY 08 싱글맘편 쇼츠 (NEW 신규)</div><div class="desc">「엄마의 시간을, 아이에게」 · 24초</div><span class="chip gold">▶ 재생</span></div>
+    </a>
+    <a class="item" href="assets/모집카드시안/인스타-그리드-9칸-실사.png" target="_blank">
+      <div class="thumb"><img src="assets/모집카드시안/인스타-그리드-9칸-실사.png" alt=""></div>
+      <div class="body"><div class="ttl">★ 인스타 그리드 9칸 v4</div><div class="desc">100% 실사+캐러셀+카드</div><span class="chip gold">▦ 클릭</span></div>
+    </a>
+    <a class="item" href="운영진-로그인.html" target="_blank" style="border-color:#a8e6b3">
+      <div class="thumb doc" style="color:#a8e6b3">로그인</div>
+      <div class="body"><div class="ttl" style="color:#a8e6b3">★ 운영진 로그인 (admin/admin)</div><div class="desc">guest/guest 또는 admin/admin → 신청 조회</div><span class="chip" style="background:#a8e6b3;color:#0b0907">★ 시연용</span></div>
+    </a>
+    <a class="item" href="임원진-신청조회.html" target="_blank" style="border-color:#a8e6b3">
+      <div class="thumb doc" style="color:#a8e6b3">조회</div>
+      <div class="body"><div class="ttl" style="color:#a8e6b3">★ 임원진 신청 조회</div><div class="desc">모킹 5건 + KPI + 광고별 전환율</div><span class="chip" style="background:#a8e6b3;color:#0b0907">★ 시연용</span></div>
+    </a>
+    <a class="item" href="수강신청-설문-시연.html" target="_blank" style="border-color:#a8e6b3">
+      <div class="thumb doc" style="color:#a8e6b3">설문</div>
+      <div class="body"><div class="ttl" style="color:#a8e6b3">★ 수강신청 설문 흐름</div><div class="desc">6단계 광고→폼→DB→admin</div><span class="chip" style="background:#a8e6b3;color:#0b0907">★ 시연용</span></div>
+    </a>
+    <a class="item" href="문의게시판-시연.html" target="_blank" style="border-color:#a8e6b3">
+      <div class="thumb doc" style="color:#a8e6b3">문의</div>
+      <div class="body"><div class="ttl" style="color:#a8e6b3">★ 문의 게시판 시연</div><div class="desc">8 필드 + 비밀글 + 샘플 5건</div><span class="chip" style="background:#a8e6b3;color:#0b0907">★ 시연용</span></div>
+    </a>
+    <a class="item" href="통과-분배-체크리스트-20260622.html" target="_blank" style="border-color:#bb8fff">
+      <div class="thumb doc" style="color:#bb8fff">분배</div>
+      <div class="body"><div class="ttl" style="color:#bb8fff">★ 통과·재분배 체크리스트</div><div class="desc">자산별 4지선다 · 회의 후 일괄 재분배</div><span class="chip" style="background:#bb8fff;color:#0b0907">★ 회의 결정용</span></div>
+    </a>
+    <a class="item" href="assets/모집카드시안/썸네일-신부편-실사-1080.png" target="_blank">
+      <div class="thumb"><img src="assets/모집카드시안/썸네일-신부편-실사-1080.png" alt=""></div>
+      <div class="body"><div class="ttl">신부편 실사 썸네일</div><div class="desc">STORY 03 · 1080×1080</div><span class="chip">PNG</span></div>
+    </a>
+    <a class="item" href="assets/모집카드시안/썸네일-직장인편-실사-1080.png" target="_blank">
+      <div class="thumb"><img src="assets/모집카드시안/썸네일-직장인편-실사-1080.png" alt=""></div>
+      <div class="body"><div class="ttl">직장인편 실사 썸네일</div><div class="desc">STORY 02 · 1080×1080</div><span class="chip">PNG</span></div>
+    </a>
+    <a class="item" href="assets/시리즈-미용편/단발-캐릭터-미소.png" target="_blank">
+      <div class="thumb"><img src="assets/시리즈-미용편/단발-캐릭터-미소.png" alt=""></div>
+      <div class="body"><div class="ttl">단발 캐릭터 시트 (4컷)</div><div class="desc">측면·미소·진지·니트 · 회의 후 정식 등록</div><span class="chip">신규</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- 시연 흐름 -->
+<div class="demo">
+  <h3>★ 회의 시연 흐름 — 광고 → 신청 → DB → 임원진 방</h3>
+  <div class="demo-flow">
+    <div class="demo-step"><div class="n">1</div><div class="t">인스타 광고 4종</div><div class="d">광고-IG-69만원.html</div></div>
+    <div class="demo-step"><div class="n">2</div><div class="t">수강신청 폼</div><div class="d">eyebrows.staris.cloud/enroll</div></div>
+    <div class="demo-step"><div class="n">3</div><div class="t">Supabase DB</div><div class="d">enrollments</div></div>
+    <div class="demo-step"><div class="n">4</div><div class="t">운영진 로그인</div><div class="d">admin/admin</div></div>
+    <div class="demo-step"><div class="n">5</div><div class="t">임원진 방 조회</div><div class="d">광고별 전환율</div></div>
+  </div>
+</div>
+
+<!-- 결정 요청 -->
+<div class="decision">
+  <h3>★ 임원진 결정 요청 사항</h3>
+  <table class="dec">
+    <thead><tr><th style="width:32%">안건</th><th style="width:14%">소요</th><th style="width:14%">대표님 액션</th><th>제안</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>① 카카오톡 채널 개설</b></td>
+        <td>5분</td>
+        <td><span class="badge now">결정 5분</span></td>
+        <td>17일째 보류 해제. DM 매뉴얼 v1 즉시 v2 마이그</td>
+      </tr>
+      <tr>
+        <td><b>② 장미지 원장님 노하우 자료 수령</b></td>
+        <td>—</td>
+        <td><span class="badge">일정 확정</span></td>
+        <td>REVIEWS 카드·후기·사진 자료 「대기」 칸 즉시 채움</td>
+      </tr>
+      <tr>
+        <td><b>③ Netlify git push 자격증명</b></td>
+        <td>15분</td>
+        <td><span class="badge now">자격증명</span></td>
+        <td>jangmiji.staris.cloud 라이브 영구 채널 잠금 해제</td>
+      </tr>
+      <tr>
+        <td><b>④ 통과·재분배 체크리스트 결정</b></td>
+        <td>15~20분</td>
+        <td><span class="badge now">4지선다 23건</span></td>
+        <td>오늘 자산 23건 운영진/유저/둘 다/보류 결정 → 일괄 재분배</td>
+      </tr>
+      <tr>
+        <td><b>⑤ 인스타 광고 LIVE 집행</b></td>
+        <td>10분 셋업 + 일 광고비</td>
+        <td><span class="badge">예산 결정</span></td>
+        <td>Meta 광고관리자에서 광고 4종 송출. UTM 분리 가능</td>
+      </tr>
+      <tr>
+        <td><b>⑥ 수강신청·문의 라이브 배포</b></td>
+        <td>약 2시간</td>
+        <td><span class="badge">결정</span></td>
+        <td>Supabase inquiries 테이블 + admin/inquiry + Google Sheet 동기화</td>
+      </tr>
+      <tr>
+        <td><b>⑦ 단발 캐릭터 확장 (D+C)</b></td>
+        <td>회의 후 2~3시간</td>
+        <td><span class="badge">우선순위</span></td>
+        <td>캐릭터 시트 페이지 + 다른 STORY 회차 적용</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ★ 플랫폼 컨셉 대전환 -->
+<div class="platform">
+  <h3>★ 06/22 회의 — 플랫폼 컨셉 대전환 (대표님 신규 결정)</h3>
+  <p class="lead">
+    ARTbrows = <em>단순 학원 홈페이지</em> 가 아니라 <b>통합 AI Agent 플랫폼</b> 으로 재정의.<br>
+    실사 톤 대전환 + 임원진·직원 vs 수강생·유저 홈페이지 완전 분리 + <b>새 홈페이지 1개 추가 개설</b> (벤치마크 = 유미코리아 1세대 13지점) — 하나의 플랫폼에 쇼핑몰·자동 콘텐츠 생산·빌링·CS AI·소상공인 지원 자동 체크까지 모두 통합.<br>
+    <em>이번 주 작업에 아직 안 들어간 기능은 다음 단계에서 들어갈 예정.</em>
+  </p>
+
+  <div class="pillars">
+    <div class="pillar"><div class="ic">01</div><div class="t">실사 위주 대전환</div><div class="d">시리즈·메인·광고 모두 실사. 일러스트는 「과거 자산」 보존. <b style="color:#a8e6b3">진행 중 ✓ (4편 완료)</b></div></div>
+    <div class="pillar"><div class="ic">02</div><div class="t">홈페이지 2분리</div><div class="d">🔵 임원진·직원용 (운영 스테이징) ↔ 🟢 수강생·유저용 (라이브). 새 1개 추가 개설</div></div>
+    <div class="pillar"><div class="ic">03</div><div class="t">통합 플랫폼</div><div class="d">학원 + 쇼핑몰 + 콘텐츠 자동 생산 + AI Agent + 빌링 + CS 하나의 도메인</div></div>
+    <div class="pillar"><div class="ic">04</div><div class="t">자체 쇼핑몰</div><div class="d">강의(수강료) + 시술 재료(니들·색소·머신) + 학원 굿즈 · 카페24 의존 X</div></div>
+    <div class="pillar"><div class="ic">05</div><div class="t">매일 자동 콘텐츠</div><div class="d">인스타 + 블로그 매일 자동 생산. AI Agent 가 캡션·해시태그·이미지 한 번에</div></div>
+    <div class="pillar"><div class="ic">06</div><div class="t">쇼츠 자동 생산</div><div class="d">시리즈 패턴(컷1·2·3·4 + 자막 + BGM + 엔드카드) AI Agent 가 자동 합성</div></div>
+    <div class="pillar"><div class="ic">07</div><div class="t">AI Agent 플랫폼</div><div class="d">다양한 콘텐츠 생산 에이전트 풀(이서연 PM·유나 디자인·한승철 CTO·클로드 실행). 페르소나 → 자동 워크플로</div></div>
+    <div class="pillar"><div class="ic">08</div><div class="t">빌링 시스템</div><div class="d">토스페이먼츠 + 카카오페이 · 수강료·쇼핑몰·플랫폼 구독 등 다중 결제</div></div>
+    <div class="pillar"><div class="ic">09</div><div class="t">QA·CS 자동 응대</div><div class="d">AI 챗봇이 인스타 DM·문의 게시판·카카오톡 1차 자동 응답 · DM 매뉴얼 v1 기반</div></div>
+    <div class="pillar"><div class="ic">10</div><div class="t">소상공인 지원 자동 체크</div><div class="d">정부·지자체 지원 사업 자동 검토 + 적합도 + 신청 가능 알림 · 쇼핑몰 입점 셀러 자동 매칭</div></div>
+  </div>
+
+  <div class="bench">
+    <b>벤치마크 — (주)유미코리아</b> (대표 정수정·김지백) · 1세대 반영구학원 <b>13+ 지점</b> · 인스타 5.2만 · ISO 9001:2015 인증.
+    「기존 잘 되어있는 홈페이지 어느 정도 모방」 — 학원 소개·인증·언론·지점·교육 과정·자체 쇼핑몰·게시판 4종·다국어·관리자 페이지·UTM 분석 → 모두 자체 플랫폼에 내장.
+    <br><em style="color:#ffd87a">※ 1주일 전 공유된 사이트 URL — 추후 메모리에 정식 등록 (메모리 7일 시점 기준 유미코리아 추정. 회의에서 확정 부탁드립니다)</em>
+  </div>
+</div>
+
+<!-- 다음 주 -->
+<div class="next">
+  <h3>다음 주 우선순위 후보 (대표님 결정 후 확정)</h3>
+  <ul>
+    <li><b>인스타 D+1 게시 시작</b> — 운영가이드 v4 의 3주 캘린더 따라 캐러셀 직장 → CTA → 캐러셀 모녀 → STORY 07-B → STORY 07 → STORY 02 → BRAND → STORY 03 → 후킹 (9건)</li>
+    <li><b>시리즈 01·05·06 실사 추가 전환</b> (24~36 크레딧) — 시리즈 7편 모두 실사 완성</li>
+    <li><b>유튜브 게시 패키지</b> — 실사 4편 동시 게시 매뉴얼 + 제목 시안 + 설명·태그</li>
+    <li><b>운영진/유저 홈페이지 일괄 재분배</b> — 통과 체크리스트 결과대로 작업</li>
+    <li><b>광고 LIVE 운영 + KPI 측정</b> — 신청 들어오는대로 임원진 방 노출 + DM 응대</li>
+    <li><b>★ 새 통합 플랫폼 R1 셋업</b> — 새 홈페이지 신설 + 학원·쇼핑몰·게시판 4종·관리자 페이지 통합 (스택: Next.js 14 + Supabase + 토스/카카오 PG)</li>
+    <li><b>★ 자체 쇼핑몰 신설</b> — 강의·시술 재료·굿즈. 카페24 의존 X</li>
+    <li><b>★ AI Agent 콘텐츠 자동 생산</b> — 인스타·블로그·쇼츠 매일 자동 (페르소나 직원이 워크플로)</li>
+    <li><b>★ QA·CS 자동 응대 AI</b> — DM 매뉴얼 v1 → 자동 1차 응답 봇</li>
+    <li><b>★ 빌링 시스템 + 소상공인 지원 자동 체크</b> — 토스·카카오 PG + 정부·지자체 지원 사업 자동 매칭</li>
+    <li><b>★ 6/29 (월) 10:00 정례 회의 1차</b> — 기획자 사전 참가. 한 주(6/23~6/29) 작업 보고 + 7/1 출근 인계 자료 검토 + 다음 한 주 우선순위</li>
+    <li><b>★ 7/1 (수) 기획자 정식 출근</b> — 사전 준비: 「기획자 온보딩 가이드」 + 역할 분배 표 + 「운영진 임시 터널」 접근 권한 + 회의자료 통합본 + DM 매뉴얼 v1</li>
+    <li><b>★ 7월 초 이태민 본부장 합류</b> — 직책 「본부장」 / 역할 = 기획·마케팅·학원 운영·홈페이지 (메모 추정) / 합류 일자·정확한 역할 분배 확인 필요</li>
+    <li><b>★ 9월 초 해외 출장 (차이나타운 + 코리아타운 시장 조사)</b> — 위치 확정 필요 (미국 LA 추정 vs 중국 본토). Face Lab + 샤오홍슈 진출 + 新氧 등록 모두 이 시점 기준 준비. 비자·KOL 미팅·협력 클리닉·임시 팝업 위치 후보 리스트업 (담당: 기획자 + 김민서 + 이태민 본부장)</li>
+  </ul>
+</div>
+
+<footer>
+  임원진 회의 자료 통합 · ARTbrows · 2026-06-22 (월) 10:00 · 의장 박정주 대표님 + 장미지 원장님
+  · 모든 자산 클릭 가능 (이미지·영상·문서) · 운영진용 임시 게시 (cloudflared 터널)
+</footer>
+
+</body>
+</html>

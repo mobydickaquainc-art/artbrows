@@ -1,0 +1,115 @@
+{
+  "id": "2026-07-21-recruit-changupbaan-6811",
+  "title": "창업반 15기 모집 (7장)",
+  "slug": "2026-07-21-recruit-changupbaan-6811",
+  "status": "draft",
+  "createdAt": "2026-07-21T02:16:07.230Z",
+  "updatedAt": "2026-07-21T02:18:35.418Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "창업반 15기 모집 (7장)",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "ISSUE 2026.07",
+          "brand": "ARTBROWS",
+          "headline": "창업반 15기 모집 (7장)",
+          "subheadline": "",
+          "imageSrc": "/brand/founder-key-visual-2026-07-17.png",
+          "signatureLabel": "MIJI JANG · 2026",
+          "imageAlt": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_05-2026-07-21T02-18-33.jpg",
+          "bottomLabel": "털 같은 눈썹",
+          "cornerBadge": "",
+          "imageAlt": ""
+        },
+        {
+          "kind": "atelier-scene",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_02-2026-07-21T02-14-58.jpg",
+          "eyebrow": "SEONLEUNG · 원장 1:1 지도",
+          "headline": "손끝의 무게,\n30년 경력.",
+          "bottomColumns": [
+            {
+              "label": "본원",
+              "value": "선릉·삼성"
+            },
+            {
+              "label": "경력",
+              "value": "20년+"
+            },
+            {
+              "label": "수강 배출",
+              "value": "900여명"
+            }
+          ]
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER · 20 YEARS"
+        },
+        {
+          "kind": "macro-close-up",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/8-_--2026-07-21T02-14-58.jpg",
+          "overlayLabel": "HYPER REAL",
+          "quote": "결이 살아있는 눈썹",
+          "by": "Miji Jang"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "CURRICULUM · 창업반 15기 모집 (7장)",
+          "leftTitle": "통합 커리큘럼",
+          "leftItems": [
+            {
+              "num": "01",
+              "text": "이지클래스 × 1회",
+              "sub": "5주 15h · 반영구 입문 정석"
+            },
+            {
+              "num": "02",
+              "text": "소묘 × 3회",
+              "sub": "눈썹결의 원리"
+            },
+            {
+              "num": "03",
+              "text": "극사실눈썹 × 5회",
+              "sub": "원장 시연 관찰 + 실습"
+            }
+          ],
+          "rightHeadline": "창업반 15기 모집 (7장)",
+          "rightPrice": "890만원",
+          "rightFootnote": "6개월 + 추가 6개월 무제한 실습"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "headline": "지금, 원장님과\n소수 정예로 시작하세요.",
+          "highlight": "소수 정예",
+          "signature": "Miji Jang",
+          "cta": "교육 상담 신청 →",
+          "ctaHref": "/enroll",
+          "subline": "선릉 본원 · 1:1 코칭"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  }
+}

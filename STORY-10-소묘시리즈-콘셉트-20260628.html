@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STORY 10 · 소묘 시리즈 콘셉트 시안 · 2026-06-28 · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.65;max-width:1100px;margin:0 auto}
+
+  .hero{background:linear-gradient(180deg,#FAD7C7,#F5C7AD);padding:60px 40px 50px;text-align:center}
+  .hero .chip{display:inline-block;background:#FF4D7E;color:#fff;font-weight:700;font-size:13px;letter-spacing:3px;padding:8px 20px;border-radius:24px;margin-bottom:18px}
+  .hero h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:42px;color:#3D2818;line-height:1.25;margin-bottom:12px}
+  .hero h1 em{color:#FF4D7E;font-style:normal}
+  .hero .sub{font-size:16px;color:rgba(60,40,30,0.7);font-weight:500;max-width:680px;margin:0 auto;line-height:1.7}
+
+  .body{padding:40px}
+  section{margin-bottom:48px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:24px;color:#3D2818;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #FF4D7E}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF4D7E;margin-right:8px;font-size:28px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:17px;margin:16px 0 8px}
+
+  .key{background:linear-gradient(135deg,#FFF5E7,#FFE5D0);border-left:5px solid #FF4D7E;border-radius:10px;padding:18px 22px;margin-bottom:18px}
+  .key p{font-size:14.5px;color:#5D4636}
+  .key p strong{color:#FF4D7E}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0;background:#fff;border:1px solid #F0D6CC;border-radius:8px;overflow:hidden}
+  th,td{border-bottom:1px solid #F0D6CC;padding:10px 14px;text-align:left;vertical-align:top}
+  th{background:#FAD7C7;color:#3D2818;font-weight:700;font-size:12.5px;letter-spacing:1px}
+
+  /* Episode cards */
+  .episodes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+  .ep{background:#fff;border:1px solid #F0D6CC;border-radius:14px;padding:22px;box-shadow:0 5px 16px rgba(232,169,155,0.12)}
+  .ep .badge{display:inline-block;background:#FF4D7E;color:#fff;font-weight:700;font-size:11px;letter-spacing:2px;padding:4px 10px;border-radius:14px;margin-bottom:10px}
+  .ep .badge.b{background:#3D2818}
+  .ep .num{font-family:'Cormorant Garamond',serif;color:#FF4D7E;font-size:48px;font-weight:700;line-height:1;float:right;margin-top:-8px;opacity:0.5}
+  .ep h3{font-family:'Nanum Myeongjo',serif;color:#3D2818;font-size:22px;margin:6px 0 8px;line-height:1.3}
+  .ep h3 em{color:#FF4D7E;font-style:normal}
+  .ep .persona{font-size:12px;color:rgba(60,40,30,0.6);letter-spacing:1px;margin-bottom:10px;text-transform:uppercase;font-weight:600}
+  .ep .body p{font-size:13.5px;color:#5D4636;margin-bottom:8px}
+  .ep .body p strong{color:#3D2818}
+  .ep .scenes{background:#FAF6F0;border-radius:8px;padding:12px;margin-top:12px}
+  .ep .scenes .scene{font-size:12.5px;color:#5D4636;margin:4px 0;padding-left:18px;position:relative}
+  .ep .scenes .scene::before{content:"●";position:absolute;left:0;color:#FF4D7E}
+  .ep .scenes .scene b{color:#3D2818}
+  .ep .source{margin-top:10px;font-size:11px;color:rgba(60,40,30,0.55);letter-spacing:1px;border-top:1px dashed #F0D6CC;padding-top:8px}
+  .ep .source b{color:#FF4D7E;font-weight:700}
+
+  .pipe{background:#fff;border:1px solid #F0D6CC;border-radius:12px;padding:20px;margin:14px 0}
+  .pipe .step{display:flex;align-items:center;gap:14px;margin-bottom:10px;font-size:13.5px;color:#5D4636}
+  .pipe .step .n{font-family:'Cormorant Garamond',serif;color:#FF4D7E;font-size:22px;font-weight:700;width:34px;text-align:center;flex-shrink:0}
+  .pipe .step b{color:#3D2818}
+  .pipe .step .cost{margin-left:auto;font-size:12px;color:#FF4D7E;font-weight:700;letter-spacing:1px}
+
+  .request{background:#FFE5D0;border:2px dashed #FF4D7E;border-radius:12px;padding:20px;margin:14px 0}
+  .request h3{margin-top:0;color:#FF4D7E;font-family:'Nanum Myeongjo',serif;font-size:18px;border:0;padding:0}
+  .request ol{margin:10px 0 0 22px;font-size:14px;color:#5D4636}
+  .request ol li{margin:6px 0}
+  .request ol li b{color:#3D2818}
+
+  .source-table td.cite{color:#FF4D7E;font-weight:700;font-family:Consolas,monospace}
+
+  footer{margin-top:40px;padding:24px 40px;background:#3D2818;color:#FAD7C7;text-align:center;font-size:12.5px}
+  footer a{color:#FFB78A}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">STORY · 10 · 소묘 시리즈 콘셉트 시안</div>
+  <h1>펜으로 시작해서<br><em>시그니처로 끝나는 3일</em></h1>
+  <p class="sub">장미지 원장님의 「극사실소묘 1일차·2일차·3일차」 자료를 STORY 시리즈 3편으로 변환 — 원장님 자료의 첫 「창고에서 콘텐츠로」 변환 사례. 2026-06-29 미팅 컨펌 대기.</p>
+</div>
+
+<div class="body">
+
+<!-- A. 출처 — 원장님 자료 매핑 -->
+<section>
+  <h2><span class="num">A</span>출처 — 원장님 자료 매핑</h2>
+  <div class="key">
+    <p>STORY 10 시리즈는 <strong>원장님께서 직접 보내주신 강의 자료 4종</strong>을 콘텐츠로 변환합니다. 자료가 「창고에 있는」 게 아니라 「학원 마케팅의 한 페이지」로 일하는 첫 사례.</p>
+  </div>
+  <table class="source-table">
+    <tr><th>출처 자료 (D:\work\jangmi\수업ppt)</th><th>용량</th><th>STORY 10 매핑</th></tr>
+    <tr><td class="cite">극사실소묘 1일차.key</td><td>71 MB</td><td>10-A 입문 — 「펜을 잡는 첫 날」</td></tr>
+    <tr><td class="cite">극사실소묘 2일차.key</td><td>66 MB</td><td>10-B 중급 — 「결 안에 결이 생기는 날」</td></tr>
+    <tr><td class="cite">극사실소묘 3일차.key</td><td>36 MB</td><td>10-C 고급 — 「시그니처가 완성되는 날」</td></tr>
+    <tr><td class="cite">극사실소묘-남자.key</td><td>211 MB</td><td>10-D 별편 — 「다른 결, 같은 정밀」 (남성 시장 확장)</td></tr>
+  </table>
+  <p style="font-size:13px;color:rgba(60,40,30,0.65);margin-top:10px"><strong>참고:</strong> 06-28 graphify 그래프에서 자료 5 카테고리 6.5GB 매핑 + TOP 5 활용 우선순위 분석 → 「STORY 10 소묘 시리즈」가 🥉 3순위로 자동 권고됨.</p>
+</section>
+
+<!-- B. 3편 + 별편 시리즈 -->
+<section>
+  <h2><span class="num">B</span>시리즈 3편 + 별편 (4편 구성)</h2>
+  <div class="key">
+    <p><strong>같은 페르소나 「하린」의 3일간 성장 시리즈</strong> (10-A·B·C) + 남자 페르소나 「준현」 별편 (10-D). 시리즈 톤은 02·03·07·09 와 동일 살구핑크 + 명조 + 핫핑크 칩.</p>
+  </div>
+
+  <div class="episodes">
+
+    <!-- 10-A -->
+    <div class="ep">
+      <div class="num">10A</div>
+      <div class="badge">DAY 1 · 입문</div>
+      <h3>펜을 잡는,<br><em>첫 날의 떨림</em></h3>
+      <div class="persona">하린 · 26세 · 미술 전공 졸업</div>
+      <div class="body">
+        <p><strong>헤드라인:</strong> 「펜을 잡는 손이 떨리지 않는 날이 옵니다」</p>
+        <p><strong>핵심 메시지:</strong> 첫날 = 결의 「기본 흐름」을 익히는 날. 비율 · 결의 방향 · 손의 힘.</p>
+        <div class="scenes">
+          <div class="scene"><b>컷 1 (기):</b> 아침 작업실, 처음으로 펜을 잡는 하린의 손</div>
+          <div class="scene"><b>컷 2 (승):</b> 자료(원장님 1일차 슬라이드) + 노트 + 결 연습 패드</div>
+          <div class="scene"><b>컷 3 (전):</b> 원장님이 옆에서 보고 첫 결을 그어주시는 모먼트</div>
+          <div class="scene"><b>컷 4 (결):</b> 하루 끝, 자신의 첫 결을 보며 미소짓는 하린</div>
+        </div>
+        <div class="source">출처: <b>극사실소묘 1일차.key</b> (71MB) · 자료에서 비율·기본결 슬라이드 직접 활용</div>
+      </div>
+    </div>
+
+    <!-- 10-B -->
+    <div class="ep">
+      <div class="num">10B</div>
+      <div class="badge">DAY 2 · 중급</div>
+      <h3>결 안에,<br><em>또 다른 결</em></h3>
+      <div class="persona">하린 · DAY 2</div>
+      <div class="body">
+        <p><strong>헤드라인:</strong> 「하나의 결 안에 세 가지 농도가 있다는 걸 알게 되는 날」</p>
+        <p><strong>핵심 메시지:</strong> 둘째날 = 「농도와 깊이」를 배우는 날. 같은 결도 어떻게 쌓느냐로 달라진다.</p>
+        <div class="scenes">
+          <div class="scene"><b>컷 1 (기):</b> 어제 그린 결 위에 새 농도를 시도하는 하린</div>
+          <div class="scene"><b>컷 2 (승):</b> 같은 결 위 3 단계 농도 비교 — 자료(원장님 2일차 슬라이드)</div>
+          <div class="scene"><b>컷 3 (전):</b> 「가까이서 보면 다르고, 멀리서 보면 자연스럽다」 발견</div>
+          <div class="scene"><b>컷 4 (결):</b> 처음으로 「자연스럽게 보인다」는 칭찬 받는 모먼트</div>
+        </div>
+        <div class="source">출처: <b>극사실소묘 2일차.key</b> (66MB) · 자료에서 농도·레이어링 슬라이드 직접 활용</div>
+      </div>
+    </div>
+
+    <!-- 10-C -->
+    <div class="ep">
+      <div class="num">10C</div>
+      <div class="badge">DAY 3 · 고급</div>
+      <h3>시그니처가<br><em>완성되는 날</em></h3>
+      <div class="persona">하린 · DAY 3</div>
+      <div class="body">
+        <p><strong>헤드라인:</strong> 「3일째, 손이 먼저 결을 그립니다」</p>
+        <p><strong>핵심 메시지:</strong> 셋째날 = 「자기 시그니처」를 갖는 날. 비율 + 농도 + 손의 자유.</p>
+        <div class="scenes">
+          <div class="scene"><b>컷 1 (기):</b> 거울 앞 자신의 눈썹 결을 살펴보는 하린</div>
+          <div class="scene"><b>컷 2 (승):</b> 모델 위에 자신만의 결을 그리는 모먼트 — 자료(원장님 3일차 슬라이드)</div>
+          <div class="scene"><b>컷 3 (전):</b> 「내 결이 보인다」 — 시그니처 발견의 순간</div>
+          <div class="scene"><b>컷 4 (결):</b> 수료증 + 작업 패드 전시 + 다음 수강생에게 「펜 넘기기」</div>
+        </div>
+        <div class="source">출처: <b>극사실소묘 3일차.key</b> (36MB) · 자료에서 마무리·인증·시그니처 슬라이드 직접 활용</div>
+      </div>
+    </div>
+
+    <!-- 10-D -->
+    <div class="ep" style="background:#FAF6F0;border:2px solid #FF4D7E">
+      <div class="num">10D</div>
+      <div class="badge b">SPECIAL · 별편</div>
+      <h3>다른 결,<br><em>같은 정밀</em></h3>
+      <div class="persona">준현 · 30세 · 남성 수강생</div>
+      <div class="body">
+        <p><strong>헤드라인:</strong> 「남자의 눈썹에도, 한 줄의 시그니처가」</p>
+        <p><strong>핵심 메시지:</strong> 남성 페르소나 별편. <strong>시장 확장</strong> — 남성 반영구 시장은 빠르게 성장 중인 신규 카테고리.</p>
+        <div class="scenes">
+          <div class="scene"><b>컷 1 (기):</b> 남자 직장인 준현이 거울 앞에서 자신의 눈썹을 살핌</div>
+          <div class="scene"><b>컷 2 (승):</b> ARTbrows 작업실에서 남자 모델 결 그리기 — 자료(남자.key 슬라이드)</div>
+          <div class="scene"><b>컷 3 (전):</b> 「남자의 결은 더 굵고 직선적」 시각 비교</div>
+          <div class="scene"><b>컷 4 (결):</b> 시술 후 자신감 있게 출근하는 준현 + 동료 「좋아 보인다」</div>
+        </div>
+        <div class="source">출처: <b>극사실소묘-남자.key</b> (211MB · 가장 큰 자료) · 남성 시술 슬라이드 직접 활용</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- C. 제작 파이프라인 + 비용 -->
+<section>
+  <h2><span class="num">C</span>제작 파이프라인 + 비용 견적</h2>
+  <div class="pipe">
+    <div class="step"><div class="n">1</div><div><b>원장님 자료 슬라이드 → PNG 추출</b> · keynote를 image 시퀀스로 변환 (자료 안의 슬라이드를 콘텐츠에 직접 인용)</div><div class="cost">0 크</div></div>
+    <div class="step"><div class="n">2</div><div><b>하린·준현 페르소나 reference 생성</b> · nano_banana_pro 1장 × 2 페르소나 (시리즈 02·03·07 같은 패턴)</div><div class="cost">4 크</div></div>
+    <div class="step"><div class="n">3</div><div><b>편당 시나리오 컷 1·2·3·4 생성</b> · reference 묶어서 4컷 × 4편 = 16컷 · 시리즈 02·03 패턴 검증</div><div class="cost">32 크</div></div>
+    <div class="step"><div class="n">4</div><div><b>편당 엔드카드 + 자막 burn-in + BGM + 페이드</b> · ffmpeg (시리즈 공통 BGM 재활용)</div><div class="cost">0 크</div></div>
+    <div class="step"><div class="n">5</div><div><b>편당 영상 합성 1080×1920 · 24초 · H.264</b> · 4편 = 약 96초 분량 콘텐츠</div><div class="cost">0 크</div></div>
+    <div class="step"><div class="n">6</div><div><b>편당 1080×1080 썸네일 + 인스타 그리드 모킹 갱신</b> · Edge headless (한글 경로 PowerShell 패턴)</div><div class="cost">0 크</div></div>
+  </div>
+  <table>
+    <tr><th>항목</th><th>값</th></tr>
+    <tr><td><strong>총 비용</strong></td><td><strong>36 크레딧</strong> (잔량 352.46 → 316.46)</td></tr>
+    <tr><td>제작 기간</td><td>약 1.5일 (병렬 생성 + ffmpeg 합성)</td></tr>
+    <tr><td>편당 평균</td><td>9 크 / 1편 = 24초 쇼츠 + 썸네일 + 시나리오 4컷</td></tr>
+    <tr><td>비교 (시리즈 02·03·07 평균)</td><td>약 10 크/편 · 즉 STORY 10도 시리즈 표준</td></tr>
+  </table>
+</section>
+
+<!-- D. 시리즈 합류 -->
+<section>
+  <h2><span class="num">D</span>시리즈 9 → 12편 확장 · 톤 매트릭스</h2>
+  <table>
+    <tr><th>편</th><th>페르소나</th><th>톤</th><th>출처</th></tr>
+    <tr><td>STORY 02 직장인편</td><td>지우</td><td>실사</td><td>가설</td></tr>
+    <tr><td>STORY 03 신부편</td><td>예린</td><td>실사</td><td>가설</td></tr>
+    <tr><td>STORY 07 미용편</td><td>하영 (묶음)</td><td>실사</td><td>가설 (동종업계)</td></tr>
+    <tr><td>STORY 09 시그니처</td><td>마네킹</td><td>3D Blender</td><td>자체 검증</td></tr>
+    <tr style="background:#FFE5D0"><td><strong>STORY 10-A 입문</strong></td><td><strong>하린</strong></td><td><strong>실사</strong></td><td><strong>원장님 1일차 자료</strong></td></tr>
+    <tr style="background:#FFE5D0"><td><strong>STORY 10-B 중급</strong></td><td>하린</td><td>실사</td><td>원장님 2일차 자료</td></tr>
+    <tr style="background:#FFE5D0"><td><strong>STORY 10-C 고급</strong></td><td>하린</td><td>실사</td><td>원장님 3일차 자료</td></tr>
+    <tr style="background:#FFE5D0"><td><strong>STORY 10-D 별편</strong></td><td><strong>준현 (남)</strong></td><td>실사</td><td>원장님 남자.key</td></tr>
+  </table>
+  <p style="font-size:13.5px;color:#5D4636;margin-top:10px"><strong>차별점:</strong> 다른 STORY는 모두 「수강생의 가설 페르소나」지만 <strong>STORY 10은 원장님 실제 강의 자료 기반 「실 커리큘럼」 시각화</strong>. 원장님 자료가 콘텐츠로 일하는 첫 증명.</p>
+</section>
+
+<!-- E. 원장님 확인 요청 -->
+<div class="request">
+  <h3>🟡 원장님께 4가지 확인 요청 (06-29 미팅)</h3>
+  <ol>
+    <li><b>3편 + 별편 구성안 OK?</b> — DAY 1·2·3 성장 시리즈 + 남자 별편 (시장 확장)</li>
+    <li><b>페르소나 「하린」·「준현」 이름·연령 OK?</b> — 시리즈 02·03·07 페르소나 작명 패턴 따름</li>
+    <li><b>헤드라인 4종 OK?</b> — 「펜을 잡는 첫 날」 / 「결 안에 또 다른 결」 / 「시그니처가 완성되는 날」 / 「다른 결, 같은 정밀」</li>
+    <li><b>자료 안의 슬라이드 직접 인용 허락?</b> — 컷 2 (승) 에 원장님 자료 슬라이드 화면이 등장. 자료의 신뢰성과 학원 브랜딩 강화.</li>
+  </ol>
+</div>
+
+<!-- F. 결론 -->
+<section>
+  <h2><span class="num">E</span>결론 — STORY 10의 의의</h2>
+  <div class="key">
+    <p style="font-size:16px;font-family:'Nanum Myeongjo',serif;color:#3D2818">
+    STORY 10은 단순한 시리즈 확장이 아니라 <strong style="color:#FF4D7E">「원장님 자료의 첫 활용 증명」</strong>입니다.
+    </p>
+    <p style="margin-top:10px;font-size:14px;color:#5D4636">
+    내일 미팅에서 OK 받으면 → 다음 주 차주(07-03 금)에 4편 일괄 제작 → 인스타 게시 → 「원장님 강의 자료가 인스타 콘텐츠로 어떻게 일하는지」 24시간 가시화. 한 주 만에 「자료 → 콘텐츠」 변환 사이클 완성.
+    </p>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · STORY 10 콘셉트 시안 · 06-29 미팅 컨펌 대기</p>
+  <p style="margin-top:6px">
+    <a href="index.html">메인 포털</a> ·
+    <a href="원장님-미팅-보고-20260629.html">06/29 미팅 보고서</a> ·
+    <a href="회의-20260628-원장님미팅준비.html">06/28 회의록</a> ·
+    <a href="원장님-자료-수령확인-20260627.html">자료 매핑 v2</a> ·
+    <a href="graphify/graph.html">graphify 그래프</a>
+  </p>
+</footer>
+
+</body>
+</html>

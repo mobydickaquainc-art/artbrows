@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>통과·재분배 체크리스트 · 2026-06-22 회의용 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1240px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .policy{background:#161617;border:1px solid #d4af37;border-radius:12px;padding:18px 22px;margin-bottom:24px}
+  .policy h2{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:12px}
+  .policy p{color:#cbc8c1;font-size:13.5px;line-height:1.7;margin-bottom:6px}
+  .policy strong{color:#e7e5e1}
+  .policy .tracks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .policy .track{background:#0c0c0d;border:1px solid #2a2a2a;border-radius:10px;padding:14px 16px}
+  .policy .track.staging{border-left:4px solid #6fb0ff}
+  .policy .track.live{border-left:4px solid #a8e6b3}
+  .policy .track h3{font-size:14px;margin-bottom:6px}
+  .policy .track.staging h3{color:#6fb0ff}
+  .policy .track.live h3{color:#a8e6b3}
+  .policy .track p{font-size:12.5px}
+  .legend{display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap;font-size:12px;color:#9a9a93}
+  .legend span{padding:4px 12px;border-radius:14px;border:1px solid #333}
+  .legend .both{background:#2a2a4a;color:#bbcfff;border-color:#3a4a7a}
+  .legend .staging{background:#1a2a3a;color:#9fc8ff;border-color:#2a4a7a}
+  .legend .live{background:#264d2a;color:#a8e6b3;border-color:#3a6b40}
+  .legend .skip{background:#3a2a2a;color:#dba8a8;border-color:#5a3a3a}
+  .legend .pending{background:#3a3a3a;color:#aaa}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;margin-bottom:24px}
+  th,td{border-top:1px solid #2a2a2a;padding:12px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1a1a1b;color:#d4af37;font-weight:700;border-top:0;font-size:12px;letter-spacing:1px}
+  td.ttl{font-weight:700;color:#e7e5e1;font-size:13.5px}
+  td.ttl .meta{font-weight:400;color:#9a9a93;font-size:11.5px;margin-top:3px}
+  td a{color:#d4af37;text-decoration:none}
+  td a:hover{text-decoration:underline}
+  .badge{display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:10px;letter-spacing:1px;font-weight:700;white-space:nowrap}
+  .b-both{background:#2a2a4a;color:#bbcfff}
+  .b-staging{background:#1a2a3a;color:#9fc8ff}
+  .b-live{background:#264d2a;color:#a8e6b3}
+  .b-skip{background:#3a2a2a;color:#dba8a8}
+  .b-pending{background:#3a3a3a;color:#aaa}
+  tbody tr:hover{background:#1a1a1b}
+  .section-title{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#d4af37;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid #2a2a2a}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+</style>
+</head>
+<body>
+
+<h1><em>통과·재분배 체크리스트</em> — 2026-06-22 회의용</h1>
+<p class="sub">대표님 결정 항목: 자산별 운영진 영구 / 유저 라이브 / 둘 다 / 보류 4지선다. 회의 후 일괄 재분배 작업 진행</p>
+
+<div class="policy">
+  <h2>★ 게시 정책 (2026-06-22 대표님 확정)</h2>
+  <p>① <strong>모든 신규 작업</strong>은 <strong>운영진용</strong>에서 임시(스테이징)로 진행. 즉시 갱신·즉시 시연.</p>
+  <p>② <strong>「통과」</strong> 결정 후 → 항상 대표님께 <strong>2 트랙 모두 확인</strong>:</p>
+  <p style="padding-left:22px">— 운영진 영구 보존할지 / 유저 라이브 이관할지 / 둘 다 / 둘 다 안 함 (보류·삭제)</p>
+  <p>③ <strong>현재 상태</strong>: 운영진용·유저용 자산 <strong style="color:#dba8a8">혼재</strong>. 오늘 회의 후 전체 재분배 예정.</p>
+  <div class="tracks">
+    <div class="track staging">
+      <h3>🔵 운영진용 (스테이징·영구)</h3>
+      <p>jangmiji.staris.cloud / 현재 cloudflared 임시 터널 · 내부 보고·시연·작업 산출물</p>
+    </div>
+    <div class="track live">
+      <h3>🟢 유저용 (라이브)</h3>
+      <p>eyebrows.staris.cloud · Next.js + Supabase · 수강생·일반 사용자 진입점</p>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="both">📦 둘 다 — 운영진 영구 + 유저 라이브</span>
+  <span class="staging">🔵 운영진 영구만</span>
+  <span class="live">🟢 유저 라이브만</span>
+  <span class="skip">❌ 보류 / 삭제</span>
+  <span class="pending">❓ 회의 결정 대기</span>
+</div>
+
+<!-- ============================ -->
+<!-- 핵심 자산 — 회의 시연용 -->
+<!-- ============================ -->
+<div class="section-title">A. 회의 시연용 (오늘 06/22 작성)</div>
+<table>
+  <thead><tr><th style="width:42%">자산</th><th style="width:18%">설명</th><th style="width:14%">대표님 의견</th><th style="width:26%">제안 (참고)</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="ttl"><a href="임원진-보고-20260622.html" target="_blank">임원진 보고 페이지 (한 주 인터랙티브 타임라인)</a><div class="meta">임원진-보고-20260622.html</div></td>
+      <td>회의 시연용 5일 타임라인 + KPI</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 1회성 보고라 운영진 영구만</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="수강신청-설문-시연.html" target="_blank">수강신청 설문 흐름 시연</a><div class="meta">수강신청-설문-시연.html</div></td>
+      <td>광고 → enroll → DB → admin 6단계</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 시연 자료 (라이브는 이미 /enroll 있음)</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="문의게시판-시연.html" target="_blank">문의 게시판 시연 (8 필드·샘플 5건)</a><div class="meta">문의게시판-시연.html</div></td>
+      <td>UI 데모 · 라이브 배포 대기</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 시연본은 운영진 + UI/로직은 유저 라이브 신설 (≈2시간)</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="회의-20260622-이번주.html" target="_blank">전직원 회의록 (직원 4명 발언)</a><div class="meta">회의-20260622-이번주.html</div></td>
+      <td>내부 의사결정 기록</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 영구만 (내부 기록)</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================ -->
+<!-- STORY 시리즈 영상·썸네일 -->
+<!-- ============================ -->
+<div class="section-title">B. STORY 시리즈 실사 — 영상·썸네일 (게시·광고 핵심 자산)</div>
+<table>
+  <thead><tr><th style="width:42%">자산</th><th style="width:18%">설명</th><th style="width:14%">대표님 의견</th><th style="width:26%">제안 (참고)</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="ttl"><a href="assets/시리즈-미용편/미용편-쇼츠-실사완성.mp4" target="_blank">▶ STORY 07 미용편 쇼츠 (묶음 · 24초)</a></td>
+      <td>「기술 위에, 한 줄 더」</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 인스타·유튜브 라이브 게시용 + 운영진 갤러리 보존</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/시리즈-미용편/미용편-쇼츠-단발모델.mp4" target="_blank">▶ STORY 07-B 미용편 쇼츠 (단발 · 24초)</a></td>
+      <td>인스타 A/B 운영용</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> A/B 운영 결정 시 라이브, 보류 시 운영진만</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/시리즈-직장인편/직장인편-쇼츠-실사완성.mp4" target="_blank">▶ STORY 02 직장인편 쇼츠 (24초)</a></td>
+      <td>「전공이 달라도, 전문가가 됩니다」</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 인스타 캘린더 D+9 게시 예정</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/시리즈-신부편/신부편-쇼츠-실사완성.mp4" target="_blank">▶ STORY 03 신부편 쇼츠 (24초)</a></td>
+      <td>「가장 빛나는 날, 가장 자신 있는 한 줄」</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 인스타 캘린더 D+3 게시 예정</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/시리즈-부업맘편/실사-컷3-전.png" target="_blank">STORY 04 부업맘편 (4컷 실사, 영상 합성 대기)</a></td>
+      <td>회의 후 영상·썸네일 마무리</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 회의 후 마무리 → 라이브 게시</td>
+    </tr>
+    <tr>
+      <td class="ttl">STORY 01·05·06 (일러스트 보존)</td>
+      <td>이전 시리즈 일러스트 7편</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 「과거 자산」 운영진 보존, 라이브 노출은 회의 결정</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================ -->
+<!-- 캐러셀 + 그리드 -->
+<!-- ============================ -->
+<div class="section-title">C. 인스타 캐러셀 · 그리드 · 카드</div>
+<table>
+  <thead><tr><th style="width:42%">자산</th><th style="width:18%">설명</th><th style="width:14%">대표님 의견</th><th style="width:26%">제안 (참고)</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="ttl"><a href="assets/모집카드시안/캐러셀-직장-1.png" target="_blank">「직장 안에서, 한 발 더」 캐러셀 6장</a></td>
+      <td>STORY 02 ↔ 07 시너지</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 인스타 게시 + 운영진 갤러리</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/모집카드시안/캐러셀-모녀-1-후킹.png" target="_blank">「두 세대의 두 번째 인생」 모녀 캐러셀 6장</a></td>
+      <td>STORY 04 ↔ 05 시너지</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 인스타 게시 + 운영진 갤러리</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/모집카드시안/인스타-그리드-9칸-실사.png" target="_blank">인스타 그리드 9칸 v4 모킹</a></td>
+      <td>인스타 첫인상 100% 실사</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 게시 가이드용 모킹 (실제 그리드는 인스타에서)</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="assets/모집카드시안/카드-후킹-살구.png" target="_blank">모집 카드 5종 (후킹·커리큘럼·차별점·CTA·BRAND)</a></td>
+      <td>인스타 게시 + 광고 활용</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-both">📦</span> 인스타 + 운영진 갤러리</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================ -->
+<!-- 운영가이드·매뉴얼 -->
+<!-- ============================ -->
+<div class="section-title">D. 운영가이드·매뉴얼 (내부 문서)</div>
+<table>
+  <thead><tr><th style="width:42%">자산</th><th style="width:18%">설명</th><th style="width:14%">대표님 의견</th><th style="width:26%">제안 (참고)</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="ttl"><a href="docs/DM-응대-매뉴얼-v1.md" target="_blank">DM 응대 매뉴얼 v1 (5종)</a></td>
+      <td>인스타 DM 응대 템플릿</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 영구 (대외 비공개)</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="docs/인스타-그리드-운영가이드.md" target="_blank">인스타 그리드 운영가이드 v4</a></td>
+      <td>3주 캘린더·캡션·해시태그</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 영구</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="docs/직장-캐러셀-운영가이드.md" target="_blank">직장 캐러셀 운영가이드</a></td>
+      <td>02↔07 시너지 운영</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 영구</td>
+    </tr>
+    <tr>
+      <td class="ttl"><a href="docs/모녀-캐러셀-운영가이드.md" target="_blank">모녀 캐러셀 운영가이드</a></td>
+      <td>04↔05 시너지 운영</td>
+      <td><span class="badge b-pending">❓</span></td>
+      <td><span class="badge b-staging">🔵</span> 운영진 영구</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================ -->
+<!-- 라이브 사이트 -->
+<!-- ============================ -->
+<div class="section-title">E. 유저용 라이브 사이트 (eyebrows.staris.cloud) 현황</div>
+<table>
+  <thead><tr><th style="width:42%">페이지</th><th style="width:18%">상태</th><th style="width:14%">대표님 의견</th><th style="width:26%">제안 (참고)</th></tr></thead>
+  <tbody>
+    <tr><td class="ttl"><a href="https://eyebrows.staris.cloud/" target="_blank">메인 (eyebrows.staris.cloud)</a></td><td>LIVE</td><td><span class="badge b-pending">❓</span></td><td>실사 hero 적용 / 시리즈 영상 임베드 등 갱신 검토</td></tr>
+    <tr><td class="ttl"><a href="https://eyebrows.staris.cloud/enroll" target="_blank">수강신청 폼</a></td><td>LIVE · HTTP 200</td><td><span class="badge b-pending">❓</span></td><td>8 필드 확정 + UTM 추가 결정</td></tr>
+    <tr><td class="ttl"><a href="https://eyebrows.staris.cloud/admin/history" target="_blank">운영진 admin</a></td><td>LIVE · HTTP 200</td><td><span class="badge b-pending">❓</span></td><td>알림 자동화 추가</td></tr>
+    <tr><td class="ttl">/board (문의 게시판) — 미신설</td><td>대기</td><td><span class="badge b-pending">❓</span></td><td>회의 통과 시 라이브 추가 (≈2시간)</td></tr>
+    <tr><td class="ttl">/admin/inquiry — 미신설</td><td>대기</td><td><span class="badge b-pending">❓</span></td><td>문의 게시판과 동시 신설</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  통과·재분배 체크리스트 · ARTbrows · 2026-06-22 10:00 임원진 회의용
+  · 대표님 의견 칸은 회의에서 작성 / 회의 후 「통과」 결정대로 일괄 재분배 작업
+  · 게시 정책: <a href="https://eyebrows.staris.cloud" style="color:#d4af37">유저 라이브</a> ↔ 운영진 영구 분리
+</footer>
+
+</body>
+</html>

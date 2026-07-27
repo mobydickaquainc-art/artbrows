@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    },
+    "unreal": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "D:/work/jangmi/artbrows-project/_tools/unreal-mcp/Python",
+        "run",
+        "unreal_mcp_server.py"
+      ],
+      "note": "Unreal Engine 5.8 MCP · chongdashu/unreal-mcp · 2026-07-03 연결 완료 · UE Editor 실행 + 플러그인 활성화 필수"
+    }
+  }
+}

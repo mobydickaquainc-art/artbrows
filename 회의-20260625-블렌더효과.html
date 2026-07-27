@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전직원 회의 · 2026-06-25 Blender MCP 효과 평가 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;font-weight:700;margin-right:6px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  .person{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  .person .who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .person .who .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#a8854e);color:#0b0907;display:flex;align-items:center;justify-content:center;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px}
+  .person .who .name{font-weight:800;font-size:15px;color:#e7e5e1}
+  .person .who .role{font-size:12px;color:#8a8a84}
+  .person .conclusion{background:#1c1c1d;border-left:3px solid #d4af37;padding:10px 14px;margin-bottom:10px;font-size:14px;color:#f4e6b8}
+  .person p{font-size:14px;line-height:1.7;color:#cbc8c1;margin-bottom:8px}
+  .person p strong{color:#e7e5e1}
+  .person p em{color:#d4af37;font-style:normal;font-weight:700}
+  .person ul{margin:6px 0 6px 18px;font-size:14px;color:#cbc8c1;line-height:1.7}
+  .person li::marker{color:#d4af37}
+  .person .recommend{background:#2a1a18;border:1px dashed #d4af37;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:13.5px;color:#f4d4a8}
+  .person .recommend b{color:#ffb98a}
+  .options{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 22px;margin-top:8px}
+  .options h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  .options .opt{padding:14px 16px;background:#1c1c1d;border-radius:8px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+  .options .opt .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;flex-shrink:0;line-height:1;width:40px;text-align:center}
+  .options .opt .body{flex:1}
+  .options .opt .body b{font-size:15px;color:#e7e5e1;display:block;margin-bottom:4px}
+  .options .opt .body p{font-size:13px;color:#9a9a93;line-height:1.55;margin:0}
+  .options .opt .body .cost{font-size:11.5px;color:#d4af37;letter-spacing:1px;margin-top:4px;font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.lose{color:#f4c4a8}
+  .agree{background:#1c2a1c;border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px;color:#c8e6c9}
+  .agree b{color:#a8e6b3}
+  .gap{background:#2a2418;border:1px solid #5a4828;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px;color:#f4e0a8}
+  .gap b{color:#f4c47a}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+  a.source{color:#8a8a84;font-size:12px;text-decoration:none;border-bottom:1px dotted #555}
+  a.source:hover{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>전직원 회의</em> — 2026-06-25 (목) · Blender MCP 효과 평가</h1>
+<p class="sub">출석: 이서연 · 유나 · 한승철 · 클로드 / 의장: 박정주 대표님 / 안건: 어제(06-24) Blender MCP 정착의 효과 정량 평가 + 합의 권고안</p>
+
+<div class="goal"><b>🎯 목표</b>Blender MCP 도입 효과 정량 평가 (마케팅·비주얼·기술 3축) + 4직원 발언 + 합의 권고안 1건 도출</div>
+
+<div class="meta-bar">
+  <div><b>어제 산출물</b>마네킹 GLB 1개 + 16컷 그리드 + 결과 페이지</div>
+  <div><b>잔여 크레딧</b>355 / 어제 31 사용</div>
+  <div><b>검증된 단가</b>장당 1.3 크레딧 (1 GLB 31크 + 무한 변형 0크)</div>
+</div>
+
+<!-- A. 어제 검증 사실 -->
+<section>
+  <h2><span class="num">A</span>어제(06-24) 검증된 사실</h2>
+  <table>
+    <tr><th>항목</th><th>값</th></tr>
+    <tr><td>마네킹 GLB 생성</td><td>Higgsfield image_to_3d (Meshy) · 30 크 · 4분 · GLB 6.96MB</td></tr>
+    <tr><td>HDR · 각도 · 텍스처 변형</td><td><strong style="color:#a8e6b3">0 크</strong> · 1분 / 컷 · Cycles 128 samples · 1080×1080</td></tr>
+    <tr><td>4 HDR × 4 각도 = 16컷 그리드</td><td>PoC-04 GRID 4×4 · 1 크 추가 (그리드 합성용 nano_banana_pro 1장)</td></tr>
+    <tr><td>인물 일관성</td><td>두개골 비율·콧대 선·턱 각도 픽셀 단위 동일 (같은 GLB 보장)</td></tr>
+    <tr><td>라이팅 일관성</td><td>같은 HDR 4 각도 일괄 적용 → 그림자 방향·하이라이트·반사광 컬러 행 단위 묶임</td></tr>
+    <tr><td>대안 도구 (어제 PoC 백업라인)</td><td>Hyper3D Rodin 무료 trial 키 잔량 부족 → A안 (Higgsfield image_to_3d) 정상 동작</td></tr>
+  </table>
+</section>
+
+<!-- B. 직원별 발언 -->
+<section>
+  <h2><span class="num">B</span>4직원 발언 (각자 연구·서칭 후)</h2>
+
+  <!-- 이서연 -->
+  <div class="person">
+    <div class="who"><div class="avatar">이</div><div><div class="name">이서연 (기획·마케팅 PM)</div><div class="role">마케팅 ROI · 인스타 알고리즘</div></div></div>
+    <div class="conclusion"><strong>핵심 결론:</strong> 대표님, Blender MCP 도입으로 <em>1편당 캐러셀 6장 = 0크, 월 산출 24~30편 가능</em>. 콘텐츠 단가가 사실상 0으로 수렴하고, 알고리즘이 가장 보상하는 「캐러셀 + 같은 인물 시리즈」를 무한 공급할 수 있게 됐어요.</div>
+    <p><strong>1) 콘텐츠 생산 속도 — 단가 1.3크 → 0크 수렴.</strong> 이전(nano_banana_pro)은 카드 1장당 1~2크 → 6장 캐러셀 1편 = 약 8크. 어제 라인으로 <em>GLB 1개(31크) + 16컷 0크</em>. 잔량 355크면 GLB 5개 추가 + 월 300~500컷 0크. <em>월 24~30편 캐러셀 + 데일리 단발컷 충당 가능</em>.</p>
+    <p><strong>2) 인스타 알고리즘 대응 — 캐러셀 + 같은 얼굴 = 더블 부스터.</strong> 2026 Q1 데이터로 캐러셀 참여율 0.52% vs 단일이미지 0.35%, <em>캐러셀이 단일 대비 3배 도달·2배 저장</em>. 같은 인물이 5~7회 반복 노출되면 「Rule of 7」 — 브랜드 회상 최대화 효과 발동.</p>
+    <p><strong>3) 전환 자산 잠재력 — 시술 전후 = 캐러셀 골드.</strong> 같은 GLB에 텍스처만 바꿔 「전/후」를 만드는 방식은 미용 카테고리 최고 전환 포맷. 캐러셀 + 코멘트→DM 자동화 결합 시 <em>12~18% 전환, 일반 게시물 대비 6~10배</em>. ⚠️ CLAUDE.md §4 — <em>실제 시술 비포·애프터는 AI 금지</em> 원칙상 「마네킹 = 테크닉·도구·시술 단계 설명용」 한정.</p>
+    <p><strong>4) 시리즈 페르소나 5종 확장 ROI.</strong> 수아·하영·예린·민지·지우 각 31크 × 5 = <em>155크 일회 투자</em>. 월 60~75편 실집행 잠재. AI 일관 캐릭터 캠페인 사례: <em>전환 3.2배·참여율 8.7% (평균의 2배)</em>. 편당 ~₩500 수준, 이전 단가(₩2,000~4,000) 대비 <em>ROI 약 4~8배</em>.</p>
+    <div class="recommend"><b>🟡 권고:</b> 「시리즈 페르소나 5종 GLB 일괄 제작 (155크)」 vs 「수아 1종 먼저 (31크)」 vs 「어제 GLB부터 캐러셀 1세트 (0크)」 — 1·2·3 중 선택 부탁드립니다.</div>
+    <p style="font-size:11px;color:#666;margin-top:8px">출처: <a class="source" href="https://carouselli.com/blog/instagram-carousel-engagement">Carouselli 2026</a> · <a class="source" href="https://www.socialinsider.io/social-media-benchmarks/instagram">Socialinsider</a> · <a class="source" href="https://buffer.com/resources/instagram-algorithms/">Buffer 2026 알고리즘</a> · <a class="source" href="https://creatorflow.so/blog/instagram-carousel-posts-guide/">CreatorFlow</a> · <a class="source" href="https://autofaceless.ai/blog/virtual-influencer-statistics-2026">AutoFaceless</a> · <a class="source" href="https://www.marketingweek.com/ai-influencer-digital-twins-2026/">Marketing Week</a></p>
+  </div>
+
+  <!-- 유나 -->
+  <div class="person">
+    <div class="who"><div class="avatar">유</div><div><div class="name">유나 (그래픽·비주얼)</div><div class="role">비주얼 퀄리티 · 톤 일관성</div></div></div>
+    <div class="conclusion"><strong>핵심 결론:</strong> 대표님, Blender 마네킹은 <em>무드컷·구도·라이팅 카탈로그로는 100점</em>입니다. 다만 <em>표정·피부·머리카락이 필요한 인물 컷은 nano_banana_pro 실사가 압도적으로 우세</em> — 둘은 경쟁이 아니라 <em>분업</em>입니다.</div>
+    <p><strong>1) 인물 일관성.</strong> 같은 GLB는 두개골·콧대·턱 각도가 픽셀 단위로 동일. nano_banana_pro의 reference 방식은 단발모델 컷1·컷2 비교 시 눈 크기·콧방울·입꼬리가 미세하게 흔들립니다 — 6컷 캐러셀 누적되면 "다른 사람 같다"는 인상. <em>Blender 절대 우위</em>.</p>
+    <p><strong>2) 라이팅 일관성.</strong> PoC-04 4×4 그리드에서 같은 HDR을 4 각도에 일괄 적용 → 그림자 방향·하이라이트·반사광 컬러가 <em>행 단위로 완벽히 묶입니다</em>. Wood Salon 행은 따뜻한 키라이트가 일관되게 우측에서, Blue Modern 행은 차가운 림라이트가 좌측 윤곽을 동일하게. <em>Blender 우위</em>.</p>
+    <p><strong>3) 현재의 약점.</strong> PoC-02 zoom-in 분석:</p>
+    <ul>
+      <li><strong>피부:</strong> 매트 화이트 도자기 셰이딩. SSS(피하산란) 없음 → 인간 피부의 따뜻한 반투명감 0.</li>
+      <li><strong>표정:</strong> 무표정 고정. 눈 닫혀 있고 미간·콧방울·입꼬리 정지 → <em>감정 전달 불가</em>.</li>
+      <li><strong>눈썹:</strong> 입체 부조로 솟은 라인만 → 「극사실눈썹」 결·농도·한 올 표현 불가. <em>ARTbrows에서 가장 치명적</em>.</li>
+      <li><strong>머리카락:</strong> 완전 대머리. 4행 동일. 쇼츠에 그대로 쓰면 「마네킹 광고」로 인식.</li>
+    </ul>
+    <p><strong>4) 활용 시나리오 3개.</strong></p>
+    <ul>
+      <li>✅ <strong>메인홈 hero 무드컷</strong> — 살구핑크 그라데이션 위에 「조형적 럭셔리 오브제」로 사용. 사람 얼굴이 아니라 오브제로 읽히면 적합.</li>
+      <li>✅ <strong>시술 전후 데모/교육 자료</strong> — 눈썹 디자인 라인을 마네킹 위에 시뮬레이션. 수강생 교육·아카데미 페이지에 100% 적합.</li>
+      <li>❌ <strong>인스타 캐러셀 인물 시리즈</strong> — 표정·머리카락·피부가 핵심인 6컷 시리즈는 부적합. nano_banana_pro 단발모델로 가야 함 (실사-컷 톤 이미 검증).</li>
+    </ul>
+    <p><strong>5) 다음 한 발.</strong> ① Blender 안에서 헤어 GLB + SSS 0.3 적용 (0크, 반나절) ② <em>Blender 구도 + AI 페이스 합성 하이브리드</em> (Higgsfield image-to-image로 마네킹 얼굴 덮어쓰기) ③ Hyper3D/Hunyuan으로 인물 메쉬 재생성 (31크/회).</p>
+    <div class="recommend"><b>🙋 권고:</b> 다음 PoC를 「옵션 2 — Blender 구도 + AI 페이스 합성 하이브리드」로 잡고, 단발모델 얼굴을 PoC-03 4각도에 덮어 시리즈 4컷을 만들어볼까요? Yes/No 부탁드립니다.</div>
+  </div>
+
+  <!-- 한승철 -->
+  <div class="person">
+    <div class="who"><div class="avatar">한</div><div><div class="name">한승철 (풀스택 CTO급)</div><div class="role">비용 모델 · 기술 안정성</div></div></div>
+    <div class="conclusion"><strong>핵심 결론:</strong> 대표님, 정량적으로 보면 GLB 단가 31크 + 변형 0크 구조는 <em>자산 단가 96%↓ (장당 2크 → 0.04크)</em>의 명백한 승부수. 다만 <em>운영 의존성 4가지</em>를 고정시키지 않으면 한 달 안에 막히는 구조입니다.</div>
+    <p><strong>1) 비용 모델 (스케일 시).</strong> GLB 5종 = 155크, 페르소나당 16컷 × 5 = 80컷 0크. 같은 80컷을 nano_banana_pro로 = 160크 (표면 비슷). 한 페르소나 시즌 콘텐츠(연 200컷)로 환산하면 GLB 라우트 155크 vs nano 2,000크 — <em>연 92% 절감</em>. 인물 일관성은 GLB가 100%, nano는 측정 불가.</p>
+    <p><strong>2) 기술 안정성.</strong> 파이프라인 자체는 어제 PoC로 8분 안에 1회 완주 검증. 단일점 4개: ① 대표님 데스크탑 의존 (맥미니 launchd 미이전), ② Blender 프로세스 끊김, ③ MCP 서버 끊김 모니터링 부재, ④ Hyper3D `vibecoding` trial 키 잔량 부족 (이미 한 번 막힘). <em>가용성 ~96%</em>.</p>
+    <p><strong>3) 대안 도구 시장가.</strong></p>
+    <table>
+      <tr><th>도구</th><th>단가 (GLB 1)</th><th>비고</th></tr>
+      <tr><td>Higgsfield image_to_3d (현재)</td><td>30크 ≈ $1.5</td><td>PBR+quad+symmetry, 검증됨</td></tr>
+      <tr><td class="win">Meshy.ai Pro</td><td class="win">$20/월 1,000크 = $0.40/GLB</td><td class="win">최저가, PBR 표준 ★ 권고</td></tr>
+      <tr><td>Hyper3D Rodin Creator</td><td>$30/월, 60 GLB ≈ $0.50/GLB</td><td>API 잔량 안정, 3분의 1 가격</td></tr>
+      <tr><td>Tripo3D Pro</td><td>$19.9/월, GLB 70크 ≈ $0.46/GLB</td><td>텍스처 포함</td></tr>
+      <tr><td>Tencent Hunyuan3D 2.1</td><td>로컬 무료 (VRAM 12GB)</td><td>오픈소스, 6개월 보류</td></tr>
+    </table>
+    <p>→ <em>Meshy Pro $20/월로 즉시 이전 시 현행 대비 단가 73%↓</em>.</p>
+    <p><strong>4) 자동화 잠재력.</strong> PoC 실측: 소스 이미지 15초 + GLB 4분 + 16컷 렌더 4분 + 합성 2초 = <em>8분/페르소나</em>. 영상 합성 ffmpeg 90초 추가 → 하루 8시간 무인 가동 시 이론치 50 페르소나, 가동률 50%로 <em>하루 25 페르소나 + 쇼츠</em> — 1주일이면 ARTbrows 전 세그먼트 커버.</p>
+    <p><strong>5) 확장 시나리오 1순위.</strong> <em>시술 전후 텍스처 매핑 자동화</em>. 같은 GLB의 UV에 「전」/「후」 텍스처 2장만 바꾸면 동일 인물·동일 조명에서의 비교샷 = 추가 0크. 마네킹은 제품이므로 「실제 시술 사진 AI 금지」 원칙과 충돌 없음. 구현 공수 2일.</p>
+    <div class="recommend"><b>🛠 권고 (2건 결정):</b> ① <strong>Meshy Pro $20/월 결제 → image_to_3d 라우트 전환</strong> (단가 73%↓) ② <strong>맥미니로 Blender + MCP 이전 일정 (1주일)</strong> — 데스크탑 단일점 해소. 둘 다 OK 하시면 시술 전후 텍스처 매핑 PoC 2일 시작.</div>
+    <p style="font-size:11px;color:#666;margin-top:8px">출처: <a class="source" href="https://hyper3d.ai/pricing">Hyper3D Pricing</a> · <a class="source" href="https://www.meshy.ai/pricing">Meshy Pricing</a> · <a class="source" href="https://www.tripo3d.ai/pricing">Tripo Pricing</a> · <a class="source" href="https://www.sloyd.ai/blog/3d-ai-price-comparison">3D AI Price Comparison 2026</a> · <a class="source" href="https://github.com/Tencent-Hunyuan/Hunyuan3D-2">Hunyuan3D-2</a></p>
+  </div>
+
+  <!-- 클로드 종합 -->
+  <div class="person">
+    <div class="who"><div class="avatar">C</div><div><div class="name">클로드 (Claude Code · 종합)</div><div class="role">합의·종합·실행</div></div></div>
+    <div class="conclusion"><strong>핵심 종합:</strong> 세 직원이 공통으로 인정하는 사실은 <em>3가지</em>입니다. ① 비용 — <em>월 92% 절감</em> (이서연 + 한승철 일치) ② 일관성 — <em>인물·라이팅 100% 보장</em> (유나 + 한승철 일치) ③ 한계 — <em>표정·피부·헤어는 nano_banana_pro 우세</em> (유나 단독 강조).</div>
+
+    <div class="agree"><b>🟢 합의 가능 (3직원 일치):</b>
+      <ul style="margin-top:6px">
+        <li>「시술 전후 텍스처 스왑」 시나리오 = <strong>마케팅·기술 양면 1순위</strong> (이서연 골드 카드 · 한승철 1순위 · 유나 100% 적합)</li>
+        <li>인스타 캐러셀 인물 시리즈는 <strong>nano_banana_pro 실사 유지</strong> (유나 명확 · 한승철 일관성 단서 ↔ 마네킹 표정 한계 인정)</li>
+        <li>메인홈 hero는 <strong>마네킹 오브제로 활용 가능</strong> (유나 적합 · 이서연 캐러셀 무드컷 활용 일치)</li>
+      </ul>
+    </div>
+
+    <div class="gap"><b>🟡 의견 갈림:</b>
+      <ul style="margin-top:6px">
+        <li>이서연 = <strong>「5종 페르소나 일괄」 vs 「수아 1종 먼저」 vs 「어제 GLB 우려내기」</strong> 3택</li>
+        <li>유나 = <strong>「Blender + AI 페이스 하이브리드」</strong> PoC 먼저 시도 권고</li>
+        <li>한승철 = <strong>「Meshy 이전 + 맥미니 launchd」</strong> 인프라 안정화 먼저</li>
+      </ul>
+    </div>
+
+    <div class="recommend"><b>🟠 클로드 최종 권고 (3직원 합의 + 순서 정렬):</b><br>
+    <strong>STEP 1 (오늘·0크)</strong> 어제 GLB로 「시술 전후 텍스처 스왑」 PoC 1세트 — 메모리 [[blender-mcp-pipeline]] 활용, 2일 안에 검증.<br>
+    <strong>STEP 2 (이번 주·$20)</strong> Meshy Pro $20/월 결제 검토 — 단가 73%↓ 시점에서 5종 페르소나 확장 시 결정적.<br>
+    <strong>STEP 3 (다음 주·0크)</strong> 유나 하이브리드 옵션 (Blender 구도 + AI 페이스 합성) PoC 1세트 — 표정 한계 풀리면 시리즈 인물 컷도 0크 라인 진입.</div>
+  </div>
+
+</section>
+
+<!-- C. 비용 효과 비교표 -->
+<section>
+  <h2><span class="num">C</span>비용 효과 비교표 (정량)</h2>
+  <table>
+    <tr><th>지표</th><th>이전 라우트 (nano_banana_pro)</th><th>Blender MCP 라우트 (어제 검증)</th><th>승부</th></tr>
+    <tr><td>장당 단가</td><td>1~2 크/장</td><td class="win">0.04 크/장 (16컷 그리드 기준)</td><td class="win">96%↓</td></tr>
+    <tr><td>같은 페르소나 16컷</td><td>16~32 크 + 일관성 보장 0%</td><td class="win">GLB 31크 + 0크 추가</td><td class="win">~50% + 100% 일관성</td></tr>
+    <tr><td>5종 페르소나 80컷</td><td>160 크 (일관성 측정 불가)</td><td class="win">155 크 (인물·라이팅 100% 일관)</td><td class="win">동가에 일관성 ↑</td></tr>
+    <tr><td>연 200컷/페르소나</td><td>2,000 크</td><td class="win">155 크 (1회 GLB)</td><td class="win">연 92% 절감</td></tr>
+    <tr><td>인물 일관성</td><td class="lose">reference 흔들림</td><td class="win">픽셀 단위 동일</td><td class="win">Blender</td></tr>
+    <tr><td>라이팅 일관성</td><td class="lose">컷마다 변동</td><td class="win">HDR 일괄 적용</td><td class="win">Blender</td></tr>
+    <tr><td>인물 표정·피부·헤어</td><td class="win">실사 톤 검증됨</td><td class="lose">매트 도자기 · 무표정 · 대머리</td><td class="win">nano_banana_pro</td></tr>
+    <tr><td>「극사실눈썹」 시술 표현</td><td class="win">실사 컷 가능</td><td class="lose">부조 라인만 (불가)</td><td class="win">nano_banana_pro</td></tr>
+    <tr><td>시술 전후 비교 (마네킹)</td><td>매번 재생성 (일관성 없음)</td><td class="win">텍스처 스왑 0크 무한</td><td class="win">Blender 압도</td></tr>
+    <tr><td>운영 안정성</td><td class="win">힉스필드 클라우드</td><td class="lose">단일점 4개 (가용성 ~96%)</td><td class="win">현행 우위 (개선 필요)</td></tr>
+  </table>
+</section>
+
+<!-- D. 대표님 결정 옵션 -->
+<div class="options">
+  <h3>대표님 결정 — 다음 한 발 (택일)</h3>
+
+  <div class="opt"><div class="n">1</div><div class="body">
+    <b>STEP 1: 시술 전후 텍스처 스왑 PoC 진행</b>
+    <p>어제 GLB 그대로 사용. 같은 인물·같은 조명에서 「전 / 후」 비교 컷 4~6장. 캐러셀 골드 카드 후보. 마케팅·기술 양면 합의 1순위.</p>
+    <p class="cost">비용 0 크 · 2일 · 잔량 355 유지</p>
+  </div></div>
+
+  <div class="opt"><div class="n">2</div><div class="body">
+    <b>STEP 2 동시: Meshy Pro $20/월 결제 검토</b>
+    <p>GLB 단가 73%↓ ($1.5 → $0.40). 페르소나 5종 일괄 확장 시 결정적. 한승철 정량 분석 기반.</p>
+    <p class="cost">$20/월 (구독) · 결정 후 결제만 진행</p>
+  </div></div>
+
+  <div class="opt"><div class="n">3</div><div class="body">
+    <b>유나 하이브리드 PoC (Blender 구도 + AI 페이스 합성)</b>
+    <p>마네킹 PoC-03 4각도에 단발모델 얼굴을 Higgsfield image-to-image로 덮어쓰기. 표정 한계 풀리면 시리즈 인물 컷도 0크 라인 진입.</p>
+    <p class="cost">2~6 크 · 반나절</p>
+  </div></div>
+
+  <div class="opt"><div class="n">4</div><div class="body">
+    <b>5종 페르소나 GLB 일괄 제작</b>
+    <p>수아·하영·예린·민지·지우 전부 31크씩 = 155크 일회 투자. 잔량 355 → 200. 월 60~75편 자산화 잠재.</p>
+    <p class="cost">155 크 · 2~3일 · 잔량 355 → 200</p>
+  </div></div>
+
+  <div class="opt"><div class="n">5</div><div class="body">
+    <b>보류 — 어제 결과 페이지 그대로 두고 다음 주에 재검토</b>
+    <p>크레딧 보존, 인스타 D+1 게시 운영부터 먼저 진행. 카카오 채널·원장님 자료 등 기존 블록커 해결에 집중.</p>
+    <p class="cost">0 크 · 즉시 결정</p>
+  </div></div>
+</div>
+
+<!-- E. 다음 액션 -->
+<section style="margin-top:30px">
+  <h2><span class="num">E</span>대표님 답변 형식</h2>
+  <p style="font-size:14px;color:#cbc8c1">번호 1글자(예: <strong>1</strong>·<strong>1+2</strong>·<strong>3</strong>·<strong>5</strong>)로 답해주시면 클로드가 즉시 진행합니다.</p>
+  <p style="font-size:13px;color:#8a8a84;margin-top:6px">권장 1순위 — <strong>1</strong> (시술 전후 텍스처 스왑 PoC, 0크 2일). 3직원 합의 +기존 블록커 (카카오·원장님 자료)와 무관하게 진행 가능.</p>
+</section>
+
+<footer>
+  <p>© ARTbrows 2026 · 이 페이지는 운영진 전용 회의록 (cloudflared 임시 터널 / _site)</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="Blender-MCP-결과-20260624.html">어제 PoC 결과 페이지</a> · <a href="docs/PROGRESS.md">PROGRESS.md</a></p>
+</footer>
+
+</body>
+</html>

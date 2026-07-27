@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cycles Bake Phase 2 · 측면 한계 정직 보고 · 2026-06-26 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#2a241a,#1c1f1c);border:1px solid #5a4828;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#f4d4a8}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  .insight{background:#1a2a1c;border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;font-size:14px;color:#a8e6b3;margin-bottom:14px}
+  .insight b{color:#a8e6b3}
+  .verdict{background:#2a1818;border:1px solid #5a2828;border-radius:10px;padding:14px 18px;font-size:14px;color:#f4c4c0;margin-bottom:14px}
+  .verdict b{color:#ffb0a8}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;font-weight:700;margin-right:6px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.partial{color:#f4d4a8}
+  td.fail{color:#f4a8a8}
+  .grid-img{display:block;margin:20px auto;max-width:100%;border:1px solid #242425;border-radius:8px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+  .pair .col{background:#161617;border:1px solid #242425;border-radius:8px;padding:10px}
+  .pair .col h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:14px;margin-bottom:6px}
+  .pair img{width:100%;display:block;border-radius:4px}
+  .pair .lbl{font-size:11px;color:#8a8a84;text-align:center;letter-spacing:1px;padding:5px 0}
+  .options{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 22px;margin-top:8px}
+  .options h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  .options .opt{padding:14px 16px;background:#1c1c1d;border-radius:8px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+  .options .opt .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;flex-shrink:0;line-height:1;width:40px;text-align:center}
+  .options .opt .body b{font-size:15px;color:#e7e5e1;display:block;margin-bottom:4px}
+  .options .opt .body p{font-size:13px;color:#9a9a93;line-height:1.55;margin:0}
+  .options .opt .body .cost{font-size:11.5px;color:#d4af37;letter-spacing:1px;margin-top:4px;font-weight:600}
+  .options .opt.reco{border:1px solid #d4af37;background:linear-gradient(135deg,#1c1c1d,#2a241a)}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>Cycles Bake Phase 2</em> <span style="color:#f4d4a8;font-size:20px">— 측면 한계 정직 보고</span></h1>
+<p class="sub">2026-06-26 · 대표님 옵션 A 채택 · 측면 평면 좌·우 추가 + 통합 Bake</p>
+
+<div class="goal"><b>🎯 목표</b>측면 평면 좌·우 추가 + 통합 Bake → 4 각도 모두 자연 <br>
+<b style="color:#f4d4a8">결과:</b> 4 각도 모두 baked OK · 그러나 <strong style="color:#ffb0a8">시각 품질 = Phase 1보다 부자연</strong> (마네킹 GLB UV island 분포 한계 그대로 노출)</div>
+
+<div class="verdict"><b>❌ 솔직 보고:</b> 측면 평면이 마네킹 머리에 fit됐지만, <strong>「눈썹 텍스처가 옆통수에 그대로 매핑」되어 패치워크처럼 부자연.</strong> 4 각도가 baked 됐다는 사실은 검증되었으나, 마케팅 자산으로 쓰기엔 시각 품질 부족. <strong>Phase 1 (정면만)이 정면 컷은 가장 깔끔.</strong></div>
+
+<div class="insight"><b>🔍 핵심 발견:</b> 「측면 데칼 평면 + 베이크」 는 기술적으로 가능하지만, <strong>마네킹 GLB의 source image 자체에 눈썹이 미리 박혀 있어야</strong> 진정한 4 각도 자연. 매번 단순 데칼·UV 페인트로는 GLB UV island 한계 못 풂. <strong>옵션 C (마네킹 GLB 재제작) 또는 옵션 D (Meshy Pro + 5종 페르소나)가 진짜 정답 path.</strong></div>
+
+<div class="meta-bar">
+  <div><b>잔량</b>352.46 → <strong>352.46</strong> (오늘 누적 0 크)</div>
+  <div><b>총 PoC</b>4개 (05·06·07·08)</div>
+  <div><b>Bake 시간</b>약 1분 (3 평면)</div>
+  <div><b>다음 정답</b>옵션 C 또는 D</div>
+</div>
+
+<!-- 4 각도 결과 -->
+<section>
+  <h2><span class="num">A</span>Phase 2 결과 (4 각도 × 전/후)</h2>
+  <img class="grid-img" src="assets/blender-renders/PoC-08-GRID-bake-phase2.png" alt="Phase 2 그리드" style="max-width:540px">
+  <table>
+    <tr><th>각도</th><th>결과</th><th>분석</th></tr>
+    <tr><td>A. 정면</td><td class="partial">△ 이마 OK + 옆통수 patches 부자연</td><td>측면 평면이 정면 카메라에서도 일부 보임</td></tr>
+    <tr><td>B. 45° 사선</td><td class="win">✅ 가장 자연</td><td>정면+측면 baked 영역 합쳐서 풍부</td></tr>
+    <tr><td>C. 측면</td><td class="fail">✗ 패치워크 부자연</td><td>「눈썹 텍스처가 옆통수에 박힌」 느낌</td></tr>
+    <tr><td>D. 클로즈업</td><td class="partial">△ Phase 1보다 노이즈 ↑</td><td>옆통수 작은 patches 일부 보임</td></tr>
+  </table>
+</section>
+
+<!-- B. Phase 1 vs Phase 2 비교 -->
+<section>
+  <h2><span class="num">B</span>Phase 1 vs Phase 2 — 측면 컷 비교</h2>
+  <div class="pair">
+    <div class="col">
+      <h3>Phase 1 (정면 데칼 1개)</h3>
+      <img src="assets/blender-renders/PoC-07-C-Right_Profile-after.png" alt="Phase 1 측면">
+      <div class="lbl">측면 = 매트 화이트만 (눈썹 영역 비어있음)</div>
+    </div>
+    <div class="col">
+      <h3>Phase 2 (정면+측면 3 평면)</h3>
+      <img src="assets/blender-renders/PoC-08-C-Right_Profile-after.png" alt="Phase 2 측면">
+      <div class="lbl">측면 baked 됐지만 패치워크 부자연</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:#9a9a93;margin-top:10px"><strong>판정:</strong> Phase 2는 「측면 영역에 무언가 박혔다」를 검증함. 그러나 그 「무언가」가 자연스러운 눈썹 옆모습이 아니라 「정면 눈썹 텍스처가 옆으로 강제 매핑」된 결과. <strong>이 한계는 데칼+베이크 자체 방식의 한계가 아니라, 마네킹 GLB의 source image에 측면 정보가 없기 때문.</strong></p>
+</section>
+
+<!-- C. 4 PoC 종합 비교 -->
+<section>
+  <h2><span class="num">C</span>4 PoC 종합 비교 (PoC-05 ~ PoC-08)</h2>
+  <table>
+    <tr><th>지표</th><th>PoC-05 데칼</th><th>PoC-06 UV</th><th>PoC-07 Bake Ph1</th><th>PoC-08 Bake Ph2</th></tr>
+    <tr><td>정면</td><td class="win">✅</td><td class="partial">△ 점</td><td class="win">✅ 깔끔</td><td class="partial">△ 부자연</td></tr>
+    <tr><td>45° 사선</td><td class="partial">△</td><td class="fail">✗</td><td class="win">✅</td><td class="win">✅</td></tr>
+    <tr><td>측면</td><td class="fail">✗</td><td class="fail">✗</td><td class="fail">⚠ 비어있음</td><td class="fail">⚠ 패치워크</td></tr>
+    <tr><td>클로즈업</td><td class="win">✅</td><td class="partial">△ 점</td><td class="win">✅</td><td class="partial">△ 노이즈</td></tr>
+    <tr><td>마케팅 적합</td><td>✅</td><td>✗</td><td class="win">✅ 베스트</td><td>△</td></tr>
+    <tr><td>비용</td><td>2 크</td><td>0 크</td><td>0 크</td><td>0 크</td></tr>
+  </table>
+  <p style="font-size:13px;color:#9a9a93;margin-top:10px"><strong>결론:</strong> <strong>마케팅 자산으로는 PoC-07 (Phase 1)이 베스트.</strong> 정면·45°·클로즈업 컷이 가장 깔끔. 측면 한계 수용 (사람 측면 봐도 눈썹이 정면에만 보이는 게 자연스러움).</p>
+</section>
+
+<!-- D. 다음 단계 진짜 정답 -->
+<section>
+  <h2><span class="num">D</span>진짜 정답 path — 옵션 C / D</h2>
+  <p style="font-size:14px;color:#cbc8c1;margin-bottom:14px">
+  4 PoC 끝에 발견한 「측면 한계의 진짜 원인」 = 마네킹 GLB가 매트 화이트 도자기 모델이라 source image에 눈썹이 없음. 어떤 데칼·페인트·베이크로도 자연 측면을 만들기 어려움. <strong>마네킹 GLB의 source image 자체에 눈썹을 박는 게 정답.</strong>
+  </p>
+</section>
+
+<div class="options">
+  <h3>대표님 결정 — 다음 한 발 (1글자)</h3>
+
+  <div class="opt"><div class="n">B</div><div class="body">
+    <b>PoC-07 (Phase 1) 컷으로 만족 + 인스타 캐러셀 5장 시리즈 8편 합류</b>
+    <p>3 각도(정면·45°·클로즈업) 자산이 충분. 측면 컷 제외하고 시리즈 합류. 시리즈 8편 = STORY 09 「ARTbrows 시그니처 — 자체 검증」.</p>
+    <p class="cost">0 크 · 30분</p>
+  </div></div>
+
+  <div class="opt reco"><div class="n">C</div><div class="body">
+    <b>마네킹 GLB 재제작 — 「자연 눈썹 있는 source image」로 image_to_3d (정답 path)</b>
+    <p>nano_banana_pro로 「매트 화이트 마네킹 + 자연 결 눈썹」 source 1장 생성 → Meshy image_to_3d → UV에 baked-in 영구. 4 각도 모두 자연.</p>
+    <p class="cost">2+31 = 33 크 · 10분 (잔량 352→319) · 권장 ★</p>
+  </div></div>
+
+  <div class="opt"><div class="n">D</div><div class="body">
+    <b>Meshy Pro $20/월 + 5종 페르소나 GLB 일괄 (한승철 STEP 2 본격 진입)</b>
+    <p>페르소나당 「자연 눈썹 있는 사람 source image」 + image_to_3d. 「수아·하영·예린·민지·지우」 5종 GLB 영구 자산.</p>
+    <p class="cost">$20/월 + ~50 크 · 반나절</p>
+  </div></div>
+
+  <div class="opt"><div class="n">E</div><div class="body">
+    <b>보류 — 다른 블록커(카카오·원장님 자료) 집중</b>
+    <p>4 PoC로 Blender 라인 검증 충분. 잔량 보존 + 인스타 D+1 게시·카카오 채널·원장님 자료 수령 집중.</p>
+    <p class="cost">0 크 · 즉시</p>
+  </div></div>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 운영진 전용 (cloudflared 임시 터널 / _site)</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="Blender-MCP-Bake-PoC-20260626.html">Phase 1 (PoC-07)</a> · <a href="Blender-MCP-UV-PoC-20260626.html">PoC-06 UV</a> · <a href="Blender-MCP-시술전후-PoC-20260625.html">PoC-05 데칼</a> · <a href="docs/PROGRESS.md">PROGRESS.md</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Face Lab v4 PoC · 「리얼 시뮬레이션」 BEFORE/AFTER · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#FCE8DC,#F5C7AD);color:#3D2818;line-height:1.6;min-height:100vh;padding:0;max-width:1100px;margin:0 auto}
+
+  .topnav{padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(196,90,107,0.18);background:rgba(255,251,245,0.7);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10}
+  .topnav .brand{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:17px;color:#3D2818}
+  .topnav .brand em{color:#C45A6B;font-style:normal}
+  .topnav .links a{color:#5D4636;text-decoration:none;font-weight:500;padding:6px 10px;border-radius:8px;font-size:13px;margin-left:6px}
+  .topnav .links a.active{background:#C45A6B;color:#fff}
+
+  .hero{text-align:center;padding:50px 30px 30px}
+  .hero .chip{display:inline-block;background:#C45A6B;color:#fff;font-weight:700;font-size:11px;letter-spacing:3px;padding:7px 18px;border-radius:20px;margin-bottom:14px}
+  .hero h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:40px;color:#3D2818;margin-bottom:10px;line-height:1.25}
+  .hero h1 em{color:#C45A6B;font-style:normal}
+  .hero .sub{font-size:14px;color:rgba(60,40,30,0.7);max-width:680px;margin:0 auto;line-height:1.7}
+
+  .body{padding:30px}
+  section{margin-bottom:38px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#3D2818;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #C45A6B}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#C45A6B;margin-right:10px;font-size:26px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#C45A6B;font-size:16px;margin:14px 0 8px}
+
+  /* BEFORE/AFTER slider */
+  .ba-wrap{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 14px 38px rgba(196,90,107,0.18);max-width:680px;margin:0 auto;position:relative}
+  .ba-stage{position:relative;width:100%;aspect-ratio:1/1;background:#000;cursor:ew-resize;user-select:none;-webkit-user-select:none}
+  .ba-stage img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+  .ba-stage .after-wrap{position:absolute;top:0;left:0;width:50%;height:100%;overflow:hidden}
+  .ba-stage .after-wrap img{width:200%;max-width:none}
+  .ba-handle{position:absolute;top:0;bottom:0;width:3px;background:rgba(255,255,255,0.95);left:50%;transform:translateX(-50%);box-shadow:0 0 16px rgba(0,0,0,0.4);pointer-events:none;z-index:3}
+  .ba-handle::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:#C45A6B;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center}
+  .ba-handle::after{content:'⇆';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:18px;font-weight:800;z-index:4}
+  .ba-label{position:absolute;top:14px;font-size:11px;letter-spacing:2px;font-weight:800;padding:6px 12px;border-radius:14px;color:#fff;z-index:2;text-transform:uppercase}
+  .ba-label.before{left:14px;background:rgba(60,40,30,0.85)}
+  .ba-label.after{right:14px;background:#C45A6B}
+  .ba-caption{text-align:center;font-size:12px;color:#8B6452;margin-top:10px;letter-spacing:1px}
+
+  /* Comparison v3 vs v4 */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  .compare .col{background:#fff;border-radius:12px;padding:18px;box-shadow:0 4px 12px rgba(196,90,107,0.1)}
+  .compare .col.v3{border-top:4px solid #FFD87A}
+  .compare .col.v4{border-top:4px solid #C45A6B}
+  .compare .col h3{margin-top:0;font-size:18px}
+  .compare .col h3 .badge{display:inline-block;font-size:10px;letter-spacing:2px;padding:3px 8px;border-radius:10px;font-weight:700;vertical-align:middle;margin-left:4px}
+  .compare .col.v3 h3 .badge{background:#FFD87A;color:#5A4014}
+  .compare .col.v4 h3 .badge{background:#C45A6B;color:#fff}
+  .compare .col ul{margin:8px 0 0 18px;font-size:13px;color:#5D4636;line-height:1.7}
+  .compare .col ul li::marker{color:#C45A6B}
+  .compare .col .score{font-family:'Cormorant Garamond',serif;color:#C45A6B;font-weight:700;font-size:32px;margin-top:8px}
+
+  /* 8 case grid */
+  .cases-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  @media(max-width:780px){.cases-grid{grid-template-columns:repeat(2,1fr)}.compare{grid-template-columns:1fr}}
+  .case{background:#fff;border-radius:12px;padding:14px;text-align:center;box-shadow:0 3px 10px rgba(196,90,107,0.1);border-top:3px solid var(--c)}
+  .case h4{font-family:'Nanum Myeongjo',serif;font-size:14px;color:#3D2818;margin-bottom:2px}
+  .case .axis{font-size:10px;color:#8B6452;letter-spacing:1px;margin-bottom:6px}
+  .case .swatch{display:inline-block;width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(196,90,107,0.3);margin:4px 0}
+  .case .meta{font-size:11px;color:#5D4636;margin-top:4px;line-height:1.5}
+  .case .meta b{color:#C45A6B}
+
+  /* Tracks */
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  @media(max-width:780px){.tracks{grid-template-columns:1fr}}
+  .track{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 3px 10px rgba(196,90,107,0.1)}
+  .track .who{display:inline-block;background:#C45A6B;color:#fff;font-size:11px;letter-spacing:1px;padding:3px 10px;border-radius:10px;font-weight:700;margin-bottom:6px}
+  .track h4{font-family:'Nanum Myeongjo',serif;font-size:15px;color:#3D2818;margin-bottom:6px}
+  .track .status{font-family:'Cormorant Garamond',serif;font-size:18px;color:#3A8047;font-weight:700;margin-top:6px}
+  .track .status.todo{color:#E8A33D}
+  .track p{font-size:12.5px;color:#5D4636;line-height:1.6;margin:0}
+
+  /* Guard prompt */
+  .guard{background:#FFFBF5;border:1.5px solid #C45A6B;border-radius:12px;padding:18px;margin:14px 0}
+  .guard h3{margin-top:0}
+  .guard .group{margin:10px 0}
+  .guard .group .lbl{font-size:11px;color:#8B6452;letter-spacing:1px;font-weight:700;margin-bottom:4px}
+  .guard .kw{display:inline-block;font-size:11.5px;padding:4px 10px;border-radius:12px;margin:2px 3px;font-family:Consolas,monospace}
+  .guard .kw.req{background:#E8F0DA;color:#1E4A28}
+  .guard .kw.forb{background:#FAD7D7;color:#5A1818;text-decoration:line-through}
+
+  /* PIPA + CTA mock */
+  .pipa{background:#fff;border:2px dashed #C45A6B;border-radius:12px;padding:18px;margin:14px 0}
+  .pipa h3{margin-top:0}
+  .pipa label{display:block;margin:8px 0;font-size:13px;color:#5D4636;line-height:1.7;cursor:pointer}
+  .pipa label input{margin-right:8px}
+  .pipa .actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+  .pipa .actions a, .pipa .actions button{padding:11px 22px;border-radius:25px;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:13px;letter-spacing:2px;text-decoration:none;border:0;cursor:pointer}
+  .pipa .actions .kakao{background:#FFEB3B;color:#3D2818}
+  .pipa .actions .save{background:#C45A6B;color:#FFF6E8}
+  .pipa .actions .link{background:transparent;border:1.5px solid #C45A6B;color:#C45A6B}
+
+  /* Next steps */
+  .next{background:linear-gradient(135deg,#C45A6B,#A84658);color:#FFF6E8;border-radius:14px;padding:22px 24px;margin-top:14px}
+  .next h3{margin-top:0;color:#FFF6E8;font-family:'Nanum Myeongjo',serif;font-size:18px}
+  .next ol{margin:10px 0 0 22px}
+  .next ol li{margin:6px 0;font-size:13.5px}
+
+  footer{margin-top:30px;padding:24px 30px;background:rgba(60,40,30,0.05);text-align:center;font-size:11.5px;color:#8B6452}
+  footer a{color:#C45A6B}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="brand">ART<em>brows</em> · Face Lab</div>
+  <div class="links">
+    <a href="../../index.html">홈</a>
+    <a href="../">v3</a>
+    <a href="./" class="active">★ v4 NEW</a>
+    <a href="../../graphify/graph.html">그래프</a>
+    <a href="../../자료실.html">자료실</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="chip">v4 · 「리얼 + 이쁨」 시뮬레이션 PoC</div>
+  <h1>실제 시술 후 모습을<br><em>1초 만에 미리</em></h1>
+  <p class="sub">06-28 5직원 리서치 회의 결과 — FLUX Kontext + MediaPipe + 240 케이스 매트릭스 + K-Hyper-Natural 가드 + PIPA + 카카오 1클릭. <strong>BEFORE/AFTER 슬라이더 미리보기.</strong></p>
+</div>
+
+<div class="body">
+
+<!-- A. BEFORE/AFTER 슬라이더 -->
+<section>
+  <h2><span class="num">A</span>BEFORE / AFTER · 실시간 슬라이더 (드래그)</h2>
+  <div class="ba-wrap">
+    <div class="ba-stage" id="ba-stage">
+      <img src="../demo/01-oval.jpg" alt="BEFORE" id="img-before">
+      <div class="after-wrap" id="after-wrap">
+        <img src="../demo/v4-oval-after.png" alt="AFTER" id="img-after">
+      </div>
+      <div class="ba-label before">BEFORE</div>
+      <div class="ba-label after">AFTER · v4</div>
+      <div class="ba-handle" id="ba-handle"></div>
+    </div>
+  </div>
+  <p class="ba-caption">← 좌우 드래그 → · 같은 인물 · 자연 결 ARTbrows 시그니처 변환 (오늘 nano_banana_pro 1크 생성)</p>
+</section>
+
+<!-- B. v3 vs v4 비교 -->
+<section>
+  <h2><span class="num">B</span>v3 캔버스 합성 vs v4 「리얼 변환」 비교</h2>
+  <div class="compare">
+    <div class="col v3">
+      <h3>Face Lab v3 <span class="badge">캔버스 결</span></h3>
+      <div class="score">6.5 / 10</div>
+      <ul>
+        <li>사진 위에 SVG/Canvas로 결 라인 그리기</li>
+        <li>색·두께·아치만 조정</li>
+        <li>실제 사람 같음 = 약함 (덧칠 느낌)</li>
+        <li>「픽셀 위 그림」 수준</li>
+        <li>비용 0크 · 통합 완료</li>
+      </ul>
+    </div>
+    <div class="col v4">
+      <h3>Face Lab v4 <span class="badge">리얼 변환 NEW</span></h3>
+      <div class="score">9.0 / 10</div>
+      <ul>
+        <li>FLUX Kontext + MediaPipe 마스크</li>
+        <li>인물 정체성 유지 + 눈썹만 재합성</li>
+        <li><strong>실제 시술 후 사진 수준</strong></li>
+        <li>「실사 변환」 수준</li>
+        <li>비용 ~3~5크/장 · 통합 3~5일</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- C. 240 케이스 매트릭스 MVP (8 케이스) -->
+<section>
+  <h2><span class="num">C</span>240 케이스 매트릭스 MVP — 계란형 8 스타일</h2>
+  <p style="font-size:13px;color:#5D4636;margin-bottom:12px"><strong>전체 240</strong> = 8 스타일 × 6 형 × 5 피부톤. MVP는 계란형 × 8 스타일 (오늘 유나 작성). 각 케이스는 4 파라미터 자동 룩업: 아치 위치 · 결 밀도 · 색조 · 꼬리 비율.</p>
+  <div class="cases-grid" id="cases-grid"></div>
+</section>
+
+<!-- D. 4 트랙 진행 -->
+<section>
+  <h2><span class="num">D</span>4 트랙 진행 상황 (오늘 합의 → 실행)</h2>
+  <div class="tracks">
+    <div class="track">
+      <span class="who">트랙 1 · 김민서</span>
+      <h4>v4 PoC · 1인 샘플 변환</h4>
+      <p>nano_banana_pro로 「시술 후 ARTbrows 시그니처 + K-Hyper-Natural」 1장 생성. BEFORE/AFTER 슬라이더 검증.</p>
+      <div class="status">✅ 완료 · 1 크</div>
+    </div>
+    <div class="track">
+      <span class="who">트랙 2 · 유나</span>
+      <h4>240 케이스 MVP JSON</h4>
+      <p>8 스타일 × 계란형 MVP. 4 파라미터 × graphify 출처. K-Hyper-Natural 가드 (필수 8 · 금지 8).</p>
+      <div class="status">✅ 완료 · 0 크</div>
+    </div>
+    <div class="track">
+      <span class="who">트랙 3 · 한승철</span>
+      <h4>인프라 가드 3종</h4>
+      <p>PIPA 별도 동의 + Supabase 24h 자동삭제 + 「체험용 비공개」 워터마크. Replicate 백업 라우터.</p>
+      <div class="status">✅ UI 시연 + 백엔드 TODO</div>
+    </div>
+    <div class="track">
+      <span class="who">트랙 4 · 이서연</span>
+      <h4>카카오 깔때기</h4>
+      <p>결과 PNG 「장미지눈썹연구소 K1 카톡」 워터마크 + 1클릭 진입. 카카오 결단 즉시 활성.</p>
+      <div class="status todo">⏳ 카카오 결단 대기</div>
+    </div>
+  </div>
+</section>
+
+<!-- E. K-Hyper-Natural 가드 프롬프트 -->
+<section>
+  <h2><span class="num">E</span>K-Hyper-Natural 가드 프롬프트 (유나 작성)</h2>
+  <div class="guard">
+    <h3>「언캐니 밸리」 회피 가드</h3>
+    <div class="group">
+      <div class="lbl">✅ 필수 키워드 (8)</div>
+      <span class="kw req">natural skin texture</span>
+      <span class="kw req">visible pores</span>
+      <span class="kw req">subtle fine lines</span>
+      <span class="kw req">individual hair strands</span>
+      <span class="kw req">asymmetry 3-7%</span>
+      <span class="kw req">micro-feathered strokes</span>
+      <span class="kw req">soft delicate</span>
+      <span class="kw req">fluffy texture</span>
+    </div>
+    <div class="group">
+      <div class="lbl">❌ 금지 키워드 (8)</div>
+      <span class="kw forb">flawless</span>
+      <span class="kw forb">airbrushed</span>
+      <span class="kw forb">smooth</span>
+      <span class="kw forb">perfect symmetry</span>
+      <span class="kw forb">porcelain</span>
+      <span class="kw forb">plastic</span>
+      <span class="kw forb">doll-like</span>
+      <span class="kw forb">uniform</span>
+    </div>
+    <p style="font-size:12.5px;color:#5D4636;margin-top:8px">출처: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11356113/">NCBI 2024 — 정상 비대칭 매력도</a> · <a href="https://www.allurekorea.com/2025/12/24/뷰티-전문가들이-공통적으로-짚은-2026-뷰티-트렌드/">Allure Korea 2026 트렌드</a></p>
+  </div>
+</section>
+
+<!-- F. PIPA + 카카오 CTA 시연 -->
+<section>
+  <h2><span class="num">F</span>PIPA 동의 + 카카오 1클릭 CTA · 시연</h2>
+  <div class="pipa">
+    <h3>📋 시술 시뮬레이션 사용 동의 (PIPA 별도)</h3>
+    <label><input type="checkbox" id="agree1"> [필수] 얼굴 사진은 민감정보(생체정보)로 분류됩니다. AI 시뮬레이션 처리 + 보관기간(24시간) + 제3자 위탁(Replicate 미국)에 동의합니다.</label>
+    <label><input type="checkbox" id="agree2"> [필수] 결과 이미지는 「체험용·외부 게시 금지」 워터마크가 박힙니다. 의료광고법 §5.3 정합.</label>
+    <label><input type="checkbox" id="agree3"> [선택] 결과를 카카오 채널로 보내 장미지 원장 상담 받겠습니다.</label>
+    <div class="actions">
+      <a href="#" class="kakao" onclick="alert('카카오 채널 개설 후 활성화 (06-29 원장님 결단 대기 · 22일째 보류)'); return false;">💬 카카오로 상담 신청</a>
+      <button class="save" onclick="alert('「체험용·비공개」 워터마크 + 24h 만료 signed URL로 저장')">결과 PNG 저장</button>
+      <a href="../../landing-pages/artbrows-모집-럭셔리에디토리얼.html" class="link">학원 등록 페이지</a>
+    </div>
+  </div>
+</section>
+
+<!-- G. 다음 단계 -->
+<section>
+  <h2><span class="num">G</span>다음 단계</h2>
+  <div class="next">
+    <h3>이번 주 안에 v4 알파 → 다음 주 베타 게시</h3>
+    <ol>
+      <li><strong>오늘 (06-28)</strong> 4 트랙 동시 시작 ✅ (PoC 1인 + MVP JSON + UI 시연 + 워터마크)</li>
+      <li><strong>월 (06-29)</strong> 원장님 미팅에서 v4 OK + 카카오 결단 + 자료 추가</li>
+      <li><strong>화·수 (06-30~07/01)</strong> 240 케이스 풀세트 (8 × 6 형 × 5 피부 = 240) · MediaPipe 마스크 자동 생성 → Higgsfield 변환 라우터</li>
+      <li><strong>목 (07-02)</strong> Replicate Kontext 백업 라우터 + Supabase 24h cron + PIPA 별도 동의 백엔드</li>
+      <li><strong>금 (07-03)</strong> eyebrows.staris.cloud/face-lab 라이브 알파 · 친구·내부 테스트 50명</li>
+      <li><strong>토~일 (07-04~05)</strong> 인스타 광고 1000명 베타 → 이서연 ROI 측정 시작</li>
+    </ol>
+    <p style="margin-top:12px;font-size:14px;color:#FAD7C7"><strong>예상 효과:</strong> 인스타 100K → Face Lab v4 2K → 상담 216 → 등록 54명 × 69만원 = <strong style="color:#fff">월 3,720만원</strong></p>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · Face Lab v4 PoC · 2026-06-28 · 4 트랙 동시 진행</p>
+  <p style="margin-top:6px">
+    <a href="../">v3 (이전)</a> ·
+    <a href="../../회의-20260628-리얼시뮬레이션.html">5직원 리서치 회의</a> ·
+    <a href="../../원장님-미팅-보고-20260629.html">06/29 미팅 보고서</a> ·
+    <a href="../../graphify/graph.html">graphify</a> ·
+    <a href="../../자료실.html">자료실</a>
+  </p>
+</footer>
+
+<script>
+// BEFORE/AFTER 슬라이더
+(function() {
+  const stage = document.getElementById('ba-stage');
+  const handle = document.getElementById('ba-handle');
+  const afterWrap = document.getElementById('after-wrap');
+  let drag = false;
+
+  const setPos = (clientX) => {
+    const rect = stage.getBoundingClientRect();
+    let x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const pct = (x / rect.width) * 100;
+    handle.style.left = pct + '%';
+    afterWrap.style.width = pct + '%';
+  };
+
+  stage.addEventListener('mousedown', e => { drag = true; setPos(e.clientX); });
+  window.addEventListener('mousemove', e => { if (drag) setPos(e.clientX); });
+  window.addEventListener('mouseup', () => drag = false);
+  stage.addEventListener('touchstart', e => { drag = true; setPos(e.touches[0].clientX); });
+  window.addEventListener('touchmove', e => { if (drag) setPos(e.touches[0].clientX); });
+  window.addEventListener('touchend', () => drag = false);
+})();
+
+// 240 cases MVP 로드
+(async function() {
+  try {
+    const res = await fetch('../240-cases-mvp.json');
+    const data = await res.json();
+    const grid = document.getElementById('cases-grid');
+    data.cases.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'case';
+      el.style.setProperty('--c', c.recommended_color_hex);
+      el.innerHTML = `
+        <h4>${c.style_name}</h4>
+        <div class="axis">${c.style_axis}</div>
+        <div class="swatch" style="background:${c.recommended_color_hex}"></div>
+        <div class="meta">
+          아치 <b>${(c.arch_position_percent*100).toFixed(0)}%</b> ·
+          꼬리 <b>${(c.tail_length_ratio*100).toFixed(0)}%</b><br>
+          ${c.color_tone}
+        </div>
+      `;
+      grid.appendChild(el);
+    });
+  } catch (e) {
+    console.error('240 cases load 실패:', e);
+  }
+})();
+</script>
+
+</body>
+</html>

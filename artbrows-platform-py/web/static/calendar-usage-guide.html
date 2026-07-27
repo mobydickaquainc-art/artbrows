@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강의 달력 · 사용법 안내 · 원장님 3분 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.7;max-width:820px;margin:0 auto;padding:24px}
+  a{color:#FF4D7E;text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .topnav{background:#0B0907;padding:12px 24px;display:flex;align-items:center;gap:14px;margin:-24px -24px 20px;border-bottom:1px solid #2A2A2A}
+  .topnav a{color:#E0C088;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+  .topnav .crumb{color:#5A5A56;font-size:12px}
+  .topnav .crumb strong{color:#FFB78A}
+
+  .hero{background:linear-gradient(180deg,#FAD7C7,#F5C7AD);border-radius:18px;padding:36px 32px;margin-bottom:26px;text-align:center}
+  .chip{display:inline-block;background:#3D2818;color:#FFB78A;font-weight:700;font-size:11px;letter-spacing:3px;padding:6px 16px;border-radius:20px;margin-bottom:14px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:34px;color:#3D2818;line-height:1.3}
+  h1 em{color:#FF4D7E;font-style:normal}
+  .lead{font-size:15px;color:#5D4636;margin-top:12px;line-height:1.7}
+  .cta-row{margin-top:22px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .cta{background:#FF4D7E;color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;font-size:14px}
+  .cta.ghost{background:transparent;border:2px solid #3D2818;color:#3D2818}
+
+  .step{background:#fff;border-radius:16px;padding:26px 28px;margin-bottom:18px;box-shadow:0 6px 18px rgba(232,169,155,0.15);border-left:6px solid #FF4D7E}
+  .step-hdr{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .step-num{width:44px;height:44px;background:#FF4D7E;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;flex:none}
+  .step-title{font-family:'Nanum Myeongjo',serif;font-size:22px;font-weight:800;color:#3D2818;line-height:1.3}
+  .step-body{color:#5D4636;font-size:15px}
+  .step-body p{margin-bottom:10px}
+  .step-body strong{color:#FF4D7E}
+  .step-body ul{margin-left:20px;margin-bottom:10px}
+  .step-body li{margin-bottom:6px}
+  .step-body code{background:#FAF6F0;padding:2px 6px;border-radius:5px;font-family:'Consolas',monospace;font-size:13px;color:#3D2818}
+
+  .mock{background:#FAF6F0;border-radius:12px;padding:16px;margin:14px 0;border:1.5px dashed #FAD7C7}
+  .mock-cap{font-size:11px;color:#8B6452;letter-spacing:2px;font-weight:700;margin-bottom:8px}
+
+  .mode-preview{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+  .mode-preview .mp{padding:12px 8px;text-align:center;border-radius:10px;font-weight:700;font-size:13px;color:#8B6452;background:#fff}
+  .mode-preview .mp.on{background:#FF4D7E;color:#fff}
+
+  .dow-preview{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+  .dow-preview span{padding:8px 0;text-align:center;background:#fff;border-radius:8px;font-size:13px;font-weight:700;color:#8B6452;border:1.5px solid #FAD7C7}
+  .dow-preview span.on{background:#FF4D7E;color:#fff;border-color:#FF4D7E}
+
+  .cal-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+  .cal-mini .c{aspect-ratio:1/1;background:#fff;border-radius:6px;display:flex;align-items:flex-start;justify-content:flex-start;padding:6px;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:#3D2818;position:relative}
+  .cal-mini .c.hit{background:#FFE5D0;border:1.5px solid #FF4D7E}
+  .cal-mini .c .dot{position:absolute;bottom:5px;left:5px;right:5px;height:6px;background:#FF4D7E;border-radius:3px}
+
+  .badge{display:inline-block;background:#FFE5D0;color:#FF4D7E;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:1px;margin-left:6px}
+  .badge.warn{background:#FFF3B0;color:#8B6B00}
+  .badge.ok{background:#D4F5D4;color:#2F7A2F}
+
+  .faq{background:#fff;border-radius:16px;padding:26px 28px;margin-top:26px;box-shadow:0 6px 18px rgba(232,169,155,0.15)}
+  .faq h2{font-family:'Nanum Myeongjo',serif;font-size:22px;color:#3D2818;margin-bottom:16px}
+  .faq details{margin-bottom:10px;background:#FAF6F0;border-radius:10px;padding:12px 16px}
+  .faq summary{cursor:pointer;font-weight:700;color:#3D2818;font-size:14.5px}
+  .faq details[open]{background:#FFF5EE}
+  .faq details p{margin-top:8px;font-size:14px;color:#5D4636}
+
+  .status{background:#FFF5EE;border-radius:16px;padding:22px 26px;margin-top:26px;border-left:5px solid #FFB78A}
+  .status h3{font-family:'Nanum Myeongjo',serif;font-size:18px;color:#3D2818;margin-bottom:12px}
+  .status table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .status th, .status td{padding:8px 6px;border-bottom:1px solid #FAD7C7;text-align:left}
+  .status th{color:#8B6452;font-weight:700;font-size:12px;letter-spacing:1px}
+
+  footer{margin-top:30px;text-align:center;font-size:12px;color:#8B6452;padding:20px 0}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="/static/calendar.html"><span style="font-size:18px">←</span> 강의 달력으로</a>
+  <span class="crumb">/ SaaS A · 학원 / <strong>사용법 가이드</strong></span>
+</div>
+
+<div class="hero">
+  <div class="chip">CALENDAR · HOW TO USE · 3분 가이드</div>
+  <h1>원장님, <em>3분이면 다 하실 수 있어요</em></h1>
+  <p class="lead">
+    이 페이지 한 번만 읽으시면 매달 강의·상담·특강 일정을 달력에 얹고,<br>
+    인스타·카톡용 이미지까지 <strong>클릭 몇 번</strong>으로 만드실 수 있습니다.
+  </p>
+  <div class="cta-row">
+    <a class="cta" href="/static/calendar.html">지금 달력 열기 →</a>
+    <a class="cta ghost" href="#faq">자주 묻는 질문</a>
+  </div>
+</div>
+
+<!-- STEP 1 -->
+<div class="step">
+  <div class="step-hdr">
+    <div class="step-num">1</div>
+    <div class="step-title">달력에서 <em style="color:#FF4D7E;font-style:normal">날짜를 눌러주세요</em></div>
+  </div>
+  <div class="step-body">
+    <p>수업을 넣고 싶은 날짜를 그냥 <strong>손가락 / 마우스로 한 번 톡</strong> 하시면 됩니다.</p>
+    <p>그러면 아래처럼 <strong>일정 추가 창</strong>이 뜹니다.</p>
+    <div class="mock">
+      <div class="mock-cap">▲ 예시 · 7월 21일을 눌렀을 때</div>
+      <div style="background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+        <div style="font-family:'Nanum Myeongjo',serif;font-size:22px;color:#3D2818"><span style="color:#FF4D7E">7월 21일</span> 일정</div>
+        <div style="font-size:12px;color:#8B6452;margin-top:4px">새 일정 추가 또는 기존 일정 관리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step">
+  <div class="step-hdr">
+    <div class="step-num">2</div>
+    <div class="step-title"><em style="color:#FF4D7E;font-style:normal">하루 / 연속 / 요일 반복</em> 중에 고르세요</div>
+  </div>
+  <div class="step-body">
+    <p>이번 <strong>새로 추가된 기능</strong>입니다. 창 위쪽에 <strong>세 개 버튼</strong>이 보입니다.</p>
+    <div class="mock">
+      <div class="mock-cap">▲ 반복 모드 선택</div>
+      <div class="mode-preview">
+        <div class="mp on">하루</div>
+        <div class="mp">연속 N일</div>
+        <div class="mp">요일 반복</div>
+      </div>
+    </div>
+    <ul>
+      <li><strong>「하루」</strong> — 그 날만 (예: 8월 3일 상담) <span class="badge">기본</span></li>
+      <li><strong>「연속 N일」</strong> — 며칠 이어서 (예: 7월 21·22·23 3일 특강) <span class="badge">NEW</span></li>
+      <li><strong>「요일 반복」</strong> — 매주 정해진 요일 (예: 매주 화·수·목 4주간) <span class="badge">NEW</span></li>
+    </ul>
+    <p><strong>「요일 반복」</strong>을 누르시면 아래처럼 <strong>요일 체크박스</strong>가 뜹니다. 원하시는 요일을 눌러 켜고 끄시면 됩니다.</p>
+    <div class="mock">
+      <div class="mock-cap">▲ 화·수·목 선택 후 4주 반복 예시</div>
+      <div class="dow-preview">
+        <span>월</span><span class="on">화</span><span class="on">수</span><span class="on">목</span><span>금</span><span>토</span><span>일</span>
+      </div>
+      <p style="margin-top:10px;font-size:13px;color:#8B6452">반복 주 수: <strong style="color:#FF4D7E">4</strong>주 → 총 <strong style="color:#FF4D7E">12개</strong> 일정이 자동으로 채워집니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step">
+  <div class="step-hdr">
+    <div class="step-num">3</div>
+    <div class="step-title">수업 종류 선택 <em style="color:#FF4D7E;font-style:normal">or 커스텀 특강</em> 이름 직접 입력</div>
+  </div>
+  <div class="step-body">
+    <p>수업 종류 <strong>드롭다운</strong>에서 이번에 들어갈 항목을 고르세요.</p>
+    <ul>
+      <li>초급반 · 중급반 · ★ 마스터반 · 상담 (기본 4종)</li>
+      <li><strong>✎ 커스텀 특강</strong> <span class="badge">NEW</span> — 원장님이 이름을 <strong>직접 적으실 수 있습니다</strong>. 특강·워크샵·이벤트 등 정형화 안 된 일정용입니다.</li>
+    </ul>
+    <div class="mock">
+      <div class="mock-cap">▲ 커스텀 특강 선택 시 이름 입력창이 나옵니다</div>
+      <div style="background:#fff;padding:14px;border-radius:10px">
+        <div style="font-size:12px;font-weight:700;color:#3D2818;margin-bottom:6px;letter-spacing:1px">특강 제목</div>
+        <div style="border:1.5px solid #FF4D7E;background:#FFF5EE;padding:10px 12px;border-radius:8px;font-size:14px;color:#3D2818">김희애 회원 1:1 특강</div>
+      </div>
+    </div>
+    <p><strong>시작·종료 시간</strong>을 확인하시고 <strong style="color:#FF4D7E">+ 일정 추가</strong>를 누르시면 끝입니다.</p>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step">
+  <div class="step-hdr">
+    <div class="step-num">4</div>
+    <div class="step-title">달력이 이렇게 <em style="color:#FF4D7E;font-style:normal">자동으로 채워집니다</em></div>
+  </div>
+  <div class="step-body">
+    <p>「매주 화·수·목 × 4주 반복」 을 누르시면 아래처럼 12개 칸이 한 번에 채워집니다.</p>
+    <div class="mock">
+      <div class="mock-cap">▲ 결과 예시</div>
+      <div class="cal-mini">
+        <div class="c">1</div><div class="c">2</div><div class="c">3</div><div class="c">4</div><div class="c">5</div><div class="c">6</div><div class="c">7</div>
+        <div class="c">8</div><div class="c">9</div><div class="c">10</div><div class="c">11</div><div class="c">12</div><div class="c">13</div><div class="c">14</div>
+        <div class="c">15</div><div class="c">16</div><div class="c">17</div><div class="c">18</div><div class="c">19</div><div class="c">20</div><div class="c">21</div>
+        <div class="c">22</div><div class="c hit">23<div class="dot"></div></div><div class="c hit">24<div class="dot"></div></div><div class="c hit">25<div class="dot"></div></div><div class="c">26</div><div class="c">27</div><div class="c">28</div>
+        <div class="c">29</div><div class="c hit">30<div class="dot"></div></div><div class="c hit">31<div class="dot"></div></div><div class="c"></div><div class="c"></div><div class="c"></div><div class="c"></div>
+      </div>
+      <p style="margin-top:10px;font-size:13px;color:#8B6452;text-align:center">화·수·목만 자동으로 잡혔죠? 나머지 날짜는 시술 예약 가능일로 남습니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step">
+  <div class="step-hdr">
+    <div class="step-num">5</div>
+    <div class="step-title"><em style="color:#FF4D7E;font-style:normal">📸 사진 저장</em> — 인스타·카톡에 바로 올리세요</div>
+  </div>
+  <div class="step-body">
+    <p>상단 <strong>「📸 사진 저장」</strong> 버튼을 누르시면 이번 달 달력이 <strong>1080 × 1350 인스타 규격</strong>으로 PNG 다운로드됩니다.</p>
+    <ul>
+      <li>날짜와 요일이 <strong>큼직하게</strong> 나오도록 새로 디자인 <span class="badge ok">개선</span></li>
+      <li>불필요한 통계·범례 없이 <strong>심플</strong>하게 <span class="badge ok">개선</span></li>
+      <li>하단에 <strong>ARTbrows 워터마크</strong> 자동 삽입</li>
+    </ul>
+    <p>PNG 를 카톡·인스타 스토리·수강생 단톡방에 <strong>그냥 올리시면 끝</strong>입니다.</p>
+    <p style="background:#FFF3B0;color:#8B6B00;padding:12px 14px;border-radius:8px;font-size:13.5px">
+      💡 <strong>Tip.</strong> 스타일 6종(크림 살구 · Luxury Dark · K-Beauty · Editorial · 손글씨 · Y2K) 중에 그날 기분에 맞는 톤으로 바꾸실 수 있습니다. 상단 「🎨 스타일」 버튼.
+    </p>
+  </div>
+</div>
+
+<!-- STEP 6 · 수업 종류 관리 -->
+<div class="step">
+  <div class="step-hdr">
+    <div class="step-num">6</div>
+    <div class="step-title">수업 <em style="color:#FF4D7E;font-style:normal">이름·시간·가격을 직접 편집</em>하세요 <span class="badge ok" style="font-size:11px">NEW</span></div>
+  </div>
+  <div class="step-body">
+    <p>이번에 원장님이 <strong>수업 종류를 직접 관리</strong>하실 수 있게 되었습니다. 이름 · 시간(H) · 수강료(원) · 기본 시작·종료 시간 전부 편집 가능합니다.</p>
+    <p>일정 추가 창의 <strong>「수업 종류」 오른쪽</strong>의 <strong style="color:#FF4D7E">⚙ 종류 관리</strong> 를 누르시면 아래 관리창이 뜹니다.</p>
+    <div class="mock">
+      <div class="mock-cap">▲ 수업 종류 관리 예시</div>
+      <div style="background:#fff;border-radius:12px;padding:14px;font-size:13px">
+        <div style="background:#FAF6F0;padding:10px 12px;border-radius:8px;border-left:5px solid #FF4D7E;margin-bottom:6px">
+          <div style="display:flex;justify-content:space-between"><span style="background:#3D2818;color:#FFB78A;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700">기본</span><span style="color:#8B6452;font-size:11px">현재 12개 일정에 사용 중</span></div>
+          <div style="margin-top:8px;color:#3D2818"><strong>★ 마스터반</strong> · 4시간 · 1,500,000원 · 10:00~14:00</div>
+        </div>
+        <div style="background:#FFF5EE;padding:10px 12px;border-radius:8px;border-left:5px solid #FF8A00">
+          <div style="display:flex;justify-content:space-between"><span style="background:#FF8A00;color:#fff;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700">신규</span><span style="color:#8B6452;font-size:11px">사용 안 됨</span></div>
+          <div style="margin-top:8px;color:#3D2818"><strong>주말 워크샵</strong> · 3시간 · 250,000원 · 13:00~16:00</div>
+        </div>
+      </div>
+    </div>
+    <ul>
+      <li><strong>기본 5종 (초·중·마스터·상담·커스텀 특강)</strong> — 이름·시간·가격은 편집 가능, 삭제 불가</li>
+      <li><strong>신규 종류 추가</strong> — 하단 「＋ 새 수업 종류 추가」 → 이름·가격 채우고 「저장」</li>
+      <li><strong>신규 종류 삭제</strong> — 우측 상단 <strong style="color:#FF4D7E">×</strong> · 사용 중인 일정이 있으면 확인창</li>
+      <li><strong>드롭다운에서 종류 선택 시 시작·종료 시간 자동 입력</strong> — 「초급반」 고르면 10:00~13:00 자동</li>
+    </ul>
+    <p style="background:#FFF3B0;color:#8B6B00;padding:12px 14px;border-radius:8px;font-size:13.5px">
+      💡 <strong>Tip.</strong> 신규 강의 과정 추가하실 때마다 원장님이 직접 하실 수 있습니다. 대표님한테 요청 안 하셔도 돼요.
+    </p>
+  </div>
+</div>
+
+<!-- 현재 작동 상태 -->
+<div class="status">
+  <h3>🔧 지금 프로그램은 어디까지 되어 있나요?</h3>
+  <p style="font-size:13px;color:#5D4636;margin-bottom:10px">
+    원장님이 물어보셨죠. 솔직하게 정리해드립니다.
+  </p>
+  <table>
+    <thead><tr><th>기능</th><th>상태</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>날짜 클릭 → 일정 추가</td><td><span class="badge ok">작동</span></td><td>오늘부터 사용 가능</td></tr>
+      <tr><td>요일 반복 · 연속일</td><td><span class="badge ok">작동</span></td><td>이번 업데이트 반영</td></tr>
+      <tr><td>커스텀 특강 이름</td><td><span class="badge ok">작동</span></td><td>이번 업데이트 반영</td></tr>
+      <tr><td>반복 규칙 <strong>전체 삭제</strong></td><td><span class="badge ok">작동</span></td><td>× 버튼 → "2" 입력</td></tr>
+      <tr><td>수업 종류 <strong>직접 편집</strong></td><td><span class="badge ok">작동</span></td><td>⚙ 종류 관리 · 이름·시간·가격</td></tr>
+      <tr><td>PNG 이미지 저장</td><td><span class="badge ok">작동</span></td><td>글자 크게 개선 완료</td></tr>
+      <tr><td>스타일 6종 전환</td><td><span class="badge ok">작동</span></td><td>—</td></tr>
+      <tr><td>일정 <strong>브라우저 저장</strong></td><td><span class="badge ok">작동</span></td><td>이 PC / 이 브라우저에만</td></tr>
+      <tr><td>여러 기기 <strong>동기화</strong></td><td><span class="badge warn">미연결</span></td><td>서버 DB 연결 필요 (다음 단계)</td></tr>
+      <tr><td>인스타 <strong>자동 게시</strong></td><td><span class="badge warn">미연결</span></td><td>지금은 PNG 저장 → 수동 업로드</td></tr>
+      <tr><td>수강생 <strong>카톡 알림</strong></td><td><span class="badge warn">미연결</span></td><td>SMS·카톡 API 연동 예정</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12.5px;color:#8B6452;margin-top:12px">
+    ※ 지금 원장님이 넣으신 일정은 <strong>이 브라우저 안에만</strong> 저장됩니다. 다른 PC·핸드폰에서 보시려면 서버 저장 기능이 붙어야 하며, 다음 세션에서 진행합니다.
+  </p>
+</div>
+
+<!-- FAQ -->
+<div class="faq" id="faq">
+  <h2>자주 묻는 질문</h2>
+
+  <details>
+    <summary>일정을 잘못 넣었어요. 어떻게 지우나요?</summary>
+    <p>해당 날짜를 다시 클릭하시면 그 날 잡힌 일정 목록이 뜹니다. 각 일정 오른쪽 <strong style="color:#FF4D7E">×</strong> 를 누르면 삭제됩니다.</p>
+  </details>
+
+  <details>
+    <summary>요일 반복으로 12개 넣었는데 다 지우려면? <span class="badge ok">NEW</span></summary>
+    <p>반복으로 만든 일정 옆에는 <strong>「↺ 매주 화·수·목 × 4주」</strong> 같은 <strong>주황색 배지</strong>가 붙어 있습니다.</p>
+    <p>그 일정의 오른쪽 <strong style="color:#FF4D7E">×</strong> 를 누르시면 창이 뜨고, <strong>「1 = 이 하루만」 / 「2 = 반복 규칙 전체 (12개 모두)」</strong> 중에 고르실 수 있습니다.</p>
+    <p><strong>2</strong> 를 누르시면 그 반복으로 만들어진 <strong>12개가 한 번에</strong> 지워집니다.</p>
+  </details>
+
+  <details>
+    <summary>PNG 를 폰에서도 만들 수 있나요?</summary>
+    <p>네. 스마트폰 브라우저에서 이 페이지 열고 「📸 사진 저장」 누르시면 폰 사진첩에 바로 저장됩니다. 그대로 인스타 스토리·카톡에 공유하시면 됩니다.</p>
+  </details>
+
+  <details>
+    <summary>수업 종류의 시간이나 가격을 바꾸고 싶어요.</summary>
+    <p>현재는 코드에 고정되어 있습니다. 원장님이 원하시는 변경 사항을 말씀해 주시면 대표님이 다음 세션에 반영합니다. (또는 <strong>「커스텀 특강」</strong>으로 매번 다르게 입력하실 수 있습니다.)</p>
+  </details>
+
+  <details>
+    <summary>사용 중에 뭔가 안 되면?</summary>
+    <p>대표님(박정주)께 화면 스크린샷과 함께 카톡 주세요. 이번 원장님 피드백 4건도 모두 그렇게 반영되었습니다.</p>
+  </details>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 강의 달력 사용법 v1.0 · 원장님 3분 가이드</p>
+  <p style="margin-top:6px"><a href="/static/calendar.html">← 강의 달력으로 돌아가기</a></p>
+</footer>
+
+</body>
+</html>

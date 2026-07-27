@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Face Lab Phase 1 PoC · 얼굴 비율 미학 진단 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{
+    font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;
+    background:linear-gradient(180deg,#FCE8DC 0%, #F8D5C2 100%);
+    color:#2A1A12;min-height:100vh;line-height:1.6;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 60px}
+  header{text-align:center;margin-bottom:36px}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:24px;color:#C45A6B;letter-spacing:6px;text-transform:uppercase;font-weight:600}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:46px;margin-top:8px;letter-spacing:-1px}
+  h1 em{color:#C45A6B;font-style:normal}
+  .sub{color:#7A5A48;font-size:15px;margin-top:10px;max-width:680px;margin-left:auto;margin-right:auto}
+  .sub b{color:#C45A6B}
+
+  /* 업로드 영역 */
+  .drop{
+    background:#FFFBF5;border:2px dashed #C45A6B;border-radius:18px;
+    padding:60px 30px;text-align:center;cursor:pointer;transition:all 0.2s;
+    margin-bottom:24px
+  }
+  .drop.hover{background:#FCE8DC;border-color:#A84658;transform:scale(1.01)}
+  .drop .ic{font-family:'Cormorant Garamond',serif;font-size:80px;color:#C45A6B;font-weight:700;line-height:1}
+  .drop .ttl{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-top:14px}
+  .drop .desc{color:#7A5A48;font-size:13.5px;margin-top:8px}
+  .drop input{display:none}
+
+  /* 상태 표시 */
+  .status{
+    margin:0 auto 30px;max-width:680px;padding:12px 20px;border-radius:10px;
+    text-align:center;font-size:13.5px;font-weight:600
+  }
+  .status-info{background:rgba(159,200,255,0.18);color:#1E3A5F;border:1px solid #9FC8FF}
+  .status-ok{background:rgba(168,230,179,0.20);color:#1E4A28;border:1px solid #A8E6B3}
+  .status-warn{background:rgba(255,216,122,0.20);color:#5A4014;border:1px solid #FFD87A}
+  .status-err{background:rgba(244,180,180,0.25);color:#5A1818;border:1px solid #F4B4B4}
+
+  /* 결과 카드 */
+  .result-card{
+    background:#FFFBF5;border-radius:20px;overflow:hidden;
+    box-shadow:0 14px 38px rgba(196,90,107,0.18);
+    display:grid;grid-template-columns:340px 1fr;
+    margin-top:14px
+  }
+  @media (max-width:780px){.result-card{grid-template-columns:1fr}}
+  .result-img{background:#3A2A1F;display:flex;align-items:center;justify-content:center;min-height:340px;position:relative}
+  .result-img img{width:100%;height:100%;max-height:520px;object-fit:cover;display:block}
+  .result-img canvas.overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+  .result-img .overlay-toggle{position:absolute;top:12px;right:12px;background:rgba(255,251,245,0.92);border:1px solid #C45A6B;color:#3A2A1F;font-family:'Pretendard',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;padding:6px 12px;border-radius:18px;cursor:pointer;z-index:2}
+  .result-img .overlay-toggle:hover{background:#C45A6B;color:#FFF6E8}
+  .result-img .overlay-toggle.off{opacity:0.65}
+  .result-img .ovr-label{position:absolute;bottom:14px;left:14px;background:rgba(196,90,107,0.92);color:#FFF6E8;font-size:11px;letter-spacing:2px;font-weight:700;padding:5px 10px;border-radius:10px;z-index:2;text-transform:uppercase}
+  .result-body{padding:30px 32px}
+
+  .big-score{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid rgba(196,90,107,0.20)}
+  .big-score .score-num{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:80px;color:#C45A6B;line-height:1}
+  .big-score .score-label{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#5A4035;letter-spacing:3px}
+
+  .diag-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+  .diag-row.diag-row-4{grid-template-columns:repeat(2,1fr)}
+  @media (max-width:780px){.diag-row,.diag-row.diag-row-4{grid-template-columns:1fr}}
+  .diag-box{background:#FCE8DC;border-radius:12px;padding:14px 16px}
+  .diag-box.brow{background:linear-gradient(135deg,#C45A6B,#A84658);color:#FFF6E8}
+  .diag-box.brow .diag-cap,.diag-box.brow .diag-desc{color:rgba(255,246,232,0.85)}
+  .diag-box .diag-cap{font-size:11px;color:#8B6452;letter-spacing:3px;font-weight:700;text-transform:uppercase}
+  .diag-box .diag-val{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#2A1A12;margin-top:4px}
+  .diag-box.brow .diag-val{color:#FFF6E8}
+  .diag-box .diag-desc{font-size:11.5px;color:#7A5A48;line-height:1.55;margin-top:4px}
+  .diag-box.skin{background:linear-gradient(135deg,#3A2A1F,#1F140D);color:#F5EDE3}
+  .diag-box.skin .diag-cap,.diag-box.skin .diag-desc{color:rgba(245,237,227,0.85)}
+  .diag-box.skin .diag-val{color:#FFF6E8;display:flex;align-items:center;gap:10px}
+  .skin-swatch{display:inline-block;width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,246,232,0.5)}
+
+  .ratios{margin-bottom:24px}
+  .ratios h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#C45A6B;margin-bottom:10px;letter-spacing:1px}
+  .ratio-row{display:grid;grid-template-columns:1.6fr 1fr 1.2fr 0.6fr;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(196,90,107,0.15);font-size:12.5px}
+  .ratio-label{font-weight:700;color:#3A2A1F}
+  .ratio-actual{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px;color:#C45A6B}
+  .ratio-ideal{color:#9A7A68;font-size:11.5px}
+  .ratio-score{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;text-align:right}
+  .score-high{color:#3A8047}
+  .score-mid{color:#B8852B}
+  .score-low{color:#A84658}
+
+  .cta{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .btn,.btn-outline{display:inline-block;padding:14px 24px;font-family:'Nanum Myeongjo',serif;font-weight:800;border-radius:30px;font-size:14px;letter-spacing:3px;cursor:pointer;border:0;text-decoration:none}
+  .btn{background:#C45A6B;color:#FFF6E8;box-shadow:0 8px 18px rgba(196,90,107,0.30)}
+  .btn:hover{background:#A84658}
+  .btn-outline{background:transparent;border:1.5px solid #C45A6B;color:#C45A6B}
+  .btn-outline:hover{background:#C45A6B;color:#FFF6E8}
+
+  .disclaimer{margin-top:22px;padding-top:16px;border-top:1px solid rgba(196,90,107,0.15);font-size:11.5px;color:#8B6452;line-height:1.7}
+
+  /* 시연 캐릭터 갤러리 */
+  .demo-section{margin:30px 0;padding:24px;background:rgba(255,251,245,0.55);border-radius:18px;border:1px solid rgba(196,90,107,0.18)}
+  .demo-section h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#C45A6B;text-align:center;margin-bottom:6px;letter-spacing:1px}
+  .demo-section .demo-sub{text-align:center;color:#8B6452;font-size:12px;margin-bottom:18px}
+  .demo-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  @media (max-width:780px){.demo-row{grid-template-columns:repeat(2,1fr)}}
+  .demo-card{background:#FFFBF5;border:1.5px solid rgba(196,90,107,0.25);border-radius:14px;padding:8px 8px 14px;cursor:pointer;text-align:center;transition:all 0.18s;font-family:inherit;color:inherit}
+  .demo-card:hover{border-color:#C45A6B;transform:translateY(-3px);box-shadow:0 10px 24px rgba(196,90,107,0.15)}
+  .demo-card.pending{opacity:0.55;cursor:wait}
+  .demo-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;display:block;background:#FCE8DC}
+  .demo-card .demo-shape{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:14px;color:#1F140D;margin-top:8px}
+  .demo-card .demo-meta{font-size:10.5px;color:#8B6452;margin-top:2px;letter-spacing:0.5px}
+  .demo-card .demo-pending-tag{display:inline-block;margin-top:4px;padding:2px 8px;background:#FCE8DC;border-radius:10px;font-size:10px;color:#A84658}
+
+  /* 정보 영역 */
+  .info-card{background:rgba(255,251,245,0.6);border:1px dashed #C45A6B;border-radius:14px;padding:18px 22px;margin-top:24px;font-size:13px;color:#5A4035;line-height:1.75}
+  .info-card b{color:#C45A6B}
+
+  /* v3 NEW banner */
+  .v3-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#FFE5D0,#FAD7C7);border:2px solid #C45A6B;border-radius:14px;padding:14px 22px;margin:0 auto 22px;max-width:880px}
+  .v3-banner .v3-tag{background:#C45A6B;color:#fff;font-weight:800;font-size:11px;letter-spacing:3px;padding:5px 12px;border-radius:14px;flex-shrink:0}
+  .v3-banner .v3-msg{font-size:13.5px;color:#3A2A1F;line-height:1.55}
+  .v3-banner .v3-msg b{color:#C45A6B}
+  .v3-banner .v3-links{margin-left:auto;display:flex;gap:8px;flex-shrink:0}
+  .v3-banner .v3-links a{font-size:11px;color:#C45A6B;text-decoration:none;border:1px solid #C45A6B;padding:6px 11px;border-radius:14px;font-weight:600;letter-spacing:1px}
+  .v3-banner .v3-links a:hover{background:#C45A6B;color:#FFF6E8}
+  @media (max-width:700px){.v3-banner{flex-wrap:wrap}.v3-banner .v3-links{margin-left:0;width:100%}}
+
+  /* v3 — 5요소 진단 박스 */
+  .rule5{background:linear-gradient(135deg,#FFF5E7,#FFE5D0);border:1.5px solid #C45A6B;border-radius:14px;padding:18px 20px;margin:18px 0}
+  .rule5 h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#C45A6B;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .rule5 h3 .src{font-size:10px;color:#8B6452;font-weight:600;letter-spacing:1px;margin-left:auto;font-family:'Pretendard',sans-serif}
+  .rule5 .r5-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  @media (max-width:780px){.rule5 .r5-grid{grid-template-columns:repeat(2,1fr)}}
+  .rule5 .r5-cell{background:#FFFBF5;border-radius:10px;padding:10px 8px;text-align:center}
+  .rule5 .r5-cell .r5-label{font-size:11px;color:#8B6452;letter-spacing:1px;font-weight:700;text-transform:uppercase}
+  .rule5 .r5-cell .r5-val{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;color:#C45A6B;margin-top:4px}
+  .rule5 .r5-cell .r5-score{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:13px;color:#3A8047;margin-top:2px}
+  .rule5 .r5-cell .r5-src{font-size:9.5px;color:#8B6452;margin-top:4px;letter-spacing:0.3px}
+
+  .ratios .src-tag{font-size:9.5px;color:#8B6452;margin-left:6px;letter-spacing:0.5px}
+
+  .v3-cta{background:linear-gradient(135deg,#C45A6B,#A84658);color:#FFF6E8;border-radius:18px;padding:24px 28px;margin-top:22px;text-align:center}
+  .v3-cta h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:6px}
+  .v3-cta p{font-size:13px;opacity:0.9;margin-bottom:14px}
+  .v3-cta .cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .v3-cta .cta-row a{background:#FFF6E8;color:#A84658;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:13px;letter-spacing:2px;padding:12px 22px;border-radius:25px;text-decoration:none}
+  .v3-cta .cta-row a:hover{background:#FAD7C7}
+  .v3-cta .cta-row a.kakao{background:#FFEB3B;color:#3D2818}
+  .v3-cta .cta-row a.kakao.pending{background:rgba(255,235,59,0.4);color:rgba(60,40,30,0.6);cursor:not-allowed}
+
+  footer{margin-top:40px;text-align:center;color:#8B6452;font-size:11.5px;letter-spacing:1px}
+  footer a{color:#C45A6B}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">ARTbrows · Face Lab v3</div>
+    <h1><em>얼굴 비율</em> 미학 진단</h1>
+    <p class="sub">
+      장미지 원장님 「<b>안면 비율 미학 8 룰 + 8 스타일 진단 + 추천 눈썹 8 형</b>」 알고리즘 기반.<br>
+      MediaPipe 478 랜드마크로 얼굴 분석 → 황금비 점수 + 시그니처 라인 추천.
+    </p>
+  </header>
+
+  <div class="v3-banner">
+    <div class="v3-tag">v3 NEW</div>
+    <div class="v3-msg">
+      ★ <b>06-28 강화</b> — 사진 위 추천 눈썹 실시간 시각화 + 눈썹뼈 5요소 진단 추가 + 모든 룰에 원장님 자료 출처 표시 + 카카오 상담 신청 통합.
+    </div>
+    <div class="v3-links">
+      <a href="../graphify/graph.html">graphify</a>
+      <a href="../원장님-자료-수령확인-20260627.html">자료 매핑</a>
+      <a href="../자료실.html">자료실</a>
+    </div>
+  </div>
+
+  <div id="status" class="status status-info">MediaPipe 로딩 중...</div>
+
+  <label for="photo" class="drop" id="drop">
+    <div class="ic">+</div>
+    <div class="ttl">사진 업로드 또는 끌어다 놓기</div>
+    <div class="desc">JPG · PNG · WebP · 정면 셀카 · 5MB 이하 권장</div>
+    <input type="file" id="photo" accept="image/*">
+  </label>
+
+  <div class="demo-section">
+    <h3>또는 — AI 시연 캐릭터로 즉시 분석</h3>
+    <div class="demo-sub">실제 인물 X · 모두 Higgsfield Nano-Banana Pro 로 생성한 AI 가상 인물 (Face Lab 알고리즘 시연용)</div>
+    <div class="demo-row">
+      <button class="demo-card" data-src="demo/01-oval.jpg" data-label="계란형 · 20대">
+        <img src="demo/01-oval.jpg" alt="계란형 20대 AI 가상 인물" onerror="this.closest('.demo-card').style.display='none'">
+        <div class="demo-shape">계란형</div>
+        <div class="demo-meta">20대 · 우아형</div>
+      </button>
+      <button class="demo-card" data-src="demo/02-round.jpg" data-label="둥근형 · 20대">
+        <img src="demo/02-round.jpg" alt="둥근형 20대 AI 가상 인물">
+        <div class="demo-shape">둥근형</div>
+        <div class="demo-meta">20대 · 소녀형</div>
+      </button>
+      <button class="demo-card" data-src="demo/03-square.png" data-label="각진형 · 30대">
+        <img src="demo/03-square.png" alt="각진형 30대 AI 가상 인물">
+        <div class="demo-shape">각진형</div>
+        <div class="demo-meta">30대 · 소년형</div>
+      </button>
+      <button class="demo-card" data-src="demo/04-heart.png" data-label="하트형 · 30대">
+        <img src="demo/04-heart.png" alt="하트형 30대 AI 가상 인물" onerror="this.closest('.demo-card').style.display='none'">
+        <div class="demo-shape">하트형</div>
+        <div class="demo-meta">30대 · 낭만형</div>
+      </button>
+      <button class="demo-card" data-src="demo/05-long.jpg" data-label="긴형 · 40대">
+        <img src="demo/05-long.jpg" alt="긴형 40대 AI 가상 인물">
+        <div class="demo-shape">긴형</div>
+        <div class="demo-meta">40대 · 고전형</div>
+      </button>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="info-card">
+    <b>★ 개인정보 보호</b> — 업로드한 사진은 브라우저 안에서만 분석됩니다. 서버 전송·저장 X. <br>
+    <b>★ 사용 목적</b> — 미적 가이드 + 시그니처 눈썹 디자인 추천 (의료 진단·성형 권유 X). <br>
+    <b>★ 알고리즘 출처</b> — 장미지 원장님 「안면 비율 미학 1~4 챕터」 (ARTbrows 시그니처 IP).
+  </div>
+
+  <footer>
+    Face Lab · Phase 1 PoC · 2026-06-24 · 운영진 임시 게시<br>
+    <a href="../index.html">← 메인 포털</a> ·
+    <a href="../얼굴비율-미학-기획-20260622.html">기획안</a> ·
+    <a href="../원장님자료-분석리포트-20260624.html">자료 분석</a>
+  </footer>
+</div>
+
+<script type="module" src="lab.js"></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-06-29 장미지 원장님 정기 미팅 보고 · 한 주(6/22~6/28) · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;padding:0;line-height:1.65;max-width:1100px;margin:0 auto}
+  .hero{background:linear-gradient(180deg,#FAD7C7,#F5C7AD);padding:60px 40px 50px;text-align:center}
+  .hero .chip{display:inline-block;background:#FF4D7E;color:#fff;font-weight:700;font-size:14px;letter-spacing:3px;padding:8px 20px;border-radius:24px;margin-bottom:18px}
+  .hero h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:44px;color:#3D2818;line-height:1.25;margin-bottom:12px}
+  .hero h1 em{color:#FF4D7E;font-style:normal}
+  .hero .sub{font-size:16px;color:rgba(60,40,30,0.7);font-weight:500}
+  .hero .meta{margin-top:20px;font-size:13px;color:rgba(60,40,30,0.6);letter-spacing:1px}
+  .body{padding:40px}
+  section{margin-bottom:50px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;color:#3D2818;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #FF4D7E}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF4D7E;margin-right:10px;font-size:30px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:20px 0 12px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+  .stat{background:#fff;border:1px solid #F0D6CC;border-radius:14px;padding:20px;text-align:center;box-shadow:0 4px 16px rgba(232,169,155,0.15)}
+  .stat .v{font-family:'Cormorant Garamond',serif;font-size:38px;color:#FF4D7E;font-weight:700;line-height:1;display:block}
+  .stat .l{font-size:11.5px;color:rgba(60,40,30,0.6);letter-spacing:2px;margin-top:8px;text-transform:uppercase}
+  .key{background:linear-gradient(135deg,#FFF5E7,#FFE5D0);border-left:5px solid #FF4D7E;border-radius:8px;padding:20px 24px;margin-bottom:20px}
+  .key h3{margin-top:0;color:#3D2818;font-size:20px}
+  .key p{font-size:15px;color:#5D4636;margin-bottom:8px}
+  .key p strong{color:#FF4D7E}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0;background:#fff;border:1px solid #F0D6CC;border-radius:8px;overflow:hidden}
+  th,td{border-bottom:1px solid #F0D6CC;padding:12px 14px;text-align:left;vertical-align:top}
+  th{background:#FAD7C7;color:#3D2818;font-weight:700}
+  td.win{color:#5BAE8A;font-weight:700}
+  td.partial{color:#E8A33D;font-weight:700}
+  td.fail{color:#C95B5B;font-weight:700}
+  ul{padding-left:22px;margin:10px 0}
+  ul li{margin:6px 0;color:#5D4636}
+  ul li::marker{color:#FF4D7E}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+  .gallery img{width:100%;display:block;border-radius:8px;border:1px solid #F0D6CC}
+  .gallery .cap{grid-column:1/-1;font-size:12px;color:rgba(60,40,30,0.6);text-align:center;margin-top:-4px;letter-spacing:1px}
+  .request{background:#FFE5D0;border:2px dashed #FF4D7E;border-radius:14px;padding:24px;margin:20px 0}
+  .request h3{margin-top:0;color:#FF4D7E;font-family:'Nanum Myeongjo',serif;font-size:22px}
+  .request .item{background:#fff;border-radius:8px;padding:14px 16px;margin-top:10px;display:flex;gap:14px;align-items:flex-start}
+  .request .item .n{font-family:'Cormorant Garamond',serif;font-size:32px;color:#FF4D7E;font-weight:700;line-height:1;width:50px;text-align:center;flex-shrink:0}
+  .request .item .body b{font-size:16px;color:#3D2818;display:block;margin-bottom:4px}
+  .request .item .body p{font-size:13.5px;color:#5D4636;margin:0}
+  .request .item .body .impact{font-size:11.5px;color:#FF4D7E;font-weight:700;margin-top:4px;letter-spacing:1px;text-transform:uppercase}
+  .timeline{position:relative;padding-left:30px;margin-bottom:14px}
+  .timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:#FAD7C7}
+  .entry{position:relative;margin-bottom:18px}
+  .entry::before{content:"";position:absolute;left:-29px;top:6px;width:14px;height:14px;border-radius:50%;background:#FF4D7E;border:3px solid #FAF6F0}
+  .entry .date{display:inline-block;background:#3D2818;color:#FAD7C7;font-weight:700;font-size:12px;padding:3px 12px;border-radius:14px;margin-bottom:6px}
+  .entry .ev{font-size:14.5px;color:#3D2818;font-weight:600;margin-bottom:4px}
+  .entry .desc{font-size:13px;color:#5D4636}
+  footer{margin-top:50px;padding:30px 40px;background:#3D2818;color:#FAD7C7;text-align:center;font-size:13px}
+  footer .sig{font-family:'Nanum Myeongjo',serif;font-size:16px;color:#FFB78A;margin-bottom:6px}
+  a{color:#FF4D7E}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">2026-06-29 정기 미팅 · 주간 보고</div>
+  <h1>한 주의 가장 큰 사건은<br><em>「원장님 자료가 일하기 시작했다」</em></h1>
+  <p class="sub">박정주 대표 → 장미지 원장님 · 06-22 (월) ~ 06-28 (일)</p>
+  <p class="meta">출석 직원 5명 — 이서연(마케팅) · 유나(그래픽) · 한승철(CTO) · 김민서(Face Lab) · 클로드(실행)</p>
+</div>
+
+<div class="body">
+
+<!-- A. 한 주 STATS -->
+<section>
+  <h2><span class="num">A</span>한 주 한눈에 — STATS</h2>
+  <div class="stats">
+    <div class="stat"><span class="v">15</span><div class="l">신규 산출물</div></div>
+    <div class="stat"><span class="v">44</span><div class="l">크레딧 사용</div></div>
+    <div class="stat"><span class="v">351.46</span><div class="l">잔량 (Plus)</div></div>
+    <div class="stat"><span class="v">1/3</span><div class="l">블록커 해제</div></div>
+  </div>
+
+  <div class="key" style="border:2px dashed #FF4D7E;background:linear-gradient(135deg,#FFF5E7,#FFE5D0);margin-top:18px">
+    <h3 style="color:#FF4D7E;margin-top:0">⭐ 미팅 첫 1분에 보여드릴 한 줄</h3>
+    <p style="font-size:17px;font-family:'Nanum Myeongjo',serif;font-weight:700;color:#3D2818;line-height:1.5">
+      원장님 자료가 도착한 지 <em style="color:#FF4D7E;font-style:normal">24시간 만에</em>,<br>
+      잠재 수강생이 <em style="color:#FF4D7E;font-style:normal">자기 얼굴에서 시술 결과를 미리 보는</em> 라이브 시뮬레이터가 됐습니다.
+    </p>
+    <p style="margin-top:8px;font-size:13px;color:#5D4636">→ Face Lab v4 PoC <a href="face-lab/v4/" style="color:#FF4D7E;font-weight:700">BEFORE/AFTER 슬라이더 라이브 데모 (클릭)</a> — 원장님 직접 드래그해 보세요</p>
+  </div>
+</section>
+
+<!-- B. ⭐ 핵심 사건 — 원장님 자료 -->
+<section>
+  <h2><span class="num">B</span>⭐ 핵심 사건 — 원장님 자료 도착 + 활용 시작</h2>
+
+  <div class="key">
+    <h3>6/15 약속 → 6/27 도착 → 6/28 일하기 시작 (13일 대기 → 1일 활용 진입)</h3>
+    <p><strong>원장님이 D:\work\jangmi 에 공유해주신 5 카테고리 6.5GB 자료</strong>가 ARTbrows 시스템에 들어왔습니다. 단순히 「자료를 받았다」가 아니라 <strong>다음날 바로 지식 그래프로 변환 + 활용 진입</strong>한 것이 한 주의 최대 가치.</p>
+  </div>
+
+  <h3>자료 5 카테고리</h3>
+  <table>
+    <tr><th>카테고리</th><th>핵심 자료</th><th>활용처</th></tr>
+    <tr><td><strong>📚 수업ppt</strong></td><td>26년 극사실눈썹 3일수업 (1GB Keynote) · 안면 비율/골격/윤곽/참조 미학 4 챕터 PDF · 극사실소묘 1~3일차 + 남자 · 일요일반수업 이론 01~04 · 파트너쉽 설명</td><td>Face Lab + STORY 10 소묘 시리즈 + B2B</td></tr>
+    <tr><td><strong>🇨🇳 중국수업번역본</strong></td><td>문신·반영구 업계 가이드북 (원본 1.15GB PDF + 번역본 RTF)</td><td>중국 진출 콘텐츠 (위챗·小红书)</td></tr>
+    <tr><td><strong>🎨 24년-6월 쯔라오스</strong></td><td>실습 스케치 자료</td><td>STORY 시리즈 컷 참고</td></tr>
+    <tr><td><strong>🇰🇷 24년-8월 띵선생님 한국</strong></td><td>소묘수업 한국</td><td>강사 협업·교육 라인</td></tr>
+    <tr><td><strong>🇨🇳 25년-2월 띵선생님 충칭</strong></td><td>소묘수업 충칭</td><td>중국 진출 라인</td></tr>
+  </table>
+
+  <h3>6/28 graphify 지식 그래프 — 자료가 어떻게 「말하기 시작했는지」</h3>
+  <p style="font-size:14px;color:#5D4636;line-height:1.7">_extracted 폴더 (이미 추출된 텍스트 + PNG 66 파일)를 AI가 읽고 <strong>118 노드 / 135 연결 / 16 커뮤니티</strong> 지식 그래프로 변환. 원장님 자료가 어떻게 서로 연결되는지 자동 발견된 것입니다.</p>
+
+  <table>
+    <tr><th>가장 중심 노드 (god nodes)</th><th>의미</th></tr>
+    <tr><td><strong>극사실 눈썹</strong> (degree 13)</td><td>모든 자료를 관통하는 핵심 개념</td></tr>
+    <tr><td><strong>안면 비율 미학</strong> (11)</td><td>Chapter 01 — Face Lab Phase 1 코드화 대상</td></tr>
+    <tr><td><strong>안면 골격 미학</strong> (10)</td><td>Chapter 02 — Face Lab Phase 2 코드화 대상</td></tr>
+    <tr><td><strong>이지클래스 파트너 모집</strong> (9)</td><td>B2B 파트너십 비즈니스 모델 중심</td></tr>
+    <tr><td><strong>분위기를 만드는 눈썹 뼈 5요소</strong> (7)</td><td>높이·너비·곡률·연결·접힌각도 = 알고리즘 직접 입력</td></tr>
+  </table>
+
+  <p style="font-size:14px;color:#5D4636;margin-top:14px"><strong>인터랙티브 그래프 →</strong> <a href="graphify/graph.html">graphify/graph.html</a> 에서 직접 클릭하며 확인 가능 (원장님께서 가지고 계신 자료가 어떻게 서로 연결되는지 시각화)</p>
+</section>
+
+<!-- C. 콘텐츠 자산 — STORY 시리즈 8편 -->
+<section>
+  <h2><span class="num">C</span>콘텐츠 자산 — STORY 시리즈 8편 완결</h2>
+
+  <table>
+    <tr><th>편</th><th>페르소나</th><th>톤</th><th>상태</th></tr>
+    <tr><td>STORY 01 코믹</td><td>도비 + 주인공</td><td>일러스트 (지브리)</td><td class="win">완료</td></tr>
+    <tr><td>STORY 02 직장인편</td><td>지우</td><td><strong>실사</strong> (06/22 전환)</td><td class="win">완료</td></tr>
+    <tr><td>STORY 03 신부편</td><td>예린</td><td><strong>실사</strong> (06/22 전환)</td><td class="win">완료</td></tr>
+    <tr><td>STORY 04 부업맘편</td><td>수아</td><td>일러스트</td><td class="win">완료</td></tr>
+    <tr><td>STORY 05 시니어편</td><td>선영</td><td>일러스트</td><td class="win">완료</td></tr>
+    <tr><td>STORY 06 미대생편</td><td>민지</td><td>일러스트</td><td class="win">완료</td></tr>
+    <tr><td>STORY 07 미용편</td><td>하영 (묶음)</td><td><strong>실사</strong> (06/21)</td><td class="win">완료</td></tr>
+    <tr><td>STORY 07-B 미용편</td><td>하영 (단발)</td><td><strong>실사</strong> (06/21)</td><td class="win">완료</td></tr>
+    <tr><td><strong>STORY 09 ★ 시그니처</strong></td><td>마네킹 (제품 컷)</td><td><strong>3D Blender</strong> (06/27 NEW)</td><td class="win">신규</td></tr>
+  </table>
+
+  <h3>⭐ STORY 09 「시그니처 자체 검증」 — 한 주 신규 작품</h3>
+  <div class="key">
+    <p><strong>「우리가 직접 만든 마네킹에, 우리 손으로 박는 시그니처」</strong></p>
+    <p style="margin-top:10px">마네킹 3D 모델을 Blender로 만들고 그 위에 원장님의 「극사실눈썹」 시그니처를 시뮬레이션. 인스타 캐러셀 5장(후킹·시그니처·매크로·증명·CTA) + 썸네일 1장. <strong>0 크레딧 (자체 자산 재활용)</strong>.</p>
+  </div>
+
+  <div class="gallery">
+    <img src="assets/시리즈-시그니처편/캐러셀-시그니처-1.png" alt="STORY 09 슬라이드 1 후킹">
+    <img src="assets/시리즈-시그니처편/캐러셀-시그니처-3.png" alt="STORY 09 슬라이드 3 매크로">
+    <img src="assets/시리즈-시그니처편/캐러셀-시그니처-4.png" alt="STORY 09 슬라이드 4 증명">
+    <div class="cap">STORY 09 캐러셀 1·3·4 (전체 5장은 메인 포털에서)</div>
+  </div>
+</section>
+
+<!-- D. Blender 3D 파이프라인 -->
+<section>
+  <h2><span class="num">D</span>신규 인프라 — Blender 3D 파이프라인 정착 (06/24 ~ 06/26)</h2>
+
+  <div class="key">
+    <h3>한 줄 결과: 콘텐츠 단가 96%↓ + 무한 변형 0크 검증</h3>
+    <p>원장님의 시그니처 자산을 <strong>3D 마네킹 + 텍스처 스왑</strong>으로 무한 변형. 4가지 PoC를 통해 최적 방법 발견.</p>
+  </div>
+
+  <table>
+    <tr><th>PoC</th><th>접근</th><th>결과</th></tr>
+    <tr><td>PoC-05 (06/25)</td><td>데칼 평면 + 눈썹 텍스처</td><td class="win">정면·클로즈업 ✅</td></tr>
+    <tr><td>PoC-06 (06/26 오전)</td><td>UV 직접 페인트</td><td class="fail">한계 진단</td></tr>
+    <tr><td><strong>PoC-07 (06/26 오후) ★</strong></td><td><strong>Cycles Bake Phase 1</strong></td><td class="win"><strong>3 각도 자연 — 마케팅 베스트</strong></td></tr>
+    <tr><td>PoC-08 (06/26 저녁)</td><td>Bake Phase 2 (측면 추가)</td><td class="partial">측면 한계 진단</td></tr>
+  </table>
+
+  <p style="font-size:13.5px;color:#5D4636;margin-top:12px"><strong>핵심 발견:</strong> 측면 한계의 진짜 원인 = 「마네킹 GLB의 source image에 눈썹이 없기 때문」. → 다음 페르소나 GLB 생성 시 <strong>「자연 눈썹 있는 source image」로 미리 박아야</strong> 진정한 4 각도 자연.</p>
+</section>
+
+<!-- E. 블록커 진척 -->
+<section>
+  <h2><span class="num">E</span>블록커 3건 진척</h2>
+  <table>
+    <tr><th>#</th><th>블록커</th><th>상태</th><th>대표님 대처</th></tr>
+    <tr><td>①</td><td>카카오톡 채널 개설</td><td class="fail">22일째 (악화)</td><td>원장님께 결단 직접 요청 (오늘 회의 합의)</td></tr>
+    <tr><td>②</td><td>장미지 원장님 자료</td><td class="win">✅ 해결 (06-27 수령 + 06-28 활용 진입)</td><td>원장님께 감사 + 추가 자료(시술 사진·후기) 요청</td></tr>
+    <tr><td>③</td><td>Netlify git 자격증명</td><td class="partial">미해결</td><td>다음 주 15분 작업 일정</td></tr>
+  </table>
+</section>
+
+<!-- F. 신규 채용 -->
+<section>
+  <h2><span class="num">F</span>신규 채용 — Face Lab 리드 「김민서」</h2>
+  <div class="key">
+    <h3>06/22 채용 — KAIST AI 박사 + 뷰티 테크 6년차</h3>
+    <p>전문 영역: 컴퓨터 비전 · 3D 분석 · 인지 미학 · 법적 윤리.<br>
+    <strong>역할:</strong> 원장님의 강의 자료(안면 비율 미학·골격 미학·윤곽 미학·참조)를 <strong>Face Lab 알고리즘으로 코드화</strong>.</p>
+  </div>
+
+  <p style="font-size:14px;color:#5D4636;line-height:1.7">06-28 graphify 그래프 완성으로 김민서가 코드화할 자료가 <strong>구조화된 형태로 준비 완료</strong>. 「안면 해부·비율 기준점」 18 nodes + 「눈썹뼈 5요소」 4 nodes = Face Lab Phase 2 직접 입력 가능.</p>
+
+  <h3 style="margin-top:20px">★ Face Lab v3 → v4 「리얼 시뮬레이션」 (06-28 신규)</h3>
+  <div class="key" style="background:linear-gradient(135deg,#FFF5E7,#FFE5D0)">
+    <p style="font-size:15px"><strong>05직원 병렬 리서치(기술·미적·인프라·전환율) → 만장일치 합의</strong> → 4 트랙 동시 실행 → BEFORE/AFTER 슬라이더 라이브 데모.</p>
+    <p style="margin-top:8px">
+      <strong>v3 (캔버스 합성, 정확도 6.5/10)</strong> = 사진 위 SVG로 결 라인 그리기 (오늘 오후 강화)<br>
+      <strong>v4 (FLUX Kontext + MediaPipe 마스크, 정확도 9.0/10)</strong> = 실제 시술 후 사진 수준 (오늘 새벽 PoC)
+    </p>
+  </div>
+  <p style="font-size:14px;color:#5D4636;line-height:1.7;margin-top:10px"><strong>핵심 발견 (4직원 일치):</strong></p>
+  <ul style="font-size:13.5px;color:#5D4636;margin-left:20px;line-height:1.7">
+    <li><strong>「리얼」 = 완벽 대칭 X, 의도된 비대칭 3~7%</strong> (NCBI 2024)</li>
+    <li><strong>「이쁨」 = 동일 적용 X, 240 케이스 자동 큐레이션</strong> (8 스타일 × 6 형 × 5 피부)</li>
+    <li><strong>법적 가드 3종</strong> = PIPA 별도 동의 + 24h 자동삭제 + 「체험용」 워터마크</li>
+    <li><strong>업계 사례</strong>: Sephora +112% · Modiface 3배 · 6개월 LTV 5.4배 · 시뮬+카카오 = <strong style="color:#FF4D7E">월 3,720만원 예상</strong></li>
+  </ul>
+  <p style="font-size:13px;color:#5D4636;margin-top:10px"><strong>오늘 산출:</strong> <a href="face-lab/v4/" style="color:#FF4D7E;font-weight:700">v4 PoC 라이브 슬라이더</a> · <a href="회의-20260628-리얼시뮬레이션.html" style="color:#FF4D7E">5직원 리서치 회의록</a> · <code>240-cases-mvp.json</code> · K-Hyper-Natural 가드 프롬프트 (필수 8 · 금지 8)</p>
+</section>
+
+<!-- G. 다음 주 계획 -->
+<section>
+  <h2><span class="num">G</span>다음 주 계획 (06-29 ~ 07-05)</h2>
+  <div class="timeline">
+    <div class="entry">
+      <div class="date">06/29 (월)</div>
+      <div class="ev">원장님 미팅 (오늘) + 카카오 결단 요청</div>
+      <div class="desc">미팅에서 카카오 채널 개설 결단 + 추가 자료(실제 시술 사진·후기) 요청</div>
+    </div>
+    <div class="entry">
+      <div class="date">06/30 (화)</div>
+      <div class="ev">인스타 D+1 첫 게시 시작</div>
+      <div class="desc">STORY 02·03·07·09 묶음 게시 시작 (이서연 캘린더 v5)</div>
+    </div>
+    <div class="entry">
+      <div class="date">07/01 (수)</div>
+      <div class="ev">옵션 D 진입 — Meshy Pro $20/월 + 5종 페르소나 GLB</div>
+      <div class="desc">수아·하영·예린·민지·지우 5종 GLB 일괄 생성 · 단가 73%↓</div>
+    </div>
+    <div class="entry">
+      <div class="date">07/02 (목)</div>
+      <div class="ev">★ Face Lab v4 알파 · 240 케이스 풀세트</div>
+      <div class="desc">계란형 8 → 6 형 × 5 피부 = 240 케이스 풀세트. MediaPipe 478 + Replicate Kontext 백업 라우터. PIPA·24h 자동삭제·워터마크 백엔드 박기.</div>
+    </div>
+    <div class="entry">
+      <div class="date">07/03 (금)</div>
+      <div class="ev">STORY 10 「소묘 시리즈」 신설 + Face Lab v4 알파 라이브</div>
+      <div class="desc">원장님 자료 극사실소묘 1~3일차 + 남자 4편 일괄 제작 (36크). eyebrows.staris.cloud/face-lab/v4 라이브 알파 (친구·내부 50명 테스트).</div>
+    </div>
+    <div class="entry">
+      <div class="date">07/04 (토)</div>
+      <div class="ev">유튜브 게시 패키지 5편 묶음</div>
+      <div class="desc">STORY 02·03·07·07-B·09 동시 게시 (대표님 수동 + 매뉴얼 동봉)</div>
+    </div>
+    <div class="entry">
+      <div class="date">07/05 (일)</div>
+      <div class="ev">한 주 회의 + D+7 결과 측정</div>
+      <div class="desc">인스타 6일 게시 결과(저장·DM·도달) 정리 + ROI 첫 측정</div>
+    </div>
+  </div>
+</section>
+
+<!-- H. 원장님 결정 요청 -->
+<div class="request">
+  <h3>🟡 원장님께 4가지 결정·확인 요청</h3>
+
+  <div class="item">
+    <div class="n">1</div>
+    <div class="body">
+      <b>카카오톡 채널 개설 결단 (5분)</b>
+      <p>22일째 블록 = 인스타 게시 시 「상담 신청」 비활성 → ROI 측정 불가. 원장님께서 「오늘 카카오 채널 만들자」 한 마디면 30분 안에 카드 5종·랜딩·포털 일괄 연결 완료.</p>
+      <p class="impact">영향: 다음 주 인스타 게시 ROI 측정 가능 여부 결정</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="n">2</div>
+    <div class="body">
+      <b>STORY 10 「소묘 시리즈」 콘셉트 OK — <a href="STORY-10-소묘시리즈-콘셉트-20260628.html" style="color:#FF4D7E">시안 페이지 ★ NEW</a></b>
+      <p>원장님 자료 「극사실소묘 1~3일차」 + 남자 자료 기반으로 <strong>STORY 10 시리즈 3편 + 별편 1편 (4편 구성)</strong> 제작 예정. 페르소나 「하린」 (1·2·3일차 성장 시리즈) + 「준현」 (남성 시장 확장 별편). <strong>예상 비용 36 크 · 1.5일.</strong> 원장님 자료의 첫 「콘텐츠 변환」 사례 — 콘셉트 시안에서 4가지 확인 부탁드립니다.</p>
+      <p class="impact">영향: STORY 시리즈 9 → 12편 확장 + 「자료 → 콘텐츠」 24시간 변환 사이클 증명</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="n">3</div>
+    <div class="body">
+      <b>실제 시술 사진·후기 추가 자료 요청</b>
+      <p>REVIEWS 카드 + 인스타 캐러셀 「전후 비교」에 필요. <strong>실제 수강생 시술 사진은 AI 합성 금지</strong>(허위광고 위험)라 원장님 직접 제공만 가능. 5~10건이면 충분.</p>
+      <p class="impact">영향: REVIEWS 카드 「자료 대기」 상태 해제 + 인스타 전환율 ↑</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="n">4</div>
+    <div class="body">
+      <b>B2B 「이지클래스 파트너십」 페이지 컨펌</b>
+      <p>원장님 자료 graphify에서 발견된 12 노드 클러스터. 「누구나 교육할 수 있게」 + 「강사용 PPT + 교재」 + 「파트너 모집」 = 명확한 B2B 모델. <strong>웹페이지로 만들어도 될지 확인.</strong></p>
+      <p class="impact">영향: 5축 ② 다채널 응답 + ④ 미국 진출(LA 09월) 확장 라인</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="n">5</div>
+    <div class="body">
+      <b>Face Lab v4 「리얼 시뮬레이션」 도입 OK — <a href="회의-20260628-리얼시뮬레이션.html" style="color:#FF4D7E">06/28 회의록 ★ NEW</a></b>
+      <p>06-28 4직원 병렬 리서치(기술·미적·인프라·전환율) 결과 만장일치: <strong>FLUX Kontext + MediaPipe로 v3 「캔버스 결」 → v4 「실사 시술 후 변환」 도입.</strong> Sephora +112% · Modiface 3배 · 시뮬 사용자 6개월 등록률 5.4배. 「리얼 = 미세 비대칭」 + 「이쁨 = 240 케이스 K-Hyper-Natural 톤」. PIPA 동의 + 24h 자동삭제 + 체험용 워터마크 3종 가드. 예상 효과 = 인스타 광고 100K → Face Lab 진입 2K → 상담 216 → 등록 54명 × 69만원 = <strong>월 3,720만원</strong>.</p>
+      <p class="impact">영향: Face Lab을 「장난감」 → 「학원 모집 깔때기 중간 펌프」로 + 카카오 채널 결단의 첫 유입 엔진</p>
+    </div>
+  </div>
+</div>
+
+<!-- I. 결론 -->
+<section>
+  <h2><span class="num">H</span>결론 — 한 줄</h2>
+  <div class="key">
+    <p style="font-size:18px;font-family:'Nanum Myeongjo',serif;color:#3D2818;font-weight:700">
+    원장님이 보내주신 자료는 <em style="color:#FF4D7E;font-style:normal">「창고에 쌓인 PPT」가 아니라 「ARTbrows 시스템 안에서 일하는 동료」</em>가 되었습니다.
+    </p>
+    <p style="margin-top:12px;font-size:14px;color:#5D4636">
+    13일 대기 → 1일 만에 graphify 그래프 → 다음 주 Face Lab 코드화 + STORY 10 소묘 시리즈. <strong>원장님의 30년 노하우가 24/7 작동하는 시스템</strong>으로 들어왔습니다.
+    </p>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="sig">— ARTbrows 운영진 일동 (대표 박정주 / 마케팅 이서연 / 그래픽 유나 / CTO 한승철 / Face Lab 김민서 / 실행 클로드)</div>
+  <p>2026-06-29 정기 미팅 · 한 주 보고 · 다음 미팅 = 07-06 (월) 예정</p>
+  <p style="margin-top:6px;font-size:11.5px;opacity:0.7">
+    <a href="index.html" style="color:#FFB78A">메인 포털</a> ·
+    <a href="회의-20260628-원장님미팅준비.html" style="color:#FFB78A">오늘 회의록</a> ·
+    <a href="graphify/graph.html" style="color:#FFB78A">graphify 그래프</a> ·
+    <a href="원장님-자료-수령확인-20260627.html" style="color:#FFB78A">자료 매핑 v2</a>
+  </p>
+</footer>
+
+</body>
+</html>

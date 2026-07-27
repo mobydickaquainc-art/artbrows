@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blender MCP 정착 + 16컷 검증 · 2026-06-24 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0F0F10;color:#E7E5E1;line-height:1.72;padding:36px 24px 80px;max-width:1320px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:40px;letter-spacing:-1px;margin-bottom:8px}
+  h1 em{color:#FF8FBB;font-style:normal}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:20px;color:#FF8FBB;letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+  .lead{color:#BDB9B1;font-size:14.5px;max-width:920px}
+  .lead b{color:#FF8FBB}
+
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin:22px 0 30px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#BDB9B1}
+  .meta-bar b{color:#FF8FBB;margin-right:6px}
+
+  section{margin-bottom:36px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF8FBB;margin-right:10px;font-size:34px;vertical-align:-3px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF8FBB;font-size:18px;margin:18px 0 10px}
+
+  .grid-card{background:#161617;border:1px solid #242425;border-radius:14px;padding:18px;text-align:center}
+  .grid-card img{max-width:100%;border-radius:6px;border:1px solid #242425}
+  .grid-card .cap{margin-top:10px;font-size:12px;color:#BDB9B1}
+
+  .cuts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .cuts figure{background:#161617;border:1px solid #242425;border-radius:8px;padding:8px;text-align:center}
+  .cuts figure img{width:100%;border-radius:4px}
+  .cuts figure figcaption{margin-top:6px;font-size:11px;color:#BDB9B1}
+
+  table{width:100%;border-collapse:collapse;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;font-size:13px;margin:10px 0}
+  th,td{border-top:1px solid #2A2A2A;padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1A1A1B;color:#FF8FBB;border-top:0;font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase}
+  tbody td b{color:#FFF}
+
+  pre{background:#0B0B0C;border:1px solid #2A2A2A;border-radius:8px;padding:14px 16px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px;color:#A8E6B3;overflow-x:auto;margin:10px 0;line-height:1.65}
+  code{background:#1F1F20;color:#FFD87A;padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px}
+
+  .tip{background:#1F3A28;border:1px solid #A8E6B3;border-radius:8px;padding:12px 16px;margin:10px 0;color:#CBE0CC;font-size:13px}
+  .tip b{color:#A8E6B3}
+  .alert{background:#2A1818;border:1px solid #5A2828;border-radius:8px;padding:12px 16px;margin:10px 0;color:#F4C4C0;font-size:13px}
+  .alert b{color:#FFB0A8}
+  .info{background:#1F2A3A;border:1px solid #9FC8FF;border-radius:8px;padding:12px 16px;margin:10px 0;color:#CBE0FF;font-size:13px}
+  .info b{color:#9FC8FF}
+
+  ul.flat{list-style:none;padding:0;margin:8px 0}
+  ul.flat li{padding:9px 14px;background:#161617;border-left:3px solid #FF8FBB;border-radius:0 8px 8px 0;margin-bottom:6px;font-size:13.5px;color:#CBC8C1}
+  ul.flat li b{color:#FFF}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+  .stat-box{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px 14px;text-align:center}
+  .stat-box .v{font-family:'Cormorant Garamond',serif;font-size:32px;color:#FF8FBB;font-weight:700}
+  .stat-box .k{font-size:11.5px;color:#BDB9B1;letter-spacing:0.5px;text-transform:uppercase;margin-top:4px}
+
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0;font-size:12.5px;color:#CBC8C1}
+  .flow span.step{padding:7px 13px;background:#1F1F20;border-radius:14px;color:#FFD87A;border:1px solid #2A2A2A}
+  .flow span.ar{color:#FF8FBB;font-weight:700;font-size:14px}
+
+  footer{margin-top:50px;padding-top:24px;border-top:1px solid #2A2A2A;color:#666;font-size:11.5px;text-align:center}
+  footer a{color:#FF8FBB}
+
+  @media(max-width:860px){
+    .cuts{grid-template-columns:repeat(2,1fr)}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    h1{font-size:30px}
+  }
+</style>
+</head>
+<body>
+
+<div class="kicker">ARTbrows · 2026-06-24 정착 보고</div>
+<h1><em>Blender MCP</em> 정착 — 1 GLB 31크, 무한 변형 거의 0크</h1>
+<p class="lead">
+  대표님 06/24 요청 <b>"MCP 로 연동 가능하면 제일 좋겠다. 클로드코드에서 제어 가능한 퀄리티 뛰어난 3D model 구현"</b> 의 결과.
+  Blender 설치 → addon → 핸드셰이크 → 「장미지 시그니처 마네킹 헤드」 GLB 1개로 <b>4 HDR × 4 각도 = 16컷 + 그리드 시트</b> 자동 생성까지 완성.
+  Higgsfield 31 크레딧 + Blender 0크 + 약 8분.
+</p>
+
+<div class="meta-bar">
+  <div><b>작업 일자</b>2026-06-24</div>
+  <div><b>비용</b>Higgsfield 31 크 (1 + 30) · Blender·PolyHaven 0크</div>
+  <div><b>잔량</b>355 크 (386 → 355)</div>
+  <div><b>총 자산</b>24 (이미지 1 · GLB 1 · 렌더 PNG 21 · 그리드 1)</div>
+  <div><b>관련 문서</b><a href="Blender-MCP-도입가이드-20260624.html" style="color:#FF8FBB">도입 가이드</a></div>
+</div>
+
+<!-- A. STATS -->
+<section>
+  <h2><span class="num">A</span>한눈에 — 핵심 STATS</h2>
+  <div class="stats">
+    <div class="stat-box"><div class="v">31크</div><div class="k">GLB 1개 생성</div></div>
+    <div class="stat-box"><div class="v">16컷</div><div class="k">4 HDR × 4 각도</div></div>
+    <div class="stat-box"><div class="v">0크</div><div class="k">추가 변형 비용</div></div>
+    <div class="stat-box"><div class="v">~8분</div><div class="k">전체 자동화 시간</div></div>
+  </div>
+  <div class="tip">
+    <b>★ 핵심</b> — GLB 영구 자산. 앞으로 같은 마네킹으로 각도·조명·HDR·텍스처 무한 변형 가능. 마케팅 자산 단가가 <b>장당 약 1.3 크레딧</b>까지 떨어짐.
+  </div>
+</section>
+
+<!-- B. 자동화 파이프라인 -->
+<section>
+  <h2><span class="num">B</span>자동화 파이프라인 — 클로드 한 줄로</h2>
+  <div class="flow">
+    <span class="step">대표님 「c」</span>
+    <span class="ar">→</span>
+    <span class="step">nano_banana_2 마네킹 1장 (1크)</span>
+    <span class="ar">→</span>
+    <span class="step">image_to_3d Meshy (30크)</span>
+    <span class="ar">→</span>
+    <span class="step">GLB 다운</span>
+    <span class="ar">→</span>
+    <span class="step">Blender 임포트 + 자동 축척</span>
+    <span class="ar">→</span>
+    <span class="step">PolyHaven HDR 4종</span>
+    <span class="ar">→</span>
+    <span class="step">카메라 4각도 × 4 HDR = 16 렌더</span>
+    <span class="ar">→</span>
+    <span class="step">PIL 4×4 그리드 합성</span>
+  </div>
+</section>
+
+<!-- C. 4x4 그리드 -->
+<section>
+  <h2><span class="num">C</span>4×4 그리드 — 한 GLB의 16 변형</h2>
+  <div class="grid-card">
+    <img src="assets/blender-renders/PoC-04-GRID-4x4-summary.png" alt="4 HDR × 4 각도 그리드 시트">
+    <div class="cap">행: HDR 4종 (Wood Salon · Blue Modern · Natural Midday · Dramatic Ad) / 열: 각도 4종 (Front · Front 45° · Right Profile · Back)</div>
+  </div>
+</section>
+
+<!-- D. 메인홈 hero 후보 4종 -->
+<section>
+  <h2><span class="num">D</span>메인홈 hero 후보 — Front 45° 4종 비교</h2>
+  <p style="font-size:13.5px;color:#BDB9B1;margin-bottom:10px">광고 표준 3/4 각도. HDR만 바꿔서 무드 비교.</p>
+  <div class="cuts">
+    <figure><img src="assets/blender-renders/PoC-04-grid-1-brown02-02-front45.png" alt="Wood Salon"><figcaption><b>1) Wood Salon</b><br>우드 패널 살롱</figcaption></figure>
+    <figure><img src="assets/blender-renders/PoC-04-grid-2-blue-02-front45.png" alt="Blue Modern"><figcaption><b>2) Blue Modern</b><br>차가운 디자인</figcaption></figure>
+    <figure><img src="assets/blender-renders/PoC-04-grid-3-brown04-02-front45.png" alt="Natural Midday"><figcaption><b>3) Natural Midday</b><br>★ 메인홈 후보</figcaption></figure>
+    <figure><img src="assets/blender-renders/PoC-04-grid-4-cyclorama-02-front45.png" alt="Dramatic Ad"><figcaption><b>4) Dramatic Ad</b><br>럭셔리 제품 슛</figcaption></figure>
+  </div>
+</section>
+
+<!-- E. 상세페이지 360 — Natural Midday 4각도 -->
+<section>
+  <h2><span class="num">E</span>상세페이지 360° 후보 — Natural Midday × 4각도</h2>
+  <p style="font-size:13.5px;color:#BDB9B1;margin-bottom:10px">제품 디스플레이용 360 뷰.</p>
+  <div class="cuts">
+    <figure><img src="assets/blender-renders/PoC-04-grid-3-brown04-01-front.png" alt="Front"><figcaption><b>Front</b> · 양쪽 눈썹 라인</figcaption></figure>
+    <figure><img src="assets/blender-renders/PoC-04-grid-3-brown04-02-front45.png" alt="Front 45°"><figcaption><b>Front 45°</b> · 입체감 최대</figcaption></figure>
+    <figure><img src="assets/blender-renders/PoC-04-grid-3-brown04-03-right.png" alt="Right Profile"><figcaption><b>Right Profile</b> · 옆얼굴 라인</figcaption></figure>
+    <figure><img src="assets/blender-renders/PoC-04-grid-3-brown04-04-back.png" alt="Back"><figcaption><b>Back</b> · 헤어 + 귀 디테일</figcaption></figure>
+  </div>
+</section>
+
+<!-- F. 비용 모델 -->
+<section>
+  <h2><span class="num">F</span>비용 모델 — 자산 단가 폭락</h2>
+  <table>
+    <thead><tr><th>단계</th><th>도구</th><th>비용</th><th>소요</th></tr></thead>
+    <tbody>
+      <tr><td>1. 소스 이미지</td><td>nano_banana_2</td><td>1 크</td><td>~15초</td></tr>
+      <tr><td>2. 3D 변환</td><td>image_to_3d Meshy (PBR + quad + symmetry on)</td><td><b>30 크</b></td><td>~4분</td></tr>
+      <tr><td>3. GLB 다운로드</td><td>curl</td><td>0</td><td>5초</td></tr>
+      <tr><td>4. Blender 임포트 + 축척</td><td>bpy.ops.import_scene.gltf</td><td>0</td><td>10초</td></tr>
+      <tr><td>5. HDR 다운로드</td><td>PolyHaven CC0</td><td>0</td><td>각 15초</td></tr>
+      <tr><td>6. Cycles 렌더 16컷</td><td>execute_blender_code</td><td>0</td><td>약 4분</td></tr>
+      <tr><td>7. 그리드 시트 합성</td><td>PIL</td><td>0</td><td>2초</td></tr>
+      <tr style="background:#1A1A1B"><td><b>합계</b></td><td>17 자산 (GLB + 16 PNG + 그리드)</td><td><b>31 크</b></td><td><b>약 8분</b></td></tr>
+    </tbody>
+  </table>
+  <div class="info">
+    <b>★ 비교</b> — 이전 nano_banana_pro 일러스트 1장 = 1 크. 같은 캐릭터로 다른 각도/배경 만들려면 매번 1 크 + 신규 생성 + 일관성 위험. <br>
+    이제 마네킹은 <b>한 번 31 크</b> 로 GLB 확보 후, 추가 변형 1장당 <b>0크 + 일관성 100%</b>.
+  </div>
+</section>
+
+<!-- G. 함정과 해결 -->
+<section>
+  <h2><span class="num">G</span>발견된 함정 · 해결책</h2>
+  <ul class="flat">
+    <li><b>Hyper3D Rodin <code>vibecoding</code> 공용 키 잔량 부족</b> — addon 33줄 무료 trial 키가 너무 많이 쓰여 <code>API_INSUFFICIENT_FUNDS</code>. <br>해결: Higgsfield <code>image_to_3d</code> 백업 라인 (30크)</li>
+    <li><b>PolyHaven HDR 이 <code>tmp***.hdr</code> 익명 이름으로 등록</b> — 데이터블록 이름으로 매핑 불가.<br>해결: <b>「다운로드 → 즉시 렌더」 묶음 패턴</b> (같은 asset_id 재호출 = 환경맵 자동 교체)</li>
+    <li><b>Blender 4.x Principled BSDF 의 <code>Subsurface</code> 입력명 변경</b> — 신버전은 <code>Subsurface Weight</code>. <br>해결: <code>if "Subsurface Weight" in bsdf.inputs:</code> 양쪽 호환</li>
+    <li><b>import_scene.gltf 의 GLB 가 너무 크게/작게 들어옴</b> — 디폴트 단위 안 맞음. <br>해결: <code>bound_box</code> 계산 후 <code>target_height</code> 로 auto-scale (이번엔 0.785배)</li>
+  </ul>
+</section>
+
+<!-- H. ARTbrows 즉시 활용 -->
+<section>
+  <h2><span class="num">H</span>ARTbrows 즉시 활용 시나리오</h2>
+  <ul class="flat">
+    <li><b>1. 메인홈 hero 적용</b> — Natural Midday × Front 45° 컷 후보. 현재 hero 와 A/B 테스트 가능. 추가 0크.</li>
+    <li><b>2. 인스타 캐러셀 1세트</b> — Front 45° × 4 HDR = 「같은 마네킹, 다른 무드」 4컷. 추가 0크.</li>
+    <li><b>3. 상세페이지 360° 뷰</b> — Natural Midday × 4각도. 인터랙티브 회전 컴포넌트로 확장 가능.</li>
+    <li><b>4. 시술 전후 비교</b> — 같은 GLB 에 「전」/「후」 텍스처 매핑. 마네킹은 사람이 아니라 제품이므로 「얼굴 AI 금지」 정책 (메모리 visual-direction-hyperreal) 과 충돌 없음.</li>
+    <li><b>5. 멀티 캐릭터 확장</b> — 다른 페르소나 (수아·하영·예린 등) 도 같은 파이프라인으로 GLB 1개씩 만들면, 모두 통합 360° 카탈로그 가능.</li>
+  </ul>
+</section>
+
+<footer>
+  © ARTbrows 2026 · 작성: Claude Code · 도입 가이드: <a href="Blender-MCP-도입가이드-20260624.html">Blender MCP 도입 가이드</a> · 메인 포털: <a href="index.html">index</a>
+</footer>
+
+</body>
+</html>

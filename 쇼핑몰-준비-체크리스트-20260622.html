@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쇼핑몰 준비 체크리스트 · 2026-06-22 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:30px 24px 60px;line-height:1.6;max-width:1240px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:34px;margin-bottom:8px;letter-spacing:-1px}
+  h1 em{color:#d4af37;font-style:normal}
+  .lead{color:#bdb9b1;font-size:15px;margin-bottom:18px}
+  .lead b{color:#d4af37}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;margin-right:6px}
+
+  /* 로드맵 4주 */
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px}
+  .week{background:#161617;border:1px solid #242425;border-radius:12px;padding:16px 18px;position:relative}
+  .week.now{border-color:#a8e6b3;background:linear-gradient(135deg,#1a2a1e,#0c180e)}
+  .week h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:#d4af37;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+  .week.now h3{color:#a8e6b3}
+  .week .sub{font-size:11px;color:#9a9a93;letter-spacing:2px;margin-bottom:12px;text-transform:uppercase}
+  .week ul{list-style:none;font-size:12.5px;line-height:1.7;color:#cbc8c1}
+  .week li{padding:5px 0;border-bottom:1px dashed #2a2a2a;display:flex;align-items:flex-start;gap:8px}
+  .week li:last-child{border:0}
+  .week li .ck{font-family:'Cormorant Garamond',serif;font-weight:700;color:#d4af37;font-size:15px;line-height:1.3;flex-shrink:0;width:18px}
+  .week.now li .ck{color:#a8e6b3}
+
+  /* 섹션 */
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden}
+  th,td{border-top:1px solid #2a2a2a;padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1a1a1b;color:#d4af37;font-weight:700;border-top:0;font-size:12px;letter-spacing:1px}
+  tbody td b{color:#e7e5e1}
+  tbody tr:hover{background:#1a1a1b}
+  .badge{display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:10px;letter-spacing:1px;font-weight:700;white-space:nowrap}
+  .b-ceo{background:#5a3818;color:#f4d4a8}
+  .b-cto{background:#1a3a5a;color:#9fc8ff}
+  .b-pm{background:#264d2a;color:#a8e6b3}
+  .b-now{background:#d4af37;color:#0b0907}
+  .b-pending{background:#3a3a3a;color:#aaa}
+  .b-blocked{background:#5a2828;color:#f4b4b4}
+
+  /* 즉시 결정 */
+  .urgent{background:linear-gradient(135deg,#2a2014,#0f0a05);border:2px solid #ffd87a;border-radius:14px;padding:20px 24px;margin-bottom:28px}
+  .urgent h3{font-family:'Nanum Myeongjo',serif;color:#ffd87a;font-size:18px;margin-bottom:12px}
+  .urgent ul{padding-left:20px;font-size:14px;line-height:1.85;color:#cbc8c1}
+  .urgent li b{color:#ffd87a}
+  .urgent li::marker{color:#ffd87a}
+
+  /* DB 테이블 */
+  .db{background:#161617;border:1px solid #242425;border-radius:12px;padding:18px 22px;margin-bottom:28px;font-family:'Menlo','Consolas',monospace;font-size:12.5px;color:#cbc8c1;line-height:1.7;overflow-x:auto}
+  .db h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:17px;margin-bottom:10px;font-family:'Nanum Myeongjo',serif !important}
+  .db b{color:#a8e6b3;font-weight:700}
+  .db span.c{color:#9a9a93}
+
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+
+  @media (max-width:880px){.roadmap{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<h1><em>쇼핑몰 준비 체크리스트</em> — 2026-06-22 작성</h1>
+<p class="lead">
+  ARTbrows 자체 쇼핑몰 · 학원 메인 안에 통합 (eyebrows.staris.cloud/shop) · <b>4주 로드맵</b>으로 LIVE 오픈.<br>
+  스택 = Next.js 14 + Supabase + 토스페이먼츠 + 카카오페이 (회의 결정 사항)
+</p>
+
+<div class="meta-bar">
+  <div><b>스택</b>Next.js 14 + Supabase + Vercel/맥미니</div>
+  <div><b>결제</b>토스페이먼츠 + 카카오페이</div>
+  <div><b>목표</b>4주 후 LIVE (2026-07-20 ±)</div>
+  <div><b>도메인</b>eyebrows.staris.cloud/shop</div>
+  <div><b>책임</b>대표님 + 한승철 CTO + 기획자</div>
+</div>
+
+<!-- ★ 즉시 결정 -->
+<div class="urgent">
+  <h3>★ 회의에서 즉시 결정할 것 (블록커 해제)</h3>
+  <ul>
+    <li><b>① 통신판매업 신고</b> 시작 — 토스페이먼츠 가입 → 구매안전서비스 이용확인증 → 정부24 신고 (3~5일)</li>
+    <li><b>② 사업자등록증</b> 업종에 「525101 전자상거래업」 추가 여부 확인 (홈택스 5분)</li>
+    <li><b>③ 토스페이먼츠 비즈센터 가입</b> 결정 — 사업자등록증 + 정산 계좌 (30분)</li>
+    <li><b>④ 카카오페이 비즈니스 가입</b> 결정 — 토스와 별도 (30분)</li>
+    <li><b>⑤ 상품 1차 라인업 (5~10개) 확정</b> — 강의 + 핵심 굿즈 (앞치마·연습 패드·교재) 먼저</li>
+    <li><b>⑥ 정산 계좌</b> 분리 여부 — 학원 수강료 ↔ 쇼핑몰 주문 통합 vs 분리</li>
+    <li><b>⑦ 배송 대행</b> 결정 — 직접 배송 vs 스마트택배 / 셀러허브 API 위탁</li>
+  </ul>
+</div>
+
+<!-- 4주 로드맵 -->
+<section>
+  <h2><span class="num">01</span>4주 로드맵</h2>
+  <div class="roadmap">
+    <div class="week now">
+      <h3>Week 1</h3>
+      <div class="sub">법·계정 셋업</div>
+      <ul>
+        <li><span class="ck">①</span>사업자등록증 업종 추가 (전자상거래업)</li>
+        <li><span class="ck">②</span>토스페이먼츠 가입 + 키 발급</li>
+        <li><span class="ck">③</span>카카오페이 비즈니스 가입</li>
+        <li><span class="ck">④</span>구매안전서비스 이용확인증</li>
+        <li><span class="ck">⑤</span>정부24 통신판매업 신고</li>
+        <li><span class="ck">⑥</span>이용약관·개인정보처리방침·환불정책 (양식 또는 변호사)</li>
+      </ul>
+    </div>
+    <div class="week">
+      <h3>Week 2</h3>
+      <div class="sub">DB·결제 통합</div>
+      <ul>
+        <li><span class="ck">①</span>Supabase 테이블 9종 설계 + 마이그레이션</li>
+        <li><span class="ck">②</span>토스페이먼츠 JS SDK 통합 + 결제 confirm Webhook</li>
+        <li><span class="ck">③</span>카카오페이 SDK 통합</li>
+        <li><span class="ck">④</span>회원 시스템 (Supabase Auth) + 회원 등급</li>
+        <li><span class="ck">⑤</span>상품 등록 (1차 5~10개)</li>
+        <li><span class="ck">⑥</span>법적 페이지 (사업자 정보·약관·환불 정책) 노출</li>
+      </ul>
+    </div>
+    <div class="week">
+      <h3>Week 3</h3>
+      <div class="sub">UI·UX·운영</div>
+      <ul>
+        <li><span class="ck">①</span>상품 목록·상세·장바구니 페이지</li>
+        <li><span class="ck">②</span>주문·결제·결제 완료 페이지</li>
+        <li><span class="ck">③</span>마이페이지 (주문 내역·배송 조회)</li>
+        <li><span class="ck">④</span>admin (상품·주문·환불·매출 리포트)</li>
+        <li><span class="ck">⑤</span>송장 등록 (스마트택배 또는 셀러허브)</li>
+        <li><span class="ck">⑥</span>테스트 결제 5회 + 환불 1회</li>
+      </ul>
+    </div>
+    <div class="week">
+      <h3>Week 4</h3>
+      <div class="sub">LIVE + 마케팅</div>
+      <ul>
+        <li><span class="ck">①</span>실 결제 1건 테스트 → 정산 흐름 확인</li>
+        <li><span class="ck">②</span>인스타 광고에 쇼핑몰 링크 추가 (학원 ↔ 쇼핑몰 단일 도메인)</li>
+        <li><span class="ck">③</span>네이버 쇼핑 연동 (선택)</li>
+        <li><span class="ck">④</span>리뷰 시스템 + 첫 후기 5건 수집</li>
+        <li><span class="ck">⑤</span>K1 카톡방에 쇼핑몰 알림 (수강생 1차 노출)</li>
+        <li><span class="ck">⑥</span>UTM 분리 + 광고 → 쇼핑몰 전환 추적</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 책임자 분배 -->
+<section>
+  <h2><span class="num">02</span>책임자별 역할 분배</h2>
+  <table>
+    <thead><tr><th style="width:32%">영역</th><th style="width:16%">담당</th><th>핵심 작업</th></tr></thead>
+    <tbody>
+      <tr><td><b>법·계정·세무</b></td><td><span class="badge b-ceo">대표님</span></td><td>사업자등록증 업종 추가 · 통신판매업 신고 · 토스/카카오 가입 · 세무사 상담 · 정산 계좌 결정</td></tr>
+      <tr><td><b>상품·가격·재고</b></td><td><span class="badge b-ceo">대표님</span> + <span class="badge b-pm">기획자</span></td><td>상품 라인업 결정 · 가격 정책 · 마진 · 재고 매니지먼트 · 입고/출고 워크플로</td></tr>
+      <tr><td><b>기술·인프라</b></td><td><span class="badge b-cto">한승철 CTO</span></td><td>Supabase 테이블 + 결제 SDK 통합 + 페이지 개발 + admin + 배포 · 유지보수</td></tr>
+      <tr><td><b>운영·CS·배송</b></td><td><span class="badge b-pm">기획자</span></td><td>주문 처리 · 송장 등록 · 환불 처리 · 문의 응대 (DM 매뉴얼 v2 적용)</td></tr>
+      <tr><td><b>마케팅·콘텐츠</b></td><td><span class="badge b-pm">기획자</span> + 유나·이서연 AI</td><td>상품 사진 촬영 · 상세 페이지 카피 · 인스타 광고 연동 · 리뷰 모객</td></tr>
+      <tr><td><b>장미지 원장님 관계</b></td><td><span class="badge b-ceo">대표님</span></td><td>상품 컨펌 · 가격 · 시술 재료 큐레이션 · K1 카톡방 운영</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 상품 라인업 -->
+<section>
+  <h2><span class="num">03</span>상품 라인업 안 (1차 LIVE)</h2>
+  <table>
+    <thead><tr><th style="width:18%">카테고리</th><th style="width:26%">상품</th><th style="width:18%">가격대</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>강의 (메인)</b></td><td>정규 (반영구 종합 · 평생 수강)</td><td>69만원</td><td>★ 핵심 매출 · 결제 PG 우선 셋업</td></tr>
+      <tr><td><b>강의 (확장)</b></td><td>아이라인·입술·SMP·속눈썹 (단과)</td><td>각 30~50만원</td><td>1차 LIVE 이후 단계적</td></tr>
+      <tr><td><b>강의 (단기)</b></td><td>1일 워크숍 · 1:1 코칭 · 마스터 클래스</td><td>5~30만원</td><td>2차</td></tr>
+      <tr><td><b>시술 재료</b></td><td>니들 (라운드/플랫)</td><td>1~3만원</td><td>수강생·종사자 모두 타깃</td></tr>
+      <tr><td><b>시술 재료</b></td><td>색소 (브라운·블랙·앰버)</td><td>3~8만원</td><td>원장님 큐레이션</td></tr>
+      <tr><td><b>시술 재료</b></td><td>머신 (디지털·아날로그)</td><td>30~100만원</td><td>고가 — 결제 분할 옵션</td></tr>
+      <tr><td><b>학원 굿즈</b></td><td>앞치마 (베이지 + ARTbrows 자수)</td><td>3~5만원</td><td>저가 진입 상품</td></tr>
+      <tr><td><b>학원 굿즈</b></td><td>연습 패드 · 툴 케이스</td><td>1~5만원</td><td>저가 진입</td></tr>
+      <tr><td><b>학원 굿즈</b></td><td>교재 · 워크북</td><td>2~5만원</td><td>수강생 필수</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Supabase 테이블 -->
+<div class="db">
+  <h3 style="color:#d4af37;font-family:'Nanum Myeongjo',serif;font-size:17px;margin-bottom:10px">★ Supabase DB 테이블 9종 (스키마 안)</h3>
+  <pre style="font-family:inherit"><b>products</b>          <span class="c">-- 상품 (id, name, slug, category_id, price, stock, images[], description, status)</span>
+<b>categories</b>        <span class="c">-- 카테고리 (id, name, slug, parent_id)</span>
+<b>users</b>             <span class="c">-- 회원 (id, email, name, phone, role, grade, addresses[])</span>
+<b>orders</b>            <span class="c">-- 주문 (id, user_id, status, total, payment_method, shipping_address, utm)</span>
+<b>order_items</b>       <span class="c">-- 주문 항목 (id, order_id, product_id, qty, unit_price)</span>
+<b>payments</b>          <span class="c">-- 결제 (id, order_id, pg, transaction_id, amount, paid_at, refunded_at)</span>
+<b>shipments</b>         <span class="c">-- 배송 (id, order_id, carrier, tracking_number, shipped_at, delivered_at)</span>
+<b>reviews</b>           <span class="c">-- 리뷰 (id, product_id, user_id, rating, body, images[], created_at)</span>
+<b>coupons</b>           <span class="c">-- 쿠폰 (id, code, discount_type, value, expires_at, used_by[])</span></pre>
+</div>
+
+<!-- 모비딕 표준 -->
+<section>
+  <h2><span class="num">04</span>모비딕 표준 인프라</h2>
+  <table>
+    <thead><tr><th style="width:24%">항목</th><th>적용</th></tr></thead>
+    <tbody>
+      <tr><td><b>호스팅</b></td><td>맥미니 + Tailscale + launchd (모비딕 표준). 임시 Vercel dev → 정식 맥미니 이전</td></tr>
+      <tr><td><b>Docker</b></td><td>안 씀 (모비딕 표준)</td></tr>
+      <tr><td><b>도메인</b></td><td>eyebrows.staris.cloud (가비아 A 76.76.21.21 또는 맥미니 Tailscale 도메인 CNAME)</td></tr>
+      <tr><td><b>모니터링</b></td><td>Supabase 대시보드 + Sentry (선택) + Google Analytics</td></tr>
+      <tr><td><b>백업</b></td><td>Supabase 자동 백업 + 주 1회 수동 Snapshot</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 다음 액션 -->
+<section>
+  <h2><span class="num">05</span>회의 직후 다음 액션 (오늘·이번주)</h2>
+  <table>
+    <thead><tr><th style="width:28%">언제</th><th style="width:18%">담당</th><th>액션</th></tr></thead>
+    <tbody>
+      <tr><td><b>오늘 회의 종료 직후</b></td><td><span class="badge b-now">대표님</span></td><td>홈택스 로그인 → 업종에 「525101 전자상거래업」 추가 확인 (5분)</td></tr>
+      <tr><td><b>오늘</b></td><td><span class="badge b-now">대표님</span></td><td>토스페이먼츠 비즈센터 가입 신청 (30분, 사업자등록증 + 정산 계좌)</td></tr>
+      <tr><td><b>내일</b></td><td><span class="badge b-now">대표님</span></td><td>정부24 통신판매업 신고 (15분, 구매안전서비스 이용확인증 첨부)</td></tr>
+      <tr><td><b>이번 주</b></td><td><span class="badge b-cto">한승철</span></td><td>Supabase 테이블 9종 SQL 마이그레이션 작성 (1일)</td></tr>
+      <tr><td><b>이번 주</b></td><td><span class="badge b-ceo">대표님</span> + <span class="badge b-pm">기획자</span></td><td>상품 1차 라인업 5~10개 확정 + 사진·카피 준비</td></tr>
+      <tr><td><b>다음 주</b></td><td><span class="badge b-cto">한승철</span></td><td>토스/카카오 결제 SDK 통합 + 테스트 결제 5회</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  쇼핑몰 준비 체크리스트 · ARTbrows · 2026-06-22 · 운영진 임시 게시
+  · 회의 후 통과 결정대로 라이브 (eyebrows.staris.cloud/shop) 이관
+  · <a href="index.html">← 메인 포털</a>
+  · <a href="회의자료-20260622-통합.html">회의 자료 통합</a>
+</footer>
+
+</body>
+</html>

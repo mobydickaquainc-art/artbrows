@@ -1,0 +1,263 @@
+{
+  "date": "2026-07-18",
+  "total": 30,
+  "byPath": {
+    "/zh": 1,
+    "/": 2,
+    "/cardnews": 11,
+    "/login": 1,
+    "/cardnews/edit/14th-easy-class": 7,
+    "/cardnews/view/14th-easy-class": 5,
+    "/cardnews/edit/auto-2026-07-18t11-33-39": 2,
+    "/cardnews/tutorial": 1
+  },
+  "byLang": {
+    "zh": 1,
+    "ko": 29
+  },
+  "byUa": {
+    "desktop": 29,
+    "mobile": 1
+  },
+  "events": [
+    {
+      "at": "2026-07-18T00:04:15.542Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "http://localhost:3000/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T00:18:41.959Z",
+      "path": "/",
+      "lang": "ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T00:37:04.779Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T00:37:05.086Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T01:55:50.091Z",
+      "path": "/login",
+      "lang": "ko",
+      "referer": "http://localhost:3000/login",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T02:52:05.239Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T02:54:03.316Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T02:54:48.752Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T02:56:37.197Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:15:41.197Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:16:01.946Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:23:57.123Z",
+      "path": "/cardnews/view/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/view/14th-easy-class?lang=ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:24:01.049Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:25:36.193Z",
+      "path": "/cardnews/view/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/view/14th-easy-class?lang=ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:26:05.072Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:26:38.568Z",
+      "path": "/cardnews/view/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/view/14th-easy-class?lang=ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:26:41.311Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:27:33.810Z",
+      "path": "/cardnews/view/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/view/14th-easy-class?lang=ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:28:50.664Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:29:14.930Z",
+      "path": "/cardnews/view/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/view/14th-easy-class?lang=en",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:29:21.984Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:29:49.956Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:33:39.817Z",
+      "path": "/cardnews/edit/auto-2026-07-18t11-33-39",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/auto-2026-07-18t11-33-39",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:33:51.000Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:33:58.908Z",
+      "path": "/cardnews/edit/14th-easy-class",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/14th-easy-class",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:34:02.248Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:34:18.098Z",
+      "path": "/cardnews/tutorial",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/tutorial",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:34:39.768Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:34:43.212Z",
+      "path": "/cardnews/edit/auto-2026-07-18t11-33-39",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews/edit/auto-2026-07-18t11-33-39",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-18T11:54:02.652Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://avoiding-timeline-basename-induced.trycloudflare.com/cardnews",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    }
+  ]
+}

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시그니처 마네킹 데모 · 2026-06-24 · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:#0F0F10;color:#E7E5E1;line-height:1.7;padding:36px 24px 80px;max-width:1380px;margin:0 auto}
+  .serif{font-family:'Nanum Myeongjo',serif}
+  .latin{font-family:'Cormorant Garamond',serif}
+
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:20px;color:#FF8FBB;letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:46px;letter-spacing:-1px;margin-bottom:12px;line-height:1.2}
+  h1 em{color:#FF8FBB;font-style:normal;font-family:'Cormorant Garamond',serif;font-weight:600}
+  .lead{color:#BDB9B1;font-size:15px;max-width:980px}
+  .lead b{color:#FF8FBB}
+
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin:22px 0 36px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#BDB9B1}
+  .meta-bar b{color:#FF8FBB;margin-right:6px}
+
+  section{margin-bottom:44px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:28px;margin-bottom:18px;padding-bottom:11px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF8FBB;margin-right:12px;font-size:36px;vertical-align:-3px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF8FBB;font-size:19px;margin:20px 0 10px}
+
+  /* STATS bar */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:18px 0 30px}
+  .stat-box{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px 14px;text-align:center}
+  .stat-box .v{font-family:'Cormorant Garamond',serif;font-size:34px;color:#FF8FBB;font-weight:700;line-height:1}
+  .stat-box .k{font-size:11.5px;color:#BDB9B1;letter-spacing:0.5px;text-transform:uppercase;margin-top:6px}
+
+  /* 파이프라인 */
+  .pipeline{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:14px 0}
+  .pipe-step{flex:1;min-width:160px;padding:14px 16px;background:#161617;border:1px solid #242425;border-left:3px solid #FF8FBB;border-radius:8px;font-size:12.5px;color:#CBC8C1}
+  .pipe-step b{color:#FFD87A;display:block;font-size:13.5px;margin-bottom:4px}
+  .pipe-step em{color:#A8E6B3;font-style:normal;font-size:11.5px;display:block;margin-top:4px}
+
+  /* 그리드 시트 */
+  .hero-grid{background:#161617;border:1px solid #242425;border-radius:14px;padding:18px;text-align:center}
+  .hero-grid img{max-width:100%;border-radius:6px;border:1px solid #242425}
+  .hero-grid .cap{margin-top:11px;font-size:12.5px;color:#BDB9B1}
+
+  /* 캐러셀 6장 */
+  .carousel{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:14px 0}
+  .carousel figure{background:#161617;border:1px solid #242425;border-radius:8px;padding:6px;text-align:center}
+  .carousel figure img{width:100%;border-radius:4px;display:block}
+  .carousel figure figcaption{margin-top:5px;font-size:10.5px;color:#BDB9B1;letter-spacing:0.3px}
+  .carousel figure b{color:#FFD87A}
+
+  /* 릴스 그리드 */
+  .reels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}
+  .reels .reel{background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;text-align:center}
+  .reels .reel video{width:100%;display:block;background:#000}
+  .reels .reel .lab{padding:10px 8px 12px;font-size:11.5px;color:#BDB9B1}
+  .reels .reel .lab b{display:block;color:#FFD87A;font-size:13px;margin-bottom:2px;font-family:'Nanum Myeongjo',serif}
+
+  /* 캡션 박스 */
+  .caption-box{background:#0B0B0C;border:1px solid #2A2A2A;border-radius:10px;padding:18px 22px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12.5px;color:#CBC8C1;white-space:pre-wrap;line-height:1.75;position:relative}
+  .copy-btn{position:absolute;top:12px;right:12px;background:#FF6F84;color:#fff;border:none;padding:6px 14px;font-size:11px;font-weight:700;border-radius:5px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;letter-spacing:0.5px}
+  .copy-btn:hover{background:#FF8FBB}
+  .copy-btn:active{background:#E84F66}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;font-size:13px;margin:10px 0}
+  th,td{border-top:1px solid #2A2A2A;padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1A1A1B;color:#FF8FBB;border-top:0;font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase}
+  tbody td b{color:#FFF}
+
+  /* 박스들 */
+  .tip{background:#1F3A28;border:1px solid #A8E6B3;border-radius:8px;padding:14px 18px;margin:10px 0;color:#CBE0CC;font-size:13px}
+  .tip b{color:#A8E6B3}
+  .info{background:#1F2A3A;border:1px solid #9FC8FF;border-radius:8px;padding:14px 18px;margin:10px 0;color:#CBE0FF;font-size:13px}
+  .info b{color:#9FC8FF}
+  .alert{background:#2A1818;border:1px solid #5A2828;border-radius:8px;padding:14px 18px;margin:10px 0;color:#F4C4C0;font-size:13px}
+  .alert b{color:#FFB0A8}
+
+  /* 다음 결정 옵션 */
+  .next-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+  .opt{background:#161617;border:1px solid #242425;border-left:4px solid #FFD87A;border-radius:8px;padding:14px 18px;font-size:13px;color:#CBC8C1}
+  .opt b{color:#FFD87A;font-size:14px;display:block;margin-bottom:4px;font-family:'Nanum Myeongjo',serif}
+  .opt em{color:#A8E6B3;font-style:normal;font-size:11.5px;display:block;margin-top:6px;letter-spacing:0.3px}
+
+  code{background:#1F1F20;color:#FFD87A;padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px}
+  a{color:#FF8FBB}
+
+  footer{margin-top:60px;padding-top:24px;border-top:1px solid #2A2A2A;color:#666;font-size:11.5px;text-align:center}
+
+  @media(max-width:980px){
+    .carousel,.reels,.stats,.next-opts{grid-template-columns:repeat(2,1fr)}
+    h1{font-size:30px}
+    .pipeline{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="kicker">ARTbrows · 시그니처 마네킹 데모</div>
+<h1><em>한 GLB</em>에서 47 자산까지 — <em>오늘 하루</em>의 ROI</h1>
+<p class="lead">
+  2026-06-24 · 대표님 요청 「<b>MCP 로 연동 가능하면 제일 좋겠다. 클로드코드에서 제어 가능한 퀄리티 뛰어난 3D model 구현</b>」 의 결과.<br>
+  Blender 설치부터 캐러셀 12장 + 릴스 5편까지. <b>총 31 크레딧 · 약 60분 작업.</b>
+</p>
+
+<div class="meta-bar">
+  <div><b>날짜</b>2026-06-24 (수)</div>
+  <div><b>비용</b>31 크 (1 + 30)</div>
+  <div><b>잔량</b>355 크</div>
+  <div><b>새 카테고리</b>Signature Series</div>
+  <div><b>외부 공유</b>cloudflared 터널 필요</div>
+</div>
+
+<!-- A. 한눈에 STATS -->
+<section>
+  <h2><span class="num">A</span>한눈에</h2>
+  <div class="stats">
+    <div class="stat-box"><div class="v">47</div><div class="k">총 자산</div></div>
+    <div class="stat-box"><div class="v">31크</div><div class="k">힉스필드 비용</div></div>
+    <div class="stat-box"><div class="v">0.66</div><div class="k">자산 단가 (크/장)</div></div>
+    <div class="stat-box"><div class="v">5편</div><div class="k">인스타 릴스 (5초)</div></div>
+    <div class="stat-box"><div class="v">12장</div><div class="k">캐러셀 (Ch.01 + Ch.02)</div></div>
+  </div>
+  <div class="tip">
+    <b>★ 자산 단가 변화</b> — 첫 GLB 31크 → 첫 16컷 도달 시 1.3 크/장 → 캐러셀+릴스 누적 후 <b>0.66 크/장</b> (이전 일러스트 1크/장 대비 34% 추가 절감)
+  </div>
+</section>
+
+<!-- B. 파이프라인 -->
+<section>
+  <h2><span class="num">B</span>자동화 파이프라인 — 클로드 한 줄로</h2>
+  <div class="pipeline">
+    <div class="pipe-step"><b>① 텍스트→이미지</b>nano_banana_2 마네킹 1장<em>1크 · 15초</em></div>
+    <div class="pipe-step"><b>② 이미지→3D GLB</b>image_to_3d Meshy PBR<em>30크 · 4분</em></div>
+    <div class="pipe-step"><b>③ Blender 임포트</b>auto-scale 0.785×<em>0크 · 10초</em></div>
+    <div class="pipe-step"><b>④ HDR 적용</b>PolyHaven 4종 (CC0)<em>0크 · 각 5초</em></div>
+    <div class="pipe-step"><b>⑤ 정지 컷 자동 렌더</b>4 HDR × 4 각도 = 16<em>0크 · 4분 Cycles</em></div>
+    <div class="pipe-step"><b>⑥ 회전 영상 자동 렌더</b>EEVEE 60프 × 4 무드 = 4편<em>0크 · 90초</em></div>
+    <div class="pipe-step"><b>⑦ ffmpeg + 자막 + BGM</b>5초 1080×1920 릴스<em>0크 · 각 5초</em></div>
+  </div>
+</section>
+
+<!-- C. 1차 GLB + 4×4 그리드 -->
+<section>
+  <h2><span class="num">C</span>1차 GLB + 4×4 그리드 시트 (16컷)</h2>
+  <div class="hero-grid">
+    <img src="assets/blender-renders/PoC-04-GRID-4x4-summary.png" alt="4 HDR × 4 각도 그리드">
+    <div class="cap">행: HDR 4종 (Wood Salon · Blue Modern · Natural Midday · Dramatic Ad) / 열: 각도 4종 (Front · Front 45° · Right Profile · Back)</div>
+  </div>
+</section>
+
+<!-- D. Chapter 01 캐러셀 정면 -->
+<section>
+  <h2><span class="num">D</span>Chapter 01 · 정면 캐러셀 (Front Edition)</h2>
+  <p style="font-size:13.5px;color:#BDB9B1;margin-bottom:6px">「어떤 조명에서도, 같은 한 줄」 — Front 45° × 4 HDR.</p>
+  <div class="carousel">
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-마네킹-1-후킹.png"><figcaption><b>1. 후킹</b><br>어떤 조명에서도</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-마네킹-2-wood.png"><figcaption><b>2. Wood</b><br>살롱 무드</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-마네킹-3-blue.png"><figcaption><b>3. Blue</b><br>모던 디자인</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-마네킹-4-natural.png"><figcaption><b>4. Natural</b><br>자연광 hero</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-마네킹-5-dramatic.png"><figcaption><b>5. Dramatic</b><br>럭셔리 광고</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-마네킹-6-cta.png"><figcaption><b>6. CTA</b><br>당신의 한 줄</figcaption></figure>
+  </div>
+</section>
+
+<!-- E. Chapter 02 캐러셀 측면 -->
+<section>
+  <h2><span class="num">E</span>Chapter 02 · 측면 캐러셀 (Profile Edition)</h2>
+  <p style="font-size:13.5px;color:#BDB9B1;margin-bottom:6px">「옆에서 봐도, 한 줄로 흐릅니다」 — Right Profile × 4 HDR.</p>
+  <div class="carousel">
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-측면-1-후킹.png"><figcaption><b>1. 후킹</b><br>옆에서 봐도</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-측면-2-wood.png"><figcaption><b>2. Wood</b><br>측면</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-측면-3-blue.png"><figcaption><b>3. Blue</b><br>측면</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-측면-4-natural.png"><figcaption><b>4. Natural</b><br>측면</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-측면-5-dramatic.png"><figcaption><b>5. Dramatic</b><br>측면</figcaption></figure>
+    <figure><img src="assets/시리즈-시그니처마네킹/캐러셀-측면-6-cta.png"><figcaption><b>6. CTA</b><br>프로필도 한 줄</figcaption></figure>
+  </div>
+</section>
+
+<!-- F. 릴스 5편 -->
+<section>
+  <h2><span class="num">F</span>릴스 5편 · 5초 1080×1920 (인스타 표준)</h2>
+  <p style="font-size:13.5px;color:#BDB9B1;margin-bottom:6px">자막 burn-in + 신부편 BGM. 클릭하면 재생.</p>
+  <div class="reels">
+    <div class="reel">
+      <video controls preload="metadata" poster="assets/시리즈-시그니처마네킹/reel-mood-natural-preview.jpg">
+        <source src="assets/시리즈-시그니처마네킹/릴스-360-natural-5초.mp4" type="video/mp4">
+      </video>
+      <div class="lab"><b>Mood 3 · Natural</b>자연광 메인홈 hero · 1.0MB</div>
+    </div>
+    <div class="reel">
+      <video controls preload="metadata" poster="assets/시리즈-시그니처마네킹/reel-mood-wood-preview.jpg">
+        <source src="assets/시리즈-시그니처마네킹/릴스-360-wood-5초.mp4" type="video/mp4">
+      </video>
+      <div class="lab"><b>Mood 1 · Wood</b>살롱 무드 · 1.08MB</div>
+    </div>
+    <div class="reel">
+      <video controls preload="metadata" poster="assets/시리즈-시그니처마네킹/reel-mood-blue-preview.jpg">
+        <source src="assets/시리즈-시그니처마네킹/릴스-360-blue-5초.mp4" type="video/mp4">
+      </video>
+      <div class="lab"><b>Mood 2 · Blue</b>모던 디자인 · 1.17MB</div>
+    </div>
+    <div class="reel">
+      <video controls preload="metadata" poster="assets/시리즈-시그니처마네킹/reel-mood-dramatic-preview.jpg">
+        <source src="assets/시리즈-시그니처마네킹/릴스-360-dramatic-5초.mp4" type="video/mp4">
+      </video>
+      <div class="lab"><b>Mood 4 · Dramatic</b>럭셔리 광고 · 0.88MB</div>
+    </div>
+    <div class="reel">
+      <video controls preload="metadata" poster="assets/시리즈-시그니처마네킹/reel-preview-1-start.jpg">
+        <source src="assets/시리즈-시그니처마네킹/릴스-360회전-5초.mp4" type="video/mp4">
+      </video>
+      <div class="lab"><b>1차 (Natural)</b>동일 컨셉 베이스본</div>
+    </div>
+  </div>
+</section>
+
+<!-- G. 인스타 게시 캡션 -->
+<section>
+  <h2><span class="num">G</span>인스타 게시 캡션 (복사 → 붙여넣기)</h2>
+
+  <h3>정면 캐러셀 / Mood Reels 공통</h3>
+  <div class="caption-box" id="cap1"><button class="copy-btn" onclick="copyText('cap1')">복사</button>어떤 조명에서도, 같은 한 줄.
+
+조명이 바뀌어도, 무드가 달라져도
+시그니처는 한 줄로 남습니다.
+
+—
+
+극사실눈썹 창시자가 직접 그리는
+당신만의 시그니처 라인.
+
+▷ 상담 신청 — 프로필 링크
+@artbrows.korea
+
+#ARTbrows #극사실눈썹 #시그니처눈썹
+#반영구눈썹 #브로우 #눈썹문신
+#선릉 #봉은사 #청담 #서울뷰티
+#시그니처 #프리미엄</div>
+
+  <h3 style="margin-top:24px">측면 캐러셀</h3>
+  <div class="caption-box" id="cap2"><button class="copy-btn" onclick="copyText('cap2')">복사</button>프로필도, 한 줄로.
+
+정면이든 측면이든
+시그니처 라인은 끊기지 않습니다.
+
+—
+
+옆에서 찍히는 그 순간에도,
+흐트러지지 않는 한 줄.
+
+▷ 상담 신청 — 프로필 링크
+@artbrows.korea
+
+#ARTbrows #프로필눈썹 #옆태눈썹
+#반영구눈썹 #시그니처라인 #브로우
+#선릉 #봉은사 #청담 #서울뷰티
+#시그니처 #프로필</div>
+</section>
+
+<!-- H. 게시 라인업 -->
+<section>
+  <h2><span class="num">H</span>D+0 ~ D+12 인스타 게시 라인업 (제안)</h2>
+  <table>
+    <thead><tr><th style="width:80px">D+N</th><th style="width:110px">요일·시간</th><th style="width:160px">자산</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr><td><b>D+0</b></td><td>월 19:30</td><td>Chapter 01 정면 캐러셀 6장</td><td>대표 후킹 + 4 무드 정지 + CTA. 인지도 첫 임팩트.</td></tr>
+      <tr><td><b>D+2</b></td><td>수 19:30</td><td>Mood Reel · Natural (릴스)</td><td>자연광 hero 톤. 친근한 메인홈 무드.</td></tr>
+      <tr><td><b>D+4</b></td><td>금 19:30</td><td>Mood Reel · Wood (릴스)</td><td>오프라인 살롱 신뢰 무드.</td></tr>
+      <tr><td><b>D+6</b></td><td>일 21:00</td><td>Chapter 02 측면 캐러셀 6장</td><td>「프로필도 한 줄로」 두 번째 챕터.</td></tr>
+      <tr><td><b>D+8</b></td><td>화 19:30</td><td>Mood Reel · Blue (릴스)</td><td>모던 디자인 살롱 호소.</td></tr>
+      <tr><td><b>D+10</b></td><td>목 19:30</td><td>Mood Reel · Dramatic (릴스)</td><td>럭셔리 광고 슛 톤.</td></tr>
+      <tr><td><b>D+12</b></td><td>토 21:00</td><td>인사이트 분석 + 결정</td><td>최고 반응 무드 단독 재게시 + 다음 Chapter 03 후면 검토.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- I. 1 GLB ROI 결산 -->
+<section>
+  <h2><span class="num">I</span>1 GLB ROI 결산</h2>
+  <table>
+    <thead><tr><th>단계</th><th style="width:180px">자산</th><th style="width:80px">비용</th></tr></thead>
+    <tbody>
+      <tr><td>1차 GLB 생성 (소스 이미지 + GLB + 1차 렌더 + 4 각도 + 16 그리드 + 시트)</td><td>24 자산</td><td>31 크</td></tr>
+      <tr><td>Chapter 01 정면 캐러셀 (4 hero + 후킹 + CTA)</td><td>6 PNG</td><td>0</td></tr>
+      <tr><td>Chapter 02 측면 캐러셀 (4 profile + 측면 후킹 + CTA)</td><td>6 PNG</td><td>0</td></tr>
+      <tr><td>Chapter Reel 1차 릴스 + 미리보기 3</td><td>1 mp4 + 3 JPG</td><td>0</td></tr>
+      <tr><td>Mood Reels 4편 (Wood / Blue / Natural / Dramatic) + 미리보기 4</td><td>4 mp4 + 4 JPG</td><td>0</td></tr>
+      <tr style="background:#1A1A1B"><td><b>합계</b></td><td><b>47 자산</b></td><td><b>31 크</b></td></tr>
+      <tr style="background:#2A1F1B"><td colspan="2"><b style="color:#FFD87A">자산 단가 (장당 크레딧)</b></td><td><b style="color:#FF8FBB">0.66 크</b></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- J. 다음 결정 -->
+<section>
+  <h2><span class="num">J</span>다음 결정 (대표님)</h2>
+  <div class="next-opts">
+    <div class="opt"><b>a) 인스타 D+0 게시 시작</b>모든 자산 준비됨. 대표님 인스타 게시 10분.<em>0크 · 즉시 가능</em></div>
+    <div class="opt"><b>b) 시술 전후 비교</b>같은 GLB에 「짙은 눈썹」 텍스처 매핑.<em>0~5크 · 약 1시간</em></div>
+    <div class="opt"><b>c) 운영진 데모 페이지 확장</b>인사이트 트래커 + 자동 게시 일정.<em>0크 · 30분</em></div>
+    <div class="opt"><b>d) 추가 GLB 확장</b>페르소나 마네킹 (수아·하영·예린).<em>각 31크 · 페르소나당 8분</em></div>
+    <div class="opt"><b>e) 외부 터널 재가동</b>cloudflared 켜서 외부 공유.<em>대표님 켜기 · 즉시</em></div>
+    <div class="opt"><b>f) 잠시 멈춤</b>오늘 결과 정리·검토 시간.<em></em></div>
+  </div>
+</section>
+
+<!-- 관련 문서 -->
+<section>
+  <h2><span class="num">K</span>관련 문서</h2>
+  <ul style="list-style:none;padding:0">
+    <li style="padding:8px 0;border-bottom:1px solid #2A2A2A">📄 <a href="Blender-MCP-결과-20260624.html">Blender MCP 결과 페이지</a> — 한눈 STATS + 함정 해결책 + 활용 시나리오</li>
+    <li style="padding:8px 0;border-bottom:1px solid #2A2A2A">📄 <a href="Blender-MCP-도입가이드-20260624.html">Blender MCP 도입 가이드</a> — 셋업 5단계</li>
+    <li style="padding:8px 0;border-bottom:1px solid #2A2A2A">📋 <a href="docs/시그니처마네킹-캐러셀-운영가이드.md">시그니처 마네킹 운영가이드 v4</a> — 캡션·해시태그·게시 패턴 + Mood Reels 섹션</li>
+    <li style="padding:8px 0;border-bottom:1px solid #2A2A2A">📋 <a href="docs/PROGRESS.md">PROGRESS.md</a> — 06-24 신규 섹션</li>
+    <li style="padding:8px 0">🏠 <a href="index.html">메인 포털</a> · <a href="ARTbrows-업무보고-대시보드.html">업무 보고 대시보드</a></li>
+  </ul>
+</section>
+
+<footer>
+  © ARTbrows 2026 · 작성: Claude Code · 데모 페이지 2026-06-24
+</footer>
+
+<script>
+function copyText(id) {
+  const box = document.getElementById(id);
+  const text = box.textContent.replace(/^복사/, '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = box.querySelector('.copy-btn');
+    const orig = btn.textContent;
+    btn.textContent = '복사됨 ✓';
+    btn.style.background = '#A8E6B3';
+    btn.style.color = '#0B0907';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1800);
+  });
+}
+</script>
+
+</body>
+</html>

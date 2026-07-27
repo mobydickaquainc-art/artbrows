@@ -1,0 +1,310 @@
+{
+  "id": "reimport-2026-07-26-ex2kip",
+  "title": "[리뉴얼] 기존 카드뉴스 6장 · 2026-07-26",
+  "slug": "reimport-2026-07-26-ex2kip",
+  "status": "draft",
+  "createdAt": "2026-07-26T20:17:41.047Z",
+  "updatedAt": "2026-07-27T01:01:59.456Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "[리뉴얼] 기존 카드뉴스 6장 · 2026-07-26",
+      "slides": [
+        {
+          "kind": "image-with-overlay",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T20-15-09/01-1785096909961.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_01.png",
+          "overlays": [],
+          "copyPalette": [
+            {
+              "text": "@artbrows_academy",
+              "original": "@artbrows_academy",
+              "role": "label",
+              "hintFontSizePct": 2.1,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "MASTER\nTHE ORIGINAL · SINCE 1세대\n같은 손, 같은 시간, 그러나 결과는 다릅니다.\n누군가는 눈썹을 배우고,\n누군가는 인생을 바꿀 '털 같은 눈썹' 기술을 얻습니다.\n극사실눈썹 창시자 장미지 원장의 ARTbrows.",
+              "original": "같은 손, 같은 시간, 그러나 결과는 다릅니다.\n누군가는 눈썹을 배우고,\n누군가는 인생을 바꿀 기술을 얻습니다.\n그 차이, artbrows에서 시작하세요.",
+              "role": "body",
+              "hintFontSizePct": 3.5,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "medium"
+            },
+            {
+              "text": "HYPERREAL 극사실소묘 3일 집중수업\n8월18일~20일",
+              "original": "극사실소묘 3일 집중수업\n8월18일~20일",
+              "role": "subheadline",
+              "hintFontSizePct": 6,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "수강문의",
+              "original": "수강문의",
+              "role": "cta",
+              "hintFontSizePct": 2.8,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "010-3239-5453",
+              "original": "010-3239-5453",
+              "role": "body",
+              "hintFontSizePct": 4.5,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "medium"
+            }
+          ],
+          "ocrProcessed": true
+        },
+        {
+          "kind": "image-with-overlay",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T20-15-09/02-1785096909967.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_02.png",
+          "overlays": [],
+          "copyPalette": [
+            {
+              "text": "@artbrows_academy",
+              "original": "@artbrows_academy",
+              "role": "label",
+              "hintFontSizePct": 2,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "THE ORIGINAL ARTBROWS",
+              "original": "ARTBROWS",
+              "role": "label",
+              "hintFontSizePct": 2,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "HYPERREAL\n'털 같은 눈썹'의 시작, 소묘 기초",
+              "original": "극사실눈썹의 시작\n소묘기초수업",
+              "role": "headline",
+              "hintFontSizePct": 8.5,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "8월 18일~20일 3일집중",
+              "original": "8월 18일~20일 3일집중",
+              "role": "body",
+              "hintFontSizePct": 4,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            }
+          ],
+          "ocrProcessed": true
+        },
+        {
+          "kind": "image-with-overlay",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T20-15-09/03-1785096909974.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_03.png",
+          "overlays": [],
+          "copyPalette": [
+            {
+              "text": "@artbrows_academy",
+              "original": "@artbrows_academy",
+              "role": "label",
+              "hintFontSizePct": 2.1,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "QUESTION 1",
+              "original": "QUESTION 1",
+              "role": "label",
+              "hintFontSizePct": 2.5,
+              "hintColor": "#000000",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "HYPERREAL : 왜 극사실눈썹인가?",
+              "original": "왜 극사실눈썹인가요?",
+              "role": "subheadline",
+              "hintFontSizePct": 6.5,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "소비자는 '그린 눈썹'에는 지갑을 열지 않습니다.\n오직 '털 같은 눈썹'에만 고가를 지불하죠. 시술가를 결정하는 건\n기술이 아니라 리얼리티입니다.\n내 몸값을 올리는 단 하나의 방법, THE ORIGINAL 극사실눈썹입니다.",
+              "original": "소비자는 '그린 눈썹'에는 지갑을 열지 않습니다.\n'진짜 같은 눈썹'에만 고가를 지불하죠. 시술가를 결정하는 건\n기술이 아니라 리얼리티입니다.\n내 몸값을 올리는 단 하나의 방법, 극사실눈썹입니다.",
+              "role": "label",
+              "hintFontSizePct": 3,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            }
+          ],
+          "ocrProcessed": true
+        },
+        {
+          "kind": "image-with-overlay",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T20-15-09/04-1785096910065.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_04.png",
+          "overlays": [],
+          "copyPalette": [
+            {
+              "text": "@artbrows_academy",
+              "original": "@artbrows_academy",
+              "role": "label",
+              "hintFontSizePct": 2,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "QUESTION 2",
+              "original": "QUESTION 2",
+              "role": "label",
+              "hintFontSizePct": 2.5,
+              "hintColor": "#000000",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "소묘수업을 꼭 들어야 하나요?",
+              "original": "소묘수업을 꼭 들어야 하나요?",
+              "role": "subheadline",
+              "hintFontSizePct": 6,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "20년간 눈썹을 연구하면서 얻은 노하우는 바로 소묘!\n원리를 이해해야 제대로 된 눈썹을 그릴수 있습니다.\n기초가 튼튼해야 높이 올라갈수 있다는 사실!!\n꼭 기억하세요.",
+              "original": "20년간 눈썹을 연구하면서 얻은 노하우는 바로 소묘!\n원리를 이해해야 제대로 된 눈썹을 그릴수 있습니다.\n기초가 튼튼해야 높이 올라갈수 있다는 사실!!\n꼭 기억하세요.",
+              "role": "label",
+              "hintFontSizePct": 3,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            }
+          ],
+          "ocrProcessed": true
+        },
+        {
+          "kind": "image-with-overlay",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T20-15-09/05-1785096910084.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_05.png",
+          "overlays": [],
+          "copyPalette": [
+            {
+              "text": "@artbrows_academy",
+              "original": "@artbrows_academy",
+              "role": "label",
+              "hintFontSizePct": 1.7,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "QUESTION 3",
+              "original": "QUESTION 3",
+              "role": "label",
+              "hintFontSizePct": 2.2,
+              "hintColor": "#000000",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "소묘 수업강의는 누가하나요?",
+              "original": "소묘 수업강의는 누가하나요?",
+              "role": "subheadline",
+              "hintFontSizePct": 5.8,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "극사실눈썹 창시자, 장미지 원장이 직접 가르칩니다.\n20년 현장, 6년 강의로 검증된 단 하나의 커리큘럼\n대리강사도, 조교도 아닌 창시자 본인입니다.",
+              "original": "극사실눈썹 창시자, 장미지 원장이 직접 가르칩니다.\n20년 현장, 6년 강의로 검증된 단 하나의 커리큘럼\n대리강사도, 조교도 아닌 창시자 본인입니다.",
+              "role": "label",
+              "hintFontSizePct": 2.8,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            }
+          ],
+          "ocrProcessed": true
+        },
+        {
+          "kind": "image-with-overlay",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T20-15-09/06-1785096910214.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_06.png",
+          "overlays": [],
+          "copyPalette": [
+            {
+              "text": "@artbrows_academy",
+              "original": "@artbrows_academy",
+              "role": "label",
+              "hintFontSizePct": 2,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            },
+            {
+              "text": "QUESTION 4",
+              "original": "QUESTION 4",
+              "role": "label",
+              "hintFontSizePct": 2.5,
+              "hintColor": "#000000",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "수업은 어떻게 진행되나요?",
+              "original": "수업은 어떻게 진행되나요?",
+              "role": "subheadline",
+              "hintFontSizePct": 5.5,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "bold"
+            },
+            {
+              "text": "단 3일, 21시간 동안 밀도 있게 진행됩니다.\n원리 이해, 실전 소묘, 1:1코칭, 작품 완성,\n이론에서 실력으로 이어지는 구조입니다.",
+              "original": "단 3일, 21시간 동안 밀도 있게 진행됩니다.\n원리 이해, 실전 소묘, 1:1코칭, 작품 완성,\n이론에서 실력으로 이어지는 구조입니다.",
+              "role": "label",
+              "hintFontSizePct": 3,
+              "hintColor": "#FFFFFF",
+              "hintFontFamily": "sans",
+              "hintWeight": "normal"
+            }
+          ],
+          "ocrProcessed": true
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "stylePreset": "rebellion-serif"
+}

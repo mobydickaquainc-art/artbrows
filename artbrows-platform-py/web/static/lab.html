@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>장미지 연구소 — ARTbrows Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;font-size:14.5px;min-height:100vh}
+
+  /* Top Nav (모비딕 base.html 응용) */
+  .top-nav{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:14px 30px;display:flex;align-items:center;gap:18px;z-index:100}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+  .brand .logo{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#E0C088,#FFB78A);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;color:#0B0907}
+  .brand .name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#F5EDE3}
+  .brand .name em{color:#E0C088;font-style:normal}
+  .nav-right{margin-left:auto;display:flex;gap:14px;font-size:12.5px;color:#8A8A84}
+  .nav-right a{color:#E0C088;text-decoration:none;font-weight:700}
+
+  /* Hero */
+  .hero{padding:54px 30px 40px;text-align:center;background:radial-gradient(ellipse at top,rgba(224,192,136,0.06),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:10.5px;letter-spacing:4px;padding:7px 20px;border-radius:24px;margin-bottom:16px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:48px;line-height:1.15;letter-spacing:-1px}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;color:#CBC8C1;margin-top:12px}
+  .sub{font-size:13px;color:#8A8A84;margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto}
+
+  /* 3 SaaS 카드 */
+  .container{max-width:1200px;margin:0 auto;padding:30px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:24px;color:#F5EDE3;margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#E0C088;margin-right:12px;font-size:30px}
+
+  .saas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:980px){.saas-grid{grid-template-columns:1fr}}
+
+  .saas{background:#161617;border:1px solid #2A2A2A;border-top:5px solid var(--c);border-radius:16px;padding:26px;display:flex;flex-direction:column;min-height:380px}
+  .saas.a{--c:#FFB78A}
+  .saas.b{--c:#FF4D7E}
+  .saas.c{--c:#A8E6B3}
+  .saas .badge{font-family:'Cormorant Garamond',serif;font-size:46px;color:var(--c);font-weight:700;line-height:1}
+  .saas .label{font-size:10.5px;color:var(--c);font-weight:700;letter-spacing:3px;margin-top:4px}
+  .saas h3{font-family:'Nanum Myeongjo',serif;color:#F5EDE3;font-size:22px;font-weight:800;margin:8px 0 6px}
+  .saas .pm{font-size:12px;color:#8A8A84;margin-bottom:14px;letter-spacing:1px}
+
+  /* 메뉴 리스트 */
+  .menu{list-style:none;padding:0;margin-top:auto}
+  .menu li{padding:11px 14px;background:#0B0907;border:1px solid #2A2A2A;border-radius:10px;margin-bottom:7px;display:flex;align-items:center;justify-content:space-between;font-size:13.5px;transition:all 0.15s}
+  .menu li.active{border-color:var(--c);background:#161617}
+  .menu li.active:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(224,192,136,0.15)}
+  .menu li.active a{color:var(--c);font-weight:700;text-decoration:none;flex:1}
+  .menu li.disabled{color:#5A5A56;cursor:not-allowed}
+  .menu li.disabled .name{color:#5A5A56}
+  .menu li .icon{font-size:16px}
+  .menu li .tag{font-size:9px;font-weight:800;letter-spacing:2px;padding:2px 8px;border-radius:10px;background:#2A2A2A;color:#8A8A84}
+  .menu li.active .tag{background:var(--c);color:#0B0907}
+  .menu li.disabled .tag{background:#1A1A1B;color:#5A5A56}
+
+  /* Footer */
+  footer{margin-top:50px;padding:24px 30px;background:#0a0908;color:#8A8A84;text-align:center;font-size:11.5px;border-top:1px solid #2A2A2A}
+  footer a{color:#E0C088;text-decoration:none;margin:0 8px}
+</style>
+</head>
+<body>
+
+<!-- 상단 네비 (모비딕 base.html 패턴) -->
+<nav class="top-nav">
+  <a href="/" style="color:#E0C088;background:rgba(224,192,136,0.1);padding:8px 14px;border-radius:8px;border:1px solid rgba(224,192,136,0.3);text-decoration:none;font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:6px">
+    <span style="font-size:16px">←</span> 플랫폼 홈
+  </a>
+  <a class="brand" href="/">
+    <div class="logo">장</div>
+    <div class="name">장미지 <em>연구소</em></div>
+  </a>
+  <div class="nav-right" style="position:relative">
+    <a href="/static/calendar.html" style="color:#FFB78A;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,183,138,0.3)">📅 강의 달력</a>
+    <a href="https://eyebrows.staris.cloud/" target="_blank" rel="noopener" style="color:#FF6F84;background:rgba(255,111,132,0.08);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,111,132,0.3)" title="수강생·시술자용 학원 홈페이지">🌐 외부 홈 ↗</a>
+    <a href="https://jangmiji.staris.cloud/" target="_blank" rel="noopener" style="color:#E0C088;background:rgba(224,192,136,0.1);padding:6px 12px;border-radius:8px;border:1px solid rgba(224,192,136,0.3)" title="운영진 포털 (Netlify)">🛠 운영진 포털 ↗</a>
+    <button type="button" onclick="toggleFullMenu()" style="background:linear-gradient(135deg,#E0C088,#FFB78A);color:#0B0907;border:none;padding:7px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer">☰ 전체 메뉴 ▾</button>
+
+    <div id="fullMenu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:#161617;border:1px solid #2A2A2A;border-radius:14px;padding:14px;min-width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.5);z-index:200;text-align:left">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <div style="font-size:10.5px;color:#FFB78A;font-weight:700;letter-spacing:2px;margin-bottom:8px">SAAS A · 학원 앱</div>
+          <a href="/static/calendar.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📅 강의 일정 달력</a>
+          <a href="/static/calendar-usage-guide.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📖 강의 달력 사용법</a>
+          <a href="/static/enrollment.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📝 수강 안내 (6장)</a>
+          <a href="/static/master-works.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📚 마스터 작품집</a>
+          <a href="/static/members.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">👥 회원 관리</a>
+          <a href="/static/contest.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">🏆 공모전</a>
+
+          <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin:14px 0 8px">SAAS B · C · 준비 중</div>
+          <a href="/static/coming-soon.html?saas=B" style="display:block;padding:8px 10px;color:#CBC8C1;font-size:13px;border-radius:6px;text-decoration:none">📢 광고 마케팅 (B)</a>
+          <a href="/static/coming-soon.html?saas=C" style="display:block;padding:8px 10px;color:#CBC8C1;font-size:13px;border-radius:6px;text-decoration:none">✨ Face Lab v7 (C)</a>
+        </div>
+
+        <div>
+          <div style="font-size:10.5px;color:#FF8FA3;font-weight:700;letter-spacing:2px;margin-bottom:8px">외부 · 운영</div>
+          <a href="https://eyebrows.staris.cloud/" target="_blank" rel="noopener" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">🌐 외부 홈페이지 ↗</a>
+          <a href="https://jangmiji.staris.cloud/" target="_blank" rel="noopener" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">🛠 운영진 포털 ↗</a>
+
+          <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin:14px 0 8px">문서 · 리포트</div>
+          <a href="/static/board-log-2026-07-13.html" style="display:block;padding:8px 10px;color:#E0C088;font-size:13px;font-weight:700;border-radius:6px;text-decoration:none;background:rgba(224,192,136,0.08)">📋 07-13 회의록 · NEW</a>
+          <a href="https://jangmiji.staris.cloud/ARTbrows-업무보고-대시보드.html" target="_blank" rel="noopener" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📊 업무 보고 대시보드 ↗</a>
+          <a href="https://jangmiji.staris.cloud/ARTbrows-개발기획서-v1.0.html" target="_blank" rel="noopener" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📋 개발 기획서 v1.0 ↗</a>
+          <a href="https://jangmiji.staris.cloud/Blender-3D-Lab.html" target="_blank" rel="noopener" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">🎯 Blender 3D Lab ↗</a>
+          <a href="https://jangmiji.staris.cloud/Face-Lab-v7-펜슬-디지털트윈-20260629.html" target="_blank" rel="noopener" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">✨ Face Lab v7 리포트 ↗</a>
+
+          <div style="font-size:10.5px;color:#FFB78A;font-weight:700;letter-spacing:2px;margin:14px 0 8px">개발 도구</div>
+          <a href="/static/journal.html" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">📔 개발 일지</a>
+          <a href="/api/docs" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">🔧 API Docs</a>
+          <a href="/health" style="display:block;padding:8px 10px;color:#F5EDE3;font-size:13px;border-radius:6px;text-decoration:none">❤ Health</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+function toggleFullMenu(){
+  const m = document.getElementById('fullMenu');
+  m.style.display = m.style.display === 'block' ? 'none' : 'block';
+}
+document.addEventListener('click', e => {
+  const m = document.getElementById('fullMenu');
+  if (m.style.display === 'block' && !e.target.closest('#fullMenu') && !e.target.closest('button[onclick="toggleFullMenu()"]')) {
+    m.style.display = 'none';
+  }
+});
+document.querySelectorAll('#fullMenu a').forEach(a => {
+  a.addEventListener('mouseenter', () => a.style.background = 'rgba(224,192,136,0.1)');
+  a.addEventListener('mouseleave', () => a.style.background = '');
+});
+</script>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="chip">JANGMIJI LABORATORY · 미용 통합 SaaS</div>
+  <h1>극사실 <em>아트 눈썹</em><br>디지털 플랫폼</h1>
+  <p class="lead">30년 노하우의 디지털 트윈 — 3 SaaS 통합</p>
+  <p class="sub">학원·강의·홈페이지 (A) · 광고 마케팅 (B) · Face Lab v7 시뮬 (C)<br>아래에서 메뉴 선택해 시작하세요.</p>
+</div>
+
+<!-- 3 SaaS 카드 -->
+<div class="container">
+
+  <h2><span class="num">A·B·C</span>3 SaaS 메뉴</h2>
+
+  <div class="saas-grid">
+
+    <!-- SaaS A -->
+    <div class="saas a">
+      <div class="badge">A</div>
+      <div class="label">학원·강의·홈페이지</div>
+      <h3>학원 운영 자동화</h3>
+      <div class="pm">PM · 김다은</div>
+      <ul class="menu">
+        <li class="active">
+          <a href="/static/calendar.html">📅 강의 일정 달력</a>
+          <span class="tag">LIVE</span>
+        </li>
+        <li class="active">
+          <a href="/static/enrollment.html">📝 수강 안내 (6장 캐러셀)</a>
+          <span class="tag">LIVE</span>
+        </li>
+        <li class="active">
+          <a href="/static/master-works.html">📚 마스터 작품집 (6점 + 5강의)</a>
+          <span class="tag">LIVE</span>
+        </li>
+        <li class="active">
+          <a href="/static/members.html">👥 회원 관리 (3등급 + K1)</a>
+          <span class="tag">LIVE</span>
+        </li>
+        <li class="active">
+          <a href="/static/contest.html">🏆 공모전</a>
+          <span class="tag">LIVE</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SaaS B -->
+    <div class="saas b">
+      <div class="badge">B</div>
+      <div class="label">광고 마케팅</div>
+      <h3>DIY 광고 자동</h3>
+      <div class="pm">PM · 박서윤</div>
+      <ul class="menu">
+        <li class="disabled">
+          <span class="name">✍️ 광고 카피 자동</span>
+          <span class="tag">SOON</span>
+        </li>
+        <li class="disabled">
+          <span class="name">🖼️ 광고 카드 자동</span>
+          <span class="tag">SOON</span>
+        </li>
+        <li class="disabled">
+          <span class="name">📊 ROAS 대시보드</span>
+          <span class="tag">SOON</span>
+        </li>
+        <li class="disabled">
+          <span class="name">🔑 키워드 분석</span>
+          <span class="tag">SOON</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SaaS C -->
+    <div class="saas c">
+      <div class="badge">C</div>
+      <div class="label">Face Lab v7</div>
+      <h3>펜슬 디지털 트윈</h3>
+      <div class="pm">PM · 최예진</div>
+      <ul class="menu">
+        <li class="disabled">
+          <span class="name">📸 시뮬레이션 (정면+측면)</span>
+          <span class="tag">SOON</span>
+        </li>
+        <li class="disabled">
+          <span class="name">💾 패턴 DB</span>
+          <span class="tag">SOON</span>
+        </li>
+        <li class="disabled">
+          <span class="name">👤 MetaHuman 갤러리</span>
+          <span class="tag">SOON</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  © 장미지 연구소 · ARTbrows Platform 2026 ·
+  <a href="index.html">운영진 포털</a> ·
+  <a href="ARTbrows-개발기획서-v1.0.html">개발 기획서</a>
+</footer>
+
+</body>
+</html>

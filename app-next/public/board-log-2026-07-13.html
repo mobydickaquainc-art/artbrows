@@ -1,0 +1,834 @@
+<title>ARTbrows Academy · 07-13 회의록</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: dark light;
+
+    /* palette: warm-biased neutrals, one gold accent */
+    --ink:        #0B0907;
+    --ink-2:      #14100C;
+    --ink-3:      #1E1811;
+    --hairline:   rgba(224,192,136,0.14);
+    --hairline-2: rgba(224,192,136,0.08);
+    --gold:       #E0C088;
+    --gold-2:     #C9A876;
+    --gold-dim:   #8C7350;
+    --cream:      #F5EEDF;
+    --cream-2:    #B8AC94;
+    --cream-3:    #7D7561;
+    --amber:      #F0B84F;
+    --confirm:    #A8C99A;
+    --pending:    #E5B063;
+
+    --bg:         var(--ink);
+    --surface:    var(--ink-2);
+    --surface-2:  var(--ink-3);
+    --text:       var(--cream);
+    --text-2:     var(--cream-2);
+    --text-3:     var(--cream-3);
+    --accent:     var(--gold);
+    --accent-2:   var(--gold-2);
+    --line:       var(--hairline);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:        #F5EEDF;
+      --surface:   #FDF9EE;
+      --surface-2: #F0E7D2;
+      --text:      #1A140C;
+      --text-2:    #5D4E36;
+      --text-3:    #8C7A5D;
+      --accent:    #8C6B2E;
+      --accent-2:  #A88748;
+      --line:      rgba(140,107,46,0.16);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: var(--ink); --surface: var(--ink-2); --surface-2: var(--ink-3);
+    --text: var(--cream); --text-2: var(--cream-2); --text-3: var(--cream-3);
+    --accent: var(--gold); --accent-2: var(--gold-2); --line: var(--hairline);
+  }
+  :root[data-theme="light"] {
+    --bg: #F5EEDF; --surface: #FDF9EE; --surface-2: #F0E7D2;
+    --text: #1A140C; --text-2: #5D4E36; --text-3: #8C7A5D;
+    --accent: #8C6B2E; --accent-2: #A88748; --line: rgba(140,107,46,0.16);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR',
+                 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.65;
+    font-size: 15px;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  /* ============ Sticky nav ============ */
+  nav.top {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.top .row {
+    max-width: 780px; margin: 0 auto;
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px;
+  }
+  nav.top .brand {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-style: italic; font-size: 17px; color: var(--accent);
+    letter-spacing: 0.02em; white-space: nowrap;
+  }
+  nav.top .brand strong { font-weight: 400; font-style: normal; }
+  nav.top .anchors {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    font-size: 12px; letter-spacing: 0.08em;
+  }
+  nav.top .anchors a {
+    color: var(--text-2); text-decoration: none;
+    padding: 4px 0; border-bottom: 1px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  nav.top .anchors a:hover, nav.top .anchors a:focus-visible {
+    color: var(--accent); border-color: var(--accent);
+    outline: none;
+  }
+  .theme-toggle {
+    background: transparent; border: 1px solid var(--line);
+    color: var(--text-2); font-size: 11px; letter-spacing: 0.14em;
+    padding: 5px 10px; border-radius: 2px; cursor: pointer;
+    text-transform: uppercase; font-family: inherit;
+    transition: color .15s, border-color .15s;
+  }
+  .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ============ Layout container ============ */
+  main {
+    max-width: 780px; margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  section { margin: 64px 0 0; }
+  section:first-of-type { margin-top: 24px; }
+
+  /* ============ Hero ============ */
+  header.hero { margin-top: 28px; margin-bottom: 8px; }
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-weight: 400; text-wrap: balance;
+    font-size: clamp(32px, 5.4vw, 44px); line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  h1 em {
+    font-style: italic; color: var(--accent);
+  }
+  .subtitle {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-style: italic; font-size: 18px; color: var(--text-2);
+    margin-top: 4px;
+  }
+
+  /* Meta strip: date · duration · attendees */
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .meta-cell {
+    padding: 18px 16px 18px 0;
+    border-right: 1px solid var(--line);
+  }
+  .meta-cell:last-child { border-right: none; padding-right: 0; }
+  .meta-cell:not(:first-child) { padding-left: 16px; }
+  .meta-cell .label {
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--text-3); font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .meta-cell .value {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-size: 20px; color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .meta-cell .value.small { font-size: 15px; font-family: inherit; }
+
+  @media (max-width: 640px) {
+    .meta-strip { grid-template-columns: 1fr 1fr; }
+    .meta-cell:nth-child(2) { border-right: none; padding-right: 0; }
+    .meta-cell:nth-child(3), .meta-cell:nth-child(4) {
+      border-top: 1px solid var(--line); padding-top: 18px;
+    }
+    .meta-cell:nth-child(3) { padding-left: 0; }
+  }
+
+  /* ============ Section headings ============ */
+  h2 {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-weight: 400; letter-spacing: -0.005em;
+    font-size: 26px; line-height: 1.3;
+    margin: 0 0 4px;
+    color: var(--text);
+    text-wrap: balance;
+  }
+  h2 .marker {
+    font-family: Georgia, serif; font-style: italic;
+    font-size: 15px; color: var(--accent); margin-right: 10px;
+    letter-spacing: 0.05em;
+  }
+  h3 {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-weight: 400; font-size: 19px; line-height: 1.4;
+    margin: 32px 0 12px;
+    color: var(--text);
+    text-wrap: balance;
+  }
+  .lead {
+    font-size: 15px; color: var(--text-2);
+    margin: 0 0 24px;
+    max-width: 62ch;
+  }
+
+  /* ============ TL;DR key cards ============ */
+  .tldr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+  @media (max-width: 640px) { .tldr { grid-template-columns: 1fr; } }
+  .key {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 20px 18px 22px;
+    position: relative;
+  }
+  .key::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent);
+  }
+  .key .k-cat {
+    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .key .k-val {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-size: 21px; line-height: 1.35;
+    color: var(--text);
+    text-wrap: balance;
+  }
+  .key .k-note {
+    font-size: 12.5px; color: var(--text-3); margin-top: 8px;
+    line-height: 1.55;
+  }
+
+  /* ============ Decision list (numbered pair) ============ */
+  .decisions { border-top: 1px solid var(--line); margin-top: 20px; }
+  .decision {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    gap: 8px 4px;
+  }
+  .decision .idx {
+    font-family: Georgia, serif; font-style: italic;
+    font-size: 15px; color: var(--accent);
+    padding-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .decision .body { }
+  .decision .cat {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--text-3); font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .decision .txt {
+    font-size: 15.5px; color: var(--text); line-height: 1.55;
+  }
+  .decision .txt b {
+    color: var(--accent); font-weight: 600;
+  }
+  .decision .txt code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 13px; color: var(--accent-2);
+    background: var(--surface-2); padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  /* ============ Pending items (grid table) ============ */
+  .pending {
+    margin-top: 24px;
+    border: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  .pending table {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+    min-width: 500px;
+  }
+  .pending th, .pending td {
+    padding: 12px 14px; text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .pending th {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--text-3); font-weight: 600;
+    background: var(--surface-2);
+  }
+  .pending tr:last-child td { border-bottom: none; }
+  .pending td:first-child {
+    font-family: Georgia, serif; font-style: italic; color: var(--accent);
+    width: 42px; padding-right: 0;
+  }
+  .pending td .who {
+    display: block; font-size: 12px; color: var(--text-3); margin-top: 4px;
+  }
+  .pending td .due {
+    font-family: Georgia, serif; font-style: italic;
+    color: var(--accent-2); font-size: 13px; white-space: nowrap;
+  }
+
+  /* ============ Action items (person cards) ============ */
+  .persons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  @media (max-width: 640px) { .persons { grid-template-columns: 1fr; } }
+  .person {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 20px 20px 22px;
+  }
+  .person .p-role {
+    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--text-3); font-weight: 600;
+  }
+  .person .p-name {
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-size: 19px; color: var(--text); margin-top: 2px;
+  }
+  .person hr {
+    border: none; border-top: 1px solid var(--line);
+    margin: 14px 0 12px;
+  }
+  .person ul {
+    list-style: none; padding: 0; margin: 0;
+    font-size: 13.5px; line-height: 1.65;
+  }
+  .person li {
+    color: var(--text-2);
+    padding: 5px 0 5px 18px;
+    position: relative;
+  }
+  .person li::before {
+    content: "—";
+    position: absolute; left: 0; top: 5px;
+    color: var(--accent); font-family: Georgia, serif;
+  }
+  .person li b { color: var(--text); font-weight: 500; }
+
+  /* ============ Quote / callout ============ */
+  .callout {
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 20px;
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    font-size: 18px; line-height: 1.5;
+    color: var(--text); text-wrap: balance;
+    margin: 24px 0;
+  }
+  .callout .attr {
+    display: block; margin-top: 8px;
+    font-family: -apple-system, sans-serif;
+    font-size: 11px; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--text-3);
+    font-style: normal;
+  }
+
+  /* ============ Cross-references ============ */
+  .refs {
+    margin-top: 20px;
+    font-size: 13px; color: var(--text-3);
+    line-height: 1.8;
+  }
+  .refs .r-key {
+    color: var(--accent); font-family: Georgia, serif; font-style: italic;
+    margin-right: 8px;
+  }
+  .refs code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px; color: var(--text-2);
+  }
+
+  /* ============ Footer ============ */
+  footer {
+    margin: 96px auto 0; max-width: 780px; padding: 0 24px 40px;
+    border-top: 1px solid var(--line);
+    padding-top: 40px;
+  }
+  footer .foot-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; flex-wrap: wrap;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-3);
+  }
+  footer .sig {
+    font-family: Georgia, serif; font-style: italic;
+    font-size: 20px; color: var(--accent); letter-spacing: 0.02em;
+    text-transform: none;
+  }
+
+  /* ============ Small utilities ============ */
+  .chip {
+    display: inline-block;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 3px 8px; border: 1px solid var(--accent);
+    color: var(--accent); font-weight: 600;
+    border-radius: 2px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .chip.confirmed { border-color: var(--confirm); color: var(--confirm); }
+  .chip.pending { border-color: var(--pending); color: var(--pending); }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--line); }
+  a:hover { border-bottom-color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<nav class="top">
+  <div class="row">
+    <div class="brand">A<strong>R</strong>T<strong>brows</strong> · <em>Board Log</em></div>
+    <div class="anchors">
+      <a href="#tldr">TL;DR</a>
+      <a href="#part1">Part 1</a>
+      <a href="#part2">Part 2</a>
+      <a href="#pending">미결정</a>
+      <a href="#actions">Action</a>
+    </div>
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">Theme</button>
+  </div>
+</nav>
+
+<main>
+  <header class="hero">
+    <div class="eyebrow">Board Log · 2026 · 07 · 13</div>
+    <h1>07-13 회의록<br>— <em>홈페이지 · 커리큘럼 확정</em></h1>
+    <div class="subtitle">회장님 · 대표님 · 원장님 · 개발 박대표 · 이서연 본부장 참석</div>
+
+    <div class="meta-strip">
+      <div class="meta-cell">
+        <div class="label">회의</div>
+        <div class="value">2</div>
+        <div class="label" style="margin-top:6px; color: var(--text-2)">세션 (오전 · 오후)</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">회의 시간</div>
+        <div class="value">116<span style="font-size:14px; color: var(--text-3)">분</span></div>
+        <div class="label" style="margin-top:6px; color: var(--text-2)">66' + 50'</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">확정 결정</div>
+        <div class="value" style="color: var(--accent)">18<span style="font-size:14px; color: var(--text-3)">건</span></div>
+        <div class="label" style="margin-top:6px; color: var(--text-2)">Part 1: 10 · Part 2: 8</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">미결정</div>
+        <div class="value">11<span style="font-size:14px; color: var(--text-3)">건</span></div>
+        <div class="label" style="margin-top:6px; color: var(--text-2)">주중 · 별도 회의</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       TL;DR
+       ========================================================= -->
+  <section id="tldr">
+    <h2><span class="marker">§</span>오늘의 핵심 3가지</h2>
+    <p class="lead">전체 결정 18건 중, 사업 전개에 즉시 영향을 주는 결정.</p>
+
+    <div class="tldr">
+      <div class="key">
+        <div class="k-cat">Domain · Web</div>
+        <div class="k-val">artbrow.co.kr 확정</div>
+        <div class="k-note">가비아 · 법인 결제 · 1년 14,000원 · 상표권과 별개</div>
+      </div>
+      <div class="key">
+        <div class="k-cat">Launch · Target</div>
+        <div class="k-val">2026 · 08월 말 오픈</div>
+        <div class="k-note">회장님 미국 출국 전 · 이전 08-10 목표 → 이동</div>
+      </div>
+      <div class="key">
+        <div class="k-cat">Class · Price</div>
+        <div class="k-val">이지 클래스 69만원</div>
+        <div class="k-note">99만원 인상 → 롤백 확정 · 파트너 금액 통일</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       PART 1 — 홈페이지·쇼핑몰 스펙 (오전 66:10)
+       ========================================================= -->
+  <section id="part1">
+    <h2><span class="marker">Part 1</span>홈페이지 · 쇼핑몰 스펙 확정</h2>
+    <p class="lead">
+      원장님 카톡 요청(07-10)에서 시작 → 오늘 오전 09:23~10:29 · 66분 10초 회의.<br>
+      쇼핑몰은 <b style="color:var(--text)">카페24 확정</b>으로 오후 대표님 별도 결정 반영.
+    </p>
+
+    <div class="decisions">
+      <div class="decision">
+        <div class="idx">01</div>
+        <div class="body">
+          <div class="cat">Domain</div>
+          <div class="txt"><b>artbrow.co.kr</b> 확정 · 가비아 · 법인 결제 · 1년 <code>14,000원</code></div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">02</div>
+        <div class="body">
+          <div class="cat">Development Order</div>
+          <div class="txt">3단계 순서: <b>①홍보 홈페이지+상담</b> → ②간단 LMS → ③쇼핑몰 결제</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">03</div>
+        <div class="body">
+          <div class="cat">Launch Date</div>
+          <div class="txt"><b>2026 · 08월 말</b> 1차 오픈 (회장님 미국 출국 전 · 이전 08-10 → 이동)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">04</div>
+        <div class="body">
+          <div class="cat">Payment Scope</div>
+          <div class="txt">결제 대상 = <b>이지 클래스 69만원 1건</b> · 온라인 강의 판매 X · 세트/종합은 상담 유입</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">05</div>
+        <div class="body">
+          <div class="cat">Payment Method</div>
+          <div class="txt"><b>홈페이지 자체 결제</b> · 인스타 결제 X (DB 확보 목적)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">06</div>
+        <div class="body">
+          <div class="cat">Shopping Mall</div>
+          <div class="txt"><b>카페24 확정</b> (오후 별도 결정) · 자체 개발 X · 기성 솔루션</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">07</div>
+        <div class="body">
+          <div class="cat">Web Planning</div>
+          <div class="txt">대표님 쪽 담당 · <b>본부장 이서연 상시 옆에서 픽스</b></div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">08</div>
+        <div class="body">
+          <div class="cat">Backend</div>
+          <div class="txt">박대표 <b>백엔드 전문가 활용</b> (별도 비용 X)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">09</div>
+        <div class="body">
+          <div class="cat">Singapore</div>
+          <div class="txt">브로우 하우스에 <b>3안 프로포즈</b> (팝업 · 정기방문 · 아카데미)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">10</div>
+        <div class="body">
+          <div class="cat">Global Marketing</div>
+          <div class="txt"><b>B2B 에이전시 우선</b> (청담·신사동 성형·치과 패키지) · 인스타 글로벌 계정 보조</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       PART 2 — 커리큘럼·강사 구조 (후반 50분)
+       ========================================================= -->
+  <section id="part2">
+    <h2><span class="marker">Part 2</span>커리큘럼 · 강사 구조 확정</h2>
+    <p class="lead">
+      오전 회의 후반부 · 이지 클래스 · 세트 · 강사반 · 수강생 프로파일 · 원장님 직강 시간 배분.
+    </p>
+
+    <div class="callout">
+      "얘는 이제 이지 클래스라는 취지대로 파트너 강사들 계속 시키고 걔네들의 들어온 애들 DB가 더 올라오게 해서, 원장님 직강으로 계속 끌고 올라가면 되는 거잖아요."
+      <span class="attr">— 회장님 · 이지 클래스 가격 롤백 논의 중</span>
+    </div>
+
+    <div class="decisions">
+      <div class="decision">
+        <div class="idx">11</div>
+        <div class="body">
+          <div class="cat">Class Price</div>
+          <div class="txt"><b>이지 클래스 = 69만원 롤백</b> · 99만원 폐기 (파트너 5개 방과 금액 통일 필수)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">12</div>
+        <div class="body">
+          <div class="cat">Class Structure</div>
+          <div class="txt">5일 × 3시간 = <b>15시간</b> · 정원 10명 · <b>강사 2명 배치</b> (1인당 최대 6명, 4명 최적)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">13</div>
+        <div class="body">
+          <div class="cat">Certification</div>
+          <div class="txt"><b>수료증 발급</b> · 홍보 카피 「30만원 수준 시술 가능」</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">14</div>
+        <div class="body">
+          <div class="cat">Instructor Track</div>
+          <div class="txt"><b>강사반 신설</b> (파트너십과 별개) · 1년 제자반 졸업생 대상 · 트레이닝 유료</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">15</div>
+        <div class="body">
+          <div class="cat">Founder's Time</div>
+          <div class="txt">원장님 <b>직강 = 화 · 수 · 목 (극사실만)</b> · 이지 클래스는 강사 위임</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">16</div>
+        <div class="body">
+          <div class="cat">Set Curriculum</div>
+          <div class="txt">소묘+눈썹 세트 = <b>235만원 · 커리큘럼 1개로 통합</b> (분리 판매 X)</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">17</div>
+        <div class="body">
+          <div class="cat">Full Package</div>
+          <div class="txt">종합 = <b>660만원</b> = 세트 3회 반복 수강 · 할인 포함</div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="idx">18</div>
+        <div class="body">
+          <div class="cat">Class Redefinition</div>
+          <div class="txt">이지 클래스 = 진짜 <b>「이지」</b>로 재정의 · 극사실 push 폐지 · 초보 이탈 방지</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       PENDING · 미결정
+       ========================================================= -->
+  <section id="pending">
+    <h2><span class="marker">§</span>미결정 · 주중 확정 필요</h2>
+    <p class="lead">
+      Part 1 (6) + Part 2 (5) = 총 <b>11건</b>. 담당·마감 지정 완료.
+    </p>
+
+    <div class="pending">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>항목</th>
+            <th>담당 · 마감</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A</td>
+            <td>PG사 선택 (카페24 지원 목록에서)</td>
+            <td><span class="due">07 · 18</span><span class="who">원장님 · 박대표</span></td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>카페24 계정 개설 + 상품 등록 범위</td>
+            <td><span class="due">07 · 16</span><span class="who">이서연 · 박대표</span></td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>메뉴 · 카테고리 확정 (유미코리아 벤치마크)</td>
+            <td><span class="due">07 · 18</span><span class="who">이서연 · 원장님</span></td>
+          </tr>
+          <tr>
+            <td>D</td>
+            <td>모델 요청 사양 발송 (PT 셀럽 남성)</td>
+            <td><span class="due">07 · 16</span><span class="who">이서연</span></td>
+          </tr>
+          <tr>
+            <td>E</td>
+            <td>상표권 「극사실 아트 브로우」 조합 재출원</td>
+            <td><span class="due">별도</span><span class="who">원장님 · 변리사</span></td>
+          </tr>
+          <tr>
+            <td>F</td>
+            <td>로고 · CI · BI 디자인 방향</td>
+            <td><span class="due">별도</span><span class="who">대표님 · 원장님</span></td>
+          </tr>
+          <tr>
+            <td>G</td>
+            <td>문신사 국가자격증 정보 (수강생용)</td>
+            <td><span class="due">별도</span><span class="who">회장님</span></td>
+          </tr>
+          <tr>
+            <td>H</td>
+            <td>이지 클래스 온라인 할인 로직 (타임 세일 등)</td>
+            <td><span class="due">07 · 18</span><span class="who">이서연 · 박대표</span></td>
+          </tr>
+          <tr>
+            <td>I</td>
+            <td>인스타 광고 나이 · 지역 타겟팅 (30~40대 여성)</td>
+            <td><span class="due">07 · 16</span><span class="who">이서연 · 원장님</span></td>
+          </tr>
+          <tr>
+            <td>J</td>
+            <td>다른 학원 반영구 초보 커리큘럼 조사</td>
+            <td><span class="due">07 · 18</span><span class="who">회장님 · 본부장</span></td>
+          </tr>
+          <tr>
+            <td>K</td>
+            <td>강사반 트레이닝 커리큘럼 · 금액 설계</td>
+            <td><span class="due">07 · 25</span><span class="who">원장님 · 이서연</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ACTION ITEMS · 4인
+       ========================================================= -->
+  <section id="actions">
+    <h2><span class="marker">§</span>Action Items — 이번 주 (07-14 ~ 07-18)</h2>
+    <p class="lead">담당자별로 오늘 회의 이후 즉시 착수할 실행 항목.</p>
+
+    <div class="persons">
+      <div class="person">
+        <div class="p-role">Chairman</div>
+        <div class="p-name">회장님</div>
+        <hr>
+        <ul>
+          <li>문신사 국가자격증 위원회 <b>문의</b></li>
+          <li>상표권 방향 결정 · <b>변리사 연결</b></li>
+          <li>MBC 아카데미 등 국비 학원 조인 검토</li>
+        </ul>
+      </div>
+
+      <div class="person">
+        <div class="p-role">CEO · Board</div>
+        <div class="p-name">대표님 · 이서연 본부장</div>
+        <hr>
+        <ul>
+          <li>메뉴 · 카테고리 <b>정리 후 박대표에게 전달</b></li>
+          <li>싱가폴 프로포즈 페이지 <b>3안 제작 · 발송</b></li>
+          <li>경쟁사 분석 완성 → 원장님과 <b>레퍼런스 · 톤 미팅</b></li>
+          <li>모델 요청 사양 발송 (PT 셀럽 · 정면·눈썹·경험 여부)</li>
+          <li>강사반 트레이닝 커리큘럼 <b>초안</b></li>
+          <li>이지 클래스 상세페이지 <b>재작성</b> (「이지」 톤)</li>
+        </ul>
+      </div>
+
+      <div class="person">
+        <div class="p-role">Founder</div>
+        <div class="p-name">원장님 (장미지)</div>
+        <hr>
+        <ul>
+          <li><b>도메인 결제</b> (가비아 · 법인)</li>
+          <li>PG사 별도 알아보기 (온라인 PG 등록 가능성)</li>
+          <li>콘텐츠 자료 정리 · <b>담주 박대표에게 전달</b></li>
+          <li>모델 섭외 조건 검증</li>
+          <li>이지 클래스 <b>가격 99만원 → 69만원 롤백</b> 반영</li>
+          <li>1년 제자반 강사 후보군 <b>리스트업</b></li>
+        </ul>
+      </div>
+
+      <div class="person">
+        <div class="p-role">Development</div>
+        <div class="p-name">박정주 대표 (개발)</div>
+        <hr>
+        <ul>
+          <li>백엔드 전문가 <b>활용 준비</b></li>
+          <li>도메인 등록 후 <b>서버 매핑</b></li>
+          <li>스펙 확정되는 대로 <b>홈페이지 구현 시작</b></li>
+          <li>PG사 알아보기 (카페24 지원 기준)</li>
+          <li>카페24 <b>상품 시트 가격 69만원 롤백</b></li>
+          <li>온라인 결제 <b>할인 로직 검토</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       REFERENCES
+       ========================================================= -->
+  <section id="refs">
+    <h2><span class="marker">§</span>참조 · 정본 위치</h2>
+    <div class="refs">
+      <div><span class="r-key">회의록 Part 1</span><code>artbrows-platform-py/docs/MEETING-2026-07-13-MINUTES.md</code></div>
+      <div><span class="r-key">회의록 Part 2</span><code>artbrows-platform-py/docs/MEETING-2026-07-13-CURRICULUM-MINUTES.md</code></div>
+      <div><span class="r-key">개발기획서 v1.2</span><code>artbrows-platform-py/docs/ARTbrows-개발기획서-v1.0.md</code></div>
+      <div><span class="r-key">PG 비교표</span><code>artbrows-platform-py/docs/PG-COMPARISON-2026-07-13.md</code></div>
+      <div><span class="r-key">카페24 셋업</span><code>artbrows-platform-py/docs/CAFE24-SETUP-2026-07-13.md</code></div>
+      <div style="margin-top: 14px;"><span class="r-key">다음 회의</span>07-20 (월) 09:00 예정 · 이번 주 준비물 리뷰 + 8월 말 스프린트 착수</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-row">
+    <span>ARTbrows Academy · Board Log</span>
+    <span class="sig">A<em>R</em>T<em>brows</em></span>
+    <span>© 2026 · Confidential</span>
+  </div>
+</footer>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+
+  function apply(t) {
+    root.setAttribute('data-theme', t);
+    btn.textContent = t === 'dark' ? '☾  Light' : '☀  Dark';
+    try { localStorage.setItem('brief-theme', t); } catch (e) {}
+  }
+  const saved = (() => { try { return localStorage.getItem('brief-theme'); } catch (e) { return null; } })();
+  const initial = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  apply(initial);
+
+  btn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    apply(next);
+  });
+
+  // Smooth-scroll for anchors
+  document.querySelectorAll('nav.top .anchors a').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>

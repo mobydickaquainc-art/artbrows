@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTbrows 플랫폼 비전 — 미용·눈썹실사 통합 SaaS · D-Day 06/29</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.7;max-width:1300px;margin:0 auto}
+
+  /* Hero */
+  .hero{background:radial-gradient(ellipse at top, #3D2818 0%, #1A0E08 70%, #0B0907 100%);padding:80px 50px 60px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-30%;left:-10%;width:120%;height:200%;background:radial-gradient(ellipse at center, rgba(255,184,138,0.18) 0%, transparent 60%);pointer-events:none}
+  .hero .chip{position:relative;display:inline-block;background:#FFB78A;color:#0B0907;font-weight:700;font-size:11.5px;letter-spacing:5px;padding:9px 24px;border-radius:24px;margin-bottom:20px}
+  .hero h1{position:relative;font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:54px;color:#FFF;line-height:1.16;margin-bottom:18px;letter-spacing:-1px}
+  .hero h1 em{color:#FFB78A;font-style:normal;background:linear-gradient(180deg,transparent 65%,rgba(255,184,138,0.25) 65%);padding:0 8px}
+  .hero .lead{position:relative;font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:20px;color:#F5C7AD;max-width:800px;margin:0 auto;line-height:1.7}
+  .hero .sub{position:relative;font-size:14px;color:rgba(245,237,227,0.6);max-width:700px;margin:20px auto 0;line-height:1.7}
+
+  /* TL;DR */
+  .tldr{background:linear-gradient(135deg,#FF4D7E,#E8A99B);color:#fff;border-radius:18px;padding:32px 36px;margin:36px 50px 0;box-shadow:0 24px 70px rgba(255,77,126,0.35);position:relative}
+  .tldr::before{content:'★';position:absolute;top:-22px;left:36px;background:#FFB78A;color:#0B0907;font-size:24px;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .tldr h2{font-family:'Nanum Myeongjo',serif;color:#fff;font-size:26px;margin-bottom:14px}
+  .tldr p{font-size:17px;color:#fff;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.75}
+  .tldr p em{color:#FFE5D0;font-style:normal;background:rgba(0,0,0,0.15);padding:2px 10px;border-radius:6px}
+
+  .body{padding:30px 50px 40px}
+  section{margin-bottom:50px}
+  h2.sect{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:28px;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:3px solid #FFB78A}
+  h2.sect .num{font-family:'Cormorant Garamond',serif;color:#FFB78A;margin-right:14px;font-size:36px}
+
+  /* 모비딕 vs ARTbrows 비교 */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  @media(max-width:900px){.compare{grid-template-columns:1fr}}
+  .compare-card{background:#161617;border-radius:14px;padding:24px 26px;border-top:5px solid var(--c)}
+  .compare-card.mb{--c:#9FC8FF}
+  .compare-card.ab{--c:#FFB78A}
+  .compare-card h3{font-family:'Nanum Myeongjo',serif;color:var(--c);font-size:22px;margin-bottom:10px}
+  .compare-card .tag{display:inline-block;font-size:10.5px;letter-spacing:2px;color:var(--c);padding:3px 10px;background:rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px}
+  .compare-card ul{list-style:none;padding:0;margin:0;font-size:13.5px;color:#cbc8c1;line-height:1.85}
+  .compare-card ul li{padding:5px 0}
+  .compare-card ul li b{color:var(--c);font-weight:700}
+
+  /* 5축 모듈 */
+  .modules{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:18px}
+  @media(max-width:1100px){.modules{grid-template-columns:repeat(2,1fr)}}
+  .mod{background:#161617;border-radius:14px;padding:22px 18px;border-top:5px solid #FFB78A;position:relative;text-align:center}
+  .mod .mod-num{font-family:'Cormorant Garamond',serif;font-size:48px;color:#FFB78A;font-weight:700;line-height:1}
+  .mod h3{font-family:'Nanum Myeongjo',serif;color:#fff;font-size:17px;margin:6px 0 4px;font-weight:800}
+  .mod .label{font-size:11px;color:#FFB78A;letter-spacing:2px;margin-bottom:10px}
+  .mod p{font-size:12.5px;color:#cbc8c1;line-height:1.6}
+
+  /* 로드맵 */
+  .roadmap{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+  .step{display:flex;align-items:flex-start;gap:18px;background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid var(--c)}
+  .step.s1{--c:#A8E6B3}
+  .step.s2{--c:#FFB78A}
+  .step.s3{--c:#FF4D7E}
+  .step.s4{--c:#9FC8FF}
+  .step .num-big{font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--c);font-weight:700;line-height:1;min-width:60px}
+  .step .info{flex:1}
+  .step .info h3{font-family:'Nanum Myeongjo',serif;color:var(--c);font-size:19px;margin-bottom:4px}
+  .step .info .date{font-size:11px;color:rgba(245,237,227,0.5);letter-spacing:2px;font-weight:700;margin-bottom:8px}
+  .step .info p{font-size:13.5px;color:#cbc8c1;line-height:1.7;margin-bottom:6px}
+  .step .info p b{color:#FFB78A;font-weight:700}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+  @media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:#161617;border-radius:12px;padding:18px;text-align:center;border-top:4px solid #FF4D7E}
+  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:38px;color:#FF4D7E;font-weight:700;line-height:1}
+  .kpi .l{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:14px;color:#fff;margin-top:6px}
+  .kpi .d{font-size:11.5px;color:#8a8a84;margin-top:4px}
+
+  /* CTA */
+  .cta{background:linear-gradient(135deg,#FFB78A,#FF4D7E);color:#0B0907;border-radius:20px;padding:40px 36px;text-align:center;margin:40px 0 0}
+  .cta h2{color:#0B0907;border:none;font-size:30px;padding:0;font-family:'Nanum Myeongjo',serif}
+  .cta p{font-size:15px;margin:14px 0 22px;color:#3D2818}
+  .cta .btn{display:inline-block;background:#0B0907;color:#FFB78A;font-weight:700;font-size:16px;padding:14px 32px;border-radius:30px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+
+  footer{margin-top:40px;padding:30px 50px;background:#000;color:#8a8a84;text-align:center;font-size:12px}
+  footer a{color:#FFB78A}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">PLATFORM VISION · D-DAY 06/29 · 회의 합의</div>
+  <h1>ARTbrows를<br><em>미용 통합 플랫폼</em>으로</h1>
+  <p class="lead">모비딕 상세페이지 플랫폼처럼 — 누구나 쓸 수 있는<br>독립적인 미용·눈썹실사 SaaS 플랫폼</p>
+  <p class="sub">학원이 아닙니다. 도구가 아닙니다. <strong style="color:#FFB78A">미용 종사자 누구나 쓸 수 있는 표준 플랫폼.</strong> Face Lab v7은 그 첫 모듈입니다.</p>
+</div>
+
+<div class="tldr">
+  <h2>★ 회의 합의 한 줄</h2>
+  <p>모비딕의 상세페이지 플랫폼처럼<br><em>독립적인 미용 (눈썹실사) 플랫폼</em>을 만들어야 한다.<br>
+  ARTbrows = 학원 + 도구 + B2B + DB + 콘텐츠 = <em>통합 SaaS</em>.</p>
+</div>
+
+<div class="body">
+
+<!-- ★ 00. 타겟 2 분류 (회의 합의) -->
+<section>
+  <h2 class="sect" style="color:#A8E6B3"><span class="num" style="color:#A8E6B3">★</span>타겟 — 「2 분류 명확」 (회의 결정)</h2>
+  <p style="font-size:15px;color:#A8E6B3;font-family:'Nanum Myeongjo',serif;font-weight:700;margin-bottom:18px;background:rgba(168,230,179,0.08);padding:14px 18px;border-radius:8px;line-height:1.7">
+  「크게 보면 시술을 받는 사람 + 배우는 사람 2분류」<br>
+  <span style="font-size:12.5px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29) · 모든 광고·메시지·UI 이 2분류로 자동 분기</span>
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px">
+
+    <!-- 타겟 1: 시술 받는 사람 -->
+    <div style="background:#161617;border:2px solid #FF4D7E;border-radius:16px;padding:24px 26px">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;color:#FF4D7E;line-height:1;font-weight:700">①</div>
+        <div>
+          <div style="font-size:11px;letter-spacing:3px;color:#FF4D7E;font-weight:700">B2C · 손님</div>
+          <h3 style="font-family:'Nanum Myeongjo',serif;color:#fff;font-size:22px;font-weight:800;margin-top:2px">시술 받는 사람</h3>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:#FF4D7E;font-weight:700;margin:14px 0 6px;letter-spacing:1px">페인 포인트</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+        <li>• 결과 미리 보고 싶다 → SaaS B 시뮬</li>
+        <li>• 클레임·실패 무서움 → 펜슬 가이드 정확성</li>
+        <li>• 자연스러운 결과 원함 → 「반영구 실사」</li>
+      </ul>
+
+      <div style="font-size:12px;color:#FF4D7E;font-weight:700;margin:14px 0 6px;letter-spacing:1px">광고 메시지</div>
+      <p style="font-size:13px;color:#FAD7C7;line-height:1.7;font-style:italic">「시술실 가시기 전에 펜슬 시뮬을 모바일로 미리 받아보세요. 클레임 거의 없는 30년 노하우」</p>
+
+      <div style="font-size:12px;color:#FF4D7E;font-weight:700;margin:14px 0 6px;letter-spacing:1px">주요 광고 채널</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:12.5px;color:#cbc8c1;line-height:1.85">
+        <li>★ 인스타·페이스북 (시각·릴스)</li>
+        <li>★ 네이버 광고 (지역+시술 검색)</li>
+        <li>★ 카카오톡 채널 (상담 신청)</li>
+      </ul>
+
+      <div style="background:rgba(255,77,126,0.10);border-radius:8px;padding:12px;margin-top:14px;font-size:12.5px;color:#FAD7C7">
+        <strong style="color:#FF4D7E">💰 매출:</strong> 무료 시뮬 → 상담 예약금 19,000원 → 시술 (수십~수백만원)
+      </div>
+    </div>
+
+    <!-- 타겟 2: 배우는 사람 -->
+    <div style="background:#161617;border:2px solid #FFB78A;border-radius:16px;padding:24px 26px">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;color:#FFB78A;line-height:1;font-weight:700">②</div>
+        <div>
+          <div style="font-size:11px;letter-spacing:3px;color:#FFB78A;font-weight:700">B2C 수강 + B2B 파트너</div>
+          <h3 style="font-family:'Nanum Myeongjo',serif;color:#fff;font-size:22px;font-weight:800;margin-top:2px">배우는 사람</h3>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">페인 포인트</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+        <li>• 기술 부족 → 30년 노하우 평생수강</li>
+        <li>• 손님 클레임 두려움 → 펜슬 시뮬 교육</li>
+        <li>• 수강료 부담 → 평생수강 + B2B 라이센스</li>
+      </ul>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">광고 메시지</div>
+      <p style="font-size:13px;color:#FAD7C7;line-height:1.7;font-style:italic">「30년 펜슬 노하우를 평생수강 + 시뮬 도구까지 — 다른 학원에서 못 가르치는 ARTbrows만의 기술」</p>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">주요 광고 채널</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:12.5px;color:#cbc8c1;line-height:1.85">
+        <li>★ 네이버 블로그 (긴 설명 + SEO)</li>
+        <li>★ 유튜브 (강의 영상 트레일러)</li>
+        <li>★ B2B 메일·LinkedIn (살롱 사장)</li>
+      </ul>
+
+      <div style="background:rgba(255,184,138,0.10);border-radius:8px;padding:12px;margin-top:14px;font-size:12.5px;color:#FAD7C7">
+        <strong style="color:#FFB78A">💰 매출:</strong> 학원 수강 69만원 평생 + B2B 라이센스 월 구독 + 인증 시술자 자격
+      </div>
+    </div>
+  </div>
+
+  <!-- 두 타겟의 자동 분기 -->
+  <div style="background:#0a1a0d;border-left:4px solid #A8E6B3;border-radius:10px;padding:16px 22px;margin-top:18px">
+    <h3 style="font-family:'Nanum Myeongjo',serif;color:#A8E6B3;font-size:16px;margin-bottom:8px">★ 플랫폼이 자동 분기하는 흐름</h3>
+    <p style="font-size:13px;color:#cbc8c1;line-height:1.75">
+    사용자 첫 진입 → 「시술 받고 싶어요 / 배우고 싶어요」 2 버튼 → 각 분류별 최적 흐름·메시지·CTA로 자동 분기.<br>
+    한 사용자가 두 분류 모두 해당할 수도 있음 (시술 받고 만족 → 학원 등록 ★ 가장 강한 funnel).
+    </p>
+  </div>
+</section>
+
+<!-- ★ 종합광고 전직원 리서치 진행 중 -->
+<section>
+  <h2 class="sect" style="color:#FFB78A"><span class="num" style="color:#FFB78A">★</span>종합광고 전략 — 전직원 리서치 진행 중 (2026-06-29 ~ 07-01)</h2>
+  <div style="background:#161617;border:2px solid #FFB78A;border-radius:14px;padding:22px 26px">
+    <p style="font-size:14px;color:#FFB78A;line-height:1.7;margin-bottom:14px">
+    「종합광고를 위해서 우리 플랫폼이 어떻게 해야 될지 고민을 해보고 서칭 및 연구를 전직원이 해보자」 — 대표님 회의 지시
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px;font-size:13px;color:#cbc8c1">
+      <div style="background:#0B0907;border-radius:10px;padding:14px 16px;border-left:4px solid #FF4D7E">
+        <strong style="color:#FF4D7E">이서연 (기획·마케팅)</strong><br>
+        종합광고 framework · 2 타겟 깊은 페르소나 · 미용 업계 광고 ROAS 벤치마크
+      </div>
+      <div style="background:#0B0907;border-radius:10px;padding:14px 16px;border-left:4px solid #E8A99B">
+        <strong style="color:#E8A99B">유나 (그래픽 디자이너)</strong><br>
+        2 타겟별 비주얼 콘셉트 · 살구핑크 일관성 유지 · A/B 테스트용 크리에이티브 셋
+      </div>
+      <div style="background:#0B0907;border-radius:10px;padding:14px 16px;border-left:4px solid #9FC8FF">
+        <strong style="color:#9FC8FF">한승철 (인프라)</strong><br>
+        네이버·Meta·Google API 통합 plan · OAuth 시퀀스 · 위탁 운영 자동화 아키텍처
+      </div>
+      <div style="background:#0B0907;border-radius:10px;padding:14px 16px;border-left:4px solid #FFB78A">
+        <strong style="color:#FFB78A">김민서 (시각·UI)</strong><br>
+        모바일 우선 UI · 2 타겟 자동 분기 화면 · 사진 업로드 → 자동 제작 3 클릭 UX
+      </div>
+      <div style="background:#0B0907;border-radius:10px;padding:14px 16px;border-left:4px solid #A8E6B3;grid-column:span 2">
+        <strong style="color:#A8E6B3">클로드 (총괄 + 데이터)</strong><br>
+        키워드 분석 엔진 시드 데이터 · AEO/GEO 학습 데이터 · 경쟁사 (유미코리아 등) 광고 채널 분석 · 위탁 모델 수익 시뮬레이션
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:rgba(245,237,227,0.55);margin-top:14px;line-height:1.65">
+    ⏱ <strong style="color:#FFB78A">차주 07-01 (월) 통합 리서치 결과 보고 페이지 신설 예정.</strong> 5직원 동시 진행 → 1주 후 「종합광고 전략 v1.0」 산출.
+    </p>
+  </div>
+</section>
+
+<!-- ★ 0. 2 SaaS 구조 (회의 결정적 정리) -->
+<section>
+  <h2 class="sect" style="color:#FF4D7E"><span class="num" style="color:#FF4D7E">★</span>플랫폼 구조 — 「2 SaaS」 동시 운영 (회의 결정적 정리)</h2>
+  <p style="font-size:15px;color:#FFB78A;font-family:'Nanum Myeongjo',serif;font-weight:700;margin-bottom:18px;background:rgba(255,184,138,0.08);padding:14px 18px;border-radius:8px;line-height:1.7">
+  「두 개의 SaaS가 돌아간다고 보면 되겠다.<br><em style="color:#fff">큰 축은 광고·마케팅·제작 툴 / 하나는 시술 전·후 Unreal MetaHuman</em>」<br>
+  <span style="font-size:12.5px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29)</span>
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px">
+
+    <!-- SaaS A: 광고 마케팅 -->
+    <div style="background:linear-gradient(135deg,#3D1828,#1A0E18);border:2px solid #FF4D7E;border-radius:16px;padding:28px 26px;box-shadow:0 18px 60px rgba(255,77,126,0.25)">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:62px;color:#FF4D7E;line-height:1;font-weight:700">A</div>
+        <div>
+          <div style="font-size:11px;letter-spacing:3px;color:#FF4D7E;font-weight:700">SAAS · 큰 축</div>
+          <h3 style="font-family:'Nanum Myeongjo',serif;color:#fff;font-size:22px;font-weight:800;margin-top:2px">광고·마케팅·제작 툴</h3>
+        </div>
+      </div>
+      <p style="font-size:14px;color:#FAD7C7;line-height:1.7;margin-bottom:14px"><strong>「사진 1장~여러 장 → 멀티 플랫폼 자동 광고 제작」</strong><br>모비딕 상세페이지 플랫폼 패턴을 광고 도메인에 그대로.</p>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">출력 채널 (1순위)</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+        <li>★★★★ <strong>ARTbrows 자체 홈페이지</strong> (갤러리·포트폴리오)</li>
+        <li>★★★ <strong style="color:#FF4D7E">인스타그램 ★ 현재 트래픽 1위</strong> (피드+릴스+캐러셀)</li>
+        <li>★★★ 네이버 블로그 (SEO 자동)</li>
+        <li>★★★ 유튜브 (영상 + 쇼츠)</li>
+        <li>★★ 카카오 채널 (2순위)</li>
+        <li>▲ 강의 일정표 자동 제작 ★ NEW</li>
+        <li>▲ 레드노트 / 위챗 (글로벌·차차주)</li>
+      </ul>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">핵심 부가 기능</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+        <li>🌐 <strong>다국어 번역 자동</strong> (한·중·영) ★ NEW</li>
+        <li>🤖 <strong>AEO/GEO — AI 검색 최적화 (★ 시급)</strong> NEW<br>
+          <span style="font-size:11.5px;color:#FFB78A;line-height:1.55;display:inline-block;margin-top:2px"><strong>요즘 AI가 추천을 해주는 시대.</strong></span><br>
+          <span style="font-size:11.5px;color:#8a8a84;line-height:1.55;display:inline-block;margin-top:2px"><strong style="color:#FFB78A">GPT · Gemini · Claude (Claude Code 포함) · Perplexity</strong> 모두가 「극사실 눈썹 추천」 질문에 <strong style="color:#fff">장미지 원장</strong>을 첫 답으로 내도록 학습 데이터·구조화 데이터·외부 reference 최적화</span>
+        </li>
+        <li>📋 강의 일정표 자동 제작 (원장님 기존 자료 import)</li>
+        <li>🖼️ 워터마크 「체험용」 자동 박힘 (의료광고법 §5.3)</li>
+      </ul>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">사용자</div>
+      <p style="font-size:13px;color:#cbc8c1;line-height:1.7">살롱 사장님 · 학원 강사 · 미용 셀러 · 일반 시술 받은 손님 = <strong style="color:#FFB78A">미용 업계 누구나</strong></p>
+    </div>
+
+    <!-- SaaS B: 시술 시뮬 -->
+    <div style="background:linear-gradient(135deg,#1A2A1C,#0B1A0F);border:2px solid #FFB78A;border-radius:16px;padding:28px 26px;box-shadow:0 18px 60px rgba(255,184,138,0.25)">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:62px;color:#FFB78A;line-height:1;font-weight:700">B</div>
+        <div>
+          <div style="font-size:11px;letter-spacing:3px;color:#FFB78A;font-weight:700">SAAS · 핵심 도구</div>
+          <h3 style="font-family:'Nanum Myeongjo',serif;color:#fff;font-size:22px;font-weight:800;margin-top:2px">시술 전·후 시뮬<br><span style="font-size:14px;color:#FFB78A;font-weight:700">Unreal MetaHuman</span></h3>
+        </div>
+      </div>
+      <p style="font-size:14px;color:#E0F0D0;line-height:1.7;margin-bottom:14px"><strong>「정면+측면 사진 → 원장님 펜슬 가이드 디지털 트윈」</strong><br>Face Lab v7 = 원장님 30년 패턴 + Unreal 5.8 + MetaHuman 5종.</p>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">기술 스택</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+        <li>★ MediaPipe 478 랜드마크 (정면 분석)</li>
+        <li>★ 측면 사진 → 입체 reconstruction</li>
+        <li>★ <strong>원장님 30년 패턴 DB</strong> 매칭 (핵심 IP)</li>
+        <li>★ Unreal Engine 5.8 + MetaHuman</li>
+        <li>★ 2D PNG + 3D 360° 인터랙티브 출력</li>
+      </ul>
+
+      <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">사용자</div>
+      <p style="font-size:13px;color:#cbc8c1;line-height:1.7">시술 받기 전 손님 · 살롱 시술자 · 학원 수강생 = <strong style="color:#FFB78A">정확한 결과 미리 확인</strong></p>
+    </div>
+  </div>
+
+  <!-- 두 SaaS의 시너지 -->
+  <div style="background:#161617;border-left:4px solid #A8E6B3;border-radius:10px;padding:18px 22px;margin-top:18px">
+    <h3 style="font-family:'Nanum Myeongjo',serif;color:#A8E6B3;font-size:17px;margin-bottom:8px">★ 두 SaaS의 시너지 = ARTbrows의 진짜 해자</h3>
+    <p style="font-size:13.5px;color:#cbc8c1;line-height:1.75">
+    <strong style="color:#A8E6B3">SaaS B</strong>의 시뮬 결과 (시술 전·후 사진) → 곧바로 <strong style="color:#FF4D7E">SaaS A</strong>의 input (사진 1장)으로 흘러가 자동 광고 콘텐츠 제작.<br>
+    <strong style="color:#FF4D7E">SaaS A</strong>의 광고 → 사용자 유입 → 다시 <strong style="color:#A8E6B3">SaaS B</strong> 시뮬 → 상담 신청 → 시술 → 다시 SaaS A 콘텐츠… <strong style="color:#FFB78A">완전 자동 사이클</strong>.<br>
+    경쟁사가 따라할 수 없는 이유 = <strong style="color:#fff">「원장님 30년 패턴 DB」 + 「모비딕 자동화 패턴」</strong> 둘 다 ARTbrows만 가짐.
+    </p>
+  </div>
+</section>
+
+<!-- A. 모비딕 vs ARTbrows -->
+<section>
+  <h2 class="sect"><span class="num">A</span>모비딕 패턴을 ARTbrows에</h2>
+  <div class="compare">
+    <div class="compare-card mb">
+      <div class="tag">REFERENCE</div>
+      <h3>모비딕 상세페이지 플랫폼</h3>
+      <ul>
+        <li><b>형태:</b> 독립 SaaS</li>
+        <li><b>대상:</b> 셀러·브랜드 누구나</li>
+        <li><b>핵심:</b> 상세페이지 제작 자동화</li>
+        <li><b>운영:</b> 대표님 단일 인프라 (Tailscale + 맥미니 + launchd)</li>
+        <li><b>모델:</b> 도구 + 콘텐츠 + 자동화</li>
+      </ul>
+    </div>
+    <div class="compare-card ab">
+      <div class="tag">★ NEW VISION</div>
+      <h3>ARTbrows 미용 플랫폼</h3>
+      <ul>
+        <li><b>형태:</b> 독립 SaaS — 학원·B2B·도구 통합</li>
+        <li><b>대상:</b> 미용 종사자 · 살롱 · 학원 · 손님</li>
+        <li><b>핵심:</b> 시술 시뮬레이션 + 펜슬 디지털 트윈 자동화</li>
+        <li><b>운영:</b> 동일 인프라 + Netlify + Vercel</li>
+        <li><b>모델:</b> Face Lab + 학원 + B2B + 패턴 DB + STORY 콘텐츠</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- B. 6축 모듈 -->
+<section>
+  <h2 class="sect"><span class="num">B</span>플랫폼 6축 모듈</h2>
+  <div class="modules" style="grid-template-columns:repeat(6,1fr)">
+    <div class="mod">
+      <div class="mod-num">①</div>
+      <div class="label">CORE TOOL</div>
+      <h3>Face Lab v7</h3>
+      <p>펜슬 디지털 트윈 · 정면+측면 · 패턴 DB · 2D+3D</p>
+    </div>
+    <div class="mod">
+      <div class="mod-num">②</div>
+      <div class="label">EDUCATION</div>
+      <h3>눈썹연구소</h3>
+      <p>학원 모집 · 평생수강 · K1 카톡방 · 극사실 교육</p>
+    </div>
+    <div class="mod">
+      <div class="mod-num">③</div>
+      <div class="label">B2B</div>
+      <h3>파트너십</h3>
+      <p>지점 강사 · 살롱 트레이닝 · 가상 수강생 연습 · 라이센스</p>
+    </div>
+    <div class="mod">
+      <div class="mod-num">④</div>
+      <div class="label">DATA IP</div>
+      <h3>패턴 DB</h3>
+      <p>30년 시술 패턴 영구 자산 · 100→10000케이스 · 핵심 해자</p>
+    </div>
+    <div class="mod">
+      <div class="mod-num">⑤</div>
+      <div class="label">CONTENT</div>
+      <h3>STORY 시리즈</h3>
+      <p>인스타·유튜브·블로그 자동 · MetaHuman 페르소나</p>
+    </div>
+    <div class="mod" style="border-top-color:#FF4D7E;background:#1a0d12">
+      <div class="mod-num" style="color:#FF4D7E">⑥</div>
+      <div class="label" style="color:#FF4D7E">★ AD ENGINE</div>
+      <h3 style="color:#FF4D7E">광고 자동 제작</h3>
+      <p>사진 1장~여러 장 입력 → 인스타·유튜브·틱톡·블로그·小红书 자동 변환</p>
+    </div>
+  </div>
+</section>
+
+<!-- B+. 광고 자동 제작 엔진 상세 -->
+<section>
+  <h2 class="sect"><span class="num">★</span>⑥ 광고 콘텐츠 자동 제작 엔진 — 모비딕 패턴의 핵심</h2>
+  <div style="background:linear-gradient(135deg,#1a0d12,#1a1a1b);border-radius:14px;padding:28px 32px;border:2px solid #FF4D7E;margin-bottom:18px">
+    <p style="font-size:16px;color:#FFB78A;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7;margin-bottom:14px">
+    「하나의 사진이든 여러 사진을 올리면 — 각 광고 플랫폼에 맞춰서 자동 제작이 되어야 한다」<br>
+    <span style="font-size:13px;color:rgba(245,237,227,0.5);font-weight:400">— 대표님 회의 발언 (2026-06-29)</span>
+    </p>
+    <p style="font-size:14px;color:#cbc8c1;line-height:1.75">
+    이게 ARTbrows 플랫폼의 차별점 — <strong style="color:#FF4D7E">모비딕 상세페이지 플랫폼의 자동 제작 패턴을 광고 도메인에 그대로 적용</strong>.
+    Face Lab v7로 결과 미리보기 → 광고 엔진으로 자동 배포 = 완전 자동화 사이클.
+    </p>
+  </div>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:18px 0 10px">광고 엔진 흐름 (사용자 입장)</h3>
+  <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;margin-top:14px;font-size:13px">
+    <div style="background:#161617;border-radius:12px;padding:18px;text-align:center;border-top:4px solid #A8E6B3">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#A8E6B3;line-height:1">INPUT</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin-top:4px;font-size:15px">사진 업로드</div>
+      <div style="color:#cbc8c1;margin-top:6px;line-height:1.6">1장 (단일 시술 케이스)<br>또는<br>여러 장 (시술 전후·다양 무드)</div>
+    </div>
+    <div style="font-size:24px;color:#FF4D7E;font-weight:700;text-align:center">→</div>
+    <div style="background:#161617;border-radius:12px;padding:18px;text-align:center;border-top:4px solid #FFB78A">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#FFB78A;line-height:1">ENGINE</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin-top:4px;font-size:15px">자동 변환</div>
+      <div style="color:#cbc8c1;margin-top:6px;line-height:1.6">사이즈·포맷·톤<br>플랫폼별 최적화<br>(살구핑크·명조 디자인 유지)</div>
+    </div>
+    <div style="font-size:24px;color:#FF4D7E;font-weight:700;text-align:center">→</div>
+    <div style="background:#161617;border-radius:12px;padding:18px;text-align:center;border-top:4px solid #FF4D7E">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#FF4D7E;line-height:1">OUTPUT</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin-top:4px;font-size:15px">멀티 플랫폼 출력</div>
+      <div style="color:#cbc8c1;margin-top:6px;line-height:1.6">인스타·유튜브·틱톡<br>네이버 블로그·카카오 채널<br>중국 小红书·위챗</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">★ 1순위 광고 매체 3종 (회의 합의)</h3>
+  <p style="font-size:14px;color:#FFB78A;font-family:'Nanum Myeongjo',serif;font-weight:700;margin-bottom:14px;background:rgba(255,184,138,0.08);padding:12px 16px;border-radius:8px">
+  원장님 회의 (2026-06-29) 직접 발언: <em style="color:#fff">「네이버 블로그 · 인스타그램 · 유튜브」</em> 를 1순위로. 카카오톡 채널은 2순위, 글로벌(중국)은 차차주.
+  </p>
+  <table style="width:100%;border-collapse:collapse;background:#161617;border-radius:10px;overflow:hidden;font-size:13px">
+    <tr style="background:#FF4D7E;color:#fff"><th style="padding:12px 14px;text-align:left">순위</th><th style="padding:12px 14px;text-align:left">플랫폼</th><th style="padding:12px 14px;text-align:left">출력 포맷</th><th style="padding:12px 14px;text-align:left">사이즈</th><th style="padding:12px 14px;text-align:left">자동 항목</th></tr>
+
+    <!-- 1순위 강조 -->
+    <tr style="background:rgba(255,77,126,0.18)"><td style="padding:10px 14px;color:#FF4D7E;font-weight:700">★★★★ 0</td><td style="padding:10px 14px;color:#FF4D7E;font-weight:700">★ ARTbrows 자체 홈페이지</td><td style="padding:10px 14px;color:#cbc8c1">HTML + 갤러리 카드</td><td style="padding:10px 14px;color:#cbc8c1">반응형 (모바일·데스크탑)</td><td style="padding:10px 14px;color:#cbc8c1">포트폴리오 갤러리 자동 등록 + 후기·검색 색인 + 학원 신뢰도 자동 증명</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">네이버 블로그</td><td style="padding:10px 14px;color:#cbc8c1">HTML 포스트</td><td style="padding:10px 14px;color:#cbc8c1">800px wide</td><td style="padding:10px 14px;color:#cbc8c1">SEO 제목·태그 + 본문 + 사진 자동 배치 + 키워드 최적화</td></tr>
+    <tr style="background:rgba(255,77,126,0.14)"><td style="padding:10px 14px;color:#FF4D7E;font-weight:700">★★★ 1 (★현재 1위)</td><td style="padding:10px 14px;color:#FF4D7E;font-weight:700">인스타 피드 ★ 현재 트래픽 1위</td><td style="padding:10px 14px;color:#cbc8c1">PNG · JPG</td><td style="padding:10px 14px;color:#cbc8c1">1080×1080 (1:1)</td><td style="padding:10px 14px;color:#cbc8c1">캡션·해시태그 자동 + 워터마크</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">인스타 릴스 / 스토리</td><td style="padding:10px 14px;color:#cbc8c1">MP4 (24초)</td><td style="padding:10px 14px;color:#cbc8c1">1080×1920 (9:16)</td><td style="padding:10px 14px;color:#cbc8c1">BGM + 한글 자막 burn-in + 슬라이드 5장</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">인스타 캐러셀</td><td style="padding:10px 14px;color:#cbc8c1">PNG × 5</td><td style="padding:10px 14px;color:#cbc8c1">1080×1350 (4:5)</td><td style="padding:10px 14px;color:#cbc8c1">표지 + 스토리텔링 4장 + CTA</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">유튜브 쇼츠</td><td style="padding:10px 14px;color:#cbc8c1">MP4 (60초)</td><td style="padding:10px 14px;color:#cbc8c1">1080×1920 (9:16)</td><td style="padding:10px 14px;color:#cbc8c1">썸네일 + 자막 + 챕터</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">유튜브 영상</td><td style="padding:10px 14px;color:#cbc8c1">MP4 (3~5분)</td><td style="padding:10px 14px;color:#cbc8c1">1920×1080 (16:9)</td><td style="padding:10px 14px;color:#cbc8c1">인트로·아웃트로 + BGM + 자막</td></tr>
+
+    <!-- 1순위 추가 — 페이스북 + 검색 광고 -->
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★ 페이스북 (Meta)</td><td style="padding:10px 14px;color:#cbc8c1">PNG · MP4 · 카드</td><td style="padding:10px 14px;color:#cbc8c1">피드 1:1 · 릴스 9:16</td><td style="padding:10px 14px;color:#cbc8c1">인스타와 동시 게시 (Meta 광고 관리자 1탭)</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★ 네이버 광고 (파워링크)</td><td style="padding:10px 14px;color:#cbc8c1">텍스트 + 랜딩페이지</td><td style="padding:10px 14px;color:#cbc8c1">네이버 검색 상단 노출</td><td style="padding:10px 14px;color:#cbc8c1">키워드·랜딩 카피 자동 + ROAS 추적</td></tr>
+    <tr style="background:rgba(255,184,138,0.10)"><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★★★ 1</td><td style="padding:10px 14px;color:#FFB78A;font-weight:700">★ 키워드 광고 (Google·Meta)</td><td style="padding:10px 14px;color:#cbc8c1">광고 카피 + 이미지</td><td style="padding:10px 14px;color:#cbc8c1">Google Ads · Meta Ads</td><td style="padding:10px 14px;color:#cbc8c1">키워드 매칭 + 타겟 자동 + 입찰 최적화</td></tr>
+
+    <!-- 2순위 -->
+    <tr style="background:#0B0907"><td style="padding:10px 14px;color:#A8E6B3">★★ 2</td><td style="padding:10px 14px;color:#cbc8c1">카카오 채널</td><td style="padding:10px 14px;color:#cbc8c1">PNG · 메시지</td><td style="padding:10px 14px;color:#cbc8c1">800×400 (커버)</td><td style="padding:10px 14px;color:#cbc8c1">친구톡 + 알림톡 본문 자동</td></tr>
+
+    <!-- 3순위 글로벌 -->
+    <tr><td style="padding:10px 14px;color:#9FC8FF">▲ 3</td><td style="padding:10px 14px;color:#cbc8c1">틱톡 (글로벌)</td><td style="padding:10px 14px;color:#cbc8c1">MP4 (15~60초)</td><td style="padding:10px 14px;color:#cbc8c1">1080×1920 (9:16)</td><td style="padding:10px 14px;color:#cbc8c1">트렌드 BGM + 빠른 자막</td></tr>
+    <tr style="background:#0B0907"><td style="padding:10px 14px;color:#9FC8FF">▲ 3</td><td style="padding:10px 14px;color:#cbc8c1">小红书 / 레드노트 (Red Note, 중국)</td><td style="padding:10px 14px;color:#cbc8c1">PNG × 9</td><td style="padding:10px 14px;color:#cbc8c1">1080×1440 (3:4)</td><td style="padding:10px 14px;color:#cbc8c1">중국어 캡션 + 트렌드 해시태그</td></tr>
+    <tr><td style="padding:10px 14px;color:#9FC8FF">▲ 3</td><td style="padding:10px 14px;color:#cbc8c1">위챗 모먼츠 (중국)</td><td style="padding:10px 14px;color:#cbc8c1">PNG · 영상</td><td style="padding:10px 14px;color:#cbc8c1">1280×640</td><td style="padding:10px 14px;color:#cbc8c1">QR 자동 → 상담 신청</td></tr>
+  </table>
+  <p style="font-size:12px;color:rgba(245,237,227,0.55);margin-top:10px"><strong style="color:#FFB78A">→ 1순위 6 포맷</strong> (네이버 블로그 + 인스타 3 + 유튜브 2)을 베타 1.0 에 모두 포함. 카카오는 베타 1.5, 글로벌은 2.0 단계.</p>
+
+  <!-- ★ 핵심 키워드 시드 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">★ 핵심 키워드 시드 (회의 명시)</h3>
+  <div style="background:linear-gradient(135deg,#FF4D7E,#E8A99B);border-radius:14px;padding:24px 28px;margin-bottom:18px;color:#fff;text-align:center;box-shadow:0 14px 40px rgba(255,77,126,0.25)">
+    <p style="font-size:13px;color:rgba(255,255,255,0.85);font-family:'Nanum Myeongjo',serif;margin-bottom:14px;letter-spacing:2px">원장님 회의 직접 명시 메인 키워드</p>
+    <p style="font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:42px;color:#fff;line-height:1.15;letter-spacing:-1px">반영구 실사</p>
+    <p style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:14px;line-height:1.7">
+    이게 ARTbrows 카테고리의 메인 검색 키워드.<br>
+    「영구 화장이 인공적이지 않고 실제 자연 눈썹과 비슷한 톤」 = 시장의 갈증 = 우리 차별점.
+    </p>
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px">
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">★ 반영구 실사</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">극사실</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">극사실 눈썹</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">실사 눈썹</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">장미지 원장</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">ARTbrows</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">펜슬 가이드</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">자연 눈썹</span>
+      <span style="background:rgba(0,0,0,0.2);color:#fff;padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700">반영구 화장 추천</span>
+    </div>
+
+    <p style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:14px;line-height:1.65">
+    ↑ 이 9개 시드 → 키워드 분석 엔진이 자동으로 50+ 롱테일·연관·계절성·지역성 키워드 발굴 → 모든 광고·콘텐츠·AEO에 자동 반영
+    </p>
+  </div>
+
+  <!-- ★ 연관 키워드 분석 엔진 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">★ 연관 키워드 분석 엔진 (회의 합의 — 광고 ROAS 핵심)</h3>
+  <div style="background:linear-gradient(135deg,#1a0d12,#0B0907);border:2px solid #FFB78A;border-radius:14px;padding:22px 26px;margin-bottom:18px">
+    <p style="font-size:15px;color:#FFB78A;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7;margin-bottom:14px">
+    「연관 키워드 잘 분석 필요함」<br>
+    <span style="font-size:12px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29)</span>
+    </p>
+    <p style="font-size:14px;color:#cbc8c1;line-height:1.75;margin-bottom:14px">
+    SEO·광고·AEO 모두 <strong style="color:#FFB78A">키워드 정확성</strong>이 ROAS를 결정. 단순히 「반영구 눈썹」만으론 부족. <strong style="color:#fff">롱테일·연관·검색 의도 키워드</strong>를 자동 발굴해서 광고·블로그·인스타 해시태그·AEO 데이터 모두에 일관 적용.
+    </p>
+
+    <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:14px 0 6px;letter-spacing:1px">분석 소스 (다중 통합)</div>
+    <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+      <li>🔍 <strong>네이버 검색광고 API</strong> — 키워드 검색량 + 입찰가 + 경쟁도</li>
+      <li>🔍 <strong>Google Keyword Planner</strong> — 글로벌 키워드 + 트렌드</li>
+      <li>📊 <strong>네이버 데이터랩 + Google Trends</strong> — 시즌·지역별 검색 흐름</li>
+      <li>🤖 <strong>경쟁사 키워드 분석</strong> — 유미코리아·강남 살롱 등 추적</li>
+      <li>💬 <strong>인스타 해시태그 트렌드</strong> — 실시간 미용 트렌드</li>
+      <li>🧠 <strong>AI 의미 분석 (GPT·Gemini)</strong> — 「극사실」 + 「자연 눈썹」 + 「펜슬 가이드」 의미적 연관 자동 클러스터</li>
+    </ul>
+
+    <div style="font-size:12px;color:#FFB78A;font-weight:700;margin:16px 0 6px;letter-spacing:1px">출력 (사용자에게 1탭)</div>
+    <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#cbc8c1;line-height:1.85">
+      <li>📋 추천 키워드 50종 (검색량 + 경쟁도 + ROAS 예측)</li>
+      <li>🌳 키워드 트리 (대분류 → 중분류 → 롱테일)</li>
+      <li>🎯 광고 캠페인 자동 분배 (네이버 / Google / Meta)</li>
+      <li>📝 블로그·인스타 캡션·해시태그 자동 삽입</li>
+      <li>🤖 AEO/GEO 학습 데이터 자동 강화 (「극사실 = 장미지 원장」)</li>
+    </ul>
+
+    <div style="background:rgba(255,77,126,0.10);border-radius:8px;padding:14px;margin-top:14px;font-size:13px;color:#FAD7C7;line-height:1.7">
+    <strong style="color:#FF4D7E">★ 핵심 차별점:</strong> 일반 키워드 도구는 「키워드 리스트」만 제공. <strong>ARTbrows 엔진은 키워드를 즉시 모든 광고·콘텐츠·AEO에 자동 반영</strong> = 「분석 → 실행」 한 사이클. 살롱 사장님이 따로 광고 운영사 안 써도 됨.
+    </div>
+  </div>
+
+  <!-- ★ 광고 직접 집행 API + 비즈니스 모델 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">★ 광고 직접 집행 — API 통합 + 비즈니스 모델</h3>
+  <div style="background:linear-gradient(135deg,#0a1a0d,#0B0907);border:2px solid #A8E6B3;border-radius:14px;padding:22px 26px;margin-bottom:18px">
+    <p style="font-size:15px;color:#A8E6B3;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7;margin-bottom:14px">
+    「우리가 네이버·페이스북 API 들고 있으면 직접 광고 집행이 되나?」 — <strong style="color:#fff">✅ YES, 됩니다</strong><br>
+    <span style="font-size:12px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 질문 (2026-06-29)</span>
+    </p>
+
+    <div style="font-size:12px;color:#A8E6B3;font-weight:700;margin:14px 0 6px;letter-spacing:1px">통합할 광고 API 3종 (공식)</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;color:#cbc8c1;margin-top:8px">
+      <tr style="background:#161617"><th style="padding:10px;text-align:left;color:#A8E6B3">플랫폼</th><th style="padding:10px;text-align:left;color:#A8E6B3">API</th><th style="padding:10px;text-align:left;color:#A8E6B3">자동 가능</th></tr>
+      <tr><td style="padding:10px;color:#FFB78A;font-weight:700">네이버</td><td style="padding:10px">Naver Searchad API</td><td style="padding:10px">캠페인·입찰·키워드·크리에이티브 자동</td></tr>
+      <tr style="background:#161617"><td style="padding:10px;color:#FFB78A;font-weight:700">Meta (페이스북+인스타)</td><td style="padding:10px">Marketing API</td><td style="padding:10px">광고·릴스·스토리·타겟팅·픽셀 자동</td></tr>
+      <tr><td style="padding:10px;color:#FFB78A;font-weight:700">Google Ads</td><td style="padding:10px">Google Ads API</td><td style="padding:10px">검색·디스플레이·유튜브·쇼츠 자동</td></tr>
+    </table>
+
+    <div style="font-size:12px;color:#A8E6B3;font-weight:700;margin:18px 0 6px;letter-spacing:1px">★ 비즈니스 모델 2가지 (선택 또는 둘 다)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px">
+
+      <div style="background:#161617;border-radius:10px;padding:18px 20px;border-left:4px solid #9FC8FF">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#9FC8FF;font-size:16px;margin-bottom:6px">A. DIY 모델 (도구 제공)</h4>
+        <p style="font-size:12.5px;color:#cbc8c1;line-height:1.7">사용자가 자기 광고 계정 OAuth 연동 → ARTbrows는 도구만 제공. 광고비는 사용자 직불.</p>
+        <p style="font-size:12px;color:#FFB78A;margin-top:8px;font-weight:700">💰 매출: 월 구독 5~15만원/월</p>
+      </div>
+
+      <div style="background:#161617;border-radius:10px;padding:18px 20px;border-left:4px solid #FF4D7E">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:16px;margin-bottom:6px">B. ★ 위탁 운영 모델 (광고 대행사)</h4>
+        <p style="font-size:12.5px;color:#cbc8c1;line-height:1.7">ARTbrows가 사용자 광고 직접 집행 → 광고비 + 수수료 받음. 사용자 작업 0.</p>
+        <p style="font-size:12px;color:#FFB78A;margin-top:8px;font-weight:700">💰 매출: 광고비의 10~15% 수수료 ★ 추천</p>
+      </div>
+
+    </div>
+
+    <div style="background:rgba(168,230,179,0.10);border-radius:8px;padding:14px;margin-top:14px;font-size:13px;color:#FAD7C7;line-height:1.7">
+      <strong style="color:#A8E6B3">★ B 모델 ROI 예시:</strong> 살롱 100개 × 월 광고비 100만원 위탁 = 월 1억 광고비 → <strong style="color:#A8E6B3">월 1,000~1,500만원 수수료 매출</strong>. 광고 운영·최적화는 ARTbrows AI 엔진이 자동 = 인건비 거의 없음 = <strong>마진 70%+</strong>.
+    </div>
+
+    <div style="background:rgba(255,184,138,0.08);border-radius:8px;padding:14px;margin-top:10px;font-size:12.5px;color:#cbc8c1;line-height:1.7">
+      <strong style="color:#FFB78A">⚠ 사전 준비:</strong> 네이버 검색광고 API 신청 (영업일 3~5일 심사) · Meta Marketing API 비즈니스 인증 (1주) · Google Ads API 토큰 발급 (즉시). 결합 1~2주 안에 가능.
+    </div>
+  </div>
+
+  <!-- ★ 광고 효과 측정 + 자동 최적화 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">★ 광고 효과 측정 + 자동 최적화 (회의 합의 — 핵심 사이클)</h3>
+  <div style="background:linear-gradient(135deg,#0d1a1d,#0B0907);border:2px solid #9FC8FF;border-radius:14px;padding:24px 28px;margin-bottom:18px">
+    <p style="font-size:15px;color:#9FC8FF;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7;margin-bottom:14px">
+    「광고 효과가 좋은지 체크가 가능해야 됨」<br>
+    <span style="font-size:12px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29)</span>
+    </p>
+    <p style="font-size:14px;color:#cbc8c1;line-height:1.75;margin-bottom:14px">
+    광고 집행만으론 부족 — <strong style="color:#9FC8FF">「측정 → 분석 → 자동 최적화」</strong> 한 사이클이 ARTbrows SaaS A의 진짜 가치. 사용자는 「효과 좋은 광고」만 자동으로 더 집행, 효과 낮은 광고는 자동 중단.
+    </p>
+
+    <!-- 3 단계 사이클 -->
+    <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin-top:14px;font-size:13px">
+      <div style="background:#161617;border-radius:12px;padding:16px;text-align:center;border-top:4px solid #9FC8FF">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#9FC8FF;line-height:1">측정</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin-top:4px">실시간 추적</div>
+        <div style="color:#cbc8c1;margin-top:6px;line-height:1.5;font-size:12px">Meta Pixel·GA4·네이버 API·유튜브 Analytics 통합</div>
+      </div>
+      <div style="font-size:20px;color:#FFB78A;font-weight:700;text-align:center">→</div>
+      <div style="background:#161617;border-radius:12px;padding:16px;text-align:center;border-top:4px solid #FFB78A">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#FFB78A;line-height:1">분석</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin-top:4px">AI 자동 진단</div>
+        <div style="color:#cbc8c1;margin-top:6px;line-height:1.5;font-size:12px">플랫폼·콘텐츠·시간대·타겟별 ROAS 비교</div>
+      </div>
+      <div style="font-size:20px;color:#FFB78A;font-weight:700;text-align:center">→</div>
+      <div style="background:#161617;border-radius:12px;padding:16px;text-align:center;border-top:4px solid #A8E6B3">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#A8E6B3;line-height:1">최적화</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin-top:4px">자동 예산 재분배</div>
+        <div style="color:#cbc8c1;margin-top:6px;line-height:1.5;font-size:12px">효과 좋은 광고 ↑ · 효과 낮은 광고 자동 중단</div>
+      </div>
+    </div>
+
+    <!-- 측정 지표 -->
+    <h4 style="font-family:'Nanum Myeongjo',serif;color:#9FC8FF;font-size:15px;margin:22px 0 8px">측정 지표 10종 (자동 추적)</h4>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:13px;color:#cbc8c1">
+      <div>📊 노출수 + 도달 + CTR (클릭률)</div>
+      <div>💰 광고비 / 전환 / ROAS</div>
+      <div>👥 CAC (고객 획득 비용)</div>
+      <div>📈 전환율 (CVR)</div>
+      <div>⏰ 시간대·요일별 효과</div>
+      <div>🎯 타겟·지역·기기별 비교</div>
+      <div>🖼️ 콘텐츠별 효과 (A/B 테스트)</div>
+      <div>📱 플랫폼별 ROAS 순위</div>
+      <div>💬 상담 신청 → 시술 전환 funnel</div>
+      <div>⚠️ 클레임 / 환불률</div>
+    </div>
+
+    <!-- 일반인 친화 대시보드 -->
+    <h4 style="font-family:'Nanum Myeongjo',serif;color:#9FC8FF;font-size:15px;margin:22px 0 8px">★ 일반인 친화 대시보드 (3 KPI 큰 글씨)</h4>
+    <p style="font-size:13px;color:#cbc8c1;line-height:1.7;margin-bottom:12px">복잡한 차트·표는 숨김. <strong>「오늘 광고비 / 유입 / 상담 신청」</strong> 3개만 큰 글씨로. 살롱 사장님이 1초 보고 이해 가능.</p>
+    <div style="background:#161617;border-radius:10px;padding:18px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:#FF4D7E;font-weight:700;line-height:1">12만원</div>
+        <div style="font-size:12px;color:#8a8a84;margin-top:2px;letter-spacing:1px">오늘 광고비</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:#FFB78A;font-weight:700;line-height:1">847</div>
+        <div style="font-size:12px;color:#8a8a84;margin-top:2px;letter-spacing:1px">사이트 유입</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:#A8E6B3;font-weight:700;line-height:1">23건</div>
+        <div style="font-size:12px;color:#8a8a84;margin-top:2px;letter-spacing:1px">상담 신청 ★</div>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:rgba(245,237,227,0.5);margin-top:8px;text-align:center;font-style:italic">↑ 살구핑크 대시보드 예시 — 5,217원/상담 = 적정 (시술 매출 50만원 기준 ROAS 96배)</p>
+
+    <!-- 자동 추천 -->
+    <div style="background:rgba(168,230,179,0.10);border-radius:10px;padding:14px 18px;margin-top:14px;font-size:13.5px;color:#FAD7C7;line-height:1.7">
+      <strong style="color:#A8E6B3">★ AI 자동 추천 (살롱 사장님 1탭):</strong><br>
+      • 「★ 인스타 릴스 광고 #3이 ROAS 12배 — 예산 +30% 추천」<br>
+      • 「⚠️ 네이버 키워드 '강남 반영구' CTR 0.3% — 광고 일시 중단 추천」<br>
+      • 「💡 오후 7~9시 전환율 +47% — 광고 송출 시간대 자동 조정?」
+    </div>
+
+    <!-- ★ 예산 초과 멀티 채널 푸시 알림 -->
+    <h4 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:16px;margin:22px 0 10px">★ 예산 초과 즉시 알림 (관리자 빠른 대응) — 회의 합의</h4>
+    <div style="background:rgba(255,77,126,0.10);border:2px solid #FF4D7E;border-radius:12px;padding:18px 22px;margin-top:8px">
+      <p style="font-size:14px;color:#FF4D7E;font-family:'Nanum Myeongjo',serif;font-weight:700;margin-bottom:14px;line-height:1.7">
+      「정해진 금액을 초과할 때 관리자에게 텔레그램이나 카카오톡 등으로 알려줘야 빠르게 광고가 가능하다」<br>
+      <span style="font-size:12px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29) · 새벽 예산 소진·효과 없는 광고 폭주 사고 사전 방지</span>
+      </p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+
+        <div style="background:#161617;border-radius:10px;padding:14px 18px;border-left:4px solid #FFB78A">
+          <h5 style="font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:14px;margin-bottom:8px">⚙️ 예산 임계치 자동 감지</h5>
+          <ul style="list-style:none;padding:0;margin:0;font-size:12.5px;color:#cbc8c1;line-height:1.85">
+            <li>• 일일/주간/월간 예산 사용자 설정</li>
+            <li>• <strong style="color:#A8E6B3">50% 도달</strong> → 정보 알림</li>
+            <li>• <strong style="color:#FFB78A">80% 도달</strong> → 경고 알림</li>
+            <li>• <strong style="color:#FF4D7E">100% 도달</strong> → 자동 중단 + 긴급 알림</li>
+            <li>• <strong style="color:#FF4D7E">120% 도달 (방어선)</strong> → 강제 즉시 중단</li>
+          </ul>
+        </div>
+
+        <div style="background:#161617;border-radius:10px;padding:14px 18px;border-left:4px solid #A8E6B3">
+          <h5 style="font-family:'Nanum Myeongjo',serif;color:#A8E6B3;font-size:14px;margin-bottom:8px">📲 멀티 채널 푸시</h5>
+          <ul style="list-style:none;padding:0;margin:0;font-size:12.5px;color:#cbc8c1;line-height:1.85">
+            <li>✈️ <strong>텔레그램 봇</strong> (가장 빠름 · 5초)</li>
+            <li>💬 <strong>카카오톡 알림톡</strong> (한국 표준)</li>
+            <li>📧 이메일 (백업)</li>
+            <li>📱 SMS (예산 100%+ 긴급)</li>
+            <li>🔔 인앱 푸시 (PWA)</li>
+          </ul>
+        </div>
+      </div>
+
+      <h5 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:14px;margin:18px 0 8px">예시 알림 메시지 (텔레그램·카카오 톤)</h5>
+      <div style="background:#0B0907;border-radius:10px;padding:14px 18px;font-family:Consolas,monospace;font-size:12.5px;color:#cbc8c1;line-height:1.85">
+        <span style="color:#FF4D7E">🚨 [긴급] ARTbrows 광고 예산 100% 도달!</span><br>
+        ━━━━━━━━━━━━━━━<br>
+        💰 사용액: <strong style="color:#fff">300,000원 / 300,000원</strong><br>
+        📊 캠페인: 인스타 「반영구 실사 시뮬」<br>
+        📈 전환: 47건 (ROAS 8.2배 ✅)<br>
+        ⏱ 시각: 14:32<br>
+        ━━━━━━━━━━━━━━━<br>
+        <span style="color:#A8E6B3">[버튼] ✅ 광고 계속 (+10만원 추가)</span><br>
+        <span style="color:#FFB78A">[버튼] ⏸ 일시 중단</span><br>
+        <span style="color:#9FC8FF">[버튼] 📊 상세 보기</span>
+      </div>
+
+      <div style="background:rgba(159,200,255,0.10);border-radius:8px;padding:12px 16px;margin-top:14px;font-size:13px;color:#FAD7C7;line-height:1.65">
+        <strong style="color:#9FC8FF">★ 1탭 액션:</strong> 알림 메시지의 버튼만 누르면 광고 계속/중단/예산 증액 즉시 반영. 관리자가 PC 안 켜고도 모바일에서 5초 대응.<br>
+        <strong style="color:#9FC8FF">★ 사고 방지:</strong> 새벽 자동 광고 폭주 / 효과 없는 광고 누적 / 결제 한도 초과 사전 차단.
+      </div>
+    </div>
+  </div>
+
+  <!-- ★ 자기 계정 학습 패턴 광고 제작 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">★ 「내 계정」 자동 학습 → 자기 패턴으로 광고 제작 (회의 합의 — 진짜 차별점)</h3>
+  <div style="background:linear-gradient(135deg,#1a1820,#0B0907);border:2px solid #E0C088;border-radius:14px;padding:24px 28px;margin-bottom:18px">
+    <p style="font-size:15px;color:#E0C088;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7;margin-bottom:14px">
+    「내 계정에서 인스타그램 중 뭐가 제일 클릭수가 많았는지 분석하여 그거에 대한 패턴으로 광고 제작」<br>
+    <span style="font-size:12px;color:rgba(245,237,227,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29)</span>
+    </p>
+    <p style="font-size:14px;color:#cbc8c1;line-height:1.75;margin-bottom:14px">
+    일반 「베스트 프랙티스」가 아니라 <strong style="color:#E0C088">「당신의 계정이 진짜 잘 되는 패턴」</strong> 학습. 사용자가 이미 갖고 있는 가장 효과적인 콘텐츠 = 자기만의 자산. 그 패턴을 자동 추출해서 새 광고에 적용.
+    </p>
+
+    <!-- 흐름 -->
+    <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:6px;align-items:center;margin-top:14px;font-size:12.5px">
+      <div style="background:#161617;border-radius:10px;padding:14px;text-align:center;border-top:3px solid #9FC8FF">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#9FC8FF;line-height:1">①</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:700;color:#fff;margin-top:3px;font-size:13px">계정 연결</div>
+        <div style="color:#cbc8c1;margin-top:4px;line-height:1.5">Meta Graph API · 5초 OAuth</div>
+      </div>
+      <div style="font-size:16px;color:#E0C088;font-weight:700;text-align:center">→</div>
+      <div style="background:#161617;border-radius:10px;padding:14px;text-align:center;border-top:3px solid #FFB78A">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#FFB78A;line-height:1">②</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:700;color:#fff;margin-top:3px;font-size:13px">성과 분석</div>
+        <div style="color:#cbc8c1;margin-top:4px;line-height:1.5">최근 90일 게시물 전체 인사이트</div>
+      </div>
+      <div style="font-size:16px;color:#E0C088;font-weight:700;text-align:center">→</div>
+      <div style="background:#161617;border-radius:10px;padding:14px;text-align:center;border-top:3px solid #E0C088">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#E0C088;line-height:1">③</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:700;color:#fff;margin-top:3px;font-size:13px">패턴 추출</div>
+        <div style="color:#cbc8c1;margin-top:4px;line-height:1.5">TOP 게시물 공통 DNA 분석</div>
+      </div>
+      <div style="font-size:16px;color:#E0C088;font-weight:700;text-align:center">→</div>
+      <div style="background:#161617;border-radius:10px;padding:14px;text-align:center;border-top:3px solid #A8E6B3">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#A8E6B3;line-height:1">④</div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:700;color:#fff;margin-top:3px;font-size:13px">자기 패턴 광고</div>
+        <div style="color:#cbc8c1;margin-top:4px;line-height:1.5">새 광고 자동 생성</div>
+      </div>
+    </div>
+
+    <!-- 분석 항목 -->
+    <h4 style="font-family:'Nanum Myeongjo',serif;color:#E0C088;font-size:15px;margin:22px 0 8px">분석 항목 12종 (AI 자동)</h4>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12.5px;color:#cbc8c1">
+      <div>🎨 색감·톤 (살구핑크 ratio)</div>
+      <div>📐 구도 (인물 위치·각도)</div>
+      <div>👤 표정 (웃음·집중·자신감)</div>
+      <div>📝 카피 톤 (감성·정보·후킹)</div>
+      <div>#️⃣ 해시태그 패턴</div>
+      <div>⏰ 게시 시간대</div>
+      <div>📅 요일</div>
+      <div>🖼️ 슬라이드 수 (1·5·8·10)</div>
+      <div>🎬 동영상 길이 + BGM 톤</div>
+      <div>📍 위치 태그 / 인플루언서 멘션</div>
+      <div>💬 첫 문장 후킹 패턴</div>
+      <div>🎯 CTA 위치·문구</div>
+    </div>
+
+    <!-- 예시 -->
+    <h4 style="font-family:'Nanum Myeongjo',serif;color:#E0C088;font-size:15px;margin:22px 0 8px">패턴 추출 결과 예시 (자동 보고서)</h4>
+    <div style="background:#161617;border-radius:10px;padding:18px 22px;font-size:13px;color:#cbc8c1;line-height:1.85">
+      <strong style="color:#E0C088">📊 ARTbrows님 인스타 TOP 5 게시물 공통 DNA</strong><br>
+      ━━━━━━━━━━━━━━━<br>
+      🎨 <strong>색감:</strong> 살구핑크 + 따뜻한 골든아워 (5/5 모두)<br>
+      📐 <strong>구도:</strong> 인물 중앙 + 살짝 위 시선 (4/5)<br>
+      👤 <strong>표정:</strong> 옅은 미소 + 자연스러움 (5/5)<br>
+      📝 <strong>카피 톤:</strong> 첫 문장 「~ 같다는 말 들었어요」 후킹 (3/5)<br>
+      #️⃣ <strong>해시태그:</strong> #극사실눈썹 #반영구실사 #장미지원장 평균 11개<br>
+      ⏰ <strong>시간:</strong> 화·목 오후 7~9시 (4/5)<br>
+      🖼️ <strong>슬라이드:</strong> 캐러셀 8장 평균 (4/5)<br>
+      ━━━━━━━━━━━━━━━<br>
+      <strong style="color:#A8E6B3">💡 이 DNA로 새 광고 자동 제작 중... (3분)</strong><br>
+      <strong style="color:#A8E6B3">✅ 예상 클릭률: +47% (당신 평균 대비)</strong>
+    </div>
+
+    <div style="background:rgba(224,192,136,0.10);border-radius:8px;padding:14px 16px;margin-top:14px;font-size:13px;color:#FAD7C7;line-height:1.7">
+      <strong style="color:#E0C088">★ 진짜 차별점:</strong> 일반 광고 도구는 「업계 평균 베스트 프랙티스」만 제공. ARTbrows는 「당신의 계정에서 진짜 잘 되는 패턴」 학습 = 사용자 작업 0, 정확도 압도. <strong>「내 계정 = 내 최적 모델」</strong> = 진짜 개인화.
+    </div>
+  </div>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin:22px 0 10px">광고 엔진의 기술 부품 (모두 검증된 자산)</h3>
+  <div style="background:#161617;border-radius:10px;padding:16px 20px;font-size:13px;color:#cbc8c1;line-height:1.85">
+    <strong style="color:#FFB78A">✓ nano_banana_pro (Higgsfield)</strong> — 이미지 생성·변환 (1.5크/장)<br>
+    <strong style="color:#FFB78A">✓ Veo 3.1 (Higgsfield)</strong> — 영상 생성<br>
+    <strong style="color:#FFB78A">✓ ffmpeg 레시피</strong> — 컷 + BGM + 자막 burn-in (검증 완료)<br>
+    <strong style="color:#FFB78A">✓ STORY 디자인 시스템</strong> — 살구핑크 + 명조 + 핫핑크 칩 (일관성)<br>
+    <strong style="color:#FFB78A">✓ MetaHuman 페르소나</strong> — 차주 도입 → 광고 영상 자동 생성<br>
+    <strong style="color:#FFB78A">✓ Edge headless</strong> — HTML → PNG 캡처 (1080×1080 안정)<br>
+    <strong style="color:#FFB78A">✓ 워터마크 자동</strong> — 의료광고법 §5.3 정합 「체험용」 자동 박힘
+  </div>
+</section>
+
+<!-- ★ UX 원칙 — 일반인 친화 -->
+<section>
+  <h2 class="sect"><span class="num">★</span>일반인 친화 UX 원칙 (회의 합의)</h2>
+  <div style="background:linear-gradient(135deg,#FFB78A20,#FF4D7E15);border:2px solid #FFB78A;border-radius:14px;padding:24px 28px;margin-bottom:18px">
+    <p style="font-size:17px;color:#FFB78A;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.65">
+    「일반인이 쓰기 편해야 됨」 — 대표님 회의 발언 (2026-06-29)
+    </p>
+    <p style="font-size:14px;color:#cbc8c1;margin-top:10px;line-height:1.75">
+    살롱 사장님·강사·셀러는 디자이너가 아닙니다. 사진 1장 올리면 <strong style="color:#FFB78A">3분 안에</strong> 인스타·블로그·유튜브용 광고 콘텐츠가 「짠」 하고 나와야 합니다.
+    </p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+    <div style="background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid #A8E6B3">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#A8E6B3;line-height:1">①</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin:4px 0 8px;font-size:17px">로그인 없이 시작</div>
+      <div style="font-size:13px;color:#cbc8c1;line-height:1.65">사진 드래그 & 드롭 → 결과 미리보기까지 가입 X. 다운로드/게시할 때만 카카오 SSO 5초.</div>
+    </div>
+    <div style="background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid #FFB78A">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#FFB78A;line-height:1">②</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin:4px 0 8px;font-size:17px">3 클릭 안에 결과</div>
+      <div style="font-size:13px;color:#cbc8c1;line-height:1.65">① 사진 업로드 → ② 「자동 제작」 클릭 → ③ 결과 받기. 옵션 설정·세부 조정 모두 옵션 (기본값 = 완벽).</div>
+    </div>
+    <div style="background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid #FF4D7E">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#FF4D7E;line-height:1">③</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin:4px 0 8px;font-size:17px">기술 용어 0</div>
+      <div style="font-size:13px;color:#cbc8c1;line-height:1.65">「1080×1920 9:16 MP4」 X · 「인스타 릴스용」 O · 「nano_banana_pro」 X · 「자동 변환」 O · AI·LLM 단어 숨김.</div>
+    </div>
+    <div style="background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid #9FC8FF">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#9FC8FF;line-height:1">④</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin:4px 0 8px;font-size:17px">모바일 우선</div>
+      <div style="font-size:13px;color:#cbc8c1;line-height:1.65">살롱 사장님 대다수 모바일 사용 = PC 조작 가정 X. iPhone 14 Pro 1순위 디자인. 사진 촬영 → 즉시 업로드.</div>
+    </div>
+    <div style="background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid #E8A99B">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#E8A99B;line-height:1">⑤</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin:4px 0 8px;font-size:17px">결과 톤 일관</div>
+      <div style="font-size:13px;color:#cbc8c1;line-height:1.65">살구핑크 + 명조 + 핫핑크 칩. 사용자 별 매번 다르게 X. 「ARTbrows 브랜드」 자동 박힘 = 사용자 혼란 없음.</div>
+    </div>
+    <div style="background:#161617;border-radius:12px;padding:18px 22px;border-left:4px solid #FAD7C7">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#FAD7C7;line-height:1">⑥</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;margin:4px 0 8px;font-size:17px">한 번 게시 한 번에 다</div>
+      <div style="font-size:13px;color:#cbc8c1;line-height:1.65">「인스타 + 블로그 + 유튜브 자동 게시」 1탭. 카카오·네이버·구글·메타 토큰 1회 연결 후 영구. 사용자 작업 0.</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:18px;margin:22px 0 10px">실제 사용자 흐름 (살롱 사장님 예시)</h3>
+  <div style="background:#161617;border-radius:10px;padding:16px 20px;font-size:13.5px;color:#cbc8c1;line-height:1.85">
+    <strong style="color:#FFB78A">1.</strong> 시술 끝난 손님 동의 받고 → 스마트폰으로 BEFORE / AFTER 사진 2장 촬영<br>
+    <strong style="color:#FFB78A">2.</strong> ARTbrows 플랫폼 모바일 접속 → 「+」 버튼 → 사진 2장 드래그<br>
+    <strong style="color:#FFB78A">3.</strong> 「자동 제작」 큰 노란 버튼 클릭 → 3분 기다림<br>
+    <strong style="color:#FFB78A">4.</strong> 결과 미리보기: 인스타 피드 1장 + 릴스 24초 + 캐러셀 5장 + 네이버 블로그 1포스트 + 유튜브 쇼츠 1편 = <strong style="color:#fff">한 번에 6 자산</strong><br>
+    <strong style="color:#FFB78A">5.</strong> 「게시하기」 클릭 → 인스타·네이버·유튜브 동시 자동 업로드 (워터마크 「체험용」 자동 박힘)<br>
+    <strong style="color:#FFB78A">→</strong> <strong style="color:#A8E6B3">총 5분 안에 1 손님 사례 = 5 플랫폼 광고 자산 완성.</strong> 디자이너·작가 고용 0원.
+  </div>
+</section>
+
+<!-- C. 출시 로드맵 -->
+<section>
+  <h2 class="sect"><span class="num">C</span>출시 로드맵 — 4단계</h2>
+  <div class="roadmap">
+    <div class="step s1">
+      <div class="num-big">1.0</div>
+      <div class="info">
+        <h3>플랫폼 1.0 — Face Lab + 학원</h3>
+        <div class="date">07-21 (3주 후) · 베타 오픈</div>
+        <p>Face Lab v7 베타 + 학원 모집 통합. 사용자가 펜슬 시뮬로 시술 미리보기 → 학원·상담 신청 → 카카오 연결. <b>플랫폼의 핵심 가치 검증</b>.</p>
+      </div>
+    </div>
+    <div class="step s2">
+      <div class="num-big">1.5</div>
+      <div class="info">
+        <h3>플랫폼 1.5 — MetaHuman + STORY 시리즈</h3>
+        <div class="date">08-21 (2개월 후)</div>
+        <p>MetaHuman 5종 풀세트 + STORY 시리즈 자동화 + 인스타 콘텐츠 무한 생성. <b>마케팅 자동화 모듈 활성화</b>.</p>
+      </div>
+    </div>
+    <div class="step s3">
+      <div class="num-big">2.0</div>
+      <div class="info">
+        <h3>플랫폼 2.0 — B2B 파트너십 활성화</h3>
+        <div class="date">10-01 (3개월 후)</div>
+        <p>이지클래스 파트너 살롱 가입 · 강사 트레이닝 · 「ARTbrows 인증 시술자」 라이센스 발행. <b>SaaS 매출 모델 본격</b>.</p>
+      </div>
+    </div>
+    <div class="step s4">
+      <div class="num-big">3.0</div>
+      <div class="info">
+        <h3>플랫폼 3.0 — 중국·미국 진출</h3>
+        <div class="date">2026 Q4 ~ 2027 Q1</div>
+        <p>중국 페르소나 + 위챗·小红书 광고 · LA 진출 + 미국 디지털 네이티브 시장. <b>글로벌 미용 SaaS 진입</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D. KPI -->
+<section>
+  <h2 class="sect"><span class="num">D</span>플랫폼 3개월 KPI</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="v">1만+</div><div class="l">Face Lab 사용자</div><div class="d">무료 시뮬 누적</div></div>
+    <div class="kpi"><div class="v">15%</div><div class="l">상담 전환율</div><div class="d">1,500+ 결제</div></div>
+    <div class="kpi"><div class="v">5,000만</div><div class="l">예약금 매출</div><div class="d">시뮬 → 결제</div></div>
+    <div class="kpi"><div class="v">100+</div><div class="l">B2B 파트너 살롱</div><div class="d">차차주부터</div></div>
+  </div>
+</section>
+
+<!-- E. 도메인 구조 (참고) -->
+<section>
+  <h2 class="sect"><span class="num">E</span>도메인 통합 구조 (제안)</h2>
+  <table style="width:100%;border-collapse:collapse;background:#161617;border-radius:10px;overflow:hidden;font-size:13.5px">
+    <tr style="background:#FFB78A;color:#0B0907"><th style="padding:12px 14px;text-align:left">URL</th><th style="padding:12px 14px;text-align:left">역할</th><th style="padding:12px 14px;text-align:left">현재 상태</th></tr>
+    <tr><td style="padding:10px 14px;color:#FFB78A;font-weight:700">eyebrows.staris.cloud</td><td style="padding:10px 14px;color:#cbc8c1">★ 플랫폼 메인홈 (Hero · 5 모듈 네비)</td><td style="padding:10px 14px;color:#A8E6B3">Vercel 라이브</td></tr>
+    <tr style="background:#0B0907"><td style="padding:10px 14px;color:#FFB78A">eyebrows.staris.cloud/lab</td><td style="padding:10px 14px;color:#cbc8c1">Face Lab v7 시뮬 도구</td><td style="padding:10px 14px;color:#FFB78A">개발 중 (07-21 베타)</td></tr>
+    <tr><td style="padding:10px 14px;color:#FFB78A">eyebrows.staris.cloud/academy</td><td style="padding:10px 14px;color:#cbc8c1">장미지눈썹연구소 학원</td><td style="padding:10px 14px;color:#A8E6B3">enroll 페이지 라이브</td></tr>
+    <tr style="background:#0B0907"><td style="padding:10px 14px;color:#FFB78A">eyebrows.staris.cloud/b2b</td><td style="padding:10px 14px;color:#cbc8c1">이지클래스 파트너십 (B2B)</td><td style="padding:10px 14px;color:#FF4D7E">기획 단계 (Phase 2.0)</td></tr>
+    <tr><td style="padding:10px 14px;color:#FFB78A">jangmiji.netlify.app</td><td style="padding:10px 14px;color:#cbc8c1">운영진 포털 (대시보드·자료실)</td><td style="padding:10px 14px;color:#A8E6B3">라이브 (현재 이 페이지)</td></tr>
+  </table>
+</section>
+
+</div>
+
+<div class="cta">
+  <h2>플랫폼 1.0 베타 07-21 오픈</h2>
+  <p>3주 안에 첫 사용자 받기 시작 · ARTbrows를 미용 업계 표준 SaaS로</p>
+  <a class="btn" href="Face-Lab-v7-펜슬-디지털트윈-20260629.html">→ Face Lab v7 상품 상세 보기</a>
+</div>
+
+<footer>
+  <p>© ARTbrows Platform 2026 · 미용 통합 SaaS 플랫폼 · 운영진 전용</p>
+  <p style="margin-top:6px"><a href="index.html">← 메인 포털</a> · <a href="Face-Lab-v7-펜슬-디지털트윈-20260629.html">Face Lab v7</a> · <a href="MetaHuman-활용가이드-20260629.html">MetaHuman 가이드</a> · <a href="미팅-통합-발표-20260629.html">미팅 통합 발표</a></p>
+</footer>
+
+</body>
+</html>

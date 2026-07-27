@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실행 순서 & 우선순위 v1.0 — ARTbrows Platform 출시 로드맵</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.7;max-width:1200px;margin:0 auto;padding:0}
+
+  /* Hero */
+  .hero{background:linear-gradient(180deg,#FF4D7E,#E8A99B);padding:50px 40px;text-align:center;color:#fff}
+  .chip{display:inline-block;background:#3D2818;color:#FFB78A;font-weight:700;font-size:11px;letter-spacing:4px;padding:8px 22px;border-radius:24px;margin-bottom:16px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:40px;line-height:1.2;color:#fff}
+  h1 em{font-style:normal;color:#FFE5D0;background:rgba(0,0,0,0.15);padding:0 10px;border-radius:8px}
+  .lead{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:18px;margin-top:14px;color:#FFE5D0}
+
+  /* TLDR */
+  .tldr{background:#fff;border:3px solid #FF4D7E;border-radius:18px;padding:24px 28px;margin:30px 40px;box-shadow:0 14px 40px rgba(255,77,126,0.15)}
+  .tldr h2{font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:22px;margin-bottom:10px}
+  .tldr p{font-size:15px;color:#3D2818;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7}
+
+  .body{padding:30px 40px 50px}
+  section{margin-bottom:36px}
+  h2.sect{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:24px;color:#3D2818;margin-bottom:16px;padding-bottom:10px;border-bottom:3px solid #FF4D7E}
+  h2.sect .num{font-family:'Cormorant Garamond',serif;color:#FF4D7E;margin-right:12px;font-size:32px}
+
+  /* 오늘 즉시 3개 */
+  .today-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+  @media(max-width:820px){.today-3{grid-template-columns:1fr}}
+  .now{background:linear-gradient(135deg,#fff,#FFE5D0);border:3px solid #FF4D7E;border-radius:14px;padding:22px 24px;position:relative;box-shadow:0 12px 40px rgba(255,77,126,0.15)}
+  .now::before{content:'★';position:absolute;top:-16px;left:18px;background:#FF4D7E;color:#fff;font-size:18px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .now .deadline{font-size:11px;letter-spacing:3px;color:#FF4D7E;font-weight:800}
+  .now h3{font-family:'Nanum Myeongjo',serif;color:#3D2818;font-size:18px;margin:4px 0 8px}
+  .now p{font-size:13.5px;color:#5D4636;line-height:1.7}
+  .now .who{display:inline-block;background:#3D2818;color:#FFB78A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:10px;margin-top:10px}
+
+  /* Phase 카드 */
+  .phases{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+  .phase{background:#fff;border-radius:14px;padding:24px 26px;border-left:6px solid var(--c);box-shadow:0 6px 18px rgba(232,169,155,0.15)}
+  .phase.p0{--c:#FFB78A}
+  .phase.p1{--c:#A8E6B3}
+  .phase.p2{--c:#FF4D7E}
+  .phase.p3{--c:#E0C088}
+  .phase.p4{--c:#9FC8FF}
+  .phase.p5{--c:#E8A99B}
+  .phase.p6{--c:#3D2818}
+  .phase .header{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+  .phase .ph-num{font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--c);font-weight:700;line-height:1}
+  .phase .ph-info{flex:1}
+  .phase .ph-info .label{font-size:11px;letter-spacing:3px;color:var(--c);font-weight:800}
+  .phase .ph-info h3{font-family:'Nanum Myeongjo',serif;color:#3D2818;font-size:20px;margin-top:2px}
+  .phase .ph-date{font-family:'Cormorant Garamond',serif;font-size:18px;color:#8B6452;font-weight:700}
+  .phase .ph-body{margin-top:8px;font-size:13.5px;color:#5D4636;line-height:1.85}
+  .phase .ph-body strong{color:var(--c)}
+  .phase .ph-tasks{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  @media(max-width:820px){.phase .ph-tasks{grid-template-columns:1fr}}
+  .phase .ph-tasks li{font-size:13px;color:#5D4636;padding:6px 0 6px 22px;position:relative;line-height:1.6}
+  .phase .ph-tasks li::before{content:'□';position:absolute;left:0;color:var(--c);font-weight:700}
+  .phase .ph-success{background:rgba(0,0,0,0.04);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3D2818;line-height:1.7}
+  .phase .ph-success b{color:var(--c)}
+
+  /* 우선순위 매트릭스 */
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(232,169,155,0.12);font-size:13px}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid #F0D6CC;vertical-align:top}
+  th{background:#FAD7C7;color:#3D2818;font-weight:700}
+  td.p1{color:#FF4D7E;font-weight:700}
+  td.p2{color:#FFB78A;font-weight:700}
+  td.p3{color:#9FC8FF;font-weight:700}
+  td.win{color:#5BAE8A;font-weight:700}
+
+  footer{padding:24px 40px;background:#3D2818;color:#FAD7C7;text-align:center;font-size:12px}
+  footer a{color:#FFB78A}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">EXECUTION ROADMAP v1.0 · 2026-06-29</div>
+  <h1><em>일의 순서</em>를 먼저 정한다</h1>
+  <p class="lead">회의 인사이트 30+개 → 실행 가능한 7 Phase로 분해<br>오늘부터 09월까지 — 누가·무엇을·언제</p>
+</div>
+
+<div class="tldr">
+  <h2>★ 한 줄 결정</h2>
+  <p>회의 인사이트가 아무리 좋아도 <em style="color:#FF4D7E">「누가 언제 무엇을」</em>이 없으면 진척 0.<br>
+  오늘 (06-29) → 7Phase × 7주 → 09월 = <em style="color:#FF4D7E">「3개월 후 5,000만원 예약금 매출」</em> 목표 도달.</p>
+</div>
+
+<div class="body">
+
+<!-- ★★★ 0번 즉시 모듈 - 강의 스케줄 자동 생성 -->
+<section>
+  <h2 class="sect" style="color:#E8455B"><span class="num" style="color:#E8455B">🔥</span>0번 모듈 — 「강의 스케줄 자동 생성」 ★ 최우선 출시 (원장님 즉시 효과)</h2>
+  <div style="background:linear-gradient(135deg,#FFE5D0,#FAD7C7);border:3px solid #E8455B;border-radius:18px;padding:28px 32px;box-shadow:0 18px 50px rgba(232,69,91,0.20);position:relative">
+    <div style="position:absolute;top:-16px;left:24px;background:#E8455B;color:#fff;font-size:11px;font-weight:800;letter-spacing:3px;padding:6px 16px;border-radius:14px">⚡ 0번 · 최우선 · 회의 합의</div>
+
+    <p style="font-size:16px;color:#3D2818;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.7;margin-top:8px;margin-bottom:14px">
+    「강의 스케줄을 매달 원장님 일일히 만드시는 게 힘드시다함. <em style="color:#E8455B">그것부터</em> 우리 플랫폼에 넣어 보자」<br>
+    <span style="font-size:12px;color:rgba(60,40,30,0.55);font-weight:400">— 대표님 회의 발언 (2026-06-29)</span>
+    </p>
+
+    <p style="font-size:14px;color:#5D4636;line-height:1.75;margin-bottom:18px">
+    Face Lab v7 / SaaS A 광고 엔진보다 <strong style="color:#E8455B">먼저 출시</strong>. 이유:<br>
+    ① <strong>원장님 즉시 효과</strong> — 매월 시간 절약 = 강한 도입 동기<br>
+    ② <strong>학원 운영 기반</strong> — 「적은 수업료로 추후 수익」 모델의 시작<br>
+    ③ <strong>데이터 자산 자동 축적</strong> — 강의 일정 = SaaS A·B의 input이 됨
+    </p>
+
+    <h3 style="font-family:'Nanum Myeongjo',serif;color:#E8455B;font-size:18px;margin:18px 0 10px">기능 (MVP)</h3>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+      <div style="background:#fff;border-radius:10px;padding:14px 18px;border-left:4px solid #FF4D7E">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:15px;margin-bottom:6px">① 자동 일정 생성</h4>
+        <p style="font-size:13px;color:#5D4636;line-height:1.7">원장님 가용 시간 + 수업 종류 + 수강생 신청 → AI가 한 달 전체 스케줄 자동 배치</p>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:14px 18px;border-left:4px solid #FFB78A">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:15px;margin-bottom:6px">② 달력 시각화</h4>
+        <p style="font-size:13px;color:#5D4636;line-height:1.7">원장님 기존 달력 패턴 그대로 (대표님이 사진 보여줄 예정 → 1:1 재현)</p>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:14px 18px;border-left:4px solid #A8E6B3">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#A8E6B3;font-size:15px;margin-bottom:6px">③ 수강생 자동 매칭</h4>
+        <p style="font-size:13px;color:#5D4636;line-height:1.7">신청서 입력 → 적합 수업 자동 추천 → 카카오 채널 자동 알림</p>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:14px 18px;border-left:4px solid #9FC8FF">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#9FC8FF;font-size:15px;margin-bottom:6px">④ 자동 게시</h4>
+        <p style="font-size:13px;color:#5D4636;line-height:1.7">스케줄 완성 → 인스타·블로그·홈페이지 자동 게시 (SaaS A 연결)</p>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:14px 18px;border-left:4px solid #E0C088">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#E0C088;font-size:15px;margin-bottom:6px">⑤ 변경 알림</h4>
+        <p style="font-size:13px;color:#5D4636;line-height:1.7">수업 시간 변경·취소 시 수강생 자동 알림 (카카오·SMS·이메일)</p>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:14px 18px;border-left:4px solid #E8A99B">
+        <h4 style="font-family:'Nanum Myeongjo',serif;color:#E8A99B;font-size:15px;margin-bottom:6px">⑥ 통계 자동</h4>
+        <p style="font-size:13px;color:#5D4636;line-height:1.7">월 강의 수·수강생 수·수익 자동 계산 → 원장님께 매월 1일 요약 보고</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Nanum Myeongjo',serif;color:#E8455B;font-size:18px;margin:22px 0 10px">개발 일정</h3>
+    <table style="background:#fff">
+      <tr><th>주차</th><th>작업</th><th>담당</th></tr>
+      <tr><td>D+0 (오늘)</td><td>★ 원장님 기존 달력 스케줄 사진 받기 (대표님)</td><td>대표님</td></tr>
+      <tr><td>D+1 (06-30)</td><td>달력 분석 + 데이터 schema 정의 + UI wireframe</td><td>김민서·이서연</td></tr>
+      <tr><td>D+2~5 (07-01~07-04)</td><td>달력 UI + 자동 배치 알고리즘 + 수강생 매칭</td><td>한승철</td></tr>
+      <tr><td>D+6 (07-05)</td><td>원장님 시범 사용 + 피드백</td><td>대표님·원장님</td></tr>
+      <tr><td>D+7 (07-06)</td><td>피드백 반영 + 자동 게시 연결 (인스타·블로그)</td><td>한승철·이서연</td></tr>
+      <tr><td class="win">D+8 (07-07) ★</td><td class="win">원장님 정식 사용 시작 (7월 8월 스케줄 자동 생성)</td><td class="win">원장님</td></tr>
+    </table>
+
+    <div style="background:rgba(232,69,91,0.10);border-radius:10px;padding:14px 18px;margin-top:16px;font-size:13.5px;color:#3D2818;line-height:1.75">
+      <strong style="color:#E8455B">★ 대기 중:</strong> 대표님이 원장님 <strong>기존 달력 스케줄 사진</strong>을 공유 예정 → 우리는 그 형태 1:1 재현 + 자동화 추가. 사진 도착 즉시 wireframe 시작.
+    </div>
+  </div>
+</section>
+
+<!-- ★ 오늘 즉시 3개 (가장 시급) -->
+<section>
+  <h2 class="sect"><span class="num">⚡</span>오늘 즉시 시작 3가지 (다른 거 다 멈추고)</h2>
+  <div class="today-3">
+
+    <div class="now">
+      <div class="deadline">D+0 · 오늘</div>
+      <h3>① Unreal Engine 5.8 다운로드 시작</h3>
+      <p>Epic Launcher 켜져 있음. <strong>로그인 → Library → 5.8 → Install (`D:\Unreal\UE_5.8`)</strong> 클릭만 하면 ~80GB 1~2시간 백그라운드 다운로드.</p>
+      <div class="who">대표님 직접 · 5분</div>
+    </div>
+
+    <div class="now">
+      <div class="deadline">D+1 · 06-30 (월)</div>
+      <h3>② 광고 API 키 신청 (영업일 3~5일)</h3>
+      <p><strong>네이버 검색광고 API + Meta Marketing API + Google Ads API</strong> 모두 신청 시작. 심사 1주 = 차주 베타 출시 일정 보호.</p>
+      <div class="who">한승철 · 1시간</div>
+    </div>
+
+    <div class="now">
+      <div class="deadline">D+1 · 06-30 (월)</div>
+      <h3>③ 5직원 종합광고 리서치 본격 가동</h3>
+      <p>이서연·유나·한승철·김민서 4직원 + 클로드 = <strong>5 트랙 동시 리서치</strong>. 차주 07-01 통합 보고서 산출.</p>
+      <div class="who">5직원 전체 · 1주</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 7 Phase 로드맵 -->
+<section>
+  <h2 class="sect"><span class="num">A</span>7 Phase 로드맵 (오늘 ~ 09월 = 3개월)</h2>
+  <div class="phases">
+
+    <!-- Phase 0 -->
+    <div class="phase p0">
+      <div class="header">
+        <div class="ph-num">0</div>
+        <div class="ph-info">
+          <div class="label">PRE-LAUNCH</div>
+          <h3>오늘~주말 (06-29~06-30) · 인프라 준비</h3>
+        </div>
+        <div class="ph-date">D+0 ~ D+2</div>
+      </div>
+      <p class="ph-body"><strong>회의 인사이트 정리 + 인프라 다운로드 + 차주 시작 신호</strong></p>
+      <ul class="ph-tasks">
+        <li>회의 인사이트 30+개 메모리·페이지 정리 ✅</li>
+        <li>Unreal 5.8 ~80GB 다운로드 시작 (대표님)</li>
+        <li>광고 API 키 신청 (네이버·Meta·Google)</li>
+        <li>5직원 리서치 트랙 가동 신호</li>
+        <li>Epic Launcher v20.1.0 자동 설치 ✅</li>
+        <li>D:\Unreal\UE_5.8 폴더 사전 생성 ✅</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> 월요일 07-01 시작 시점에 Unreal 다운로드 완료 + API 키 신청 완료</div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase p1">
+      <div class="header">
+        <div class="ph-num">1</div>
+        <div class="ph-info">
+          <div class="label">WEEK 1 · BASE INFRA</div>
+          <h3>차주 (07-01~07-06) · MetaHuman + Unreal MCP</h3>
+        </div>
+        <div class="ph-date">D+3 ~ D+8</div>
+      </div>
+      <p class="ph-body"><strong>v6 MetaHuman 5종 페르소나 디자인 + Unreal MCP 활성화 + Blender 연결</strong></p>
+      <ul class="ph-tasks">
+        <li>07-01: Unreal 5.8 + MCP 셋업 (한승철)</li>
+        <li>07-02: 「수아」 MetaHuman 디자인 (김민서)</li>
+        <li>07-03: v6.0 PoC 16컷 + BEFORE/AFTER 8컷 (클로드)</li>
+        <li>07-04: 인스타 캐러셀 + 5종 풀세트 견적</li>
+        <li>07-05: 한 주 회의 + 5종 풀세트 결정</li>
+        <li>5 페르소나 reference 준비됨 ✅</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> v6.0 PoC 24 자산 + 「수아」 MetaHuman 1체 완성</div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase p2">
+      <div class="header">
+        <div class="ph-num">2</div>
+        <div class="ph-info">
+          <div class="label">WEEK 2 · FACE LAB v7 코어</div>
+          <h3>2주차 (07-07~07-13) · 펜슬 디지털 트윈 MVP</h3>
+        </div>
+        <div class="ph-date">D+9 ~ D+15</div>
+      </div>
+      <p class="ph-body"><strong>SaaS B 핵심 — 정면+측면 입력 → 패턴 매칭 → 2D 결과</strong></p>
+      <ul class="ph-tasks">
+        <li>정면+측면 사진 업로드 UI (모바일 우선)</li>
+        <li>MediaPipe 478 랜드마크 분석 알고리즘</li>
+        <li>측면 사진 → 입체 reconstruction</li>
+        <li>원장님 패턴 DB 100케이스 구축 (원장님 자료실에서 추출)</li>
+        <li>2D 펜슬 가이드 PNG 생성</li>
+        <li>워터마크 자동 「체험용」 (의료광고법)</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> 내부 테스트 사용자 10명 → 시뮬 결과 100% 출력 성공</div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase p3">
+      <div class="header">
+        <div class="ph-num">3</div>
+        <div class="ph-info">
+          <div class="label">WEEK 3 · 베타 출시 준비</div>
+          <h3>3주차 (07-14~07-20) · 결제 + 3D + 모바일 최적화</h3>
+        </div>
+        <div class="ph-date">D+16 ~ D+22</div>
+      </div>
+      <p class="ph-body"><strong>실제 결제 흐름 + 3D 모델 + platform.html 모바일 최적화</strong></p>
+      <ul class="ph-tasks">
+        <li>카카오 SSO 연동</li>
+        <li>Toss 결제 (상담 예약금 19,000원)</li>
+        <li>3D model-viewer 통합 (360° 회전)</li>
+        <li>platform.html 모바일 우선 디자인</li>
+        <li>2 타겟 자동 분기 UI (시술/배움)</li>
+        <li>키워드 시드 9개 적용 (반영구 실사 등)</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> 결제 → 시뮬 → 결과 → 상담 신청 전체 흐름 통과</div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase p4">
+      <div class="header">
+        <div class="ph-num">4</div>
+        <div class="ph-info">
+          <div class="label">WEEK 4 · BETA OPEN</div>
+          <h3>4주차 (07-21~07-27) · ★ 베타 오픈 + 첫 사용자</h3>
+        </div>
+        <div class="ph-date">D+23 ~ D+29</div>
+      </div>
+      <p class="ph-body"><strong>플랫폼 1.0 베타 정식 출시 + 인스타·페이스북 광고 시작</strong></p>
+      <ul class="ph-tasks">
+        <li>07-21 (월): 베타 오픈 발표</li>
+        <li>첫 100명 무료 풀 시뮬 + 무료 상담</li>
+        <li>인스타·페이스북 광고 1차 시작</li>
+        <li>네이버 블로그 SEO 글 5편</li>
+        <li>유튜브 영상 1편</li>
+        <li>효과 측정 + 피드백 수집 (실시간)</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> 첫 주 100+ 사용자 + 10+ 상담 신청 + ROAS 추적 시작</div>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase p5">
+      <div class="header">
+        <div class="ph-num">5</div>
+        <div class="ph-info">
+          <div class="label">MONTH 2 · SAAS A 본격</div>
+          <h3>2개월차 (08월) · 광고 자동화 엔진 가동</h3>
+        </div>
+        <div class="ph-date">D+30 ~ D+60</div>
+      </div>
+      <p class="ph-body"><strong>SaaS A 광고 마케팅 툴 본격 — 측정·자동 최적화·자기 패턴 학습</strong></p>
+      <ul class="ph-tasks">
+        <li>광고 효과 측정 대시보드 (3 KPI)</li>
+        <li>자동 최적화 (예산 자동 재분배)</li>
+        <li>예산 초과 텔레그램·카카오 알림</li>
+        <li>「내 계정」 자기 패턴 학습</li>
+        <li>5직원 STORY 시리즈 자동 생성</li>
+        <li>한·중·영 번역 모듈</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> 월 1,000+ 사용자 + ROAS 5배 달성 + 첫 5+ 살롱 위탁 운영 시작</div>
+    </div>
+
+    <!-- Phase 6 -->
+    <div class="phase p6">
+      <div class="header">
+        <div class="ph-num">6</div>
+        <div class="ph-info">
+          <div class="label">MONTH 3 · B2B + AEO 확장</div>
+          <h3>3개월차 (09월) · 「우리 SaaS 학원」 본격</h3>
+        </div>
+        <div class="ph-date">D+61 ~ D+90</div>
+      </div>
+      <p class="ph-body"><strong>이지클래스 B2B 파트너 확장 + AEO/GEO 본격 + 글로벌 진입 검토</strong></p>
+      <ul class="ph-tasks">
+        <li>이지클래스 파트너 살롱 50+ 가입</li>
+        <li>「ARTbrows 인증 시술자」 라이센스 발행</li>
+        <li>AEO/GEO 학습 데이터 강화 (GPT·Gemini·Claude·Perplexity)</li>
+        <li>중국 진출 (레드노트·위챗) 준비 시작</li>
+        <li>장미지 원장님 디지털 분신 (옵션)</li>
+        <li>3개월 KPI 측정 + 다음 분기 계획</li>
+      </ul>
+      <div class="ph-success"><b>성공 기준:</b> ⭐ 1만+ 사용자 · 15% 상담 전환 · 5,000만원 예약금 매출 · 100+ B2B 파트너 도달</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- B. 우선순위 매트릭스 -->
+<section>
+  <h2 class="sect"><span class="num">B</span>회의 인사이트 30+ 우선순위 매트릭스</h2>
+  <table>
+    <tr><th>#</th><th>인사이트</th><th>속한 Phase</th><th>우선순위</th><th>담당</th></tr>
+    <tr><td>1</td><td>Face Lab v7 펜슬 디지털 트윈 (정면+측면, 패턴 DB, 2D+3D)</td><td>Phase 2~3</td><td class="p1">★★★ 최우선</td><td>김민서·한승철</td></tr>
+    <tr><td>2</td><td>SaaS A 광고 자동 제작 엔진 (사진→인스타·블로그·유튜브)</td><td>Phase 5</td><td class="p1">★★★ 최우선</td><td>한승철·이서연</td></tr>
+    <tr><td>3</td><td>2 타겟 분류 (시술 받는 사람 / 배우는 사람)</td><td>Phase 3</td><td class="p1">★★★ 최우선</td><td>이서연·김민서</td></tr>
+    <tr><td>4</td><td>외부 platform.html + 운영진 index.html 분리</td><td>완료 ✅</td><td class="win">완료</td><td>클로드</td></tr>
+    <tr><td>5</td><td>키워드 시드 9개 (반영구 실사 외)</td><td>Phase 3</td><td class="p1">★★★</td><td>이서연·클로드</td></tr>
+    <tr><td>6</td><td>광고 API 통합 (네이버·Meta·Google)</td><td>Phase 0~5</td><td class="p1">★★★</td><td>한승철</td></tr>
+    <tr><td>7</td><td>광고 효과 측정 + 자동 최적화 사이클</td><td>Phase 5</td><td class="p1">★★★</td><td>한승철</td></tr>
+    <tr><td>8</td><td>예산 초과 텔레그램·카카오 알림</td><td>Phase 5</td><td class="p2">★★</td><td>한승철</td></tr>
+    <tr><td>9</td><td>「내 계정」 자기 패턴 학습 → 자동 광고</td><td>Phase 5</td><td class="p2">★★</td><td>한승철</td></tr>
+    <tr><td>10</td><td>강의 일정표 자동 제작 (원장님 자료 import)</td><td>Phase 5</td><td class="p2">★★</td><td>이서연</td></tr>
+    <tr><td>11</td><td>한·중·영 번역 모듈</td><td>Phase 5</td><td class="p2">★★</td><td>한승철·이서연</td></tr>
+    <tr><td>12</td><td>AEO/GEO (GPT·Gemini·Claude·Perplexity 추천)</td><td>Phase 6</td><td class="p1">★★★</td><td>클로드·이서연</td></tr>
+    <tr><td>13</td><td>중국 벤치마크 (DR.Eyebrows · 공리 카피 · 라이브)</td><td>Phase 6</td><td class="p3">★</td><td>이서연·유나</td></tr>
+    <tr><td>14</td><td>장미지 원장 디지털 분신 (MetaHuman)</td><td>Phase 6</td><td class="p3">★</td><td>김민서</td></tr>
+    <tr><td>15</td><td>B2B 이지클래스 파트너 + 라이센스</td><td>Phase 6</td><td class="p2">★★</td><td>이서연</td></tr>
+    <tr><td>16</td><td>유명인 비교 카피 (「김희애 같다」 자동)</td><td>Phase 5</td><td class="p3">★</td><td>이서연</td></tr>
+    <tr><td>17</td><td>After/Before 위치 자동 표시</td><td>Phase 4</td><td class="p2">★★</td><td>유나·한승철</td></tr>
+    <tr><td>18</td><td>인스타 8장 캐러셀 표준 템플릿</td><td>Phase 4</td><td class="p2">★★</td><td>유나</td></tr>
+    <tr><td>19</td><td>라이브 스트리밍 시도 (인스타·小红书)</td><td>Phase 6</td><td class="p3">★</td><td>이서연</td></tr>
+    <tr><td>20</td><td>「우리 SaaS 학원」 통합 사업 모델</td><td>Phase 6+</td><td class="p1">★★★ 비전</td><td>대표님</td></tr>
+  </table>
+</section>
+
+<!-- C. 의사결정 흐름 -->
+<section>
+  <h2 class="sect"><span class="num">C</span>의사결정 흐름 — 매주 월요일</h2>
+  <div style="background:#fff;border-left:5px solid #FF4D7E;border-radius:10px;padding:18px 22px">
+    <p style="font-size:14px;color:#3D2818;line-height:1.85"><strong style="color:#FF4D7E">매주 월요일 09:00</strong> = 전직원 회의 (15분)<br>
+    1. 지난 주 성공/실패 1줄 보고<br>
+    2. 이번 주 Phase 목표 확인<br>
+    3. 막힌 결정 항목 → 대표님 즉시 결정<br>
+    4. 5직원 분배 확인<br>
+    <strong style="color:#FF4D7E">매주 토요일 16:00</strong> = 한 주 결과 보고서 + 다음 주 자료 준비 (대표님→원장님 일요일 공유)</p>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 실행 순서 v1.0 · 06-29 회의 후 즉시 정리 · 운영진 전용</p>
+  <p style="margin-top:6px"><a href="index.html">← 운영진 포털</a> · <a href="platform.html">외부 진입</a> · <a href="ARTbrows-플랫폼-비전-20260629.html">상세 비전</a> · <a href="회의-사진-갤러리-20260629.html">회의 사진</a></p>
+</footer>
+
+</body>
+</html>

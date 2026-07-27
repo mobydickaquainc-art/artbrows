@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>색소 3종 · 쇼핑몰 · 장미지 연구소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;font-size:14.5px;min-height:100vh}
+
+  .top-nav{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:14px 30px;display:flex;align-items:center;gap:18px;z-index:100}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+  .brand .logo{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7FB3FF,#A8D8FF);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;color:#0B0907}
+  .brand .name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#F5EDE3}
+  .brand .name em{color:#7FB3FF;font-style:normal}
+  .nav-right{margin-left:auto;display:flex;gap:14px;font-size:12.5px;color:#8A8A84}
+  .nav-right a{color:#7FB3FF;text-decoration:none;font-weight:700}
+
+  .hero{padding:48px 30px 32px;text-align:center;background:radial-gradient(ellipse at top,rgba(127,179,255,0.08),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#7FB3FF;font-weight:700;font-size:10.5px;letter-spacing:4px;padding:7px 20px;border-radius:24px;margin-bottom:16px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:38px;line-height:1.2;letter-spacing:-1px}
+  h1 em{font-style:normal;color:#7FB3FF}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:19px;color:#CBC8C1;margin-top:10px}
+  .sub{font-size:13px;color:#8A8A84;margin-top:14px;max-width:640px;margin-left:auto;margin-right:auto}
+
+  .container{max-width:1200px;margin:0 auto;padding:24px 30px 50px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#F5EDE3;margin:28px 0 16px;padding-bottom:10px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#7FB3FF;margin-right:10px;font-size:26px}
+
+  .members-notice{background:#161617;border:1px solid #2A2A2A;border-left:4px solid #7FB3FF;border-radius:10px;padding:16px 20px;margin-bottom:26px;font-size:13px;color:#CBC8C1;line-height:1.75}
+  .members-notice b{color:#7FB3FF}
+  .members-notice .grade{display:inline-block;font-family:'Cormorant Garamond',serif;font-weight:700;background:linear-gradient(135deg,#7FB3FF,#A8D8FF);color:#0B0907;padding:2px 10px;border-radius:12px;font-size:12px;margin-right:6px}
+
+  .products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.products{grid-template-columns:1fr}}
+
+  .product{background:#161617;border:1px solid #2A2A2A;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.15s,box-shadow 0.15s}
+  .product:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(127,179,255,0.12)}
+  .product .thumb{aspect-ratio:1;background:linear-gradient(180deg,var(--tint) 0%,#0B0907 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .product .thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.15),transparent 60%)}
+  .product .thumb .swatch{width:120px;height:120px;border-radius:50%;background:var(--sw);box-shadow:0 12px 40px rgba(0,0,0,0.5),inset 0 -20px 40px rgba(0,0,0,0.3);position:relative;z-index:2}
+  .product .thumb .badge{position:absolute;top:14px;right:14px;background:rgba(11,9,7,0.85);color:#7FB3FF;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;padding:4px 12px;border-radius:12px;border:1px solid #7FB3FF;z-index:3}
+  .product .body{padding:22px 22px 18px;flex:1;display:flex;flex-direction:column}
+  .product .name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:20px;color:#F5EDE3}
+  .product .name em{color:var(--acc);font-style:normal}
+  .product .subline{font-size:12px;color:#8A8A84;letter-spacing:1.5px;margin-top:4px;text-transform:uppercase;font-weight:700}
+  .product .desc{font-size:13px;color:#CBC8C1;margin-top:12px;line-height:1.7}
+  .product .use{font-size:11.5px;color:#8A8A84;margin-top:10px;padding:8px 12px;background:#0B0907;border-radius:8px;border:1px dashed #2A2A2A}
+  .product .use b{color:#E0C088}
+  .product .price{margin-top:16px;padding-top:14px;border-top:1px solid #2A2A2A;display:flex;justify-content:space-between;align-items:end;gap:12px}
+  .product .price .base{font-size:11px;color:#8A8A84}
+  .product .price .base .strike{text-decoration:line-through;opacity:0.6}
+  .product .price .mem{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#7FB3FF;line-height:1}
+  .product .price .mem .krw{font-size:13px;font-family:'Pretendard',sans-serif;margin-left:2px}
+  .product .cta{margin-top:16px;padding:12px 16px;background:#FEE500;color:#3D2818;border:none;border-radius:10px;font-family:inherit;font-weight:800;font-size:13.5px;cursor:pointer;text-decoration:none;text-align:center;display:block;transition:transform 0.1s}
+  .product .cta:hover{transform:translateY(-1px)}
+  .product .cta .k{color:#3D2818;font-weight:900}
+
+  .payment-info{background:#161617;border:1px solid #2A2A2A;border-radius:12px;padding:22px 24px;margin-top:30px;font-size:13px;color:#CBC8C1;line-height:1.75}
+  .payment-info h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:17px;color:#F5EDE3;margin-bottom:10px}
+  .payment-info b{color:#7FB3FF}
+  .payment-info ol{padding-left:22px;margin-top:8px}
+  .payment-info ol li{margin-bottom:6px}
+
+  footer{margin-top:40px;padding:22px 30px;background:#0a0908;color:#8A8A84;text-align:center;font-size:11.5px;border-top:1px solid #2A2A2A}
+  footer a{color:#7FB3FF;text-decoration:none;margin:0 8px}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a class="brand" href="장미지-연구소.html">
+    <img src="artbrows-logo.png" alt="ARTbrows" style="height:34px;width:auto;filter:brightness(0) invert(1) sepia(1) saturate(0) hue-rotate(0) brightness(1.4);opacity:0.95">
+    <div class="name">쇼핑몰 <em>· 색소</em></div>
+  </a>
+  <div class="nav-right">
+    <a href="장미지-연구소.html">← 4 SaaS 메뉴</a>
+    <a href="index.html">운영진 포털 →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="chip">PIGMENTS · PHASE 1 · 색소 3종</div>
+  <h1>극사실 아트 눈썹 <em>전용 색소</em></h1>
+  <p class="lead">30년 노하우 · 자연 페이딩 배합 · 3종 세트</p>
+  <p class="sub">브라운 · 블랙 · 앰버. 장미지 원장이 30년간 시술 실전에서 배합한 3종. K1 수강생 회원가 · 일반가 이중 구조.</p>
+</div>
+
+<div class="container">
+
+  <div class="members-notice">
+    <span class="grade">K1 회원</span>수강생이면 즉시 <b>20% 우대가</b> 자동 적용. 로그인 후 주문 시 확인 · SaaS A(학원) 회원 = 이 쇼핑몰 고객 <b>DB 통합</b>. 별도 가입 없음.
+  </div>
+
+  <h2><span class="num">01</span>브라운 · 블랙 · 앰버</h2>
+  <div class="products">
+
+    <!-- 브라운 -->
+    <div class="product" style="--tint:#3D2818;--sw:radial-gradient(circle at 30% 30%,#8B5A3C,#3D2818);--acc:#C99A6E">
+      <div class="thumb">
+        <div class="badge">01 · BROWN</div>
+        <div class="swatch"></div>
+      </div>
+      <div class="body">
+        <div class="name">극사실 <em>브라운</em></div>
+        <div class="subline">SIGNATURE · WARM MID</div>
+        <p class="desc">가장 많이 나가는 표준. 아시아 자연 눈썹 색과 8:2 커버 완벽 매칭. 자연 페이딩으로 3~5년 지나도 붉은 톤 X.</p>
+        <div class="use"><b>사용처</b> · 자연 눈썹 커버 · 극사실 결 표현 · 8:2 그림자 라인</div>
+        <div class="price">
+          <div class="base">
+            <div class="strike">일반가 65,000원</div>
+            <div>K1 수강생 우대가</div>
+          </div>
+          <div class="mem">52,000<span class="krw">원</span></div>
+        </div>
+        <a href="https://open.kakao.com/o/gWeAkSzi" target="_blank" rel="noopener" class="cta">💬 <span class="k">카카오로 문의·주문</span></a>
+      </div>
+    </div>
+
+    <!-- 블랙 -->
+    <div class="product" style="--tint:#1A1A1B;--sw:radial-gradient(circle at 30% 30%,#4A4A4B,#0B0907);--acc:#B8B8B0">
+      <div class="thumb">
+        <div class="badge">02 · BLACK</div>
+        <div class="swatch"></div>
+      </div>
+      <div class="body">
+        <div class="name">극사실 <em>블랙</em></div>
+        <div class="subline">DEFINITION · DARK ACCENT</div>
+        <p class="desc">라인 강조·아이라이너·짙은 눈썹 프로필용. 브라운과 3:7 믹싱해서 「선명한 결」을 만드는 핵심.</p>
+        <div class="use"><b>사용처</b> · 라인 정의 · 아이라이너 · 브라운 믹싱 (3:7)</div>
+        <div class="price">
+          <div class="base">
+            <div class="strike">일반가 65,000원</div>
+            <div>K1 수강생 우대가</div>
+          </div>
+          <div class="mem">52,000<span class="krw">원</span></div>
+        </div>
+        <a href="https://open.kakao.com/o/gWeAkSzi" target="_blank" rel="noopener" class="cta">💬 <span class="k">카카오로 문의·주문</span></a>
+      </div>
+    </div>
+
+    <!-- 앰버 -->
+    <div class="product" style="--tint:#5C3A1E;--sw:radial-gradient(circle at 30% 30%,#C68851,#5C3A1E);--acc:#E0A76B">
+      <div class="thumb">
+        <div class="badge">03 · AMBER</div>
+        <div class="swatch"></div>
+      </div>
+      <div class="body">
+        <div class="name">극사실 <em>앰버</em></div>
+        <div class="subline">WARM UNDERTONE · COVER</div>
+        <p class="desc">붉은 톤 커버·자연 밝은 눈썹용. 브라운 언더로 깔면 오래된 갈색을 자연스럽게 살려내는 마법.</p>
+        <div class="use"><b>사용처</b> · 붉은 톤 커버 · 언더 톤 · 밝은 눈썹</div>
+        <div class="price">
+          <div class="base">
+            <div class="strike">일반가 65,000원</div>
+            <div>K1 수강생 우대가</div>
+          </div>
+          <div class="mem">52,000<span class="krw">원</span></div>
+        </div>
+        <a href="https://open.kakao.com/o/gWeAkSzi" target="_blank" rel="noopener" class="cta">💬 <span class="k">카카오로 문의·주문</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <h2><span class="num">02</span>주문·결제 안내</h2>
+  <div class="payment-info">
+    <h3>🚚 지금은 「카카오 상담 → 계좌이체」 방식</h3>
+    <ol>
+      <li>제품 카드의 <b>💬 카카오로 문의·주문</b> 클릭 → K1 채널 오픈</li>
+      <li>제품·수량 알려주기 (예: <b>「브라운 2개, 앰버 1개」</b>)</li>
+      <li>K1 회원 여부 확인 → 우대가 자동 적용 후 <b>계좌·수량 확정</b></li>
+      <li>계좌이체 → 익일 발송 · 택배 조회번호 카톡 전송</li>
+    </ol>
+    <div style="margin-top:14px;padding:12px 14px;background:#0B0907;border-left:3px solid #E0C088;border-radius:6px;font-size:12.5px;color:#CBC8C1;line-height:1.7">
+      💡 <b style="color:#E0C088">Phase 2 자동화 (판매업 신고 후)</b> · 토스·카카오페이 온라인 결제 · 회원 마이페이지에서 주문 이력·재구매 원클릭 · SaaS A(학원) 회원 DB 그대로 사용
+    </div>
+  </div>
+
+  <h2><span class="num">03</span>다음 Phase 로드맵</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px" onclick="return true">
+    <div style="background:#161617;border:1px solid #2A2A2A;border-top:4px solid #7FB3FF;border-radius:12px;padding:16px">
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;color:#7FB3FF">P1</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#F5EDE3;margin-top:4px">색소 3종</div>
+      <div style="font-size:11.5px;color:#8A8A84;margin-top:6px">✅ NOW LIVE · 브라운·블랙·앰버 · 카톡 주문</div>
+    </div>
+    <div style="background:#161617;border:1px solid #2A2A2A;border-top:4px solid #A8E6B3;border-radius:12px;padding:16px">
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;color:#A8E6B3">P2</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#F5EDE3;margin-top:4px">굿즈</div>
+      <div style="font-size:11.5px;color:#8A8A84;margin-top:6px">앞치마·연습패드·노트·명함 · 판매업 신고 후</div>
+    </div>
+    <div style="background:#161617;border:1px solid #2A2A2A;border-top:4px solid #FF4D7E;border-radius:12px;padding:16px">
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;color:#FF4D7E">P3</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#F5EDE3;margin-top:4px">시술 도구</div>
+      <div style="font-size:11.5px;color:#8A8A84;margin-top:6px">니들·홀더·머신 · KC 인증 심사</div>
+    </div>
+    <div style="background:#161617;border:1px solid #2A2A2A;border-top:4px solid #E0C088;border-radius:12px;padding:16px">
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;color:#E0C088">P3</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#F5EDE3;margin-top:4px">자재</div>
+      <div style="font-size:11.5px;color:#8A8A84;margin-top:6px">알콜·거즈·마스크·크림 · 정기 구독 모델</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 장미지 연구소 · ARTbrows 쇼핑몰 Phase 1 · 2026-07-06 ·
+  <a href="장미지-연구소.html">4 SaaS 메뉴</a> ·
+  <a href="쇼핑몰-준비-체크리스트-20260622.html">준비 체크리스트</a>
+</footer>
+
+</body>
+</html>

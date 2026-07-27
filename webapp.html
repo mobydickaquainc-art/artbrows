@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>콘텐츠 자동화 웹앱 · 준비 중 — ARTbrows</title>
+<style>
+  :root{
+    --apricot:#FBEAE2; --cream:#FFFBF5; --ink:#3A2A26; --muted:#9A6A5E;
+    --coral:#FF7A66; --hotpink:#FF6F84; --line:#F0D6CC; --plum:#5A3A4A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--apricot);color:var(--ink);
+    font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;line-height:1.7;
+    min-height:100vh;display:flex;flex-direction:column}
+  .serif{font-family:'Nanum Myeongjo','Apple SD Gothic Neo',serif}
+  a{color:inherit;text-decoration:none}
+  .eyebrow{letter-spacing:.4em;font-size:11.5px;color:var(--coral);font-weight:800}
+  .top{padding:18px 26px}
+  .top a{font-weight:800;font-size:18px}
+  .top a span{color:var(--coral)}
+  main{flex:1;max-width:860px;margin:0 auto;padding:40px 22px 60px;text-align:center}
+  .soon{display:inline-block;background:#FCEFD9;color:#B9831F;font-weight:800;font-size:12.5px;
+    padding:5px 14px;border-radius:999px;margin-bottom:18px}
+  h1{font-size:40px;font-weight:400;line-height:1.35;margin-bottom:16px}
+  h1 em{font-style:normal;color:var(--hotpink)}
+  .lead{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto 40px}
+  /* flow */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:10px 0 36px}
+  .node{background:var(--cream);border-radius:16px;padding:22px 14px;box-shadow:0 6px 18px rgba(232,169,155,.16);position:relative}
+  .node .ic{width:40px;height:40px;border-radius:12px;margin:0 auto 12px;
+    background:linear-gradient(135deg,#FF8FA3,#FF7A66);color:#fff;font-weight:800;
+    display:flex;align-items:center;justify-content:center}
+  .node h4{font-size:14.5px}
+  .node p{font-size:12px;color:var(--muted);margin-top:4px}
+  .node:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+    color:var(--coral);font-weight:800;z-index:2}
+  .panel{background:var(--cream);border-radius:20px;padding:28px 30px;text-align:left;
+    box-shadow:0 6px 18px rgba(232,169,155,.16);margin-bottom:18px}
+  .panel h3{font-size:17px;margin-bottom:10px}
+  .panel ul{list-style:none}
+  .panel li{position:relative;padding-left:20px;margin:8px 0;font-size:14.5px;color:#5a4540}
+  .panel li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--coral)}
+  .note{background:#FFF3EF;border:1px dashed var(--coral);border-radius:12px;padding:12px 16px;
+    font-size:13px;color:var(--muted)}
+  .btn{display:inline-block;background:#fff;color:var(--ink);border:1px solid var(--line);
+    font-weight:800;padding:12px 26px;border-radius:999px;margin-top:26px}
+  .btn:hover{border-color:var(--coral);color:var(--coral)}
+  footer{background:var(--plum);color:#F6E6DF;text-align:center;padding:26px;font-size:12.5px;opacity:.95}
+  @media(max-width:700px){.flow{grid-template-columns:1fr 1fr}.node:not(:last-child)::after{display:none}h1{font-size:30px}}
+</style>
+</head>
+<body>
+  <div class="top"><a href="index.html">← ART<span>brows</span> 홈</a></div>
+  <main>
+    <span class="soon">○ Phase 3 · 준비 중</span>
+    <h1 class="serif">콘텐츠 자동화 <em>웹앱</em></h1>
+    <p class="lead">블로그·인스타 콘텐츠를 자동으로 생성하는 웹앱입니다. 지금 손으로 검증 중인 제작 과정을, 단계가 무르익으면 이 자리에서 자동화합니다.</p>
+
+    <div class="flow">
+      <div class="node"><div class="ic">1</div><h4>입력</h4><p>주제·톤·소재</p></div>
+      <div class="node"><div class="ic">2</div><h4>자동 생성</h4><p>카드·쇼츠·블로그</p></div>
+      <div class="node"><div class="ic">3</div><h4>검수</h4><p>사람 확인</p></div>
+      <div class="node"><div class="ic">4</div><h4>발행</h4><p>인스타·블로그</p></div>
+    </div>
+
+    <div class="panel">
+      <h3>예정 기능 (구상)</h3>
+      <ul>
+        <li>주제만 넣으면 모집 카드 세트·쇼츠·블로그 글 초안을 자동 생성</li>
+        <li>Phase 1에서 검증된 프롬프트 템플릿을 그대로 엔진화</li>
+        <li>브랜드 톤(살구핑크·럭셔리)·"상담 신청" CTA 자동 적용</li>
+        <li>사람 검수 후 발행 — 실제 시술·얼굴은 실제 사진만(AI 금지) 유지</li>
+      </ul>
+    </div>
+
+    <div class="panel" style="text-align:left">
+      <h3>🟢 사용 가능 메뉴 (Beta)</h3>
+      <ul style="list-style:none;padding:0;margin:0">
+        <li style="padding-left:0;margin:10px 0">
+          <a href="translate-zh.html" style="display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:all .12s">
+            <span style="font-size:28px">🎬</span>
+            <span style="flex:1">
+              <b style="font-size:15px;display:block">중국어 강의 번역</b>
+              <span style="font-size:12.5px;color:var(--muted)">중국 세미나 영상을 한국어 자막으로 — 영상 옆 텍스트 패널 표시 (drag·drop / 클릭 업로드)</span>
+            </span>
+            <span style="font-size:11.5px;font-weight:800;background:#FFE0E5;color:#C5365C;padding:4px 10px;border-radius:99px">BETA</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="note">🟡 나머지 자동화 기능은 단계적으로 추가됩니다. (하네스 공법 — 개발 결정은 대표님 확인 우선)</div>
+
+    <a class="btn" href="index.html">← 포털 홈으로 돌아가기</a>
+  </main>
+  <footer>ARTbrows 통합 포털 · 콘텐츠 자동화 웹앱은 Phase 3에서 개발 예정입니다</footer>
+</body>
+</html>

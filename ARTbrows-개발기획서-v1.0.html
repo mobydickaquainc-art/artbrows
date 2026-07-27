@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ARTbrows Platform 전체 개발 기획서 v1.2 — 임원진 전용</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.75;font-size:15px}
+
+  /* Top Bar */
+  .top{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:14px 30px;display:flex;justify-content:space-between;align-items:center;z-index:100}
+  .brand{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#E0C088}
+  .brand em{color:#F5EDE3;font-style:normal}
+  .meta-chip{font-size:11px;color:#8A8A84;letter-spacing:2px}
+
+  /* Hero */
+  .hero{padding:80px 30px 60px;text-align:center;background:radial-gradient(ellipse at top,rgba(224,192,136,0.08),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:10.5px;letter-spacing:5px;padding:8px 22px;border-radius:24px;margin-bottom:22px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:56px;line-height:1.15;letter-spacing:-1.5px;margin-bottom:18px}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;color:#CBC8C1;margin-top:14px}
+  .doc-meta{margin-top:30px;font-size:12.5px;color:#8A8A84;letter-spacing:1px}
+  .doc-meta span{margin:0 12px;color:#E0C088}
+
+  /* Layout */
+  .layout{max-width:1280px;margin:0 auto;padding:0 30px;display:grid;grid-template-columns:240px 1fr;gap:40px}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+  /* TOC */
+  .toc{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;border-right:1px solid #2A2A2A;padding-right:20px}
+  .toc h4{font-family:'Nanum Myeongjo',serif;color:#E0C088;font-size:13px;letter-spacing:3px;margin-bottom:14px}
+  .toc a{display:block;color:#CBC8C1;text-decoration:none;font-size:13px;padding:7px 10px;border-radius:6px;transition:all 0.2s;margin-bottom:2px}
+  .toc a:hover{background:#161617;color:#E0C088}
+  .toc a.num{color:#8A8A84;margin-right:8px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px}
+
+  /* Main */
+  main{padding-bottom:80px}
+  section{margin-bottom:60px;scroll-margin-top:80px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;color:#F5EDE3;padding-bottom:14px;border-bottom:1px solid #2A2A2A;margin-bottom:24px}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#E0C088;margin-right:14px;font-size:36px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#E0C088;font-size:19px;margin:24px 0 12px}
+  p{margin-bottom:16px;color:#CBC8C1}
+  strong{color:#F5EDE3}
+  em{color:#E0C088;font-style:normal}
+
+  /* Tables */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0 22px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid #2A2A2A;color:#CBC8C1;vertical-align:top}
+  th{background:#161617;color:#E0C088;font-weight:700;font-size:12px;letter-spacing:1px}
+  td.win{color:#A8E6B3;font-weight:700}
+  td.warn{color:#FF4D7E;font-weight:700}
+
+  /* Cards (3 SaaS) */
+  .saas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
+  @media(max-width:900px){.saas-grid{grid-template-columns:1fr}}
+  .saas-card{background:#161617;border-top:5px solid var(--c);border-radius:14px;padding:24px;position:relative}
+  .saas-card.a{--c:#FFB78A}
+  .saas-card.b{--c:#FF4D7E}
+  .saas-card.c{--c:#A8E6B3}
+  .saas-card .badge{font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--c);font-weight:700;line-height:1}
+  .saas-card .label{font-size:10.5px;color:var(--c);font-weight:700;letter-spacing:2px;margin-top:4px}
+  .saas-card h4{font-family:'Nanum Myeongjo',serif;color:#F5EDE3;font-size:18px;margin:8px 0 6px}
+  .saas-card .pm{font-size:12.5px;color:#8A8A84;margin-bottom:10px}
+  .saas-card p{font-size:13px;line-height:1.7;color:#CBC8C1}
+
+  /* KPI box */
+  .kpi-box{background:linear-gradient(135deg,#1A0E08,#161617);border:1px solid #E0C088;border-radius:14px;padding:28px;margin:24px 0;text-align:center}
+  .kpi-box .big{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:64px;color:#E0C088;line-height:1}
+  .kpi-box .label{font-size:13px;color:#CBC8C1;margin-top:8px;letter-spacing:2px}
+
+  /* Decision states */
+  .status-ok{color:#A8E6B3;font-weight:700}
+  .status-wait{color:#FFB78A;font-weight:700}
+  .status-block{color:#FF4D7E;font-weight:700}
+
+  /* Quote */
+  blockquote{border-left:4px solid #E0C088;background:#161617;padding:18px 24px;margin:24px 0;font-family:'Nanum Myeongjo',serif;font-size:17px;color:#F5EDE3;font-weight:700;line-height:1.7;border-radius:0 10px 10px 0}
+
+  /* Lists */
+  ul,ol{padding-left:24px;margin-bottom:16px}
+  li{margin-bottom:8px;color:#CBC8C1}
+  li::marker{color:#E0C088}
+
+  /* Code */
+  code{background:#161617;color:#E0C088;padding:2px 8px;border-radius:4px;font-family:Consolas,monospace;font-size:13px;border:1px solid #2A2A2A}
+  pre{background:#0a0908;border:1px solid #2A2A2A;border-radius:10px;padding:18px 22px;font-family:Consolas,monospace;font-size:12.5px;line-height:1.8;overflow-x:auto;color:#CBC8C1;margin:14px 0}
+
+  /* Footer */
+  footer{background:#000;color:#8A8A84;text-align:center;padding:32px 30px;border-top:1px solid #2A2A2A;font-size:12px}
+  footer a{color:#E0C088;text-decoration:none;margin:0 8px}
+
+  /* Download bar */
+  .actions{background:#161617;border-radius:14px;padding:20px 24px;margin:24px 0;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;border:1px solid #2A2A2A}
+  .actions a{background:#E0C088;color:#0B0907;padding:11px 22px;border-radius:8px;font-weight:800;font-size:13.5px;text-decoration:none;letter-spacing:1px}
+  .actions a:hover{background:#F5EDE3}
+  .actions a.ghost{background:transparent;color:#E0C088;border:1.5px solid #E0C088}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="brand">ART<em>brows</em> · 전체 개발 기획서 v1.2</div>
+  <div class="meta-chip">★ 임원진 전용 · v1.2 갱신 2026-07-13 오후</div>
+</div>
+
+<div class="hero">
+  <div class="chip">OFFICIAL PRD · v1.2 · CONFIDENTIAL</div>
+  <h1>ARTbrows Platform<br><em>전체 개발 기획서</em></h1>
+  <p class="lead">"극사실 아트 눈썹" 디지털 트윈 — 미용 업계 3 SaaS 통합</p>
+  <div class="doc-meta">
+    문서 v1.2 <span>·</span> 2026-07-13 오후 갱신 (v1.1 오전 · v1.0 초안 06-30) <span>·</span> 박정주 대표 / 장미지 원장 <span>·</span> 클로드 + 8 직원
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- 좌측 네비 -->
+  <aside class="toc">
+    <h4>목차</h4>
+    <a href="#s0"><span class="num">0</span>Executive Summary</a>
+    <a href="#s1"><span class="num">1</span>사업 배경 · 비전</a>
+    <a href="#s2"><span class="num">2</span>시장 · 경쟁 분석</a>
+    <a href="#s3"><span class="num">3</span>타겟 · 페르소나</a>
+    <a href="#s4"><span class="num">4</span>제품 정의 (3 SaaS)</a>
+    <a href="#s5"><span class="num">5</span>기능 명세</a>
+    <a href="#s6"><span class="num">6</span>기술 아키텍처</a>
+    <a href="#s7"><span class="num">7</span>디자인 시스템</a>
+    <a href="#s8"><span class="num">8</span>데이터 모델</a>
+    <a href="#s9"><span class="num">9</span>외부 API</a>
+    <a href="#s10"><span class="num">10</span>보안 · 컴플라이언스</a>
+    <a href="#s11"><span class="num">11</span>개발 일정</a>
+    <a href="#s12"><span class="num">12</span>수익 · KPI ★</a>
+    <a href="#s13"><span class="num">13</span>리스크</a>
+    <a href="#s14"><span class="num">14</span>8 직원 조직</a>
+    <a href="#s15"><span class="num">15</span>자율 발전</a>
+    <a href="#s16"><span class="num">16</span>결정 · 대기</a>
+    <a href="#s17"><span class="num">17</span>부록</a>
+  </aside>
+
+  <main>
+
+    <!-- 다운로드 액션 -->
+    <div class="actions">
+      <a href="artbrows-platform-py/docs/ARTbrows-개발기획서-v1.0.md" target="_blank">📄 Markdown 원문 (v1.2)</a>
+      <a href="artbrows-platform-py/docs/MEETING-2026-07-13-MINUTES.md" target="_blank">📝 07-13 회의록 (v1.1 근거)</a>
+      <a href="artbrows-platform-py/docs/MEETING-2026-07-06-MINUTES.md" target="_blank" class="ghost">07-06 회의록</a>
+      <a href="artbrows-platform-py/docs/MASTER-PLAN-2026-06-29.md" target="_blank" class="ghost">마스터 플랜</a>
+      <a href="artbrows-platform-py/docs/REVIEW-2026-06-30-v2-dialogue.md" target="_blank" class="ghost">점검 회의 (대화)</a>
+    </div>
+
+    <!-- v1.1 변경 요약 -->
+    <section id="v11" style="background:linear-gradient(135deg,#FFF4E6,#FFE4CC);border-left:4px solid #E0A040;padding:20px 24px;margin:16px 0;border-radius:12px">
+      <h2 style="margin-top:0;color:#8B5A00">📌 v1.1 변경 요약 (2026-07-13)</h2>
+      <p style="margin-bottom:12px"><b>07-13 (월) 09:23 전체 회의 (66분 10초)</b> · 회장님·대표님·원장님 참석 · <b>확정 결정 10건</b> 반영</p>
+      <ul style="margin:0;padding-left:20px;line-height:1.9">
+        <li>🌐 <b>도메인 확정</b> — <code>artbrow.co.kr</code> (가비아 · 법인 결제 · 14,000원/년)</li>
+        <li>🎯 <b>1차 오픈일 이동</b> — 08-10 → <b>2026-08월 말</b> (회장님 미국 출국 전)</li>
+        <li>📋 <b>개발 순서 3단계 정립</b> — ①홍보 홈페이지+상담 → ②간단 LMS → ③쇼핑몰 결제</li>
+        <li>💳 <b>결제 범위 축소</b> — 이지 클래스 <b>69만원만</b> (온라인 강의 판매 X)</li>
+        <li>🏠 <b>결제 방식</b> — 홈페이지 자체 결제 (인스타 결제 X · DB 확보)</li>
+        <li>🛒 <b>쇼핑몰 방식</b> — <b>카페24 확정</b> (v1.2 · 오후 대표님 결정) · 자체 개발 X</li>
+        <li>📐 <b>웹 기획 담당</b> — 대표님 쪽 (본부장 이서연 상시 픽스)</li>
+        <li>🔧 <b>백엔드 인력</b> — 박대표 백엔드 전문가 활용 (별도 비용 X)</li>
+        <li>🇸🇬 <b>싱가폴 진출</b> — 브로우 하우스 3안 프로포즈 (팝업·정기방문·아카데미)</li>
+        <li>🌏 <b>외국인 마케팅</b> — B2B 에이전시 우선 · 인스타 글로벌 계정 보조</li>
+      </ul>
+    </section>
+
+    <!-- 0. Executive Summary -->
+    <section id="s0">
+      <h2><span class="num">0</span>Executive Summary</h2>
+
+      <blockquote>
+        ARTbrows Platform은 「극사실 아트 눈썹 창시자 장미지 원장의 30년 노하우」를 디지털 트윈화한 <em>미용 업계 3 SaaS 통합 플랫폼</em>이다.
+      </blockquote>
+
+      <div class="saas-grid">
+        <div class="saas-card a">
+          <div class="badge">A</div>
+          <div class="label">SAAS · 학원·강의·홈페이지</div>
+          <h4>학원 운영 자동화</h4>
+          <div class="pm">PM · 김다은 (32세)</div>
+          <p>원장님 매월 손작업 디지털화. 강의 일정 + 마스터 작품 + 회원 3등급 + 공모전.</p>
+        </div>
+        <div class="saas-card b">
+          <div class="badge">B</div>
+          <div class="label">SAAS · 수강생·시술자 광고</div>
+          <h4>광고 DIY 마케팅</h4>
+          <div class="pm">PM · 박서윤 (29세)</div>
+          <p>사진 1장 → 멀티 플랫폼 자동 광고. 월 5~15만 구독 (DIY).</p>
+        </div>
+        <div class="saas-card c">
+          <div class="badge">C</div>
+          <div class="label">SAAS · Face Lab v7</div>
+          <h4>펜슬 디지털 트윈</h4>
+          <div class="pm">PM · 최예진 (31세)</div>
+          <p>정면+측면 → 원장님 30년 패턴 매칭 → 2D + 3D. Unreal MetaHuman.</p>
+        </div>
+      </div>
+
+      <h3>3개월 KPI 목표 (베타 후)</h3>
+      <div class="kpi-box">
+        <div class="big">약 3.2억</div>
+        <div class="label">3개월 매출 추정 · 순이익률 80%+</div>
+      </div>
+
+      <table>
+        <tr><th>단계</th><th>수치</th><th>매출</th></tr>
+        <tr><td>SaaS C 시뮬 사용자</td><td>10,000명</td><td>—</td></tr>
+        <tr><td>상담 신청 (15%)</td><td>1,500건 × 19,000원</td><td class="win">2,850만원</td></tr>
+        <tr><td>시술 전환 (30%)</td><td>450건 × 50만원</td><td class="win">2.25억원</td></tr>
+        <tr><td>★ 수강 전환 (시술 후 5%)</td><td>22.5명 × 200만원</td><td class="win">4,500만원</td></tr>
+        <tr><td>SaaS B 구독</td><td>50명 × 10만원/월</td><td class="win">1,500만원</td></tr>
+        <tr><td>A2 B2B 라이센스</td><td>5 학원 × 20만원/월</td><td class="win">300만원</td></tr>
+      </table>
+
+      <h3>개발 일정</h3>
+      <ul>
+        <li><strong>06-30 (오늘)</strong> · 본격 가동 + 8 직원 단톡방 미친 진척</li>
+        <li><strong>07-01·02</strong> · 검증·통합 데이 (보강에서 가속 전환)</li>
+        <li><strong>07-03</strong> · 본격 개발 시작</li>
+        <li><strong>★ 07-07</strong> · SaaS A 정식 가동 (회복 가능)</li>
+        <li><strong>07-21</strong> · 베타 오픈</li>
+      </ul>
+    </section>
+
+    <!-- 1. 사업 배경 -->
+    <section id="s1">
+      <h2><span class="num">1</span>사업 배경 · 비전</h2>
+
+      <h3>1.1 배경</h3>
+      <p>ARTbrows / 장미지눈썹연구소는 한국 반영구 1위 아카데미. 30년 노하우의 핵심은 <em>시술 전 펜슬로 결과를 미리 그려주는 정확성</em>이며, 이로 인해 클레임이 거의 발생하지 않고 고객 만족도가 압도적이다.</p>
+
+      <h3>1.2 비전</h3>
+      <blockquote>
+        「미용 업계의 모비딕 상세페이지 플랫폼」<br>
+        모비딕이 제품 → 상세페이지 자동으로 셀러 시장을 점유했듯,<br>
+        ARTbrows는 사진·강의 → 멀티 콘텐츠로 미용 업계를 점유한다.
+      </blockquote>
+
+      <h3>1.3 핵심 메시지</h3>
+      <table>
+        <tr><th>언어</th><th>키워드</th></tr>
+        <tr><td>한국어 ★</td><td><strong>극사실 아트 눈썹</strong></td></tr>
+        <tr><td>영문</td><td><strong>Hyperreal Art Brows</strong></td></tr>
+        <tr><td>중국 (벤치마크)</td><td>超写实野生眉 (시장 트렌드)</td></tr>
+        <tr><td>중국 (우리)</td><td>极写实艺术眉 (직역)</td></tr>
+      </table>
+      <p>※ 「야생」 표현 폐기 (06-30 결정). 한국 시장 어색.</p>
+    </section>
+
+    <!-- 2. 시장 분석 -->
+    <section id="s2">
+      <h2><span class="num">2</span>시장 분석 · 경쟁사 · 벤치마크</h2>
+
+      <h3>2.1 한국 시장</h3>
+      <table>
+        <tr><th>경쟁사</th><th>강점</th><th>약점</th></tr>
+        <tr><td>유미코리아</td><td>인지도 · 강의 인프라</td><td>디지털 부재 · 일반 톤</td></tr>
+        <tr><td>강남 살롱 다수</td><td>위치 · 단발 매출</td><td>학원·플랫폼 X</td></tr>
+        <tr><td>기타 학원</td><td>가격</td><td>노하우 부족</td></tr>
+      </table>
+
+      <p><strong>ARTbrows 우위:</strong> 「극사실눈썹 창시자」 단일 권위 + 30년 패턴 DB + 모비딕 검증된 자동화 패턴 + 직접 운영 학원.</p>
+
+      <h3>2.2 중국 시장 (벤치마크)</h3>
+      <p>원장님 자료 12 계정 분석:</p>
+      <table>
+        <tr><th>계정</th><th>인기</th><th>패턴</th></tr>
+        <tr><td>化妆师王崇</td><td class="win">2,600 좋아요</td><td>LIVE 스트리밍</td></tr>
+        <tr><td>Rubyyy_</td><td>1,400 좋아요</td><td>메이크업 분석 캐러셀</td></tr>
+        <tr><td>九朽美学教育总部-青岚</td><td>35 좋아요</td><td>「超写实野生眉」 학원 (직접 경쟁)</td></tr>
+        <tr><td>眉匠美學 DR.EYEBR</td><td>67 좋아요</td><td>After/Before + LIVE</td></tr>
+      </table>
+      <p><strong>시사점:</strong> LIVE 스트리밍 40배 인기 → SaaS B 신규 모듈 (LIVE 카드)</p>
+    </section>
+
+    <!-- 3. 타겟 -->
+    <section id="s3">
+      <h2><span class="num">3</span>타겟 · 페르소나</h2>
+
+      <h3>3.1 2 타겟 분류</h3>
+      <table>
+        <tr><th>타겟</th><th>설명</th><th>메인 SaaS</th></tr>
+        <tr><td>① 시술 받는 사람 (B2C 손님)</td><td>결과 미리 보고 싶다 · 클레임 무서움</td><td>C → A</td></tr>
+        <tr><td>② 배우는 사람 (수강생·살롱 강사)</td><td>기술 부족 · 클레임 두려움 · 수강료 부담</td><td>A → B</td></tr>
+      </table>
+
+      <h3>3.2 시술자 9 단계 결정 흐름 (이서연 작성)</h3>
+      <ol>
+        <li><strong>인지</strong> — 인스타 스토리에서 「극사실 아트 눈썹 BEFORE/AFTER」 노출</li>
+        <li><strong>관심</strong> — 「Face Lab 무료 체험」 클릭</li>
+        <li><strong>체험</strong> — 정면+측면 업로드 (카카오 SSO 선택)</li>
+        <li><strong>결과</strong> — 2D 펜슬 + 3D 360° (체험용 워터마크)</li>
+        <li><strong>공유</strong> — 카톡·인스타 1탭</li>
+        <li><strong>상담</strong> — 1탭 「실제 시술 받기」</li>
+        <li><strong>결제</strong> — 예약금 19,000원 (Toss)</li>
+        <li><strong>시술</strong> — 오프라인 (선릉·봉은사)</li>
+        <li><strong>★ 수강 전환</strong> — 「같은 기술 배우고 싶으세요?」 → SaaS A funnel <em>(김다은 발견)</em></li>
+      </ol>
+
+      <h3>3.3 회원 등급</h3>
+      <table>
+        <tr><th>등급</th><th>권한</th><th>차별화</th></tr>
+        <tr><td>일반회원</td><td>무료 시뮬</td><td>공개 게시판</td></tr>
+        <tr><td>정회원</td><td>결제 후 (시술/수강)</td><td>정회원 게시판 + 마스터 작품 일부</td></tr>
+        <tr><td>VIP 회원</td><td>평생수강 + 다회 시술</td><td>1:1 코칭 + 전체 자료</td></tr>
+      </table>
+    </section>
+
+    <!-- 4. 제품 정의 -->
+    <section id="s4">
+      <h2><span class="num">4</span>제품 정의 — 3 SaaS · 23 메뉴</h2>
+
+      <h3>SaaS A · 학원·강의 (7 메뉴)</h3>
+      <table>
+        <tr><th>#</th><th>메뉴</th><th>상태</th></tr>
+        <tr><td>A1</td><td>다음달 강의 일정 + 등록 달력 ★ MVP</td><td class="win">코드 완성</td></tr>
+        <tr><td>A2</td><td>강의 내용 자동 스타일링 ★ MVP</td><td class="win">코드 완성</td></tr>
+        <tr><td>A3</td><td>마스터 작품집 + 패턴 DB 연결</td><td>Phase 2</td></tr>
+        <tr><td>A4</td><td>회원 3등급 + 가입 2모드</td><td>Phase 2</td></tr>
+        <tr><td>A5</td><td>공모전 시스템</td><td>Phase 3</td></tr>
+        <tr><td>A6</td><td>자체 홈페이지 자동 갤러리</td><td>Phase 3</td></tr>
+        <tr><td>A7</td><td>장미지 디지털 분신</td><td>Phase 2</td></tr>
+      </table>
+
+      <h3>SaaS B · 광고 (9 메뉴)</h3>
+      <p>모델: <strong>DIY</strong> (사용자 자기 광고 계정 OAuth · 월 5~15만 구독)</p>
+      <table>
+        <tr><th>#</th><th>메뉴</th><th>상태</th></tr>
+        <tr><td>B1</td><td>광고 카피 자동 ★ MVP</td><td class="win">PoC 완료</td></tr>
+        <tr><td>B2</td><td>이미지·영상 자동</td><td>Phase 2</td></tr>
+        <tr><td>B3</td><td>광고 직접 집행 (3 API)</td><td>Phase 2</td></tr>
+        <tr><td>B4</td><td>효과 측정 + 자동 최적화</td><td>Phase 3</td></tr>
+        <tr><td>B5</td><td>예산 초과 알림 (텔레그램·카카오)</td><td>Phase 3</td></tr>
+        <tr><td>B6</td><td>「내 계정」 자기 패턴 학습</td><td>Phase 3</td></tr>
+        <tr><td>B7</td><td>AEO/GEO</td><td>Phase 4</td></tr>
+        <tr><td>B8</td><td>한·중·영 번역</td><td>Phase 4</td></tr>
+        <tr><td>B9</td><td>연관 키워드 분석</td><td>Phase 3</td></tr>
+      </table>
+
+      <h3>SaaS C · Face Lab v7 (7 메뉴)</h3>
+      <table>
+        <tr><th>#</th><th>메뉴</th><th>상태</th></tr>
+        <tr><td>C1</td><td>정면+측면 사진 분석 ★ MVP</td><td>골격</td></tr>
+        <tr><td>C2</td><td>원장님 패턴 DB 매칭</td><td class="win">100 케이스 분류</td></tr>
+        <tr><td>C3</td><td>2D 펜슬 가이드 PNG</td><td>Phase 2</td></tr>
+        <tr><td>C4</td><td>3D MetaHuman 모델</td><td class="win">「수아」 첫 4컷</td></tr>
+        <tr><td>C5</td><td>카카오 1탭 상담</td><td>Phase 2</td></tr>
+        <tr><td>C6</td><td>시술 사진 자동 분류</td><td>Phase 3</td></tr>
+        <tr><td>C7</td><td>클레임 예방 가드</td><td>Phase 3</td></tr>
+      </table>
+    </section>
+
+    <!-- 6. 기술 아키텍처 -->
+    <section id="s6">
+      <h2><span class="num">6</span>기술 아키텍처</h2>
+
+      <pre>┌────────────────────────────────────────┐
+│ 사용자 (브라우저 · 모바일 우선)            │
+└──────────────┬─────────────────────────┘
+               ↓ HTTPS
+┌────────────────────────────────────────┐
+│ Cloudflare Tunnel                       │
+│ app.eyebrows.staris.cloud (베타 직전)   │
+└──────────────┬─────────────────────────┘
+               ↓
+┌────────────────────────────────────────┐
+│ FastAPI (대표님 PC · port 8001)         │
+│ - Jinja2 Luxury Dark                   │
+│ - SaaS A·B·C 라우터                     │
+│ - OAuth 4종 콜백                        │
+└─┬──────┬──────┬──────┬──────────────────┘
+  ↓      ↓      ↓      ↓
+Gemini  OpenAI Higgsfd SQLite
+3.x Pro GPT-4o Veo·3D  (개발)</pre>
+
+      <p><strong>호스팅:</strong> 대표님 PC (Windows) + Cloudflare Quick Tunnel · 맥미니 X (모비딕 회사 자산 분리)</p>
+    </section>
+
+    <!-- 12. 수익 모델 -->
+    <section id="s12">
+      <h2><span class="num">12</span>수익 모델 · KPI</h2>
+
+      <h3>수익 매트릭스</h3>
+      <table>
+        <tr><th>출처</th><th>가격</th><th>비고</th></tr>
+        <tr><td>시술 (오프라인)</td><td>수십~수백만원</td><td>학원 매출</td></tr>
+        <tr><td>수강 (오프라인)</td><td>69~200만원</td><td>학원 매출</td></tr>
+        <tr><td>SaaS B 광고툴 (DIY)</td><td>월 5~15만원</td><td>살롱·강사 구독</td></tr>
+        <tr><td>SaaS C Face Lab 예약금</td><td>19,000원</td><td>시술 시 차감</td></tr>
+        <tr><td>★ A2 B2B 라이센스 NEW</td><td>월 10~30만원</td><td>다른 학원 (김다은 발견)</td></tr>
+        <tr><td>A5 공모전 응모비</td><td>5,000원/회</td><td>수강생</td></tr>
+      </table>
+
+      <div class="kpi-box">
+        <div class="big">3.2억</div>
+        <div class="label">3개월 매출 추정 · 순이익률 80%+</div>
+      </div>
+
+      <h3>차별점 ROI</h3>
+      <ul>
+        <li><strong>30년 패턴 DB</strong> — 경쟁사 따라할 수 없음 (해자)</li>
+        <li><strong>모비딕 자동화</strong> — 검증된 패턴 (안정성)</li>
+        <li><strong>시술→수강 funnel</strong> — 단일 사용자 매출 5~10배 (전환)</li>
+        <li><strong>Luxury Dark 톤</strong> — 럭셔리 포지셔닝 (가격 결정력)</li>
+        <li><strong>LIVE 스트리밍</strong> — 중국 벤치마크 40배 인기 (콘텐츠 ROI)</li>
+      </ul>
+    </section>
+
+    <!-- 14. 8 직원 -->
+    <section id="s14">
+      <h2><span class="num">14</span>8 직원 조직 · 역할</h2>
+
+      <table>
+        <tr><th>#</th><th>직원</th><th>역할</th><th>상세</th></tr>
+        <tr><td>①</td><td><strong>이서연</strong></td><td>기획·마케팅</td><td>키워드·페르소나·카피·AEO</td></tr>
+        <tr><td>②</td><td><strong>유나</strong></td><td>그래픽·비주얼</td><td>키비주얼·디자인 시스템 (반복은 Claude Code)</td></tr>
+        <tr><td>③</td><td><strong>한승철</strong></td><td>인프라·풀스택</td><td>DB·OAuth·API 통합·배포</td></tr>
+        <tr><td>④</td><td><strong>김민서</strong></td><td>시각·UI</td><td>모바일 우선 UX·Figma·인터랙션</td></tr>
+        <tr><td>⑤</td><td><strong>김다은</strong></td><td>SaaS A PM</td><td>학원·강의·홈페이지 책임</td></tr>
+        <tr><td>⑥</td><td><strong>박서윤</strong></td><td>SaaS B PM</td><td>광고·ROAS·DIY 모델</td></tr>
+        <tr><td>⑦</td><td><strong>최예진</strong></td><td>SaaS C PM</td><td>Face Lab·MetaHuman·R&D</td></tr>
+        <tr><td>⑧</td><td><strong>클로드</strong></td><td>총괄·자동화</td><td>8명 오케스트레이션 · 메모리 · 일일 브리핑</td></tr>
+      </table>
+    </section>
+
+    <!-- 16. 결정 -->
+    <section id="s16">
+      <h2><span class="num">16</span>결정 사항 · 대기 항목</h2>
+
+      <h3>확정 18건 (회의 + 단톡방 합의)</h3>
+      <p>
+        <span class="status-ok">✅</span> 3 SaaS 구조 ·
+        <span class="status-ok">✅</span> 8 직원 체제 ·
+        <span class="status-ok">✅</span> Luxury Dark 단일 톤 ·
+        <span class="status-ok">✅</span> Python 백엔드 ·
+        <span class="status-ok">✅</span> DIY 광고 ·
+        <span class="status-ok">✅</span> Unreal 다운로드 완료 ·
+        <span class="status-ok">✅</span> 장미지 분신 동의 ·
+        <span class="status-ok">✅</span> A1·A2 코드 ·
+        <span class="status-ok">✅</span> Cloudflare Tunnel 검증 ·
+        <span class="status-ok">✅</span> API 키 (Gemini 50 + OpenAI 118) ·
+        <span class="status-ok">✅</span> DB schema v1.0 ·
+        <span class="status-ok">✅</span> OAuth 시퀀스 v2 ·
+        <span class="status-ok">✅</span> 페르소나 v2.0 (2×9) ·
+        <span class="status-ok">✅</span> 와이어 8장 ·
+        <span class="status-ok">✅</span> 컴포넌트 24개 ·
+        <span class="status-ok">✅</span> 「수아」 MetaHuman + 4컷 ·
+        <span class="status-ok">✅</span> 「극사실 아트 눈썹」 키워드 ·
+        <span class="status-ok">✅</span> 인물 톤 표준
+      </p>
+
+      <h3>대표님 결정 대기 6건</h3>
+      <table>
+        <tr><th>#</th><th>결정</th><th>마감</th><th>상태</th></tr>
+        <tr><td>A</td><td>Meta Business Verification (원장님 사업자등록증)</td><td>07-01</td><td class="status-wait">⏳ 즉시</td></tr>
+        <tr><td>B</td><td>의료광고법 외부 자문 30만원</td><td>3일</td><td class="status-wait">⏳</td></tr>
+        <tr><td>C</td><td>「장미지」 표준 SVG 서명 (원장님 의뢰)</td><td>07-02</td><td class="status-wait">⏳</td></tr>
+        <tr><td>D</td><td>광고 API 결제 한도 (개인 vs 법인)</td><td>1주</td><td class="status-wait">⏳</td></tr>
+        <tr><td>E</td><td>베타 오픈 시점 (07-21 vs 07-28)</td><td>2주</td><td class="status-wait">⏳</td></tr>
+        <tr><td>F</td><td>첫 100명 무료 채널 (K1? 광고?)</td><td>2주</td><td class="status-wait">⏳</td></tr>
+      </table>
+
+      <h3>즉결 (회의 중 대표님 OK)</h3>
+      <p>
+        <span class="status-ok">✅</span> Figma 라이선스 $15/월 (유나·김민서·한승철 공용)<br>
+        <span class="status-ok">✅</span> ngrok Pro $8/월 (박서윤·한승철 공용)
+      </p>
+    </section>
+
+    <!-- 17. 부록 -->
+    <section id="s17">
+      <h2><span class="num">17</span>부록 — 문서 인덱스</h2>
+
+      <p>전체 문서·메모리·코드 베이스 위치는 Markdown 원문 §17 참조:</p>
+
+      <div class="actions">
+        <a href="artbrows-platform-py/docs/ARTbrows-개발기획서-v1.0.md" target="_blank">📄 Markdown 전문 (이 문서)</a>
+        <a href="artbrows-platform-py/docs/MASTER-PLAN-2026-06-29.md" target="_blank" class="ghost">마스터 플랜</a>
+        <a href="artbrows-platform-py/docs/REVIEW-2026-06-30-v2-dialogue.md" target="_blank" class="ghost">점검 회의 (대화)</a>
+        <a href="artbrows-platform-py/docs/KATALK-2026-06-30-after-meeting.md" target="_blank" class="ghost">단톡방 진척</a>
+        <a href="artbrows-platform-py/docs/TASK-BREAKDOWN-56.md" target="_blank" class="ghost">56 Task</a>
+      </div>
+
+      <h3>승인 대기 (v1.0 / v1.1 / v1.2)</h3>
+      <table>
+        <tr><th>역할</th><th>이름</th><th>v1.0</th><th>v1.1 (07-13 오전)</th><th>v1.2 (07-13 오후)</th></tr>
+        <tr><td>대표</td><td>박정주</td><td class="status-wait">⏳ 대기</td><td class="status-wait">⏳ 대기</td><td class="status-ok">✅ 07-13 (카페24)</td></tr>
+        <tr><td>원장</td><td>장미지</td><td class="status-wait">⏳ 대기</td><td class="status-wait">⏳ 대기</td><td class="status-wait">⏳ 대기</td></tr>
+        <tr><td>총괄</td><td>클로드</td><td class="status-ok">✅ 06-30</td><td class="status-ok">✅ 07-13</td><td class="status-ok">✅ 07-13</td></tr>
+        <tr><td>SaaS A PM</td><td>김다은</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+        <tr><td>SaaS B PM</td><td>박서윤</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+        <tr><td>SaaS C PM</td><td>최예진</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+        <tr><td>기획</td><td>이서연</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+        <tr><td>비주얼</td><td>유나</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+        <tr><td>인프라</td><td>한승철</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+        <tr><td>UI</td><td>김민서</td><td class="status-ok">✅</td><td class="status-ok">✅</td><td class="status-ok">✅</td></tr>
+      </table>
+
+      <h3 style="margin-top:24px">변경 이력</h3>
+      <table>
+        <tr><th>버전</th><th>일자</th><th>변경 요지</th></tr>
+        <tr><td><b>v1.0</b></td><td>2026-06-30</td><td>초안 · 17 섹션 · 8 직원 통합 PRD</td></tr>
+        <tr><td><b>v1.1</b></td><td>2026-07-13 오전</td><td>07-13 회의 확정 10건 반영 · Phase 재정렬 · 오픈일 08-10 → 08월 말 · 결제 범위 축소 · 쇼핑몰 방식 전환</td></tr>
+        <tr><td><b>v1.2</b></td><td>2026-07-13 오후</td><td>대표님 「카페24 확정」 결정 · 07-16 마감 태스크 재정의 (카페24 계정·상품 등록 범위)</td></tr>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 전체 개발 기획서 v1.2 · 임원진 전용 · CONFIDENTIAL</p>
+  <p style="margin-top:8px">
+    <a href="index.html">← 운영진 포털</a> ·
+    <a href="artbrows-platform-py/docs/ARTbrows-개발기획서-v1.0.md">Markdown 원문</a> ·
+    <a href="https://tub-toolkit-bachelor-living.trycloudflare.com" target="_blank">개발 사이트 (Quick Tunnel · 2026-07-13 갱신)</a>
+  </p>
+</footer>
+
+</body>
+</html>

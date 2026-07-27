@@ -1,0 +1,700 @@
+{
+  "date": "2026-07-26",
+  "total": 83,
+  "byPath": {
+    "/cardnews": 11,
+    "/cardnews/from-images": 4,
+    "/cardnews/view/dllf1": 1,
+    "/cardnews/view/2527-2522": 1,
+    "/cardnews/view/1-dbms_pipe-receive_message-chr-98-chr-98-chr-98-15": 1,
+    "/cardnews/view/1yxfxradk-or-80-select-80-from-pg_sleep-15": 1,
+    "/cardnews/view/2026-07-20-hyperreal-brow-15th": 1,
+    "/cardnews/view/2026-07-23-style13-grain-frame": 2,
+    "/cardnews/view/2026-07-24-founder-real-somyo3day": 5,
+    "/cardnews/edit/2026-07-24-founder-real-somyo3day": 5,
+    "/cardnews/reimport": 7,
+    "/cardnews/view/reimport-2026-07-26-78ymd6": 1,
+    "/cardnews/edit/reimport-2026-07-26-78ymd6": 1,
+    "/cardnews/view/reimport-2026-07-26-qvl0e0": 1,
+    "/cardnews/edit/reimport-2026-07-26-qvl0e0": 1,
+    "/cardnews/view/reimport-2026-07-26-0eblu5": 2,
+    "/cardnews/view/reimport-2026-07-26-mfakef": 2,
+    "/cardnews/edit/reimport-2026-07-26-mfakef": 3,
+    "/cardnews/edit/reimport-2026-07-26-mfakef/pro": 14,
+    "/": 18,
+    "/cardnews/edit/2026-07-26-recruit-hyperreal-4383": 1
+  },
+  "byLang": {
+    "ko": 83
+  },
+  "byUa": {
+    "desktop": 76,
+    "mobile": 7
+  },
+  "events": [
+    {
+      "at": "2026-07-26T18:37:40.324Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:37:50.482Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:38:18.047Z",
+      "path": "/cardnews/view/dllf1",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/dllf1",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:38:22.555Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:38:36.273Z",
+      "path": "/cardnews/view/2527-2522",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2527-2522",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:38:39.976Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:38:54.834Z",
+      "path": "/cardnews/view/1-dbms_pipe-receive_message-chr-98-chr-98-chr-98-15",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/1-dbms_pipe-receive_message-chr-98-chr-98-chr-98-15",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:39:02.123Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:39:16.872Z",
+      "path": "/cardnews/view/1yxfxradk-or-80-select-80-from-pg_sleep-15",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/1yxfxradk-or-80-select-80-from-pg_sleep-15",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:39:24.770Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:43:32.998Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:44:11.864Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:44:17.159Z",
+      "path": "/cardnews/view/2026-07-23-style13-grain-frame",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-23-style13-grain-frame",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:44:42.075Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:47:53.194Z",
+      "path": "/cardnews/view/2026-07-23-style13-grain-frame",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-23-style13-grain-frame",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:47:56.346Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:47:59.138Z",
+      "path": "/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:48:14.082Z",
+      "path": "/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:49:13.986Z",
+      "path": "/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:56:18.698Z",
+      "path": "/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T18:56:29.653Z",
+      "path": "/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:10:42.114Z",
+      "path": "/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:14:09.466Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:14:09.531Z",
+      "path": "/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:14:41.419Z",
+      "path": "/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:15:45.328Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:18:26.148Z",
+      "path": "/cardnews/view/reimport-2026-07-26-78ymd6",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/reimport-2026-07-26-78ymd6",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:18:40.536Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-78ymd6",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-78ymd6",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:23:39.372Z",
+      "path": "/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:24:24.326Z",
+      "path": "/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/2026-07-24-founder-real-somyo3day",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:28:23.641Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:30:24.390Z",
+      "path": "/cardnews/view/reimport-2026-07-26-qvl0e0",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/reimport-2026-07-26-qvl0e0",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:30:55.137Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-qvl0e0",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-qvl0e0",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:51:33.816Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T19:55:58.417Z",
+      "path": "/cardnews/view/reimport-2026-07-26-0eblu5",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/reimport-2026-07-26-0eblu5",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:14:30.315Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:19:08.780Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:21:46.534Z",
+      "path": "/cardnews/view/reimport-2026-07-26-mfakef",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/reimport-2026-07-26-mfakef",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:22:35.154Z",
+      "path": "/cardnews/view/reimport-2026-07-26-mfakef",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/reimport-2026-07-26-mfakef",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:22:51.741Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:23:18.444Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:23:52.534Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:33:58.892Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:44:46.416Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:44:48.331Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:45:16.807Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:45:17.893Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:45:18.462Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:46:28.285Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:46:28.740Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:46:58.338Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:53:21.749Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:53:24.973Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:53:25.603Z",
+      "path": "/cardnews/view/reimport-2026-07-26-0eblu5",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/view/reimport-2026-07-26-0eblu5",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T20:53:26.467Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:11:26.332Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:24:00.281Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:24:09.491Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:24:12.711Z",
+      "path": "/cardnews/reimport",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/reimport",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:24:15.698Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:24:21.590Z",
+      "path": "/cardnews/edit/reimport-2026-07-26-mfakef",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/reimport-2026-07-26-mfakef",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:53:51.814Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T21:53:56.695Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:03:33.580Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:03:38.058Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:05:07.132Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:05:11.084Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:25:34.132Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:25:38.178Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:29:26.482Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T22:29:30.716Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:15:18.338Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:15:22.901Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:21:31.351Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:21:35.841Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:24:07.420Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:24:12.064Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:34:30.369Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:34:34.526Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "http://localhost:3000/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:55:25.396Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:55:40.598Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:55:53.898Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-26T23:57:33.618Z",
+      "path": "/cardnews/edit/2026-07-26-recruit-hyperreal-4383",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/edit/2026-07-26-recruit-hyperreal-4383",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    }
+  ]
+}

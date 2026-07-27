@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blender 실사 PoC v5 · 인간 GLB · ARTbrows</title>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#FCE8DC,#F8D5C2);color:#3D2818;line-height:1.6;min-height:100vh;padding:0;max-width:1200px;margin:0 auto}
+
+  .topnav{padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(196,90,107,0.18);background:rgba(255,251,245,0.7);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10}
+  .topnav .brand{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:17px;color:#3D2818}
+  .topnav .brand em{color:#C45A6B;font-style:normal}
+  .topnav .links a{color:#5D4636;text-decoration:none;font-weight:500;padding:6px 10px;border-radius:8px;font-size:13px;margin-left:6px}
+  .topnav .links a.active{background:#C45A6B;color:#fff}
+
+  .hero{text-align:center;padding:46px 30px 30px}
+  .hero .chip{display:inline-block;background:#C45A6B;color:#fff;font-weight:700;font-size:11px;letter-spacing:3px;padding:7px 18px;border-radius:20px;margin-bottom:14px}
+  .hero h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:40px;color:#3D2818;line-height:1.25;margin-bottom:8px}
+  .hero h1 em{color:#C45A6B;font-style:normal}
+  .hero .sub{font-size:14px;color:rgba(60,40,30,0.7);max-width:680px;margin:0 auto;line-height:1.7}
+
+  .body{padding:30px}
+  section{margin-bottom:38px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#3D2818;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #C45A6B}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#C45A6B;margin-right:10px;font-size:26px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#C45A6B;font-size:16px;margin:14px 0 8px}
+
+  /* Hero viewer */
+  .hero-view{background:#FFFBF5;border-radius:18px;overflow:hidden;box-shadow:0 14px 38px rgba(196,90,107,0.18);padding:18px}
+  .hero-view model-viewer{width:100%;aspect-ratio:1/1;display:block;background:linear-gradient(135deg,#FCE8DC,#F2C2AC);border-radius:14px;--poster-color:transparent}
+  .hero-view .caption{text-align:center;font-size:13px;color:#5D4636;margin-top:10px;letter-spacing:1px}
+  .hero-view .caption b{color:#C45A6B}
+  .hero-view .controls{display:flex;justify-content:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .hero-view .controls button{background:#C45A6B;color:#FFF6E8;border:0;padding:8px 16px;border-radius:18px;font-family:'Pretendard',sans-serif;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:1px}
+  .hero-view .controls button:hover{background:#A84658}
+  .hero-view .controls button.outline{background:transparent;color:#C45A6B;border:1.5px solid #C45A6B}
+
+  /* Source vs 3D compare */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  @media(max-width:780px){.compare{grid-template-columns:1fr}}
+  .compare .col{background:#FFFBF5;border-radius:14px;padding:14px;box-shadow:0 4px 12px rgba(196,90,107,0.1)}
+  .compare .col h3{margin-top:0}
+  .compare .col img,.compare .col model-viewer{width:100%;aspect-ratio:1/1;display:block;background:linear-gradient(135deg,#FCE8DC,#F2C2AC);border-radius:10px;object-fit:cover}
+  .compare .col .badge{display:inline-block;font-size:10px;letter-spacing:2px;padding:3px 9px;border-radius:12px;font-weight:700;margin-left:6px}
+  .compare .col.before .badge{background:#FAD7C7;color:#5D4636}
+  .compare .col.after .badge{background:#C45A6B;color:#fff}
+
+  /* 4 각도 자동 회전 */
+  .angles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  @media(max-width:780px){.angles{grid-template-columns:repeat(2,1fr)}}
+  .angle{background:#FFFBF5;border-radius:12px;padding:10px;text-align:center;border-top:3px solid #C45A6B}
+  .angle model-viewer{width:100%;aspect-ratio:1/1;display:block;background:linear-gradient(135deg,#FCE8DC,#F2C2AC);border-radius:8px}
+  .angle .lbl{font-size:12px;color:#3D2818;font-weight:700;margin-top:6px}
+  .angle .deg{font-family:'Cormorant Garamond',serif;color:#C45A6B;font-size:18px;font-weight:700}
+
+  /* Progress timeline */
+  .progress{background:#FFFBF5;border-radius:14px;padding:18px 22px;margin:14px 0;box-shadow:0 3px 10px rgba(196,90,107,0.1)}
+  .progress table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .progress th,.progress td{border-bottom:1px solid #F0D6CC;padding:10px 8px;text-align:left;vertical-align:top}
+  .progress th{color:#C45A6B;font-weight:700;font-size:11.5px;letter-spacing:1px}
+  .progress td.win{color:#5BAE8A;font-weight:700}
+  .progress td.todo{color:#E8A33D;font-weight:700}
+  .progress td.fail{color:#C95B5B;font-weight:700}
+  .progress .star{background:#FFF5E7;border-left:4px solid #C45A6B}
+
+  /* Roadmap */
+  .roadmap{background:linear-gradient(135deg,#C45A6B,#A84658);color:#FFF6E8;border-radius:14px;padding:24px 26px;margin-top:14px}
+  .roadmap h3{margin-top:0;color:#FFF6E8;font-family:'Nanum Myeongjo',serif;font-size:19px}
+  .roadmap .steps{margin-top:12px}
+  .roadmap .step{padding:10px 0;border-bottom:1px dashed rgba(255,246,232,0.3);font-size:13.5px}
+  .roadmap .step:last-child{border-bottom:0}
+  .roadmap .step b{color:#FFE5D0}
+  .roadmap .step .when{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;color:#FFD8B3;margin-right:10px}
+
+  .info-box{background:#FFFBF5;border:1.5px dashed #C45A6B;border-radius:12px;padding:14px 18px;font-size:12.5px;color:#5D4636;line-height:1.7;margin-bottom:14px}
+  .info-box b{color:#C45A6B}
+
+  footer{margin-top:34px;padding:24px 30px;background:rgba(60,40,30,0.05);text-align:center;font-size:11.5px;color:#8B6452}
+  footer a{color:#C45A6B}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="brand">ART<em>brows</em> · Face Lab v5 · Blender 실사 PoC</div>
+  <div class="links">
+    <a href="../../index.html">홈</a>
+    <a href="../">v3</a>
+    <a href="../v4/">v4</a>
+    <a href="./" class="active">v5 NEW</a>
+    <a href="../../자료실.html">자료실</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="chip">v5 · Blender + 실사 인물 GLB</div>
+  <h1>마네킹 도자기에서<br><em>실사 인물 3D</em>로</h1>
+  <p class="sub">PoC-05~08 (마네킹 5종 시도) → <strong>v5 PoC-09 (실사 인물 GLB)</strong>. v4 Face Lab AFTER 인물(같은 사람)을 Higgsfield image_to_3d로 GLB 변환. Blender Cycles + SSS + DOF로 실사 수준까지 단계적 발전.</p>
+</div>
+
+<div class="body">
+
+<!-- A. 메인 GLB 인터랙티브 미리보기 -->
+<section>
+  <h2><span class="num">A</span>★ 실사 인물 GLB · 인터랙티브 미리보기 (드래그·줌)</h2>
+  <div class="hero-view">
+    <model-viewer
+      id="main-mv"
+      src="v4-human-oval.glb"
+      camera-controls
+      auto-rotate
+      auto-rotate-delay="500"
+      rotation-per-second="20deg"
+      shadow-intensity="1.2"
+      exposure="1.1"
+      tone-mapping="aces"
+      interaction-prompt="auto"
+      interaction-prompt-style="basic"
+      ar
+      camera-orbit="0deg 75deg 0.8m"
+      field-of-view="35deg"
+      environment-image="neutral">
+    </model-viewer>
+    <div class="caption">
+      👆 드래그하여 회전 · 스크롤 줌 · 자동 회전 중 · <b>같은 인물</b> Face Lab v4 AFTER → 3D
+    </div>
+    <div class="controls">
+      <button onclick="document.getElementById('main-mv').cameraOrbit='0deg 75deg 0.8m'">정면</button>
+      <button onclick="document.getElementById('main-mv').cameraOrbit='-45deg 75deg 0.8m'">좌 45°</button>
+      <button onclick="document.getElementById('main-mv').cameraOrbit='-90deg 75deg 1.0m'">측면</button>
+      <button onclick="document.getElementById('main-mv').cameraOrbit='0deg 60deg 0.6m'">매크로</button>
+      <button class="outline" onclick="const mv=document.getElementById('main-mv'); mv.autoRotate=!mv.autoRotate">자동회전 토글</button>
+    </div>
+  </div>
+</section>
+
+<!-- B. Source 이미지 vs 3D GLB 비교 -->
+<section>
+  <h2><span class="num">B</span>Source 이미지 ↔ 3D GLB · 동일 인물 검증</h2>
+  <div class="compare">
+    <div class="col before">
+      <h3>Source 2D <span class="badge">v4 AFTER</span></h3>
+      <img src="../demo/v4-oval-after.png" alt="Source v4 AFTER">
+      <p style="font-size:12px;color:#5D4636;margin-top:8px">06-28 nano_banana_pro 1크. K-Hyper-Natural 가드 적용. ARTbrows 시그니처 자연 결.</p>
+    </div>
+    <div class="col after">
+      <h3>3D GLB v5 <span class="badge">NEW</span></h3>
+      <model-viewer src="v4-human-oval.glb" camera-controls auto-rotate rotation-per-second="15deg" environment-image="neutral" tone-mapping="aces" exposure="1.0"></model-viewer>
+      <p style="font-size:12px;color:#5D4636;margin-top:8px">Higgsfield image_to_3d (PBR + symmetry) · 30크 · 4분 · GLB 6.6MB · 6.6MB. <b>360° 회전 가능</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- v5.8 실사 사진 BEFORE/AFTER × 4 무드 (최종 결정타) -->
+<section style="background:linear-gradient(135deg,#0F1428,#1A1A2A);color:#FFF6E8;border-radius:18px;padding:30px;margin-bottom:24px;box-shadow:0 24px 64px rgba(0,0,0,0.5);border:4px solid #FFD8B3;position:relative">
+  <div style="position:absolute;top:-14px;right:24px;background:#FFD8B3;color:#1A1015;font-weight:800;font-size:11px;letter-spacing:2px;padding:6px 14px;border-radius:14px">미팅 최종 결정타</div>
+  <h2 style="color:#FFD8B3;border-bottom-color:#FFD8B3"><span class="num" style="color:#FFD8B3">⭐⭐⭐⭐</span>v5.8 실사 사진 BEFORE / AFTER × 4 무드 (06-29 새벽)</h2>
+  <p style="font-size:14.5px;color:#FAD7C7;margin-bottom:16px">
+    <strong>v5.7 AFTER 4컷 + 같은 인물 BEFORE 4컷 = 8컷 그리드.</strong>
+    같은 인물 · 같은 환경 · 같은 톤 — <strong style="color:#FFD8B3">시술 결정만 변수</strong>.
+    nano_banana_pro 「진짜 사람 사진」 수준으로 BEFORE/AFTER 비교.
+  </p>
+  <img src="v5-renders/v5-8-GRID-BEFORE-AFTER-real-photo.png" alt="v5.8 실사 BEFORE/AFTER 8컷" style="width:100%;border-radius:14px;display:block;box-shadow:0 16px 48px rgba(0,0,0,0.6)">
+  <p style="text-align:center;font-size:13px;color:#FAD7C7;margin-top:14px"><strong>↑ 1980×1058 · 8컷 · 위 BEFORE 4 · 아래 AFTER 4</strong></p>
+
+  <div style="background:rgba(255,216,179,0.12);border-radius:10px;padding:18px;margin-top:18px">
+    <p style="font-size:15px;color:#FFD8B3;font-weight:700;margin-bottom:8px">★ 미팅 핵심 메시지 (한 줄)</p>
+    <p style="font-size:14px;color:#FAD7C7;margin:0;line-height:1.7">
+    원장님, 「같은 사람이 어느 살롱·환경에서 시술받든, <strong style="color:#fff">같은 ARTbrows 시그니처 자연 결</strong>」 = 학원 표준화의 결정적 시각 증명. <strong style="color:#fff">12크 (BEFORE 6 + AFTER 6)</strong>로 4 환경 × 시술 전후 자산 평생 재활용.
+    </p>
+  </div>
+</section>
+
+<!-- v5.7 nano_banana_pro 실사 사진 4 무드 (최고 리얼리즘) -->
+<section style="background:linear-gradient(135deg,#1A1A2A,#0B0915);color:#FFF6E8;border-radius:18px;padding:30px;margin-bottom:24px;box-shadow:0 20px 56px rgba(0,0,0,0.4);border:3px solid #FFD8B3">
+  <h2 style="color:#FFD8B3;border-bottom-color:#FFD8B3"><span class="num" style="color:#FFD8B3">⭐⭐⭐</span>v5.7 nano_banana_pro 실사 사진 × 4 무드 ★ 최고 리얼리즘 (06-29 새벽)</h2>
+  <p style="font-size:14.5px;color:#FAD7C7;margin-bottom:16px">
+    <strong>같은 인물 · 4 환경 · K-Hyper-Natural 가드</strong> · ARTbrows 시그니처 자연 결.
+    Blender Cycles → <strong style="color:#FFD8B3">「진짜 사람 사진」 수준 점프</strong>.
+    이게 미팅에서 보여드릴 「리얼 + 이쁨」 최종.
+  </p>
+  <img src="v5-renders/v5-7-GRID-real-photo-4mood.png" alt="v5.7 실사 사진 4 무드" style="width:100%;border-radius:14px;display:block;box-shadow:0 14px 40px rgba(0,0,0,0.5)">
+  <p style="text-align:center;font-size:13px;color:#FAD7C7;margin-top:14px"><strong>↑ 2200×626 · 따뜻 스튜디오 · 자연광 살롱 · 차가운 모던 · 드라마틱</strong></p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px">
+    <div style="background:rgba(255,216,179,0.1);border-radius:10px;padding:16px">
+      <p style="font-size:13.5px;color:#FFD8B3;font-weight:700;margin-bottom:6px">⭐ 진짜 「실사 사진」 톤</p>
+      <p style="font-size:13px;color:#FAD7C7;margin:0">실제 살롱 환경 배경 + 자연 채광 + 모공·결 미세 디테일 + ARTbrows 시그니처 시술 후 결과. Blender 한계를 한 번 더 점프.</p>
+    </div>
+    <div style="background:rgba(255,184,138,0.1);border-radius:10px;padding:16px">
+      <p style="font-size:13.5px;color:#FFB78A;font-weight:700;margin-bottom:6px">💰 비용</p>
+      <p style="font-size:13px;color:#FAD7C7;margin:0">4 컷 × ~1.5크 = <strong style="color:#fff">6 크</strong> · 잔량 290.46 → <strong style="color:#fff">284.46</strong> · 시간 5분.</p>
+    </div>
+  </div>
+</section>
+
+<!-- v5.6 진짜 실사 BEFORE/AFTER × 4 무드 -->
+<section style="background:linear-gradient(135deg,#1A1015,#2A1A22);color:#FFF6E8;border-radius:18px;padding:30px;margin-bottom:24px;box-shadow:0 18px 50px rgba(0,0,0,0.3);border:2px solid #FFB78A">
+  <h2 style="color:#FFB78A;border-bottom-color:#FFB78A"><span class="num" style="color:#FFB78A">⭐⭐</span>v5.6 진짜 실사 BEFORE / AFTER × 4 무드 ★ 미팅 결정타</h2>
+  <p style="font-size:14px;color:#FAD7C7;margin-bottom:16px">
+    <strong>2개 인간 GLB</strong> (BEFORE 시술 전 · AFTER 시술 후) × <strong>4 PolyHaven HDR 무드</strong> × <strong>동일 카메라 위치</strong> = 8 컷.
+    같은 인물 같은 환경에서 시술 결정만 차이. <span style="color:#FFB78A;font-weight:700">Blender Cycles 실사 렌더 + SSS + HDR</span>.
+  </p>
+  <img src="v5-renders/v5-6-GRID-BEFORE-AFTER-4mood.png" alt="v5.6 BEFORE/AFTER 4 무드 그리드" style="width:100%;border-radius:14px;display:block;box-shadow:0 12px 36px rgba(0,0,0,0.4)">
+  <p style="text-align:center;font-size:13px;color:#FAD7C7;margin-top:14px"><strong>↑ 8컷 (BEFORE 4 + AFTER 4) · 같은 카메라·같은 HDR = 시술 결정만 변수</strong></p>
+
+  <div style="background:rgba(255,184,138,0.1);border-radius:10px;padding:16px;margin-top:18px">
+    <p style="font-size:14px;color:#FAD7C7;margin:0"><strong style="color:#FFB78A">미팅 핵심 메시지:</strong> 「같은 사람이 어느 살롱에서 시술받든, 같은 ARTbrows 시그니처 결과」 = 학원 표준화의 시각적 증명. 이걸 만든 비용 = 2 GLB 60크 + Blender 무료 = <strong style="color:#fff">자산 평생 재활용</strong>.</p>
+  </div>
+</section>
+
+<!-- v5.5 BEFORE/AFTER 슬라이더 -->
+<section style="background:linear-gradient(135deg,#FFFBF5,#FFF5E7);border:3px solid #C45A6B;border-radius:18px;padding:30px;margin-bottom:24px;box-shadow:0 14px 38px rgba(196,90,107,0.22)">
+  <h2 style="color:#C45A6B;border-bottom-color:#C45A6B"><span class="num">⭐</span>v5.5 시술 BEFORE / AFTER · 인터랙티브 슬라이더 ★ NEW</h2>
+  <p style="font-size:14px;color:#5D4636;margin-bottom:16px">
+    <strong>같은 인물 · 같은 톤 · 같은 포즈 · 시술 결정만 차이.</strong>
+    BEFORE = 자연 옅은 눈썹 (시술 전 raw 상태) · AFTER = ARTbrows 시그니처 자연 결.
+    <span style="color:#C45A6B;font-weight:700">좌우 드래그하여 즉시 비교</span>.
+  </p>
+
+  <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(196,90,107,0.18);max-width:640px;margin:0 auto;position:relative">
+    <div id="v55-stage" style="position:relative;width:100%;aspect-ratio:1/1;background:#FAD7C7;cursor:ew-resize;user-select:none;-webkit-user-select:none">
+      <img src="../demo/v5-oval-before.png" alt="BEFORE" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none">
+      <div id="v55-after-wrap" style="position:absolute;top:0;left:0;width:50%;height:100%;overflow:hidden">
+        <img src="../demo/v4-oval-after.png" alt="AFTER" style="position:absolute;top:0;left:0;width:200%;height:100%;object-fit:cover;display:block;pointer-events:none">
+      </div>
+      <div id="v55-handle" style="position:absolute;top:0;bottom:0;width:4px;background:rgba(255,255,255,0.95);left:50%;transform:translateX(-50%);box-shadow:0 0 18px rgba(0,0,0,0.5);pointer-events:none;z-index:3"></div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:#C45A6B;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;pointer-events:none;z-index:4">⇆</div>
+      <div style="position:absolute;top:14px;left:14px;background:rgba(60,40,30,0.85);color:#fff;font-size:11px;letter-spacing:2px;font-weight:800;padding:6px 12px;border-radius:14px;z-index:2;text-transform:uppercase">BEFORE · 시술 전</div>
+      <div style="position:absolute;top:14px;right:14px;background:#C45A6B;color:#fff;font-size:11px;letter-spacing:2px;font-weight:800;padding:6px 12px;border-radius:14px;z-index:2;text-transform:uppercase">AFTER · ARTBROWS</div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:#8B6452;margin:10px 0;letter-spacing:1px">← 좌우 드래그 → · BEFORE (옅은 자연) ↔ AFTER (시그니처 결)</p>
+  </div>
+
+  <table style="width:100%;margin-top:18px;font-size:13px">
+    <tr><th style="padding:8px 12px;background:#FAD7C7;text-align:left;color:#5D4636">상태</th><th style="padding:8px 12px;background:#FAD7C7;text-align:left;color:#5D4636">눈썹 특징</th><th style="padding:8px 12px;background:#FAD7C7;text-align:left;color:#5D4636">생성</th></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid #F0D6CC">BEFORE</td><td style="padding:8px 12px;border-bottom:1px solid #F0D6CC">옅고 듬성듬성 · 가는 결 · 균일하지 않음</td><td style="padding:8px 12px;border-bottom:1px solid #F0D6CC">nano_banana_pro 1크</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid #F0D6CC">AFTER</td><td style="padding:8px 12px;border-bottom:1px solid #F0D6CC">자연 micro-feathered · 아치 50% · K-Hyper-Natural</td><td style="padding:8px 12px;border-bottom:1px solid #F0D6CC">v4 PoC 재활용 (0크)</td></tr>
+  </table>
+</section>
+
+<!-- C-NEWEST v5.4 PolyHaven 16컷 -->
+<section style="background:linear-gradient(135deg,#2A1A22,#1F1015);color:#FFF6E8;border-radius:18px;padding:30px;margin-bottom:24px;box-shadow:0 16px 44px rgba(196,90,107,0.25)">
+  <h2 style="color:#FFB78A;border-bottom-color:#FFB78A"><span class="num" style="color:#FFB78A">⭐</span>v5.4 PolyHaven 16컷 — 4 무드 × 4 각도 ★ NEW</h2>
+  <p style="font-size:14px;color:#FAD7C7;margin-bottom:14px"><strong>같은 인물, 같은 시술 결과 = 어떤 살롱·환경에서도 동일 일관성.</strong> PolyHaven HDR 4종 (따뜻 스튜디오 · 자연광 살롱 · 차가운 모던 · 드라마틱) × 4 각도 (정면·45°·측면·매크로) = 16컷. HDR만 사용 (3 조명 끄기) · Standard view · 32 samples · denoise.</p>
+  <img src="v5-renders/v5-4-GRID-4x4.png" alt="v5.4 16컷 4x4 그리드" style="width:100%;border-radius:14px;display:block;box-shadow:0 10px 30px rgba(0,0,0,0.3)">
+  <p style="text-align:center;font-size:13px;color:#FAD7C7;margin-top:14px"><strong>↑ 1655×1665 4×4 그리드</strong> · 같은 마스터 GLB 한 번 만들고 16배 자산 · 추가 비용 0 크</p>
+
+  <table style="width:100%;margin-top:18px;background:rgba(255,246,232,0.08);border-radius:10px;overflow:hidden;font-size:13px">
+    <tr style="background:rgba(255,184,138,0.2)"><th style="padding:10px 14px;color:#FFD8B3;text-align:left;border:0">행</th><th style="padding:10px 14px;color:#FFD8B3;text-align:left;border:0">HDR</th><th style="padding:10px 14px;color:#FFD8B3;text-align:left;border:0">분위기</th><th style="padding:10px 14px;color:#FFD8B3;text-align:left;border:0">활용</th></tr>
+    <tr><td style="padding:10px 14px;border:0">1</td><td style="padding:10px 14px;border:0">brown_photostudio_02</td><td style="padding:10px 14px;border:0">따뜻 스튜디오</td><td style="padding:10px 14px;border:0">프리미엄 살롱 · 인스타 hero</td></tr>
+    <tr><td style="padding:10px 14px;border:0">2</td><td style="padding:10px 14px;border:0">brown_photostudio_05</td><td style="padding:10px 14px;border:0">자연광 살롱</td><td style="padding:10px 14px;border:0">메인홈 hero · 차분 무드</td></tr>
+    <tr><td style="padding:10px 14px;border:0">3</td><td style="padding:10px 14px;border:0">blue_photo_studio</td><td style="padding:10px 14px;border:0">차가운 모던</td><td style="padding:10px 14px;border:0">젊은층 타겟 · 시크</td></tr>
+    <tr><td style="padding:10px 14px;border:0">4</td><td style="padding:10px 14px;border:0">ferndale_studio_01</td><td style="padding:10px 14px;border:0">드라마틱 고대비</td><td style="padding:10px 14px;border:0">럭셔리 에디토리얼</td></tr>
+  </table>
+</section>
+
+<!-- C-NEW. Blender Cycles 실사 렌더 (v5.1-3 적용) -->
+<section style="background:linear-gradient(135deg,#FFF5E7,#FFE5D0);border-left:5px solid #C45A6B;border-radius:14px;padding:24px;margin-bottom:24px">
+  <h2 style="color:#C45A6B"><span class="num">★</span>v5.1+5.2+5.3 적용 — Blender Cycles 실사 렌더 ★ NEW</h2>
+  <p style="font-size:14px;color:#5D4636;margin-bottom:14px"><strong>v5.1 SSS (Subsurface Weight 0.4)</strong> + <strong>v5.2 살구톤 배경 + 3 조명 (Key 280W·Fill 100W·Rim 80W)</strong> + <strong>v5.3 DOF (lens 60mm · f/4.0)</strong> · Cycles 96 samples · View Standard.</p>
+
+  <img src="v5-renders/v5-GRID-2x2.png" alt="v5 4 각도 그리드" style="width:100%;border-radius:12px;box-shadow:0 8px 24px rgba(196,90,107,0.18);display:block">
+  <p style="text-align:center;font-size:13px;color:#8B6452;margin-top:10px">↑ 4 각도 (정면 · 45° · 측면 · 매크로 DOF) · 1080×1080 · Cycles 96 samples + denoise</p>
+
+  <h3 style="margin-top:24px">★ v4 2D Source ↔ v5 Blender 3D 비교</h3>
+  <img src="v5-renders/v5-COMPARE-2D-3D.png" alt="v4 vs v5 비교" style="width:100%;border-radius:12px;box-shadow:0 8px 24px rgba(196,90,107,0.18);display:block">
+  <p style="text-align:center;font-size:13px;color:#8B6452;margin-top:10px">동일 인물 — 2D 합성 → 3D 실사 변환 · 같은 ARTbrows 시그니처 자연 결</p>
+</section>
+
+<!-- C. model-viewer 미리보기 -->
+<section>
+  <h2><span class="num">C</span>4 각도 미리보기 — model-viewer (인터랙티브)</h2>
+  <div class="info-box">
+    💡 위 ★ 섹션은 <b>Blender Cycles 정적 렌더</b> (실사 수준). 아래는 <b>model-viewer 인터랙티브</b> (브라우저 WebGL · 회전 가능 · 표준 PBR).
+  </div>
+  <div class="angles">
+    <div class="angle">
+      <model-viewer src="v4-human-oval.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="0deg" environment-image="neutral" camera-orbit="0deg 75deg 0.8m" exposure="1.1"></model-viewer>
+      <div class="lbl">정면</div>
+      <div class="deg">0°</div>
+    </div>
+    <div class="angle">
+      <model-viewer src="v4-human-oval.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="0deg" environment-image="neutral" camera-orbit="-45deg 75deg 0.8m" exposure="1.1"></model-viewer>
+      <div class="lbl">사선 좌</div>
+      <div class="deg">45°</div>
+    </div>
+    <div class="angle">
+      <model-viewer src="v4-human-oval.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="0deg" environment-image="neutral" camera-orbit="-90deg 75deg 1.0m" exposure="1.1"></model-viewer>
+      <div class="lbl">측면</div>
+      <div class="deg">90°</div>
+    </div>
+    <div class="angle">
+      <model-viewer src="v4-human-oval.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="0deg" environment-image="neutral" camera-orbit="0deg 60deg 0.55m" field-of-view="25deg" exposure="1.15"></model-viewer>
+      <div class="lbl">매크로</div>
+      <div class="deg">눈썹 줌</div>
+    </div>
+  </div>
+</section>
+
+<!-- D. Blender PoC 진척 -->
+<section>
+  <h2><span class="num">D</span>Blender PoC 진척 — 마네킹 → 인간 GLB로 점프</h2>
+  <div class="progress">
+    <table>
+      <tr><th>PoC</th><th>시도</th><th>주체</th><th>결과</th></tr>
+      <tr><td>PoC-05 (06/25)</td><td>마네킹 + 데칼 평면 + 눈썹 텍스처</td><td>마네킹 도자기</td><td class="win">정면·45°·매크로 ✅</td></tr>
+      <tr><td>PoC-06 (06/26 오전)</td><td>마네킹 UV 직접 페인트</td><td>마네킹 도자기</td><td class="fail">UV 한계 진단</td></tr>
+      <tr><td>PoC-07 (06/26 오후)</td><td>Cycles Bake Phase 1</td><td>마네킹 도자기</td><td class="win">★ 3 각도 자연 + 영구 텍스처</td></tr>
+      <tr><td>PoC-08 (06/26 저녁)</td><td>Cycles Bake Phase 2 (측면)</td><td>마네킹 도자기</td><td class="fail">측면 패치워크 부자연</td></tr>
+      <tr class="star"><td><strong>★ PoC-09 (06/28)</strong></td><td><strong>인간 GLB image_to_3d</strong></td><td><strong>실사 인물</strong></td><td class="win"><strong>마네킹 도자기 한계 점프 + 360° 회전 가능</strong></td></tr>
+    </table>
+  </div>
+  <p style="font-size:13px;color:#5D4636;margin-top:10px"><strong>핵심 발견:</strong> PoC-08에서 발견한 「측면 한계의 진짜 원인 = 마네킹 source image에 눈썹 없음」을 <strong>v4 nano_banana_pro AFTER 인물(시술 후 ARTbrows 시그니처 포함)</strong>을 source로 써서 해결. 마네킹 → 인간 = 차원 점프.</p>
+</section>
+
+<!-- E. 다음 단계 로드맵 (Blender 켜지면) -->
+<section>
+  <h2><span class="num">E</span>다음 단계 로드맵 — Blender Cycles 발전 단계</h2>
+  <div class="roadmap">
+    <h3>「실사 수준」까지의 5 단계 (Blender 켜지면 즉시 가능)</h3>
+    <div class="steps">
+      <div class="step"><span class="when">1.</span><b>v5 PoC-09 model-viewer</b> ✅ 완료 — 브라우저 WebGL 표준 PBR · 회전 검증</div>
+      <div class="step"><span class="when">2.</span><b>v5.1 SSS</b> ✅ 완료 — Subsurface Weight 0.4 + Radius (1.0, 0.2, 0.1) · 동양인 피부톤 · 매트 → 자연 피부 (위 ★ 그리드 참조)</div>
+      <div class="step"><span class="when">3.</span><b>v5.2 살구톤 배경 + 3 조명</b> ✅ 완료 — Key 280W warm + Fill 100W cool + Rim 80W · 살구 RGB(0.96, 0.82, 0.68)</div>
+      <div class="step"><span class="when">4.</span><b>v5.3 DOF</b> ✅ 완료 — Macro lens 60mm · f/4.0 · focus 1.0m · 자연 보케</div>
+      <div class="step"><span class="when">5a.</span><b>v5.4 PolyHaven HDR 16컷</b> ✅ 완료 — 4 무드(따뜻 스튜디오·자연광 살롱·차가운 모던·드라마틱) × 4 각도 = 16컷 그리드 (위 ⭐ 섹션)</div>
+      <div class="step"><span class="when">5b.</span><b>v5.5 2D BEFORE/AFTER 슬라이더</b> ✅ 완료 — 같은 인물 BEFORE + AFTER · 위 ⭐ 슬라이더 (1크)</div>
+      <div class="step"><span class="when">5c.</span><b>⭐⭐ v5.6 Blender 실사 BEFORE/AFTER × 4 무드</b> ✅ 완료 — BEFORE GLB 30크 + Blender 4 무드 × 2 GLB = 8컷 그리드</div>
+      <div class="step"><span class="when">5d.</span><b>⭐⭐⭐ v5.7 nano_banana_pro 실사 사진 AFTER × 4 무드</b> ✅ 완료 — 6크 · 최고 리얼리즘</div>
+      <div class="step"><span class="when">5e.</span><b>⭐⭐⭐⭐ v5.8 실사 사진 BEFORE/AFTER × 4 무드 = 8컷 그리드</b> ✅ 완료 — 6크 추가(BEFORE) · 총 12크 · <strong style="color:#FFD8B3">미팅 최종 결정타 ★</strong></div>
+    </div>
+    <p style="margin-top:14px;font-size:13px;color:#FAD7C7"><strong>예상 시간:</strong> Blender 켜지면 5단계 약 1시간 (각 단계 PoC-07 템플릿 재활용). <strong>비용:</strong> 0 추가 크 (GLB 30크 이미 결제).</p>
+  </div>
+</section>
+
+<!-- F. 비용·결산 -->
+<section>
+  <h2><span class="num">F</span>비용·시간 결산</h2>
+  <div class="progress">
+    <table>
+      <tr><th>항목</th><th>값</th></tr>
+      <tr><td>Higgsfield image_to_3d (PBR + symmetry)</td><td>30 크</td></tr>
+      <tr><td>Source 재활용 (v4-oval-after.png)</td><td class="win">0 크 (어제 1크 이미 사용)</td></tr>
+      <tr><td>model-viewer 페이지 작성</td><td class="win">0 크</td></tr>
+      <tr><td>다음 단계 Blender Cycles 렌더</td><td class="win">0 크 (PoC-07 템플릿 재활용)</td></tr>
+      <tr><td><strong>총 합계</strong></td><td><strong>30 크</strong></td></tr>
+      <tr><td>잔량 351.46 → <strong>321.46</strong></td><td>10% 차감</td></tr>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · Face Lab v5 Blender 실사 PoC · 2026-06-28 · 운영진 전용</p>
+  <p style="margin-top:6px">
+    <a href="../">v3 (이전)</a> ·
+    <a href="../v4/">v4 (BEFORE/AFTER)</a> ·
+    <a href="../../Blender-MCP-Bake-PoC-20260626.html">PoC-07 Bake</a> ·
+    <a href="../../원장님-미팅-보고-20260629.html">미팅 보고서</a> ·
+    <a href="../../index.html">메인 포털</a>
+  </p>
+</footer>
+
+<script>
+(function() {
+  const stage = document.getElementById('v55-stage');
+  const handle = document.getElementById('v55-handle');
+  const afterWrap = document.getElementById('v55-after-wrap');
+  if (!stage) return;
+  let drag = false;
+  const setPos = (clientX) => {
+    const rect = stage.getBoundingClientRect();
+    let x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const pct = (x / rect.width) * 100;
+    handle.style.left = pct + '%';
+    afterWrap.style.width = pct + '%';
+  };
+  stage.addEventListener('mousedown', e => { drag = true; setPos(e.clientX); });
+  window.addEventListener('mousemove', e => { if (drag) setPos(e.clientX); });
+  window.addEventListener('mouseup', () => drag = false);
+  stage.addEventListener('touchstart', e => { drag = true; setPos(e.touches[0].clientX); });
+  window.addEventListener('touchmove', e => { if (drag) setPos(e.touches[0].clientX); });
+  window.addEventListener('touchend', () => drag = false);
+})();
+</script>
+</body>
+</html>

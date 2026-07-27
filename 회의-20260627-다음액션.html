@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전직원 회의 · 2026-06-27 Blender 4 PoC 정리 + 다음 액션 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;font-weight:700;margin-right:6px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  .blocker{background:#2a1818;border:1px solid #5a2828;border-radius:10px;padding:14px 18px;margin-bottom:14px;font-size:13.5px;color:#f4c4c0}
+  .blocker b{color:#ffb0a8}
+  .person{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  .person .who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .person .who .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#a8854e);color:#0b0907;display:flex;align-items:center;justify-content:center;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px}
+  .person .who .name{font-weight:800;font-size:15px;color:#e7e5e1}
+  .person .who .role{font-size:12px;color:#8a8a84}
+  .person .conclusion{background:#1c1c1d;border-left:3px solid #d4af37;padding:10px 14px;margin-bottom:10px;font-size:14px;color:#f4e6b8}
+  .person p{font-size:14px;line-height:1.7;color:#cbc8c1;margin-bottom:8px}
+  .person p strong{color:#e7e5e1}
+  .person p em{color:#d4af37;font-style:normal;font-weight:700}
+  .person ul{margin:6px 0 6px 18px;font-size:14px;color:#cbc8c1;line-height:1.7}
+  .person li::marker{color:#d4af37}
+  .person .recommend{background:#2a1a18;border:1px dashed #d4af37;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:13.5px;color:#f4d4a8}
+  .person .recommend b{color:#ffb98a}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.lose{color:#f4c4a8}
+  .agree{background:#1c2a1c;border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px;color:#c8e6c9}
+  .agree b{color:#a8e6b3}
+  .options{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 22px;margin-top:8px}
+  .options h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  .options .opt{padding:14px 16px;background:#1c1c1d;border-radius:8px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+  .options .opt .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;flex-shrink:0;line-height:1;width:40px;text-align:center}
+  .options .opt .body b{font-size:15px;color:#e7e5e1;display:block;margin-bottom:4px}
+  .options .opt .body p{font-size:13px;color:#9a9a93;line-height:1.55;margin:0}
+  .options .opt .body .cost{font-size:11.5px;color:#d4af37;letter-spacing:1px;margin-top:4px;font-weight:600}
+  .options .opt.reco{border:1px solid #d4af37;background:linear-gradient(135deg,#1c1c1d,#2a241a)}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>전직원 회의</em> — 2026-06-27 (토) · Blender 4 PoC 정리 + 다음 액션</h1>
+<p class="sub">출석: 이서연 · 유나 · 한승철 · 클로드 / 의장: 박정주 대표님 / 안건: PoC-05·06·07·08 종합 + 「뭘 할지」 합의</p>
+
+<div class="goal"><b>🎯 목표</b>Blender PoC 4건 종합 + 4직원 회의 → 다음 1순위 액션 합의 권고 1건 도출</div>
+
+<div class="meta-bar">
+  <div><b>잔량</b>352.46 크 (Plus)</div>
+  <div><b>지난 3일 산출</b>PoC 4건 + 템플릿 라이브러리 + 마네킹 GLB + 베이크 텍스처 5종</div>
+  <div><b>오늘 누적</b>0 크 (어제 0크 / 그저께 2크)</div>
+  <div><b>외부 URL</b>cloudflared 임시 터널 (운영진용)</div>
+</div>
+
+<!-- A. 블록커 -->
+<section>
+  <h2><span class="num">A</span>지속 블록커 (회의 시작 시점)</h2>
+  <div class="blocker">① <b>카카오톡 채널</b> — 6/6부터 <b>21일째 보류</b>. 랜딩 「상담 신청」 비활성 → 인스타 게시 시 DM 응대만 가능 → ROI 측정 불가</div>
+  <div class="blocker">② <b>장미지 원장님 노하우 자료</b> — 6/15 약속, 12일째 수령 미확인. REVIEWS 카드·시술 사진 자료 대기</div>
+  <div class="blocker">③ <b>Netlify git 자격증명</b> — 운영진용 jangmiji.staris.cloud 영구 배포 미진입. cloudflared 임시 터널 의존</div>
+</section>
+
+<!-- B. PoC 4건 종합 -->
+<section>
+  <h2><span class="num">B</span>Blender PoC 4건 종합 (지난 3일)</h2>
+  <table>
+    <tr><th>PoC</th><th>접근</th><th>정면</th><th>45°</th><th>측면</th><th>클로즈업</th><th>마케팅 적합</th><th>비용</th></tr>
+    <tr><td>PoC-05 (06/25)</td><td>데칼 평면</td><td class="win">✅</td><td>△</td><td class="lose">✗</td><td class="win">✅</td><td>✅</td><td>2 크</td></tr>
+    <tr><td>PoC-06 (06/26 오전)</td><td>UV 직접 페인트</td><td>△</td><td class="lose">✗</td><td class="lose">✗</td><td>△</td><td class="lose">✗</td><td>0 크</td></tr>
+    <tr style="background:#1c2a1c"><td><strong>PoC-07 (06/26 오후)</strong></td><td><strong>Cycles Bake Phase 1</strong></td><td class="win">✅</td><td class="win">✅</td><td>⚠ 비어있음</td><td class="win">✅</td><td class="win"><strong>✅ 베스트 ★</strong></td><td>0 크</td></tr>
+    <tr><td>PoC-08 (06/26 저녁)</td><td>Bake Phase 2 (측면 평면 추가)</td><td>△</td><td class="win">✅</td><td class="lose">⚠ 패치워크</td><td>△</td><td>△</td><td>0 크</td></tr>
+  </table>
+
+  <div class="agree"><b>🟢 합의 사실 (4직원 일치):</b>
+    <ul style="margin-top:6px">
+      <li><strong>마케팅 자산 베스트 = PoC-07</strong> (Phase 1). 정면·45°·클로즈업 3 각도 자연 + 영구 텍스처</li>
+      <li>측면 한계의 진짜 원인 = <strong>마네킹 GLB의 source image에 눈썹이 없기 때문</strong>. 데칼·페인트·베이크로는 못 풂</li>
+      <li>진정한 정답 path = <strong>「자연 눈썹 있는 source image」로 마네킹 GLB 재제작</strong> (옵션 C) 또는 <strong>Meshy Pro + 5종 페르소나 일괄</strong> (옵션 D)</li>
+      <li>한승철 권고 「ARTbrows-Blender-템플릿」 라이브러리 영구 자산화 완료 — 다음 페르소나도 한 줄 셋업으로 작동</li>
+    </ul>
+  </div>
+</section>
+
+<!-- C. 직원별 발언 -->
+<section>
+  <h2><span class="num">C</span>직원별 발언 (현재 시점에서 뭘 할지)</h2>
+
+  <!-- 이서연 -->
+  <div class="person">
+    <div class="who"><div class="avatar">이</div><div><div class="name">이서연 (기획·마케팅 PM)</div><div class="role">전환·깔때기·운영</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> 대표님, 지난 3일은 <em>「자산은 검증 끝, 깔때기는 멈춰있는 상태」</em>. PoC 5번 더 해도 카카오 채널 없으면 ROI 측정 불가입니다. <strong>오늘은 「게시 시작」이 답</strong>입니다.</div>
+    <ul>
+      <li><strong>PoC-07 컷 5장 캐러셀 즉시 제작</strong> — 정면·45°·클로즈업 베스트 컷으로 1080×1080 캐러셀. <em>0 크 · 30분</em>. STORY 09 「ARTbrows 시그니처 — 자체 검증」 시리즈 합류</li>
+      <li><strong>D+1 인스타 게시 시작</strong> — 운영가이드 v4 캘린더 따라 첫 게시 토요일 저녁. 대표님 계정으로 수동</li>
+      <li><strong>카카오 블록커 21일째</strong> — 매주 회의에서 같은 블록 사유 = 비용. 이번 주 <strong>대표님 5분 결단</strong> 부탁드립니다</li>
+      <li><strong>옵션 C·D는 페르소나 5종 확장 시점</strong>에 — 지금은 STORY 시리즈 7편이 게시 0건이라 페르소나 늘려도 노출 안 됨</li>
+    </ul>
+    <div class="recommend"><b>🟡 권고 (이서연):</b> <strong>옵션 B (PoC-07 캐러셀 + 시리즈 8편 합류)</strong> 즉시 진행. 옵션 C·D는 카카오 풀리고 D+7 결과 보고 결정.</div>
+  </div>
+
+  <!-- 유나 -->
+  <div class="person">
+    <div class="who"><div class="avatar">유</div><div><div class="name">유나 (그래픽·비주얼)</div><div class="role">톤·디자인 일관성</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> 대표님, PoC-07이 비주얼 베스트는 맞아요. 그런데 <em>마네킹은 결국 「오브제」</em>입니다. STORY 02·03·07 실사 인물 시리즈의 「ARTbrows 시그니처 무드컷」으로 합류하는 게 톤 통일.</div>
+    <ul>
+      <li><strong>PoC-07 정면 + 45° + 클로즈업 3컷</strong>으로 캐러셀 5장 디자인. 「살구핑크 + 명조 헤드 + 마네킹 무드」 통일</li>
+      <li><strong>「ARTbrows 시그니처 검증」 카드</strong> — 마네킹 클로즈업 + 「33만큼 작은 영역에 박힌 한 줄 결」 카피. 메인홈 hero 후보로 A/B</li>
+      <li><strong>마네킹 GLB 재제작(옵션 C)은 보류</strong> — 33크 들이느니 어차피 다음 페르소나 단계에서 source image에 눈썹 박는 패턴 적용. <strong>마네킹은 「제품 컷」 용도로 PoC-07 그대로 활용</strong></li>
+      <li>한 가지 더 — 캐러셀 4번 슬라이드 「과거 시술 자료」 자리에 PoC-07 매크로 컷 넣으면 「마네킹 위에 박힌 시그니처 = 학원 정밀도」 시각 메시지 강함</li>
+    </ul>
+    <div class="recommend"><b>🙋 권고 (유나):</b> <strong>옵션 B + STORY 09 시그니처 카드 3종</strong> 추가 디자인 (0크 · 1시간). 옵션 C 보류. D는 페르소나 5종 단계에서 본격.</div>
+  </div>
+
+  <!-- 한승철 -->
+  <div class="person">
+    <div class="who"><div class="avatar">한</div><div><div class="name">한승철 (풀스택 CTO급)</div><div class="role">파이프라인·인프라</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> 대표님, 「ARTbrows-Blender-템플릿」 영구 자산화 완료가 진짜 결산입니다. <em>다음 페르소나 1명 = 8분 + 1크 source image + 31크 GLB = 32크/캐릭터</em>. 5종이면 160크, 잔량 352로 충분.</div>
+    <ul>
+      <li><strong>옵션 D 본격 진입 — Meshy Pro $20/월 결제 + 5종 페르소나 GLB 일괄</strong>. 단가 73%↓. 페르소나당 source image에 미리 눈썹 박아 한 번에 4 각도 자연 (PoC-08 한계 회피)</li>
+      <li><strong>그러나 카카오 블록커 + D+1 게시 0건 상태</strong>에서 페르소나 5종 추가 = 운영 부담 증가. 이서연 의견에 동의 — <strong>옵션 B 먼저, 옵션 D는 다음 주</strong></li>
+      <li><strong>Netlify git 자격증명</strong> — 15분 작업. cloudflared 터널 매번 새 URL 받는 부담 해소. 운영진 영구 URL 확보 (이번 주 결단 부탁드립니다)</li>
+      <li><strong>모니터링</strong> — eyebrows.staris.cloud 라이브 상태 자동 점검 cron 만들어둠 (Phase 2 작업)</li>
+    </ul>
+    <div class="recommend"><b>🛠 권고 (한승철):</b> <strong>옵션 B 이번 주 + 옵션 D 다음 주 진입.</strong> Netlify git 결단 (이번 주) + 카카오 결단 (이번 주) 동반.</div>
+  </div>
+
+  <!-- 클로드 종합 -->
+  <div class="person">
+    <div class="who"><div class="avatar">C</div><div><div class="name">클로드 (Claude Code · 종합)</div><div class="role">합의 정리</div></div></div>
+    <div class="conclusion"><strong>3직원 합의 (만장일치):</strong> 옵션 B (PoC-07 컷 캐러셀 + 시리즈 8편 합류) 이번 주 즉시. 옵션 D (Meshy Pro + 5종)는 다음 주. <strong>옵션 C는 보류 (어차피 옵션 D에서 패턴 적용).</strong></div>
+
+    <div class="agree" style="margin:10px 0"><b>🟢 합의 권고 — 「이번 주 3 트랙 동시」:</b>
+      <ul style="margin-top:6px">
+        <li><strong>트랙 1 (실행 — 클로드)</strong> PoC-07 컷 5장 인스타 캐러셀 + STORY 09 시그니처 카드 3종 (0크 · 1.5시간)</li>
+        <li><strong>트랙 2 (대표님 결단 — 5분)</strong> 카카오톡 채널 개설 결정 (21일째 블록커) + Netlify git 자격증명 (15분)</li>
+        <li><strong>트랙 3 (다음 주 결정)</strong> Meshy Pro $20/월 + 5종 페르소나 GLB 일괄 (트랙 1·2 결과 본 후)</li>
+      </ul>
+    </div>
+
+    <p style="font-size:13px;color:#9a9a93;margin-top:8px"><strong>왜 옵션 B 즉시:</strong> ① 비용 0크 + 30분 ② 시리즈 7편 다음 8편째로 자연 합류 ③ STORY 라인업 「실사 6편 + 마네킹 1편 = 7편」 완결 가능 ④ 카카오 결단 풀리면 D+1~D+7 게시 → ROI 측정 → 옵션 D 결정 근거 확보.</p>
+  </div>
+
+</section>
+
+<!-- D. 대표님 결정 옵션 -->
+<div class="options">
+  <h3>대표님 결정 — 1글자 답변</h3>
+
+  <div class="opt reco"><div class="n">B</div><div class="body">
+    <b>옵션 B — PoC-07 캐러셀 5장 + STORY 09 시그니처 카드 (3직원 합의)</b>
+    <p>오늘 즉시 진행. 정면·45°·클로즈업 베스트 컷 + 살구핑크 디자인 시스템. 시리즈 8편 합류. 메인 포털 + 갤러리 + 운영가이드 자동 갱신.</p>
+    <p class="cost">0 크 · 1.5시간 · 권장 ★★★</p>
+  </div></div>
+
+  <div class="opt"><div class="n">C</div><div class="body">
+    <b>옵션 C — 마네킹 GLB 재제작 (단독)</b>
+    <p>33크 비용. 4 각도 모두 자연 가능. 단 어차피 옵션 D에서 같은 패턴 적용 → 단독 진행 효율 낮음.</p>
+    <p class="cost">33 크 · 10분</p>
+  </div></div>
+
+  <div class="opt"><div class="n">D</div><div class="body">
+    <b>옵션 D — Meshy Pro $20/월 + 5종 페르소나 일괄 (한승철 STEP 2)</b>
+    <p>본격 진입. 페르소나당 source image에 눈썹 미리 박기. 「수아·하영·예린·민지·지우」 5종 GLB. 이번 주가 아닌 다음 주 권장 (트랙 1·2 결과 본 후).</p>
+    <p class="cost">$20/월 + ~160 크 · 반나절</p>
+  </div></div>
+
+  <div class="opt"><div class="n">E</div><div class="body">
+    <b>보류 — 다른 블록커(카카오·원장님 자료·Netlify git) 집중</b>
+    <p>대표님 결단 3가지 (카카오 5분, Netlify git 자격증명, 원장님 자료 수령)에 집중. Blender 라인 추가 작업 안 함.</p>
+    <p class="cost">0 크 · 즉시</p>
+  </div></div>
+
+  <div class="opt"><div class="n">B+D</div><div class="body">
+    <b>B 이번 주 + D 다음 주 (3직원 합의 권고)</b>
+    <p>이번 주 B 즉시 + 카카오·Netlify git 결단 + 다음 주 D 본격 진입. <strong>이게 3직원 만장일치 권고.</strong></p>
+    <p class="cost">이번 주 0크 · 다음 주 $20 + ~160크</p>
+  </div></div>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 운영진 전용 (cloudflared 임시 터널 / _site)</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="Blender-MCP-Bake-Phase2-20260626.html">PoC-08 정직 보고</a> · <a href="Blender-MCP-Bake-PoC-20260626.html">PoC-07 베스트</a> · <a href="회의-20260625-블렌더효과.html">06/25 1차 회의</a> · <a href="docs/PROGRESS.md">PROGRESS.md</a></p>
+</footer>
+
+</body>
+</html>

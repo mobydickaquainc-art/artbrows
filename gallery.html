@@ -1,0 +1,629 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARTbrows · 콘텐츠 갤러리</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+:root{--apricot:#FBEAE2;--cream:#FFFBF5;--ink:#2A1D1A;--muted:#9A6A5E;--coral:#FF7A66;--hotpink:#FF6F84;--gold:#E8B872;--line:#F0D6CC;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.6}
+.serif{font-family:'Nanum Myeongjo',serif}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);background:rgba(255,251,245,.82);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.logo{font-weight:900;font-size:20px;letter-spacing:.02em}
+.logo span{color:var(--coral)}
+.nav-links{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.nav-links a{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:700;color:#6b4f48}
+.nav-links a:hover{background:#fff}
+.nav-links a.cur{color:var(--coral)}
+.nav-cta{background:var(--hotpink);color:#fff!important;padding:9px 18px!important}
+.hero{position:relative;height:460px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('assets/gallery-hero.png') center/cover;transform:scale(1.05)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(255,251,245,.94) 0%,rgba(255,251,245,.55) 44%,rgba(255,251,245,0) 72%)}
+.hero-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:0 24px;width:100%}
+.hero .eyebrow{letter-spacing:.42em;font-size:13px;font-weight:800;color:var(--coral)}
+.hero h1{font-size:88px;line-height:1.0;font-weight:800;margin:14px 0 14px;background:linear-gradient(95deg,#FF6F84,#FF7A66 45%,#E8B872);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:18px;color:#6b4f48;max-width:520px;font-weight:500}
+.stat-row{max-width:1240px;margin:24px auto 0;padding:0 24px;display:flex;gap:14px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;flex:1;min-width:160px;text-align:center}
+.stat .n{font-family:'Nanum Myeongjo',serif;font-size:30px;font-weight:800;color:var(--coral);line-height:1}
+.stat .l{font-size:12px;color:#6b4f48;font-weight:700;margin-top:6px;letter-spacing:.04em}
+.filters{max-width:1240px;margin:30px auto 4px;padding:0 24px;display:flex;gap:8px;flex-wrap:wrap}
+.filter{padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:.16s;color:#6b4f48}
+.filter.active,.filter:hover{background:linear-gradient(95deg,#FF6F84,#FF7A66);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(255,111,132,.3)}
+.section-label{max-width:1240px;margin:32px auto 14px;padding:0 24px;display:flex;align-items:center;gap:12px}
+.section-label .badge{background:linear-gradient(95deg,#FF6F84,#FF7A66);color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:999px;letter-spacing:.06em}
+.section-label h2{font-family:'Nanum Myeongjo',serif;font-size:26px;font-weight:800;color:var(--ink)}
+.section-label .desc{margin-left:auto;font-size:13px;color:#6b4f48;font-weight:500}
+.grid{max-width:1240px;margin:14px auto 24px;padding:0 24px;columns:3;column-gap:20px}
+.item{break-inside:avoid;margin-bottom:20px;border-radius:20px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 8px 24px rgba(232,169,155,.2);transition:.22s;background:#fff}
+.item:hover{transform:translateY(-5px);box-shadow:0 18px 42px rgba(255,111,132,.28)}
+.item img{width:100%;display:block}
+.item .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(42,29,26,.85),rgba(42,29,26,0) 55%);opacity:0;transition:.22s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
+.item:hover .ov{opacity:1}
+.item .ov .t{color:#fff;font-weight:800;font-size:16px;line-height:1.3}
+.item .ov .c{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.06em;margin-bottom:3px}
+.tag{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.92);color:var(--coral);font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;z-index:2}
+.tag.new{background:linear-gradient(95deg,#FF6F84,#FF7A66);color:#fff}
+.lb{position:fixed;inset:0;background:rgba(30,18,16,.92);z-index:1000;display:none;align-items:center;justify-content:center;padding:30px}
+.lb.open{display:flex}
+.lb img{max-width:92vw;max-height:88vh;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.lb .x{position:absolute;top:20px;right:30px;color:#fff;font-size:42px;cursor:pointer;font-weight:300;line-height:1}
+footer{background:#2A1D1A;color:#F6E6DF;text-align:center;padding:42px 24px;font-size:13px;line-height:1.9;margin-top:40px}
+@media(max-width:900px){.grid{columns:2}.hero h1{font-size:56px}.hero{height:380px}}
+@media(max-width:560px){.grid{columns:1}.hero h1{font-size:44px}}
+</style></head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="logo">ART<span>brows</span></a>
+  <div class="nav-links">
+    <a href="index.html">홈</a>
+    <a href="gallery.html" class="cur">갤러리</a>
+    <a href="개발과정.html">개발 과정</a>
+    <a href="ARTbrows-업무보고-대시보드.html">업무 보고</a>
+    <a class="nav-cta" href="landing-pages/artbrows-모집-럭셔리에디토리얼.html">상담 신청</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-in">
+    <div class="eyebrow">ARTBROWS · CONTENT GALLERY</div>
+    <h1 class="serif">Gallery</h1>
+    <p>극사실눈썹 창시자의 브랜드 콘텐츠 — STORY 시리즈 7편(+ 07-B 단발 병행), 모집 카드 7종, 인스타 캐러셀 2종(모녀 · 직장), 인스타 그리드 v3.</p>
+  </div>
+</header>
+
+<div class="stat-row">
+  <div class="stat"><div class="n">7+B</div><div class="l">STORY 시리즈</div></div>
+  <div class="stat"><div class="n">7</div><div class="l">모집 카드</div></div>
+  <div class="stat"><div class="n">12</div><div class="l">캐러셀 (2종 ×6)</div></div>
+  <div class="stat"><div class="n">8</div><div class="l">시리즈 캐릭터</div></div>
+  <div class="stat"><div class="n">8</div><div class="l">완성 쇼츠 영상</div></div>
+</div>
+
+<div class="filters">
+  <button class="filter active" data-f="all">전체</button>
+  <button class="filter" data-f="ad">인스타 광고 NEW</button>
+  <button class="filter" data-f="hero">메인 무드 NEW</button>
+  <button class="filter" data-f="video">영상</button>
+  <button class="filter" data-f="thumb">시리즈 썸네일</button>
+  <button class="filter" data-f="card">모집 카드</button>
+  <button class="filter" data-f="carousel">인스타 캐러셀</button>
+  <button class="filter" data-f="character">캐릭터</button>
+  <button class="filter" data-f="cut">시나리오 컷</button>
+  <button class="filter" data-f="grid">인스타 그리드</button>
+  <button class="filter" data-f="mood">초기 무드</button>
+</div>
+
+<div class="section-label" style="background:linear-gradient(135deg,#2A211C,#0B0907);color:#F5EDE3">
+  <span class="badge" style="background:#C9A66B;color:#0B0907">SECTION 00 · NEW 06/16</span>
+  <h2 style="color:#E0C088">인스타 광고 4종 · 69만원 모집</h2>
+  <span class="desc" style="color:#D6C9B8">Higgsfield 1024×1024 · 광고 클릭 URL = eyebrows.staris.cloud/enroll</span>
+</div>
+
+<div class="grid">
+  <a class="item" data-cat="ad" href="assets/광고/IG-69만원/01-hero-portrait.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag new" style="background:#C9A66B;color:#0B0907">01 · HERO PORTRAIT</span>
+    <img src="assets/광고/IG-69만원/01-hero-portrait.png" alt="01 hero" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="ad" href="assets/광고/IG-69만원/02-eyebrow-macro.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag new" style="background:#C9A66B;color:#0B0907">02 · EYEBROW MACRO</span>
+    <img src="assets/광고/IG-69만원/02-eyebrow-macro.png" alt="02 macro" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="ad" href="assets/광고/IG-69만원/03-curriculum.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag new" style="background:#C9A66B;color:#0B0907">03 · CURRICULUM</span>
+    <img src="assets/광고/IG-69만원/03-curriculum.png" alt="03 curriculum" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="ad" href="assets/광고/IG-69만원/04-cta-typo.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag new" style="background:#C9A66B;color:#0B0907">04 · CTA TYPO</span>
+    <img src="assets/광고/IG-69만원/04-cta-typo.png" alt="04 cta" style="width:100%;display:block">
+  </a>
+</div>
+
+<div class="section-label" style="background:linear-gradient(135deg,#1E1A17,#161311);color:#F5EDE3;margin-top:32px">
+  <span class="badge" style="background:#C9A66B;color:#0B0907">SECTION 00b · NEW 06/16</span>
+  <h2 style="color:#E0C088">새 메인홈 무드컷 8종</h2>
+  <span class="desc" style="color:#D6C9B8">Higgsfield 극사실 · hero portrait C 채택 (저작권 안전 변형) + atelier/매크로/시술/야경/추가 변형</span>
+</div>
+
+<div class="grid">
+  <a class="item" data-cat="hero" href="assets/메인홈무드/hero-portrait-C.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag new" style="background:#C9A66B;color:#0B0907">★ HERO C (적용 중)</span>
+    <img src="assets/메인홈무드/hero-portrait-C.png" alt="hero C" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/hero-portrait-A.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">HERO A (보관)</span>
+    <img src="assets/메인홈무드/hero-portrait-A.png" alt="hero A" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/hero-portrait-B.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">HERO B (보조)</span>
+    <img src="assets/메인홈무드/hero-portrait-B.png" alt="hero B" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/hero-portrait-D.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">HERO D (보조)</span>
+    <img src="assets/메인홈무드/hero-portrait-D.png" alt="hero D" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/hero-atelier.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">PILLAR 04 · ATELIER</span>
+    <img src="assets/메인홈무드/hero-atelier.png" alt="atelier" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/pillar-eyebrow.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">PILLAR 01 · EYEBROW</span>
+    <img src="assets/메인홈무드/pillar-eyebrow.png" alt="eyebrow macro" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/pillar-hand.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">PILLAR 02 · HAND</span>
+    <img src="assets/메인홈무드/pillar-hand.png" alt="hand" style="width:100%;display:block">
+  </a>
+  <a class="item" data-cat="hero" href="assets/메인홈무드/global-cheongdam.png" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="tag" style="background:#A8854E;color:#FFF">PILLAR 03 · GLOBAL</span>
+    <img src="assets/메인홈무드/global-cheongdam.png" alt="global" style="width:100%;display:block">
+  </a>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 01</span>
+  <h2>STORY 시리즈 쇼츠</h2>
+  <span class="desc">완성된 24초 쇼츠 8편 (실사 전환 07/07-B 포함) + 유튜브 게시 2편</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="video">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 08 싱글맘편 ★ 06/22 신규</span>
+    <video src="assets/시리즈-싱글맘편/싱글맘편-쇼츠-실사완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 04 부업맘편 ★ 06/22 실사</span>
+    <video src="assets/시리즈-부업맘편/부업맘편-쇼츠-실사완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 03 신부편 ★ 06/22 실사</span>
+    <video src="assets/시리즈-신부편/신부편-쇼츠-실사완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 02 직장인편 ★ 06/22 실사</span>
+    <video src="assets/시리즈-직장인편/직장인편-쇼츠-실사완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 07 미용편 (묶음) ★ 06/21 실사</span>
+    <video src="assets/시리즈-미용편/미용편-쇼츠-실사완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 07-B 미용편 (단발) ★ 06/21 병행</span>
+    <video src="assets/시리즈-미용편/미용편-쇼츠-단발모델.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 06 미대생편</span>
+    <video src="assets/시리즈-미대생편/미대생편-쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 05 시니어편</span>
+    <video src="assets/시리즈-시니어편/시니어편-쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 04 부업맘편</span>
+    <video src="assets/시리즈-부업맘편/부업맘편-쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 03 신부편</span>
+    <video src="assets/시리즈-신부편/신부편-쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 02 직장인편</span>
+    <video src="assets/시리즈-직장인편/직장인편-쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 01 성장기 ▶ YouTube</span>
+    <div style="position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;background:#000">
+      <iframe src="https://www.youtube.com/embed/Eni8T-MTRrs" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="ARTbrows 성장 스토리 쇼츠"></iframe>
+    </div>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">STORY · 00 도비편 ▶ YouTube</span>
+    <div style="position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;background:#000">
+      <iframe src="https://www.youtube.com/embed/DF-7i_clWgw" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="ARTbrows 도비편 쇼츠"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 02</span>
+  <h2>STORY 시리즈 썸네일</h2>
+  <span class="desc">시리즈 7편 + 07-B 단발 1080×1080 통일 디자인 시스템 · 실사 전환분 포함</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-싱글맘편-실사-1080.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 08 ★ 06/22 신규</span>
+    <img src="assets/모집카드시안/썸네일-싱글맘편-실사-1080.png" alt="싱글맘편 실사 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 싱글맘편 (실사)</div><div class="t">엄마의 시간을, 아이에게</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-부업맘편-실사-1080.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 04 ★ 06/22 실사</span>
+    <img src="assets/모집카드시안/썸네일-부업맘편-실사-1080.png" alt="부업맘편 실사 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 부업맘편 (실사)</div><div class="t">엄마가 빛나면, 우리도 빛납니다</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-신부편-실사-1080.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 03 ★ 06/22 실사</span>
+    <img src="assets/모집카드시안/썸네일-신부편-실사-1080.png" alt="신부편 실사 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 신부편 (실사)</div><div class="t">가장 빛나는 날, 가장 자신 있는 한 줄</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-직장인편-실사-1080.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 02 ★ 06/22 실사</span>
+    <img src="assets/모집카드시안/썸네일-직장인편-실사-1080.png" alt="직장인편 실사 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 직장인편 (실사)</div><div class="t">전공이 달라도, 전문가가 됩니다</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-미용편-실사-1080.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 07 ★ 06/21 실사</span>
+    <img src="assets/모집카드시안/썸네일-미용편-실사-1080.png" alt="미용편 실사 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 미용편 (묶음)</div><div class="t">기술 위에, 한 줄 더</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-미용편-단발-1080.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">STORY · 07-B ★ 06/21 단발</span>
+    <img src="assets/모집카드시안/썸네일-미용편-단발-1080.png" alt="미용편 단발 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 미용편 (단발 07-B)</div><div class="t">기술 위에, 한 줄 더 · 단발 톤</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-미대생-1080.png">
+    <span class="tag">STORY · 06</span>
+    <img src="assets/모집카드시안/썸네일-미대생-1080.png" alt="미대생편 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 미대생편</div><div class="t">전공 너머, 새로운 한 발</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-시니어-1080.png">
+    <span class="tag">STORY · 05</span>
+    <img src="assets/모집카드시안/썸네일-시니어-1080.png" alt="시니어편 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 시니어편</div><div class="t">엄마의 두 번째 인생은, 이제부터입니다</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-부업맘-1080.png">
+    <span class="tag">STORY · 04</span>
+    <img src="assets/모집카드시안/썸네일-부업맘-1080.png" alt="부업맘편 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 부업맘편</div><div class="t">엄마가 빛나면, 우리도 빛납니다</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-신부-1080.png">
+    <span class="tag">STORY · 03</span>
+    <img src="assets/모집카드시안/썸네일-신부-1080.png" alt="신부편 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 신부편</div><div class="t">생애 가장 빛나는 날, 가장 자신 있는 눈썹</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-직장인-1080.png">
+    <span class="tag">STORY · 02</span>
+    <img src="assets/모집카드시안/썸네일-직장인-1080.png" alt="직장인편 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 직장인편</div><div class="t">사원증을 벗고, 전문가가 되다</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-성장기-1080.png">
+    <span class="tag">STORY · 01</span>
+    <img src="assets/모집카드시안/썸네일-성장기-1080.png" alt="성장기 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 성장기</div><div class="t">평범했던 그녀의 새로운 시작</div></div>
+  </div>
+  <div class="item" data-cat="thumb" data-src="assets/모집카드시안/썸네일-도비편-1080.png">
+    <span class="tag">STORY · 00</span>
+    <img src="assets/모집카드시안/썸네일-도비편-1080.png" alt="도비편 썸네일" loading="lazy">
+    <div class="ov"><div class="c">THUMB · 도비편</div><div class="t">눈썹 없던 그녀와 도비의 인생역전</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 03</span>
+  <h2>모집 카드 7종</h2>
+  <span class="desc">후킹·커리큘럼·차별점·CTA·REVIEWS·BRAND·MASCOT — 인스타 그리드 완전 채움</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-후킹-살구.png">
+    <span class="tag">CARD · 01 후킹</span>
+    <img src="assets/모집카드시안/카드-후킹-살구.png" alt="모집 카드 후킹" loading="lazy">
+    <div class="ov"><div class="c">CARD · 후킹</div><div class="t">극사실눈썹 창시자에게 직접 배우세요</div></div>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-커리큘럼-살구.png">
+    <span class="tag">CARD · 02 커리큘럼</span>
+    <img src="assets/모집카드시안/카드-커리큘럼-살구.png" alt="모집 카드 커리큘럼" loading="lazy">
+    <div class="ov"><div class="c">CARD · 커리큘럼</div><div class="t">3단계 집중 커리큘럼</div></div>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-차별점-살구.png">
+    <span class="tag">CARD · 03 차별점</span>
+    <img src="assets/모집카드시안/카드-차별점-살구.png" alt="모집 카드 차별점" loading="lazy">
+    <div class="ov"><div class="c">CARD · 차별점</div><div class="t">다른 학원과는 다른 4가지</div></div>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-cta-살구.png">
+    <span class="tag">CARD · 04 CTA</span>
+    <img src="assets/모집카드시안/카드-cta-살구.png" alt="모집 카드 CTA" loading="lazy">
+    <div class="ov"><div class="c">CARD · CTA</div><div class="t">상담 신청 안내</div></div>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-reviews-살구.png">
+    <span class="tag">CARD · 05 REVIEWS</span>
+    <img src="assets/모집카드시안/카드-reviews-살구.png" alt="모집 카드 REVIEWS" loading="lazy">
+    <div class="ov"><div class="c">CARD · REVIEWS</div><div class="t">수강생의 이야기가 곧 공개됩니다</div></div>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-brand-인용-1080.png">
+    <span class="tag">CARD · 06 BRAND</span>
+    <img src="assets/모집카드시안/카드-brand-인용-1080.png" alt="모집 카드 BRAND" loading="lazy">
+    <div class="ov"><div class="c">CARD · BRAND</div><div class="t">기술은 따라 할 수 있어도, 기준은 만든 사람에게서</div></div>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/카드-mascot-도비-1080.png">
+    <span class="tag">CARD · 07 MASCOT</span>
+    <img src="assets/모집카드시안/카드-mascot-도비-1080.png" alt="모집 카드 MASCOT 도비" loading="lazy">
+    <div class="ov"><div class="c">CARD · MASCOT</div><div class="t">도비와 함께, 다정한 시작</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 04</span>
+  <h2>인스타 그리드 9칸 모킹 v3</h2>
+  <span class="desc">실제 인스타 프로필 화면 시뮬레이션 — 2026-06-21 STORY 07/07-B + 캐러셀 2종 반영 갱신</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="grid" data-src="assets/모집카드시안/인스타-그리드-9칸-실사.png" style="grid-column:span 2">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">INSTAGRAM GRID v3 ★ 06/21</span>
+    <img src="assets/모집카드시안/인스타-그리드-9칸-실사.png" alt="인스타 그리드 9칸 v3 모킹" loading="lazy">
+    <div class="ov"><div class="c">GRID · 9칸 v3</div><div class="t">1행 시그니처 / 2행 신규(07/07-B + 캐러셀 2종) / 3행 행동</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 05a</span>
+  <h2>「직장 안에서, 한 발 더」 캐러셀 6장 ★ 06/21 NEW</h2>
+  <span class="desc">STORY 02 직장인 ↔ 07 미용 시너지 · 「퇴사 부담 없는 + 1」 진입 메시지</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-직장-1.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">01 후킹</span>
+    <img src="assets/모집카드시안/캐러셀-직장-1.png" alt="캐러셀 직장 1 후킹" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 직장 01</div><div class="t">직장 안에서, 한 발 더</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-직장-2.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">02 STORY 02</span>
+    <img src="assets/모집카드시안/캐러셀-직장-2.png" alt="캐러셀 직장 2 직장인" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 직장 02</div><div class="t">전공이 아니어도, 전문가가 된다 · 지우</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-직장-3.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">03 다리</span>
+    <img src="assets/모집카드시안/캐러셀-직장-3.png" alt="캐러셀 직장 3 다리" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 직장 03</div><div class="t">당신의 일터가, 다음 시그니처의 시작</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-직장-4.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">04 STORY 07</span>
+    <img src="assets/모집카드시안/캐러셀-직장-4.png" alt="캐러셀 직장 4 미용" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 직장 04</div><div class="t">기술 위에, 한 줄 더 · 하영 실사</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-직장-5.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">05 통합</span>
+    <img src="assets/모집카드시안/캐러셀-직장-5.png" alt="캐러셀 직장 5 통합" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 직장 05</div><div class="t">사원증 너머 vs 가위 곁의 한 줄</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-직장-6.png">
+    <span class="tag new" style="background:#D4AF37;color:#0B0907">06 CTA</span>
+    <img src="assets/모집카드시안/캐러셀-직장-6.png" alt="캐러셀 직장 6 CTA" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 직장 06</div><div class="t">상담 신청 · @artbrows.korea</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 05b</span>
+  <h2>모녀 캐러셀 6장</h2>
+  <span class="desc">부업맘 ↔ 시니어 시너지 · 「두 세대의 두 번째 인생」</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-모녀-1-후킹.png">
+    <span class="tag">01 후킹</span>
+    <img src="assets/모집카드시안/캐러셀-모녀-1-후킹.png" alt="캐러셀 1 후킹" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 01</div><div class="t">두 세대의 두 번째 인생</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-모녀-2-부업맘.png">
+    <span class="tag">02 부업맘</span>
+    <img src="assets/모집카드시안/캐러셀-모녀-2-부업맘.png" alt="캐러셀 2 부업맘" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 02</div><div class="t">엄마, 수아의 새벽</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-모녀-3-모녀.png">
+    <span class="tag">03 모녀</span>
+    <img src="assets/모집카드시안/캐러셀-모녀-3-모녀.png" alt="캐러셀 3 모녀" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 03</div><div class="t">엄마와 딸, 한 화면에</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-모녀-4-시니어.png">
+    <span class="tag">04 시니어</span>
+    <img src="assets/모집카드시안/캐러셀-모녀-4-시니어.png" alt="캐러셀 4 시니어" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 04</div><div class="t">어머니, 선영의 낮</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-모녀-5-통합.png">
+    <span class="tag">05 통합</span>
+    <img src="assets/모집카드시안/캐러셀-모녀-5-통합.png" alt="캐러셀 5 통합" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 05</div><div class="t">엄마가 빛나면, 우리도 빛납니다</div></div>
+  </div>
+  <div class="item" data-cat="carousel" data-src="assets/모집카드시안/캐러셀-모녀-6-cta.png">
+    <span class="tag">06 CTA</span>
+    <img src="assets/모집카드시안/캐러셀-모녀-6-cta.png" alt="캐러셀 6 CTA" loading="lazy">
+    <div class="ov"><div class="c">CAROUSEL · 06</div><div class="t">상담 신청 · 소수정예 모집</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 06</span>
+  <h2>시리즈 캐릭터 8종</h2>
+  <span class="desc">살구톤 일러스트 — 썸네일·그리드용 통일 캐릭터</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/하영-살구.png">
+    <span class="tag new">07 하영 NEW</span>
+    <img src="assets/시리즈-썸네일/하영-살구.png" alt="하영 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 07</div><div class="t">하영 · 28세 헤어 디자이너</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/민지-살구.png">
+    <span class="tag">06 민지</span>
+    <img src="assets/시리즈-썸네일/민지-살구.png" alt="민지 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 06</div><div class="t">민지 · 23세 미대 4학년</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/선영-살구.png">
+    <span class="tag">05 선영</span>
+    <img src="assets/시리즈-썸네일/선영-살구.png" alt="선영 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 05</div><div class="t">선영 · 54세 시니어</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/수아-살구.png">
+    <span class="tag">04 수아</span>
+    <img src="assets/시리즈-썸네일/수아-살구.png" alt="수아 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 04</div><div class="t">수아 · 38세 워킹맘</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/예린-살구.png">
+    <span class="tag">03 예린</span>
+    <img src="assets/시리즈-썸네일/예린-살구.png" alt="예린 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 03</div><div class="t">예린 · 신부편 주인공</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/지우-살구.png">
+    <span class="tag">02 지우</span>
+    <img src="assets/시리즈-썸네일/지우-살구.png" alt="지우 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 02</div><div class="t">지우 · 직장인편 주인공</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/하은-살구.png">
+    <span class="tag">01 하은</span>
+    <img src="assets/시리즈-썸네일/하은-살구.png" alt="하은 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 01</div><div class="t">하은 · 성장기 주인공</div></div>
+  </div>
+  <div class="item" data-cat="character" data-src="assets/시리즈-썸네일/도비편-주인공도비-살구.png">
+    <span class="tag">00 주인공+도비</span>
+    <img src="assets/시리즈-썸네일/도비편-주인공도비-살구.png" alt="도비 캐릭터" loading="lazy">
+    <div class="ov"><div class="c">CHARACTER · 00</div><div class="t">주인공 + 도비 (마스코트)</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 07</span>
+  <h2>시나리오 컷 모음</h2>
+  <span class="desc">기·승·전·결 컷 일러스트 (각 편 대표 컷)</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="cut" data-src="assets/시리즈-미용편/컷3-전.png">
+    <span class="tag new">07 미용편 · 전 NEW</span>
+    <img src="assets/시리즈-미용편/컷3-전.png" alt="미용편 컷 3" loading="lazy">
+    <div class="ov"><div class="c">미용편 · 전</div><div class="t">가위와 펜이 한 화면에</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-미용편/하영-동료-모먼트.png">
+    <span class="tag new">07 미용편 · 동료 NEW</span>
+    <img src="assets/시리즈-미용편/하영-동료-모먼트.png" alt="미용편 동료 모먼트" loading="lazy">
+    <div class="ov"><div class="c">미용편 · 동료</div><div class="t">미용실 동료에게 자랑하는 순간</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-미대생편/컷3-전.png">
+    <span class="tag">06 미대생편 · 전</span>
+    <img src="assets/시리즈-미대생편/컷3-전.png" alt="미대생편 컷 3" loading="lazy">
+    <div class="ov"><div class="c">미대생편 · 전</div><div class="t">예술의 손이, 직업이 되다</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-미대생편/민지-친구-모먼트.png">
+    <span class="tag">06 미대생편 · 친구</span>
+    <img src="assets/시리즈-미대생편/민지-친구-모먼트.png" alt="미대생편 친구 모먼트" loading="lazy">
+    <div class="ov"><div class="c">미대생편 · 친구</div><div class="t">작업실에서 친구와 함께</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-시니어편/컷3-전.jpeg">
+    <span class="tag">05 시니어편 · 전</span>
+    <img src="assets/시리즈-시니어편/컷3-전.jpeg" alt="시니어편 컷 3" loading="lazy">
+    <div class="ov"><div class="c">시니어편 · 전</div><div class="t">완성 패드, 환한 미소</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-시니어편/선영-딸-모먼트.png">
+    <span class="tag">05 시니어편 · 모녀</span>
+    <img src="assets/시리즈-시니어편/선영-딸-모먼트.png" alt="시니어편 모녀 모먼트" loading="lazy">
+    <div class="ov"><div class="c">시니어편 · 모녀</div><div class="t">엄마와 딸, 세대를 잇다</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-부업맘편/컷3-전.png">
+    <span class="tag">04 부업맘편 · 전</span>
+    <img src="assets/시리즈-부업맘편/컷3-전.png" alt="부업맘편 컷 3" loading="lazy">
+    <div class="ov"><div class="c">부업맘편 · 전</div><div class="t">새벽 식탁, 완성의 순간</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-부업맘편/수아-딸-모먼트.png">
+    <span class="tag">04 부업맘편 · 가족</span>
+    <img src="assets/시리즈-부업맘편/수아-딸-모먼트.png" alt="부업맘편 가족 모먼트" loading="lazy">
+    <div class="ov"><div class="c">부업맘편 · 가족</div><div class="t">엄마와 딸의 따뜻한 한순간</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-신부편/컷5-결.png">
+    <span class="tag">03 신부편 · 결</span>
+    <img src="assets/시리즈-신부편/컷5-결.png" alt="신부편 컷 5" loading="lazy">
+    <div class="ov"><div class="c">신부편 · 결</div><div class="t">가장 빛나는 날의 시작</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/시리즈-직장인편/컷5-결.png">
+    <span class="tag">02 직장인편 · 결</span>
+    <img src="assets/시리즈-직장인편/컷5-결.png" alt="직장인편 컷 5" loading="lazy">
+    <div class="ov"><div class="c">직장인편 · 결</div><div class="t">사원증을 벗고, 전문가가 되다</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/성장기/컷5-결.png">
+    <span class="tag">01 성장기 · 결</span>
+    <img src="assets/성장기/컷5-결.png" alt="성장기 컷 5" loading="lazy">
+    <div class="ov"><div class="c">성장기 · 결</div><div class="t">평범했던 그녀, 전문가가 되다</div></div>
+  </div>
+  <div class="item" data-cat="cut" data-src="assets/쇼츠/주인공강아지-변신.png">
+    <span class="tag">00 도비편 · 변신</span>
+    <img src="assets/쇼츠/주인공강아지-변신.png" alt="도비편 변신" loading="lazy">
+    <div class="ov"><div class="c">도비편 · 결</div><div class="t">주인공+도비의 인생역전</div></div>
+  </div>
+</div>
+
+<div class="section-label">
+  <span class="badge">SECTION 08</span>
+  <h2>초기 무드 · 광고 시안</h2>
+  <span class="desc">프로젝트 초기 무드컷과 광고 자료</span>
+</div>
+
+<div class="grid">
+  <div class="item" data-cat="mood" data-src="assets/광고/광고이미지-모집.png">
+    <span class="tag">광고 · 모집</span>
+    <img src="assets/광고/광고이미지-모집.png" alt="모집 광고 이미지" loading="lazy">
+    <div class="ov"><div class="c">AD · RECRUIT</div><div class="t">창시자 직강 · 소수정예 모집</div></div>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">광고 쇼츠</span>
+    <video src="assets/광고/광고쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="video">
+    <span class="tag">정보형 쇼츠</span>
+    <video src="assets/쇼츠/정보형쇼츠-완성.mp4" controls muted loop playsinline preload="metadata" style="width:100%;display:block"></video>
+  </div>
+  <div class="item" data-cat="card" data-src="assets/모집카드시안/artbrows-모집카드B-완성.png">
+    <span class="tag">초기 모집 카드</span>
+    <img src="assets/모집카드시안/artbrows-모집카드B-완성.png" alt="모집 카드 완성본" loading="lazy">
+    <div class="ov"><div class="c">RECRUIT CARD</div><div class="t">시안 B 완성본 (초기)</div></div>
+  </div>
+  <div class="item" data-cat="mood" data-src="assets/모집카드시안/artbrows-모집카드-시안B.png">
+    <span class="tag">무드 · 시안 B</span>
+    <img src="assets/모집카드시안/artbrows-모집카드-시안B.png" alt="시안 B" loading="lazy">
+    <div class="ov"><div class="c">MOOD · B</div><div class="t">눈썹 아치 골드 모티프</div></div>
+  </div>
+  <div class="item" data-cat="mood" data-src="assets/모집카드시안/artbrows-모집카드-시안A.png">
+    <span class="tag">무드 · 시안 A</span>
+    <img src="assets/모집카드시안/artbrows-모집카드-시안A.png" alt="시안 A" loading="lazy">
+    <div class="ov"><div class="c">MOOD · A</div><div class="t">골드 라인 잎새 모티프</div></div>
+  </div>
+  <div class="item" data-cat="mood" data-src="assets/쇼츠/주인공강아지-멍.png">
+    <span class="tag">쇼츠 · BEFORE</span>
+    <img src="assets/쇼츠/주인공강아지-멍.png" alt="주인공+강아지 멍" loading="lazy">
+    <div class="ov"><div class="c">SHORTS · BEFORE</div><div class="t">눈썹 없는 둘 (코믹)</div></div>
+  </div>
+</div>
+
+<div class="lb" id="lb"><span class="x" id="lbx">&times;</span><img id="lbimg" src="" alt=""></div>
+
+<footer>
+  ARTbrows 콘텐츠 갤러리 · 극사실눈썹 창시자<br>
+  AI 직원 유나(그래픽) × 이서연(기획) · 힉스필드로 제작 · 갱신 2026-06-14
+</footer>
+
+<script>
+const items=[...document.querySelectorAll('.item')];
+document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{
+  document.querySelector('.filter.active').classList.remove('active');
+  b.classList.add('active');
+  const f=b.dataset.f;
+  items.forEach(it=>{it.style.display=(f==='all'||it.dataset.cat===f)?'':'none'});
+  document.querySelectorAll('.section-label').forEach(s=>{
+    const g=s.nextElementSibling;
+    if(!g||!g.classList.contains('grid'))return;
+    const visible=[...g.querySelectorAll('.item')].some(it=>it.style.display!=='none');
+    s.style.display=visible?'':'none';
+    g.style.display=visible?'':'none';
+  });
+});
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg');
+items.forEach(it=>{if(it.dataset.src)it.onclick=()=>{lbimg.src=it.dataset.src;lb.classList.add('open')}});
+document.getElementById('lbx').onclick=()=>lb.classList.remove('open');
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open')});
+</script>
+</body></html>

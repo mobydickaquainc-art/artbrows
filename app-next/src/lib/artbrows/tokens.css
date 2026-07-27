@@ -1,0 +1,73 @@
+/**
+ * artbrows style · 브랜드 CSS 토큰 (원장님 지시사항 정형화)
+ *
+ * 최종 결정권자: 장미지 원장님
+ * 정본 일자: 2026-07-17
+ *
+ * 어떤 UI 컴포넌트도 이 토큰 밖의 색상을 임의로 사용 금지.
+ * 값 변경 = 원장님 승인 필수.
+ *
+ * import 방법:
+ *   import '@/lib/artbrows/tokens.css';
+ */
+
+:root {
+  /* ── 배경 (딥 블랙 계열) ── */
+  --ab-black: #0B0907;
+  --ab-black-soft: #161311;
+  --ab-black-warm: #1E1A17;
+  --ab-charcoal: #2A211C;
+
+  /* ── 골드 (액센트 정본) ── */
+  --ab-gold: #C9A66B;
+  --ab-gold-light: #E0C088;
+  --ab-gold-deep: #A8854E;
+  --ab-gold-line: rgba(201, 166, 107, 0.35);
+
+  /* ── 아이보리 크림 (대비 블록) ── */
+  --ab-ivory: #F5EEE0;
+  --ab-ivory-soft: #E8DCC5;
+  --ab-ink: #1F1817;
+  --ab-ink-muted: #5A4F42;
+
+  /* ── 뮤티드 (본문·서브 텍스트) ── */
+  --ab-text-soft: #C7B9A6;
+  --ab-text-muted: #8A7E72;
+  --ab-line: #2A211C;
+  --ab-line-soft: #1E1816;
+
+  /* ── 폰트 ── */
+  --ab-font-headline: "Nanum Myeongjo", serif;
+  --ab-font-headline-latin: "Cormorant Garamond", "Playfair Display", serif;
+  --ab-font-body: "Pretendard", "Noto Sans KR", sans-serif;
+  --ab-font-body-latin: "Inter", "Pretendard", sans-serif;
+  --ab-font-signature: "Caveat", cursive;
+
+  /* ── 레이아웃 ── */
+  --ab-card-ratio: 4 / 5;
+  --ab-card-radius: 8px;
+  --ab-card-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.5);
+
+  /* ── 원장님 통합 브랜드 가이드 6톤 팔레트 (2026-07-17) ── */
+  /* 인스타 피드 3열 반복 · 각 카테고리 배경/텍스트 쌍 */
+  --ab-cat-treatment-bg: #3A3838;   /* 시술 결과 Before/After */
+  --ab-cat-treatment-fg: #F5EEE0;
+  --ab-cat-founder-bg:   #B8AFA2;   /* 원장 컷 · 브랜드 무드 */
+  --ab-cat-founder-fg:   #1F1817;
+  --ab-cat-review-bg:    #7A3538;   /* 고객 후기 텍스트카드 */
+  --ab-cat-review-fg:    #F5EEE0;
+  --ab-cat-classroom-bg: #4E5A3E;   /* 교육 현장 클래스컷 */
+  --ab-cat-classroom-fg: #F5EEE0;
+  --ab-cat-detail-bg:    #E8E1D5;   /* 디테일 클로즈업 눈썹 */
+  --ab-cat-detail-fg:    #1F1817;
+  --ab-cat-reels-bg:     #5A5652;   /* 릴스 썸네일 */
+  --ab-cat-reels-fg:     #F5EEE0;
+}
+
+/* ── 카테고리 유틸리티 클래스 (배경+텍스트 쌍 · 카드 상단 등에 적용) ── */
+.ab-cat-treatment { background: var(--ab-cat-treatment-bg); color: var(--ab-cat-treatment-fg); }
+.ab-cat-founder   { background: var(--ab-cat-founder-bg);   color: var(--ab-cat-founder-fg); }
+.ab-cat-review    { background: var(--ab-cat-review-bg);    color: var(--ab-cat-review-fg); }
+.ab-cat-classroom { background: var(--ab-cat-classroom-bg); color: var(--ab-cat-classroom-fg); }
+.ab-cat-detail    { background: var(--ab-cat-detail-bg);    color: var(--ab-cat-detail-fg); }
+.ab-cat-reels     { background: var(--ab-cat-reels-bg);     color: var(--ab-cat-reels-fg); }

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>공모전 — 장미지 연구소 · ARTbrows Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;font-size:14px;min-height:100vh}
+
+  .top{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:12px 28px;display:flex;align-items:center;gap:14px;z-index:100}
+  .top a{color:#E0C088;text-decoration:none;font-weight:700;font-size:13px}
+  .top .crumb{color:#5A5A56;font-size:12px}
+  .top .now{color:#E0C088;font-weight:700;font-size:12px}
+
+  .hero{padding:50px 28px 36px;text-align:center;background:radial-gradient(ellipse at top,rgba(224,192,136,0.08),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:10.5px;letter-spacing:4px;padding:7px 18px;border-radius:24px;margin-bottom:14px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:42px;line-height:1.18}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:19px;color:#CBC8C1;margin-top:10px}
+  .sub{font-size:12.5px;color:#8A8A84;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto}
+
+  .stats{max-width:1100px;margin:30px auto 0;padding:0 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:640px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:#161617;border:1px solid #2A2A2A;border-top:4px solid var(--c);border-radius:12px;padding:18px;text-align:center}
+  .stat.s1{--c:#FF4D7E}
+  .stat.s2{--c:#E0C088}
+  .stat.s3{--c:#A8E6B3}
+  .stat.s4{--c:#7FB3FF}
+  .stat .v{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--c);line-height:1}
+  .stat .l{font-size:10.5px;color:#8A8A84;margin-top:6px;letter-spacing:2px;font-weight:700}
+
+  .container{max-width:1280px;margin:40px auto;padding:0 28px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#F5EDE3;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid #2A2A2A;display:flex;align-items:center;gap:10px}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#E0C088;font-size:28px}
+  h2 .live{font-size:9.5px;background:#FF4D7E;color:#fff;padding:3px 8px;border-radius:8px;letter-spacing:2px;font-family:Pretendard,sans-serif}
+
+  /* 진행 중 공모전 */
+  .live-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  @media(max-width:780px){.live-grid{grid-template-columns:1fr}}
+  .contest{background:#161617;border:1px solid #2A2A2A;border-top:5px solid var(--c);border-radius:14px;padding:24px;position:relative;display:flex;flex-direction:column;min-height:280px}
+  .contest.c1{--c:#FF4D7E}
+  .contest.c2{--c:#E0C088}
+  .contest.c3{--c:#A8E6B3}
+  .contest.c4{--c:#7FB3FF}
+  .contest .ribbon{position:absolute;top:14px;right:14px;background:var(--c);color:#0B0907;font-size:9.5px;font-weight:800;padding:4px 10px;border-radius:8px;letter-spacing:2px}
+  .contest .ribbon.closed{background:#5A5A56;color:#F5EDE3}
+  .contest .cat{font-size:10px;color:var(--c);letter-spacing:3px;font-weight:800;margin-bottom:6px}
+  .contest h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:19px;color:#F5EDE3;margin-bottom:8px;line-height:1.3}
+  .contest p{font-size:13px;color:#CBC8C1;line-height:1.65;margin-bottom:12px}
+  .contest .meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;padding:12px;background:#0B0907;border-radius:8px;font-size:11.5px}
+  .contest .meta .k{font-size:9.5px;color:#8A8A84;letter-spacing:1.5px;margin-bottom:2px;font-weight:700}
+  .contest .meta .v{color:#E0C088;font-weight:700;font-size:12.5px}
+  .contest .meta .v.prize{color:#FF4D7E;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700}
+  .contest .actions{margin-top:auto;display:flex;gap:8px}
+  .btn{padding:10px 18px;border:none;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer}
+  .btn.pri{background:var(--c);color:#0B0907}
+  .btn.gh{background:transparent;color:var(--c);border:1.5px solid var(--c)}
+
+  /* 우승작 갤러리 */
+  .winners{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:780px){.winners{grid-template-columns:1fr 1fr}}
+  .winner{background:#161617;border:1px solid #2A2A2A;border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.2s}
+  .winner:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(224,192,136,0.18);border-color:#E0C088}
+  .winner .img{aspect-ratio:1;background:linear-gradient(135deg,#3D2818,#5D4636);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;color:#E0C088;font-weight:700;font-size:48px;position:relative}
+  .winner .badge{position:absolute;top:10px;left:10px;background:#E0C088;color:#0B0907;font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;letter-spacing:1.5px}
+  .winner .badge.gold{background:#FFD700}
+  .winner .badge.silver{background:#C0C0C0}
+  .winner .badge.bronze{background:#CD7F32;color:#fff}
+  .winner .meta{padding:14px 16px}
+  .winner .meta .name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#F5EDE3;margin-bottom:3px}
+  .winner .meta .info{font-size:11px;color:#8A8A84}
+
+  /* 모달 */
+  .modal-bg{position:fixed;inset:0;background:rgba(11,9,7,0.92);backdrop-filter:blur(12px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
+  .modal-bg.show{display:flex}
+  .modal{background:#161617;border:1px solid #E0C088;border-radius:16px;max-width:560px;width:100%;max-height:92vh;overflow:auto;padding:28px;position:relative}
+  .modal h3{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:22px;color:#F5EDE3;margin-bottom:6px}
+  .modal .eyebrow{font-family:'Cormorant Garamond',serif;font-size:11px;color:#E0C088;letter-spacing:3px;font-weight:700;margin-bottom:4px}
+  .modal .close{position:absolute;top:14px;right:14px;background:transparent;border:none;font-size:24px;color:#8A8A84;cursor:pointer}
+  .modal label{display:block;font-size:10.5px;font-weight:700;color:#E0C088;letter-spacing:1.5px;margin:14px 0 6px}
+  .modal input, .modal textarea, .modal select{width:100%;background:#0B0907;border:1.5px solid #2A2A2A;color:#F5EDE3;font-family:inherit;font-size:13px;padding:9px 12px;border-radius:8px;outline:none;resize:vertical}
+  .modal input:focus, .modal textarea:focus, .modal select:focus{border-color:#E0C088}
+  .modal .actions-row{margin-top:18px;display:flex;gap:8px;justify-content:flex-end}
+  .modal .btn{padding:10px 22px}
+
+  footer{margin-top:60px;padding:24px;background:#080706;color:#8A8A84;text-align:center;font-size:11px;border-top:1px solid #2A2A2A}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a href="/static/lab.html">← 장미지 연구소</a>
+  <span class="crumb">/ SaaS A · 학원·강의 /</span>
+  <span class="now">🏆 공모전</span>
+</nav>
+
+<div class="hero">
+  <div class="chip">CONTEST · 수강생 작품 대회 + 우승작 STORY 자동</div>
+  <h1>ARTbrows <em>공모전</em></h1>
+  <p class="lead">출제 → 응모 → 심사 → 우승 → STORY 시리즈 자동</p>
+  <p class="sub">수강생이 도전 · 우승작은 ARTbrows 인스타·블로그 자산화 · 콘텐츠 자동 누적</p>
+</div>
+
+<div class="stats">
+  <div class="stat s1"><div class="v">2</div><div class="l">진행 중</div></div>
+  <div class="stat s2"><div class="v">38</div><div class="l">총 응모</div></div>
+  <div class="stat s3"><div class="v">6</div><div class="l">우승작</div></div>
+  <div class="stat s4"><div class="v">12</div><div class="l">STORY 자동화</div></div>
+</div>
+
+<div class="container">
+
+  <h2><span class="num">01</span>진행 중인 공모전<span class="live">LIVE</span></h2>
+
+  <div class="live-grid">
+
+    <div class="contest c1">
+      <span class="ribbon">D-12 마감</span>
+      <div class="cat">★ EZ-CLASS</div>
+      <h3>14기 수강생 「펜슬 가이드 시뮬」 대회</h3>
+      <p>출제: 14기 수강생만 응모 가능 · 펜슬 가이드 1장 + 시술 결과 1장 = 한 쌍 응모. 우승작 = 인스타 메인 게시.</p>
+      <div class="meta">
+        <div><div class="k">응모 자격</div><div class="v">14기 수강생</div></div>
+        <div><div class="k">우승 상금</div><div class="v prize">100<span style="font-size:11px">만원</span></div></div>
+        <div><div class="k">마감</div><div class="v">2026-07-12</div></div>
+        <div><div class="k">응모</div><div class="v">14건</div></div>
+      </div>
+      <div class="actions">
+        <button class="btn pri" onclick="openApply(1)">✍️ 응모하기</button>
+        <button class="btn gh" onclick="openDetail(1)">상세 보기</button>
+      </div>
+    </div>
+
+    <div class="contest c2">
+      <span class="ribbon">D-25 마감</span>
+      <div class="cat">★ BROW PRO</div>
+      <h3>73기 「극사실 결」 마스터 대회</h3>
+      <p>출제: 정돈된 결 + 자연 톤 + 풍성한 결 — 3 컨셉 중 1 선택. 원장님 직접 심사. 우승작 = Face Lab v7 패턴 DB 시드.</p>
+      <div class="meta">
+        <div><div class="k">응모 자격</div><div class="v">정회원·VIP</div></div>
+        <div><div class="k">우승 상금</div><div class="v prize">200<span style="font-size:11px">만원</span></div></div>
+        <div><div class="k">마감</div><div class="v">2026-07-25</div></div>
+        <div><div class="k">응모</div><div class="v">8건</div></div>
+      </div>
+      <div class="actions">
+        <button class="btn pri" onclick="openApply(2)">✍️ 응모하기</button>
+        <button class="btn gh" onclick="openDetail(2)">상세 보기</button>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 style="margin-top:50px"><span class="num">02</span>역대 우승작</h2>
+
+  <div class="winners">
+    <div class="winner" onclick="openWinner(1)">
+      <div class="img">★<span class="badge gold">2025 GOLD</span></div>
+      <div class="meta"><div class="name">김지영 - 「풍성한 결」</div><div class="info">소묘수업 11기 · 100만원</div></div>
+    </div>
+    <div class="winner" onclick="openWinner(2)">
+      <div class="img">✦<span class="badge silver">2025 SILVER</span></div>
+      <div class="meta"><div class="name">이수연 - 「자연 톤」</div><div class="info">73기 눈썹 · 50만원</div></div>
+    </div>
+    <div class="winner" onclick="openWinner(3)">
+      <div class="img">◇<span class="badge bronze">2025 BRONZE</span></div>
+      <div class="meta"><div class="name">박혜진 - 「정돈된 결」</div><div class="info">13기 이지 · 30만원</div></div>
+    </div>
+    <div class="winner" onclick="openWinner(4)">
+      <div class="img">★<span class="badge gold">2024 GOLD</span></div>
+      <div class="meta"><div class="name">최서윤 - 「소묘 마스터」</div><div class="info">10기 소묘 · 100만원</div></div>
+    </div>
+    <div class="winner" onclick="openWinner(5)">
+      <div class="img">✦<span class="badge silver">2024 SILVER</span></div>
+      <div class="meta"><div class="name">정유나 - 「펜슬 시뮬」</div><div class="info">12기 이지 · 50만원</div></div>
+    </div>
+    <div class="winner" onclick="openWinner(6)">
+      <div class="img">◇<span class="badge bronze">2024 BRONZE</span></div>
+      <div class="meta"><div class="name">한지민 - 「풀페이스」</div><div class="info">72기 눈썹 · 30만원</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 응모 모달 -->
+<div class="modal-bg" id="modalApply" onclick="if(event.target===this)closeModal('modalApply')">
+  <div class="modal">
+    <button class="close" onclick="closeModal('modalApply')">×</button>
+    <div class="eyebrow">CONTEST APPLICATION</div>
+    <h3 id="applyTitle">14기 수강생 「펜슬 가이드 시뮬」 대회</h3>
+    <div style="font-size:11.5px;color:#8A8A84;margin-bottom:4px">응모 정보 입력 후 「저장」</div>
+
+    <label>응모자 이름</label>
+    <input id="aName" placeholder="홍길동">
+    <label>회원 등급</label>
+    <select id="aGrade">
+      <option>정회원 (14기 수강생)</option>
+      <option>VIP 회원</option>
+    </select>
+    <label>작품 컨셉 (1줄)</label>
+    <input id="aConcept" placeholder="예: 풍성한 결 · 자연스러운 균형">
+    <label>작품 설명</label>
+    <textarea id="aDesc" rows="3" placeholder="시술 의도·기법·노하우 짧게..."></textarea>
+    <label>이미지 업로드</label>
+    <div style="background:#0B0907;border:1.5px dashed #2A2A2A;border-radius:8px;padding:24px;text-align:center;color:#8A8A84;font-size:12px">
+      📷 이미지 끌어다 놓거나 클릭<br><span style="font-size:10px">(차주 진짜 업로드 통합)</span>
+    </div>
+
+    <div class="actions-row">
+      <button class="btn gh" style="--c:#E0C088" onclick="closeModal('modalApply')">취소</button>
+      <button class="btn pri" style="--c:#FF4D7E" onclick="submitApply()">✓ 응모</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="modal-bg" id="modalDetail" onclick="if(event.target===this)closeModal('modalDetail')">
+  <div class="modal" id="modalDetailBody"></div>
+</div>
+
+<!-- 우승작 모달 -->
+<div class="modal-bg" id="modalWinner" onclick="if(event.target===this)closeModal('modalWinner')">
+  <div class="modal" id="modalWinnerBody"></div>
+</div>
+
+<footer>
+  © 장미지 연구소 · ARTbrows Platform · 공모전 v1.0
+</footer>
+
+<script>
+const CONTESTS = {
+  1: { title:'14기 수강생 「펜슬 가이드 시뮬」 대회', cat:'EZ-CLASS', deadline:'2026-07-12', prize:'100만원',
+       judge:'장미지 원장 직접 심사', criteria:'펜슬 가이드 정확도 · 시술 결과 매칭도 · 손님 만족',
+       autoStory:'우승작 → ARTbrows STORY 시리즈 자동 (인스타+블로그)' },
+  2: { title:'73기 「극사실 결」 마스터 대회', cat:'BROW PRO', deadline:'2026-07-25', prize:'200만원',
+       judge:'장미지 원장 + 강사진 합산', criteria:'결의 자연스러움 · 톤 균형 · 작품성',
+       autoStory:'우승작 → Face Lab v7 패턴 DB 시드 + 인스타 메인' }
+};
+const WINNERS = {
+  1: { name:'김지영', year:2025, work:'풍성한 결', class:'소묘수업 11기', prize:'100만원',
+       story:'장미지 원장 「30년에 한 번 나올 작품」 — 인스타 1.2K 좋아요', tier:'GOLD' },
+  2: { name:'이수연', year:2025, work:'자연 톤', class:'73기 눈썹', prize:'50만원',
+       story:'「티 안 나는 자연 눈썹」 트렌드의 시작점', tier:'SILVER' },
+  3: { name:'박혜진', year:2025, work:'정돈된 결', class:'13기 이지클래스', prize:'30만원',
+       story:'B2B 살롱 트레이닝 영상 자산', tier:'BRONZE' },
+  4: { name:'최서윤', year:2024, work:'소묘 마스터', class:'10기 소묘', prize:'100만원',
+       story:'Face Lab v7 시드 데이터 등록', tier:'GOLD' },
+  5: { name:'정유나', year:2024, work:'펜슬 시뮬', class:'12기 이지', prize:'50만원',
+       story:'「펜슬 가이드」 마케팅 키워드 강화', tier:'SILVER' },
+  6: { name:'한지민', year:2024, work:'풀페이스', class:'72기 눈썹', prize:'30만원',
+       story:'풀페이스 시술 reference 등록', tier:'BRONZE' }
+};
+
+function openApply(id){
+  document.getElementById('applyTitle').textContent = CONTESTS[id].title;
+  document.getElementById('modalApply').classList.add('show');
+}
+function openDetail(id){
+  const c = CONTESTS[id];
+  document.getElementById('modalDetailBody').innerHTML = `
+    <button class="close" onclick="closeModal('modalDetail')">×</button>
+    <div class="eyebrow">CONTEST · ${c.cat}</div>
+    <h3>${c.title}</h3>
+    <div style="font-size:12px;color:#8A8A84;margin-bottom:14px">마감 ${c.deadline} · 우승 ${c.prize}</div>
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:12px">
+      <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin-bottom:6px">심사 방식</div>
+      <div style="font-size:13.5px;color:#F5EDE3">${c.judge}</div>
+    </div>
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:12px">
+      <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin-bottom:6px">심사 기준</div>
+      <div style="font-size:13.5px;color:#F5EDE3">${c.criteria}</div>
+    </div>
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:14px">
+      <div style="font-size:10.5px;color:#FF4D7E;font-weight:700;letter-spacing:2px;margin-bottom:6px">우승 후 자동화</div>
+      <div style="font-size:13.5px;color:#F5EDE3">${c.autoStory}</div>
+    </div>
+    <div class="actions-row">
+      <button class="btn pri" style="--c:#FF4D7E" onclick="closeModal('modalDetail');openApply(${id})">✍️ 응모하기</button>
+    </div>
+  `;
+  document.getElementById('modalDetail').classList.add('show');
+}
+function openWinner(id){
+  const w = WINNERS[id];
+  document.getElementById('modalWinnerBody').innerHTML = `
+    <button class="close" onclick="closeModal('modalWinner')">×</button>
+    <div class="eyebrow">${w.year} ${w.tier}</div>
+    <h3>${w.name} — 「${w.work}」</h3>
+    <div style="font-size:12px;color:#8A8A84;margin-bottom:14px">${w.class} · 상금 ${w.prize}</div>
+    <div style="background:linear-gradient(135deg,#3D2818,#5D4636);padding:40px;border-radius:12px;text-align:center;color:#E0C088;font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:700;margin-bottom:14px">★</div>
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:14px">
+      <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin-bottom:6px">STORY 자산화</div>
+      <div style="font-size:13.5px;color:#F5EDE3">${w.story}</div>
+    </div>
+    <div class="actions-row">
+      <button class="btn gh" style="--c:#E0C088" onclick="alert('인스타 STORY 자동 게시 — 다음 단계')">📤 STORY 재게시</button>
+      <button class="btn pri" style="--c:#E0C088" onclick="closeModal('modalWinner')">확인</button>
+    </div>
+  `;
+  document.getElementById('modalWinner').classList.add('show');
+}
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function submitApply(){
+  const name = document.getElementById('aName').value.trim();
+  if(!name){ alert('응모자 이름 필수'); return; }
+  closeModal('modalApply');
+  const t = document.createElement('div');
+  t.innerHTML = `✓ <b>${name}</b> 응모 접수 완료 · 심사 결과는 마감 후 카톡 알림`;
+  t.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#E0C088;color:#0B0907;padding:12px 22px;border-radius:24px;font-weight:700;font-size:13px;z-index:400;box-shadow:0 10px 30px rgba(0,0,0,0.3)';
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 3000);
+}
+</script>
+
+</body>
+</html>

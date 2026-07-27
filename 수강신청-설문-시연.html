@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수강신청 설문 흐름 시연 · 2026-06-22 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .live-banner{background:linear-gradient(135deg,#1a3a1e,#0a1a0c);border:2px solid #a8e6b3;border-radius:12px;padding:16px 22px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+  .live-banner .label{font-size:13px;color:#a8e6b3;letter-spacing:2px;font-weight:700}
+  .live-banner .url{font-family:'Cormorant Garamond',serif;font-size:22px;color:#e7e5e1;font-weight:700}
+  .live-banner .url em{color:#a8e6b3;font-style:normal}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  .flow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+  .step{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 12px;text-align:center;position:relative}
+  .step .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:34px;color:#d4af37;line-height:1}
+  .step .ttl{font-weight:700;font-size:13px;color:#e7e5e1;margin-top:8px}
+  .step .desc{font-size:11.5px;color:#9a9a93;margin-top:4px;line-height:1.4}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:#d4af37;font-size:20px;font-weight:700;z-index:2}
+  .fields-box{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px 22px}
+  .fields-box h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#d4af37;margin-bottom:14px}
+  .fields-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .field{background:#0c0c0d;border:1px solid #2a2a2a;border-radius:6px;padding:12px 14px;font-size:13px}
+  .field .label{font-size:11px;color:#9a9a93;letter-spacing:1px;margin-bottom:4px}
+  .field .val{color:#e7e5e1}
+  .field.req .label::after{content:" *";color:#ff6f84}
+  .btn-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:14px 28px;background:#d4af37;color:#0b0907;font-weight:800;text-decoration:none;border-radius:10px;font-size:15px;transition:transform 0.15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.green{background:#a8e6b3}
+  .btn.outline{background:transparent;border:2px solid #d4af37;color:#d4af37}
+  .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:#161617;border:1px solid #242425;border-radius:10px;padding:16px 18px;text-decoration:none;color:inherit;transition:border-color 0.15s}
+  .card:hover{border-color:#d4af37}
+  .card .ttl{font-weight:800;color:#e7e5e1;margin-bottom:6px;font-size:14px}
+  .card .desc{font-size:12.5px;color:#9a9a93;line-height:1.5}
+  .card .url{font-family:'Cormorant Garamond',serif;font-size:14px;color:#d4af37;font-weight:700;margin-top:8px;letter-spacing:0.5px;word-break:break-all}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:10px 12px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td a{color:#d4af37}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+</style>
+</head>
+<body>
+
+<h1><em>수강신청 설문 흐름 시연</em> — 인스타 광고 → DB 저장</h1>
+<p class="sub">임원진 회의 시연용 · 2026-06-22 · 현재 라이브 작동 중 (Next.js + Supabase + 가비아 staris.cloud)</p>
+
+<div class="live-banner">
+  <div>
+    <div class="label">★ 라이브 작동 중 (HTTP 200 확인)</div>
+    <div class="url"><em>eyebrows.staris.cloud/enroll</em> ← 인스타 광고 4종의 클릭 도착 URL</div>
+  </div>
+  <a class="btn green" href="https://eyebrows.staris.cloud/enroll" target="_blank">→ 실제 폼 바로 열기</a>
+</div>
+
+<!-- 흐름 6단계 -->
+<section>
+  <h2><span class="num">01</span>설문 → DB 저장 → 운영 확인 흐름 (6단계)</h2>
+  <div class="flow">
+    <div class="step"><div class="n">1</div><div class="ttl">인스타 광고 클릭</div><div class="desc">광고 4종 CTA</div></div>
+    <div class="step"><div class="n">2</div><div class="ttl">enroll 페이지 도착</div><div class="desc">살구톤 폼</div></div>
+    <div class="step"><div class="n">3</div><div class="ttl">설문 작성</div><div class="desc">8 필드 입력</div></div>
+    <div class="step"><div class="n">4</div><div class="ttl">제출 → API</div><div class="desc">/api/enroll POST</div></div>
+    <div class="step"><div class="n">5</div><div class="ttl">Supabase 저장</div><div class="desc">enrollments 테이블</div></div>
+    <div class="step"><div class="n">6</div><div class="ttl">운영진 알림</div><div class="desc">/admin/history</div></div>
+  </div>
+</section>
+
+<!-- 폼 필드 8종 -->
+<section>
+  <h2><span class="num">02</span>현재 라이브 폼 — 8 필드 구성</h2>
+  <div class="fields-box">
+    <h3>수강신청 설문 (라이브 enroll 페이지)</h3>
+    <div class="fields-grid">
+      <div class="field req"><div class="label">이름</div><div class="val">홍길순</div></div>
+      <div class="field req"><div class="label">연락처 (휴대폰)</div><div class="val">010-1234-5678</div></div>
+      <div class="field req"><div class="label">관심 과정</div><div class="val">정규 (69만원·평생수강)</div></div>
+      <div class="field"><div class="label">현재 직업 / 경력</div><div class="val">직장인 / 미용 종사자 / 학생 / 기타</div></div>
+      <div class="field req"><div class="label">희망 수강 시기</div><div class="val">다음 차수 / 다다음 차수</div></div>
+      <div class="field"><div class="label">상담 방식</div><div class="val">전화 / 줌 / 방문</div></div>
+      <div class="field"><div class="label">유입 경로</div><div class="val">인스타 / 유튜브 / 지인 추천 / 기타</div></div>
+      <div class="field"><div class="label">자유 메모</div><div class="val">궁금한 점·일정 조율·기타 요청</div></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn green" href="https://eyebrows.staris.cloud/enroll" target="_blank">→ 실제 폼에서 직접 입력 시연</a>
+      <a class="btn" href="https://eyebrows.staris.cloud/admin/history" target="_blank">→ 운영진 admin 에서 결과 확인</a>
+    </div>
+  </div>
+</section>
+
+<!-- 인스타 광고 4종 CTA URL -->
+<section>
+  <h2><span class="num">03</span>인스타 광고 4종 → 설문 연결</h2>
+  <p class="sub">광고 4종(2026-06-16 제작) 의 클릭 URL = <strong style="color:#d4af37">eyebrows.staris.cloud/enroll</strong> 일괄 사용. 회의 결정 시 광고 ID 별 UTM 분리 가능.</p>
+  <table>
+    <thead><tr><th>광고</th><th>이미지</th><th>설명</th><th>현재 클릭 URL</th><th>제안 UTM</th></tr></thead>
+    <tbody>
+      <tr><td>01 HERO PORTRAIT</td><td><a href="assets/광고/IG-69만원/01-hero-portrait.png" target="_blank">★ 보기</a></td><td>인물 메인</td><td>/enroll</td><td>?utm_source=ig&amp;utm_campaign=ad01_hero</td></tr>
+      <tr><td>02 EYEBROW MACRO</td><td><a href="assets/광고/IG-69만원/02-eyebrow-macro.png" target="_blank">★ 보기</a></td><td>매크로 시술 디테일</td><td>/enroll</td><td>?utm_source=ig&amp;utm_campaign=ad02_macro</td></tr>
+      <tr><td>03 CURRICULUM</td><td><a href="assets/광고/IG-69만원/03-curriculum.png" target="_blank">★ 보기</a></td><td>커리큘럼 3단계</td><td>/enroll</td><td>?utm_source=ig&amp;utm_campaign=ad03_curriculum</td></tr>
+      <tr><td>04 CTA TYPO</td><td><a href="assets/광고/IG-69만원/04-cta-typo.png" target="_blank">★ 보기</a></td><td>타이포 CTA</td><td>/enroll</td><td>?utm_source=ig&amp;utm_campaign=ad04_cta</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 전환 흐름 운영 -->
+<section>
+  <h2><span class="num">04</span>운영 흐름 — 신청 들어온 후</h2>
+  <div class="grid-cards">
+    <a class="card" href="https://eyebrows.staris.cloud/admin/history" target="_blank">
+      <div class="ttl">① admin/history 실시간 확인</div>
+      <div class="desc">새 신청은 events 테이블에 자동 기록 → 시간순 정렬 → 운영진 포털에서 진입</div>
+      <div class="url">eyebrows.staris.cloud/admin/history</div>
+    </a>
+    <a class="card" href="docs/DM-응대-매뉴얼-v1.md" target="_blank">
+      <div class="ttl">② DM 응대 매뉴얼로 1차 응답</div>
+      <div class="desc">자동응답 1차 + 수동 응답 2차 (24h 이내) · 5종 템플릿 + 8 FAQ + 금지 패턴 6종</div>
+      <div class="url">docs/DM-응대-매뉴얼-v1.md</div>
+    </a>
+    <a class="card" href="#" onclick="return false">
+      <div class="ttl">③ 1:1 상담 예약 → 등록</div>
+      <div class="desc">전화 · 줌 · 방문 3 옵션 (방문지 위치 자료 대기 🟡)</div>
+      <div class="url">상담 예약 폼 (회의 결정 후 신설)</div>
+    </a>
+    <a class="card" href="#" onclick="return false">
+      <div class="ttl">④ 등록 결심 → K1 카톡방 초대</div>
+      <div class="desc">수강생 전용 락인 채널 · open.kakao.com/o/gWeAkSzi (수령자 한정 노출)</div>
+      <div class="url">K1 카톡방 (수강생 전용)</div>
+    </a>
+  </div>
+</section>
+
+<!-- 회의 결정 요청 -->
+<section>
+  <h2><span class="num">05</span>회의 결정 요청 사항</h2>
+  <table>
+    <thead><tr><th>안건</th><th>현 상태</th><th>결정 후 즉시 가능</th><th>예상 시간</th></tr></thead>
+    <tbody>
+      <tr><td><b>광고 4종에 UTM 파라미터 추가</b></td><td>단순 /enroll</td><td>광고 ID별 전환율 트래킹</td><td>5분</td></tr>
+      <tr><td><b>설문 8 필드 확정</b></td><td>현재 라이브 폼 그대로</td><td>필드 추가 / 제거 / 필수 토글</td><td>20~40분 (Next.js 배포 포함)</td></tr>
+      <tr><td><b>알림 자동화</b></td><td>admin/history 수동 새로고침</td><td>새 신청 들어오면 카카오톡/메일 자동 알림</td><td>1~2시간 (Supabase Edge Function)</td></tr>
+      <tr><td><b>인스타 광고 LIVE 집행 시점</b></td><td>광고 4종 PNG 준비 완료</td><td>대표님 결정 후 Meta 광고관리자에서 즉시 송출 가능</td><td>10분 (셋업) + 일 광고비</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  수강신청 설문 흐름 시연 · ARTbrows · 2026-06-22 (월) 10:00 임원진 회의 시연용
+  · 라이브 도메인 eyebrows.staris.cloud (Next.js + Supabase) · 외부 임시 게시 cloudflared 터널
+</footer>
+
+</body>
+</html>

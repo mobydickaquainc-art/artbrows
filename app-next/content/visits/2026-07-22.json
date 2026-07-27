@@ -1,0 +1,308 @@
+{
+  "date": "2026-07-22",
+  "total": 35,
+  "byPath": {
+    "/cardnews/view/2026-07-20-changupbaan-15th": 3,
+    "/cardnews/view/2026-07-20-easy-class-15th": 1,
+    "/cardnews/view/2026-07-20-hyperreal-brow-15th": 2,
+    "/cardnews/view/2026-07-22-reviews-trust": 1,
+    "/review/2026-07-22": 7,
+    "/": 9,
+    "/consult": 5,
+    "/academy/methodology": 3,
+    "/enroll": 1,
+    "/en": 2,
+    "/zh": 1
+  },
+  "byLang": {
+    "ko": 31,
+    "en": 3,
+    "zh": 1
+  },
+  "byUa": {
+    "mobile": 8,
+    "desktop": 27
+  },
+  "events": [
+    {
+      "at": "2026-07-22T11:18:49.690Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T11:19:09.508Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T11:19:21.696Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T11:37:37.001Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T11:38:41.101Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T11:55:04.252Z",
+      "path": "/cardnews/view/2026-07-22-reviews-trust",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-22-reviews-trust",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T11:55:21.459Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:08:26.611Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:28:02.290Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:37:41.577Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:38:11.074Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:39:58.326Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:29.051Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:32.963Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:35.751Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:38.386Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:42.018Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:45.206Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:48.110Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:40:53.006Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:41:34.083Z",
+      "path": "/academy/methodology",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/academy/methodology",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T12:41:57.093Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T15:41:43.735Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T15:42:58.956Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:39:01.117Z",
+      "path": "/review/2026-07-22",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/review/2026-07-22",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:39:50.320Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:40:14.537Z",
+      "path": "/academy/methodology",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/academy/methodology",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:40:31.171Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:40:37.014Z",
+      "path": "/academy/methodology",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/academy/methodology",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:40:39.175Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:40:48.113Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:40:50.344Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:41:05.399Z",
+      "path": "/en",
+      "lang": "en",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/en",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:41:09.676Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-22T23:41:12.730Z",
+      "path": "/en",
+      "lang": "en",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/en",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    }
+  ]
+}

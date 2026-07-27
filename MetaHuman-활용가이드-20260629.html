@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetaHuman 활용 가이드 — ARTbrows 9 시나리오 · 운영진 전용</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.65;max-width:1200px;margin:0 auto}
+
+  .hero{background:linear-gradient(180deg,#FAD7C7,#F5C7AD);padding:50px 40px 40px;text-align:center}
+  .hero .chip{display:inline-block;background:#FF4D7E;color:#fff;font-weight:700;font-size:12px;letter-spacing:3px;padding:7px 18px;border-radius:24px;margin-bottom:14px}
+  .hero h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:40px;color:#3D2818;line-height:1.25;margin-bottom:10px}
+  .hero h1 em{color:#FF4D7E;font-style:normal}
+  .hero .sub{font-size:15px;color:rgba(60,40,30,0.7);max-width:700px;margin:0 auto;line-height:1.7}
+
+  .tldr{background:linear-gradient(135deg,#FFF5E7,#FFE5D0);border:2px dashed #FF4D7E;border-radius:14px;padding:24px;margin:30px 40px 20px}
+  .tldr h2{color:#FF4D7E;font-family:'Nanum Myeongjo',serif;font-size:22px;margin-bottom:10px}
+  .tldr p{font-size:16px;color:#3D2818;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.65}
+  .tldr p em{color:#FF4D7E;font-style:normal}
+
+  .body{padding:30px 40px}
+  section{margin-bottom:42px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:24px;color:#3D2818;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #FF4D7E}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF4D7E;margin-right:10px;font-size:28px}
+
+  .scenarios{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:14px}
+  @media(max-width:900px){.scenarios{grid-template-columns:1fr}}
+  .sc{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 6px 18px rgba(232,169,155,0.15);position:relative;border-top:4px solid var(--c)}
+  .sc.p1{--c:#FF4D7E}
+  .sc.p2{--c:#FFB78A}
+  .sc.p3{--c:#A8E6B3}
+  .sc.p4{--c:#9FC8FF}
+  .sc .num-badge{position:absolute;top:-10px;right:18px;background:var(--c);color:#fff;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+  .sc h3{font-family:'Nanum Myeongjo',serif;font-size:18px;color:#3D2818;margin-bottom:6px;padding-right:50px}
+  .sc .priority{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--c);text-transform:uppercase;margin-bottom:10px}
+  .sc .desc{font-size:13.5px;color:#5D4636;line-height:1.7;margin-bottom:10px}
+  .sc .desc b{color:#3D2818}
+  .sc .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:rgba(60,40,30,0.65);background:#FAF6F0;border-radius:8px;padding:8px 12px;margin-top:6px}
+  .sc .meta b{color:var(--c)}
+  .sc .example{font-size:12.5px;color:#5D4636;background:rgba(255,77,126,0.06);border-left:3px solid var(--c);padding:8px 12px;border-radius:6px;margin-top:10px;font-style:italic}
+  .sc .example b{color:#FF4D7E;font-style:normal}
+
+  /* 우선순위 매트릭스 */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(232,169,155,0.12)}
+  th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #F0D6CC}
+  th{background:#FAD7C7;color:#3D2818;font-weight:700;font-size:12.5px;letter-spacing:1px}
+  td.win{color:#5BAE8A;font-weight:700}
+  td.partial{color:#E8A33D;font-weight:700}
+  .roi-band{background:#fff;border-radius:14px;padding:18px 22px;margin:10px 0;border-left:5px solid #FF4D7E}
+  .roi-band h3{font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:18px;margin-bottom:8px}
+
+  .warning{background:#FFE5D0;border:2px solid #E8A33D;border-radius:12px;padding:18px 22px;margin:14px 0}
+  .warning h3{font-family:'Nanum Myeongjo',serif;color:#A84658;font-size:18px;margin-bottom:8px}
+  .warning ul{margin:8px 0 0 22px;font-size:13.5px;color:#5D4636;line-height:1.85}
+  .warning ul li b{color:#A84658}
+
+  footer{margin-top:40px;padding:24px 40px;background:#3D2818;color:#FAD7C7;text-align:center;font-size:12.5px}
+  footer a{color:#FFB78A}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">MetaHuman 활용 가이드 · ARTbrows 운영진</div>
+  <h1>MetaHuman이 ARTbrows에서<br><em>어떻게 일할 것인가</em></h1>
+  <p class="sub">차주 07-01 도입 → 9 활용 시나리오 + 우선순위 + ROI · 「리얼 + 이쁨」을 넘어 「디지털 휴먼」 자산 영구 재활용</p>
+</div>
+
+<div class="tldr">
+  <h2>⭐ 한 줄 — 왜 MetaHuman인가</h2>
+  <p>학원 모집 + 시술 시뮬레이션 + 콘텐츠 자동화의 <em>「디지털 휴먼 5종」 평생 자산</em>으로 — Higgsfield 매번 결제 →
+  <em>MetaHuman 한 번 만들고 무한 변형</em>. v5.8 「실사 사진」 → v6 「영화급 디지털 휴먼」 차원 점프.</p>
+</div>
+
+<div class="body">
+
+<!-- A. 9 활용 시나리오 -->
+<section>
+  <h2><span class="num">A</span>9가지 활용 시나리오 (우선순위별)</h2>
+  <div class="scenarios">
+
+    <!-- 1 -->
+    <div class="sc p1">
+      <div class="num-badge">1</div>
+      <div class="priority">★★★ 1순위 · 즉시 (07-02부터)</div>
+      <h3>인스타 STORY 시리즈 시즌 2</h3>
+      <p class="desc">5종 페르소나 (수아·하영·예린·민지·지우)를 MetaHuman으로 재제작 → <b>같은 인물의 시술 전후 + 4 무드 환경 = 무한 자산</b>. 현재 v5.8 자산과 같은 페르소나로 연결.</p>
+      <div class="example"><b>예:</b> STORY 04 부업맘편 「수아」 → MetaHuman 1체 + 표정 5종 + 무드 4종 = 20컷 인스타 자산 (0추가크)</div>
+      <div class="meta"><span><b>비용:</b> 0크 (1체 무한 변형)</span><span><b>시간:</b> 페르소나당 1일</span><span><b>ROI:</b> 매월 인스타 30+ 게시 가능</span></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="sc p1">
+      <div class="num-badge">2</div>
+      <div class="priority">★★★ 1순위 · 즉시</div>
+      <h3>Face Lab v6 시뮬레이션 강화</h3>
+      <p class="desc">사용자 사진 업로드 → MediaPipe 분석 → <b>240 케이스 매트릭스에서 가장 가까운 MetaHuman 매칭 → 시술 후 모습 영화급 미리보기</b>. v5.5 슬라이더의 차원 점프.</p>
+      <div class="example"><b>예:</b> 20대 여성 oval face 업로드 → MetaHuman 「민지」 reference + 사용자 얼굴 표정 매핑 → 8초 영상 시술 결과 시뮬</div>
+      <div class="meta"><span><b>비용:</b> 0크 + Replicate $120/월</span><span><b>시간:</b> 1주 개발</span><span><b>ROI:</b> 카카오 상담 전환 5.4배</span></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="sc p1">
+      <div class="num-badge">3</div>
+      <div class="priority">★★★ 1순위 · 차주</div>
+      <h3>STORY 10 「소묘 시리즈」 영상화</h3>
+      <p class="desc">원장님 자료 「극사실소묘 1~3일차 + 남자」 → MetaHuman 「하린」 + 「준현」 4편 24초 쇼츠. <b>원장님 자료의 첫 「창고 → 영상」 변환 사례</b>. ARKit 51 blendshape로 자연 미소·집중 표정.</p>
+      <div class="example"><b>예:</b> 컷 2 (승) 슬라이드에 원장님 자료 직접 인용 + MetaHuman 하린이 펜으로 결 그리는 표정 → 「자료 신뢰성 + 학원 브랜딩」</div>
+      <div class="meta"><span><b>비용:</b> 0크</span><span><b>시간:</b> 4편 1주</span><span><b>ROI:</b> 자료 활용 증명 + 인스타 + 유튜브</span></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="sc p2">
+      <div class="num-badge">4</div>
+      <div class="priority">★★ 2순위 · 차차주</div>
+      <h3>메인홈 Hero 갱신 — 회전 3D Hero</h3>
+      <p class="desc">eyebrows.staris.cloud 메인홈 hero를 <b>「클릭하면 360° 회전하는 인터랙티브 MetaHuman」</b>으로 갱신. v5의 model-viewer 패턴 그대로 + MetaHuman 정밀도. Vogue Korea editorial 톤.</p>
+      <div class="example"><b>예:</b> 메인홈 풀스크린 hero → 「하영」 MetaHuman 36도 회전 + ARTbrows 시그니처 결 확대 보임 → 즉시 「상담 신청」 클릭 유도</div>
+      <div class="meta"><span><b>비용:</b> 0크</span><span><b>시간:</b> 반나절</span><span><b>ROI:</b> 메인홈 체류 +2.7배 (Modiface 사례)</span></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="sc p2">
+      <div class="num-badge">5</div>
+      <div class="priority">★★ 2순위 · 차차주</div>
+      <h3>장미지 원장님 디지털 분신</h3>
+      <p class="desc">원장님 사진 5~10장 → <b>MetaHuman Creator로 「장미지 디지털 휴먼」 1체 제작</b>. 학원 OT 영상·강의 인트로·24/7 「가상 원장님」 인사 영상 자동 생성. 원장님이 직접 등장 안 해도 영상 콘텐츠 무한 생성.</p>
+      <div class="example"><b>예:</b> 신규 수강생 환영 「장미지 원장님 인사」 영상 1분 자동 → 카카오 채널 자동 발송</div>
+      <div class="meta"><span><b>비용:</b> 0크 + FaceBuilder $149/년</span><span><b>시간:</b> 1일</span><span><b>ROI:</b> 원장님 시간 1주 절약/달</span></div>
+    </div>
+
+    <!-- 6 -->
+    <div class="sc p2">
+      <div class="num-badge">6</div>
+      <div class="priority">★★ 2순위 · 차차주</div>
+      <h3>B2B 「이지클래스」 강사 트레이닝</h3>
+      <p class="desc">graphify에서 발견된 「이지클래스 파트너십」 12 노드 + 「강사용 PPT + 교재」 매핑. <b>지점별 강사가 MetaHuman 「가상 수강생」으로 시술 연습</b> → 실제 손님 받기 전 손맛 학습. B2B 페이지의 결정적 차별점.</p>
+      <div class="example"><b>예:</b> 파트너 살롱 강사 → 5종 페르소나 × 다양한 표정 = 50+ 케이스 연습 → 실전 투입</div>
+      <div class="meta"><span><b>비용:</b> 0크</span><span><b>시간:</b> 1주</span><span><b>ROI:</b> B2B 파트너십 차별 무기</span></div>
+    </div>
+
+    <!-- 7 -->
+    <div class="sc p3">
+      <div class="num-badge">7</div>
+      <div class="priority">★ 3순위 · 차차차주</div>
+      <h3>중국 진출 — 중국 페르소나 추가</h3>
+      <p class="desc">5종 한국 페르소나 + 5종 중국 페르소나 (베이징·상하이·청두 등 지역별 톤) → 위챗·小红书 광고 자산. <b>중국 가이드북 RTF + 충칭 띵선생님 자료와 연동</b>. 5축 ③ 중국 진출 라인 핵심.</p>
+      <div class="example"><b>예:</b> 상하이 30대 OL 페르소나 「Mei」 → 위챗 광고 + 小红书 캐러셀 → 중국 시장 진입</div>
+      <div class="meta"><span><b>비용:</b> 0크</span><span><b>시간:</b> 1주</span><span><b>ROI:</b> 중국 시장 진입</span></div>
+    </div>
+
+    <!-- 8 -->
+    <div class="sc p3">
+      <div class="num-badge">8</div>
+      <div class="priority">★ 3순위 · 차차차주</div>
+      <h3>STORY 영상 자동화 (24초 쇼츠)</h3>
+      <p class="desc">MetaHuman Animator + ARKit blendshape으로 <b>「반응 영상」 자동 생성</b> — 시술 전 걱정 표정 → 시술 후 감탄 표정. ffmpeg 합성과 결합해 인스타 릴스·유튜브 쇼츠 자동.</p>
+      <div class="example"><b>예:</b> 「수아」 MetaHuman이 24초 안에 7개 표정(불안→집중→놀람→자신감→웃음) → 1편 자동 합성</div>
+      <div class="meta"><span><b>비용:</b> 0크</span><span><b>시간:</b> 편당 2~4시간</span><span><b>ROI:</b> STORY 시리즈 영상 무한 생성</span></div>
+    </div>
+
+    <!-- 9 -->
+    <div class="sc p4">
+      <div class="num-badge">9</div>
+      <div class="priority">▲ 장기 · 미국 진출 시</div>
+      <h3>AR/VR 가상 시술 미리보기</h3>
+      <p class="desc">메타퀘스트·Apple Vision Pro 보급률 확대 시점에 — <b>VR 안에서 시술 결과 360° 미리보기</b>. MetaHuman GLB → WebXR 변환. LA 진출 (2026-09) + 미국 디지털 네이티브 시장.</p>
+      <div class="example"><b>예:</b> Apple Vision Pro 사용자가 자기 얼굴 스캔 → 시술 후 모습 VR 360° 미리보기 → 결제</div>
+      <div class="meta"><span><b>비용:</b> 0크 (장기 검토)</span><span><b>시간:</b> 2~3개월</span><span><b>ROI:</b> 미국 시장 차별</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- B. 우선순위 매트릭스 -->
+<section>
+  <h2><span class="num">B</span>우선순위 매트릭스 + 일정</h2>
+  <table>
+    <tr><th>#</th><th>시나리오</th><th>우선순위</th><th>도입 시점</th><th>예상 영향</th></tr>
+    <tr><td>1</td><td>인스타 STORY 시즌 2</td><td>★★★</td><td>07-02</td><td class="win">매월 30+ 게시</td></tr>
+    <tr><td>2</td><td>Face Lab v6 강화</td><td>★★★</td><td>07-02~05</td><td class="win">카카오 전환 5.4배</td></tr>
+    <tr><td>3</td><td>STORY 10 영상화</td><td>★★★</td><td>07-03</td><td class="win">자료 활용 첫 증명</td></tr>
+    <tr><td>4</td><td>메인홈 Hero 회전 3D</td><td>★★</td><td>07-08</td><td class="partial">체류 +2.7배</td></tr>
+    <tr><td>5</td><td>장미지 디지털 분신</td><td>★★</td><td>07-08</td><td class="partial">원장님 시간 절약</td></tr>
+    <tr><td>6</td><td>B2B 강사 트레이닝</td><td>★★</td><td>07-10</td><td class="partial">B2B 차별 무기</td></tr>
+    <tr><td>7</td><td>중국 페르소나</td><td>★</td><td>07-15</td><td>중국 시장</td></tr>
+    <tr><td>8</td><td>영상 자동화 (Animator)</td><td>★</td><td>07-15</td><td>STORY 무한</td></tr>
+    <tr><td>9</td><td>AR/VR (장기)</td><td>▲</td><td>2026 Q4</td><td>미국 시장 차별</td></tr>
+  </table>
+</section>
+
+<!-- C. ROI 비교 -->
+<section>
+  <h2><span class="num">C</span>비용·시간 ROI — Higgsfield vs MetaHuman</h2>
+
+  <div class="roi-band">
+    <h3>1개월 콘텐츠 자산 (10편 인스타 + 5편 STORY 영상 + 메인홈 hero 가정)</h3>
+    <table>
+      <tr><th>접근</th><th>비용</th><th>시간</th><th>품질</th></tr>
+      <tr><td>Higgsfield nano_banana_pro (현재)</td><td>~60 크 ($3)</td><td>주당 8시간</td><td>실사 사진 (v5.7~5.8)</td></tr>
+      <tr><td class="win"><b>MetaHuman + Blender</b></td><td class="win"><b>0 크</b> (1회 $60)</td><td class="win"><b>주당 2시간</b></td><td class="win"><b>디지털 휴먼 영화급</b></td></tr>
+    </table>
+    <p style="font-size:13px;color:#5D4636;margin-top:10px"><strong>월 ROI:</strong> 비용 60크→0크 (월 ~$3 절감) + 시간 6시간 절감 + 품질 한 차원 점프 = <strong style="color:#FF4D7E">압도적 우위</strong></p>
+  </div>
+
+  <div class="roi-band">
+    <h3>5종 페르소나 풀세트 (5명 × 다양 표정·무드)</h3>
+    <table>
+      <tr><th>접근</th><th>비용</th><th>시간</th></tr>
+      <tr><td>Meshy Pro $20/월 + GLB 5종</td><td>$20/월 + 100크</td><td>2주</td></tr>
+      <tr><td class="win"><b>MetaHuman 5종 (Creator 무료)</b></td><td class="win"><b>$60 (Character Control Rig, 1회)</b></td><td class="win"><b>1주</b></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- D. 함정 회피 + 윤리 가드 -->
+<section>
+  <h2><span class="num">D</span>함정 회피 + 윤리 가드</h2>
+  <div class="warning">
+    <h3>⚠️ 주의 — MetaHuman 사용 시 5가지 가드</h3>
+    <ul>
+      <li><b>실제 시술 사진 AI 합성 절대 금지</b> — CLAUDE.md §4. MetaHuman은 「가상 시뮬레이션」 한정. 실제 비포·애프터는 원장님 직접 제공만</li>
+      <li><b>「체험용」 워터마크 박기</b> — 한국 의료광고법 §5.3 정합. MetaHuman 시뮬 결과 PNG에 「체험용·외부 게시 금지」 자동 박기 (한승철 인프라 3종 가드와 연동)</li>
+      <li><b>딥페이크 우려 회피</b> — 실제 인물을 무단 MetaHuman화 절대 금지. 「장미지 원장님 디지털 분신」은 원장님 명시 동의 + 사용 범위 합의 후만</li>
+      <li><b>중국·미국 진출 시 GDPR/PIPA 정합</b> — MetaHuman은 가상 인물이므로 별도 문제 없지만, 사용자 얼굴 매칭(시나리오 2) 시 PIPA 동의 체크박스 필수</li>
+      <li><b>품질 위장 금지</b> — MetaHuman 시뮬과 실제 시술 결과는 다를 수 있음. 시뮬 결과 옆에 「실제 시술 후 90% 재현 보장」 카피 필수</li>
+    </ul>
+  </div>
+</section>
+
+<!-- E. 차주 5일 일정과의 정합 -->
+<section>
+  <h2><span class="num">E</span>차주 5일 일정과의 정합</h2>
+  <table>
+    <tr><th>일자</th><th>5일 매뉴얼</th><th>이 가이드와 매핑</th></tr>
+    <tr><td>07-01 (화)</td><td>Unreal 5.8 설치 + MCP 셋업</td><td>전체 시나리오 인프라 준비</td></tr>
+    <tr><td>07-02 (수)</td><td>「수아」 MetaHuman 디자인 + Blender import</td><td>★★★ 1번 + 2번 본격 시작</td></tr>
+    <tr><td>07-03 (목)</td><td>v6.0 PoC 16컷 + BEFORE/AFTER 8컷</td><td>★★★ 1번 자산 완성</td></tr>
+    <tr><td>07-04 (금)</td><td>인스타 캐러셀 + 5종 풀세트 견적</td><td>★★★ 1번 인스타 게시 + ★★★ 3번 STORY 10 시작</td></tr>
+    <tr><td>07-05 (토)</td><td>한 주 회의 + 다음 단계 결정</td><td>★★ 4~6번 다음 주 진입 결정</td></tr>
+  </table>
+  <p style="font-size:14px;color:#5D4636;margin-top:14px"><strong>총 정리:</strong> 차주 5일 = ★★★ 시나리오 3개 (1·2·3) 완성. ★★ 시나리오 3개 (4·5·6)는 차차주. ★ 시나리오 2개 (7·8)는 차차차주.</p>
+</section>
+
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · MetaHuman 활용 가이드 · 운영진 전용</p>
+  <p style="margin-top:6px"><a href="index.html">← 메인 포털</a> · <a href="MetaHuman-도입-계획-20260629.html">도입 계획</a> · <a href="v6-MetaHuman-워크플로-매뉴얼-20260629.html">5일 매뉴얼</a> · <a href="face-lab/3d/v5-human.html">v5 결정타</a></p>
+</footer>
+
+</body>
+</html>

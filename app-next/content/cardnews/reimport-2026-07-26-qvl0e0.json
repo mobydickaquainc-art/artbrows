@@ -1,0 +1,73 @@
+{
+  "id": "reimport-2026-07-26-qvl0e0",
+  "title": "[리뉴얼] 기존 카드뉴스 6장 · 2026-07-26",
+  "slug": "reimport-2026-07-26-qvl0e0",
+  "status": "draft",
+  "createdAt": "2026-07-26T19:30:20.531Z",
+  "updatedAt": "2026-07-26T19:30:57.332Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "[리뉴얼] 기존 카드뉴스 6장 · 2026-07-26",
+      "slides": [
+        {
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-29-37/01-1785094177341.png",
+          "imageAlt": "KakaoTalk_20260726_174648325_01.png",
+          "kind": "magazine-cover",
+          "brand": "ARTBROWS",
+          "volume": "",
+          "headline": "",
+          "subheadline": "",
+          "signatureLabel": "MIJI JANG · ARTBROWS"
+        },
+        {
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-29-37/02-1785094177347.png",
+          "imageAlt": "KakaoTalk_20260726_174648325_02.png",
+          "kind": "hero-portrait",
+          "bottomLabel": ""
+        },
+        {
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-29-37/03-1785094177351.png",
+          "imageAlt": "KakaoTalk_20260726_174648325_03.png",
+          "kind": "pullquote-editorial",
+          "quote": "",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER"
+        },
+        {
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-29-37/04-1785094177567.png",
+          "imageAlt": "KakaoTalk_20260726_174648325_04.png",
+          "kind": "hero-portrait",
+          "bottomLabel": ""
+        },
+        {
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-29-37/05-1785094177570.png",
+          "imageAlt": "KakaoTalk_20260726_174648325_05.png",
+          "kind": "hero-portrait",
+          "bottomLabel": ""
+        },
+        {
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-29-37/06-1785094177692.png",
+          "imageAlt": "KakaoTalk_20260726_174648325_06.png",
+          "kind": "hero-portrait",
+          "bottomLabel": ""
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "stylePreset": "vogue-magazine"
+}

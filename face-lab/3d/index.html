@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Face Lab 3D 갤러리 · 5 얼굴 형태 · ARTbrows</title>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#FCE8DC 0%,#F8D5C2 100%);color:#2A1A12;min-height:100vh;padding:36px 24px 70px}
+  .wrap{max-width:1240px;margin:0 auto}
+  header{text-align:center;margin-bottom:30px}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:22px;color:#C45A6B;letter-spacing:6px;text-transform:uppercase;font-weight:600}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:42px;margin-top:8px;letter-spacing:-1px}
+  h1 em{color:#C45A6B;font-style:normal}
+  .sub{color:#7A5A48;font-size:14.5px;margin-top:10px;max-width:780px;margin:10px auto 0}
+  .sub b{color:#C45A6B}
+
+  .badge-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0 24px}
+  .badge{padding:4px 12px;background:#FFFBF5;border:1px solid #C45A6B;color:#C45A6B;border-radius:14px;font-size:11.5px;letter-spacing:1px;font-weight:700}
+
+  .info{background:rgba(255,251,245,0.7);border:1px dashed #C45A6B;border-radius:14px;padding:14px 18px;margin:18px 0 26px;font-size:12.5px;color:#5A4035;line-height:1.7}
+  .info b{color:#C45A6B}
+
+  /* 메인 좌우 비교 카드 */
+  .viewer-hero{background:#FFFBF5;border-radius:18px;overflow:hidden;box-shadow:0 14px 38px rgba(196,90,107,0.18);margin-bottom:28px;display:grid;grid-template-columns:1fr 1fr}
+  @media (max-width:780px){.viewer-hero{grid-template-columns:1fr}}
+  .viewer-hero .v-side{padding:14px;position:relative}
+  .viewer-hero .v-side.clickable{cursor:zoom-in;transition:transform 0.18s}
+  .viewer-hero .v-side.clickable:hover{transform:scale(1.005)}
+  .viewer-hero .v-side.clickable::after{content:"⛶ 클릭=확대";position:absolute;top:24px;right:24px;background:rgba(31,20,13,0.78);color:#FFF6E8;font-size:11.5px;padding:5px 12px;border-radius:14px;letter-spacing:1px;font-weight:700;opacity:0;transition:opacity 0.18s;z-index:2;pointer-events:none}
+  .viewer-hero .v-side.clickable:hover::after{opacity:1}
+  .viewer-hero h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#C45A6B;margin-bottom:8px;letter-spacing:1px}
+  .viewer-hero h3 small{color:#8B6452;font-weight:500;letter-spacing:0;font-family:'Pretendard',sans-serif;font-size:11px;margin-left:6px}
+  .viewer-hero img,.viewer-hero model-viewer{width:100%;aspect-ratio:1/1;display:block;border-radius:12px;background:#FCE8DC;object-fit:cover}
+
+  /* 빌드 모드 — 4단계 스택 */
+  .stage-stack{position:relative;aspect-ratio:1/1;width:100%;background:#FCE8DC;border-radius:12px;overflow:hidden}
+  .stage{position:absolute;inset:0;opacity:0;transition:opacity 0.65s ease-in-out;pointer-events:none}
+  .stage.active{opacity:1;pointer-events:auto}
+  .stage img,.stage model-viewer{width:100%;height:100%;display:block;background:#FCE8DC;border-radius:0;object-fit:cover}
+  .stage-num{
+    position:absolute;top:12px;left:12px;background:rgba(31,20,13,0.78);color:#FFF6E8;
+    font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;
+    width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:3
+  }
+  .stage-label{
+    position:absolute;bottom:12px;left:12px;background:rgba(31,20,13,0.78);color:#FFF6E8;
+    padding:6px 14px;border-radius:14px;font-size:11.5px;letter-spacing:1px;font-weight:700;z-index:3
+  }
+  .stage[data-stage="3"] .stage-label{background:#C45A6B}
+  .stage[data-stage="4"] .stage-label{background:linear-gradient(90deg,#C45A6B,#FF8FBB);color:#FFF6E8}
+  .stage[data-stage="4"] .stage-num{background:linear-gradient(135deg,#C45A6B,#FF8FBB)}
+  .stage-controls{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;
+    padding:10px 14px;background:#FFFBF5;border-radius:14px
+  }
+  .stage-btn{
+    background:#C45A6B;color:#FFF6E8;border:0;border-radius:24px;
+    padding:9px 18px;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:13px;
+    letter-spacing:1.5px;cursor:pointer;box-shadow:0 6px 14px rgba(196,90,107,0.28)
+  }
+  .stage-btn:hover{background:#A84658}
+  .stage-btn.outline{background:transparent;color:#C45A6B;border:1.5px solid #C45A6B;box-shadow:none}
+  .stage-btn.outline:hover{background:#C45A6B;color:#FFF6E8}
+  .stage-dots{display:flex;gap:6px}
+  .stage-dot{width:10px;height:10px;border-radius:50%;background:rgba(196,90,107,0.25);cursor:pointer;transition:all 0.2s}
+  .stage-dot.active{background:#C45A6B;width:24px;border-radius:6px}
+  .stage-progress{
+    position:absolute;bottom:0;left:0;height:3px;background:#C45A6B;width:0;
+    transition:width 0.1s linear;z-index:4
+  }
+  .stage-progress.run{transition:width 3s linear;width:100%}
+
+  /* 5 카드 갤러리 */
+  .gallery-title{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#C45A6B;margin:30px 0 14px;text-align:center}
+  .gallery-title small{display:block;color:#8B6452;font-size:12px;font-weight:500;margin-top:4px;font-family:'Pretendard',sans-serif}
+  .gallery-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  @media (max-width:1080px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+  .g-card{background:#FFFBF5;border-radius:14px;overflow:hidden;border:1px solid rgba(196,90,107,0.18)}
+  .g-card model-viewer{width:100%;aspect-ratio:1/1;display:block;background:#FCE8DC}
+  .g-card .g-meta{padding:10px 12px;text-align:center}
+  .g-card .g-shape{font-family:'Nanum Myeongjo',serif;font-weight:800;color:#1F140D;font-size:14px}
+  .g-card .g-style{font-size:11px;color:#8B6452;margin-top:2px;letter-spacing:0.5px}
+  .g-card.pending{opacity:0.55}
+  .g-card.pending model-viewer{background:repeating-linear-gradient(45deg,#FCE8DC,#FCE8DC 8px,#F8D5C2 8px,#F8D5C2 16px)}
+  .g-card.pending::after{content:"3D 변환 대기 중...";display:block;text-align:center;font-size:10.5px;color:#A84658;padding:0 0 6px}
+
+  .cta-row{margin-top:30px;text-align:center}
+  .btn,.btn-outline{display:inline-block;padding:14px 26px;font-family:'Nanum Myeongjo',serif;font-weight:800;border-radius:30px;font-size:14px;letter-spacing:2px;cursor:pointer;border:0;text-decoration:none;margin:0 6px}
+  .btn{background:#C45A6B;color:#FFF6E8;box-shadow:0 8px 18px rgba(196,90,107,0.30)}
+  .btn:hover{background:#A84658}
+  .btn-outline{background:transparent;border:1.5px solid #C45A6B;color:#C45A6B}
+  .btn-outline:hover{background:#C45A6B;color:#FFF6E8}
+
+  footer{margin-top:34px;text-align:center;color:#8B6452;font-size:11.5px;letter-spacing:1px}
+  footer a{color:#C45A6B}
+
+  /* 카드에 클릭 안내 */
+  .g-card{cursor:zoom-in;position:relative;transition:transform 0.18s,box-shadow 0.18s}
+  .g-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(196,90,107,0.18)}
+  .g-card .g-zoom-hint{position:absolute;top:8px;right:8px;background:rgba(31,20,13,0.65);color:#FFF6E8;font-size:10.5px;padding:4px 10px;border-radius:12px;letter-spacing:1px;font-weight:700;pointer-events:none;opacity:0;transition:opacity 0.18s}
+  .g-card:hover .g-zoom-hint{opacity:1}
+  .gallery-hint{text-align:center;color:#8B6452;font-size:12px;margin:-6px 0 14px;letter-spacing:0.5px}
+  .gallery-hint b{color:#C45A6B}
+
+  /* 모달 (전체화면 팝업) */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(15,10,7,0.92);z-index:1000;
+    display:none;align-items:center;justify-content:center;padding:24px
+  }
+  .modal-backdrop.open{display:flex}
+  .modal-stage{
+    position:relative;background:linear-gradient(180deg,#FCE8DC 0%,#F8D5C2 100%);
+    border-radius:18px;width:100%;height:100%;max-width:1600px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);overflow:hidden;
+    display:flex;flex-direction:column
+  }
+  .modal-stage:fullscreen{max-width:none;border-radius:0}
+  .modal-stage:-webkit-full-screen{max-width:none;border-radius:0}
+
+  .modal-header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 24px;background:rgba(255,251,245,0.65);
+    border-bottom:1px solid rgba(196,90,107,0.18)
+  }
+  .modal-label .ml-shape{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;color:#C45A6B}
+  .modal-label .ml-style{font-size:12px;color:#7A5A48;margin-top:2px;letter-spacing:1px}
+  .modal-controls{display:flex;gap:8px;align-items:center}
+  .mc-btn{
+    width:42px;height:42px;border-radius:50%;border:0;background:#FFFBF5;
+    color:#C45A6B;font-size:18px;cursor:pointer;display:inline-flex;
+    align-items:center;justify-content:center;transition:all 0.15s;
+    box-shadow:0 4px 12px rgba(196,90,107,0.18);font-family:inherit;font-weight:700
+  }
+  .mc-btn:hover{background:#C45A6B;color:#FFF6E8;transform:scale(1.06)}
+  .mc-btn.close-btn{background:#C45A6B;color:#FFF6E8}
+  .mc-btn.close-btn:hover{background:#A84658}
+  .mc-key{font-size:10px;color:#8B6452;margin-left:6px;letter-spacing:1px}
+
+  .modal-body{flex:1;background:#FCE8DC;position:relative}
+  .modal-mv{width:100%;height:100%;background:#FCE8DC;display:block}
+
+  .modal-footer{
+    padding:10px 22px;text-align:center;font-size:11.5px;
+    color:#7A5A48;background:rgba(255,251,245,0.5);
+    border-top:1px solid rgba(196,90,107,0.12);letter-spacing:0.5px
+  }
+  .modal-footer b{color:#C45A6B}
+
+  /* 배경 토글 */
+  .modal-stage.dark .modal-body{background:#1F140D}
+  .modal-stage.dark .modal-mv{background:#1F140D}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">ARTbrows · Face Lab Phase 2 — P1</div>
+    <h1><em>5 얼굴 형태</em> 3D 갤러리</h1>
+    <p class="sub">
+      Face Lab Phase 1 시연 캐릭터 5장을 모두 <b>Higgsfield image_to_3d</b> 로 GLB 메쉬 변환 → <b>&lt;model-viewer&gt;</b> 임베드.<br>
+      각 카드를 마우스/터치로 회전·줌 가능. 모바일은 AR 모드 (우측 하단 아이콘).
+    </p>
+    <div class="badge-row">
+      <span class="badge">P0 채택 (06/24)</span>
+      <span class="badge">P1 진행 중</span>
+      <span class="badge">6/29 정례 회의 시연 예정</span>
+    </div>
+  </header>
+
+  <div class="info">
+    <b>★ 시연 데이터</b> — 모두 AI 가상 캐릭터 (Higgsfield Nano-Banana Pro 생성). 실제 인물 X<br>
+    <b>★ 변환 비용</b> — 1장당 ~25 크. 5장 총 ~125 크 (Plus 플랜 충분)<br>
+    <b>★ 4 직원 합의</b> — 시연용 등급 OK · 본격 마케팅 영상은 P3 MetaHuman 권장
+  </div>
+
+  <h3 class="gallery-title">계란형 — 2D ↔ 3D 좌우 비교
+    <small>「Face Lab 분석 결과 + 3D 모델」 통합 시연용 레퍼런스</small>
+  </h3>
+  <div class="viewer-hero">
+    <div class="v-side">
+      <h3>2D 원본 <small>Phase 1</small></h3>
+      <img src="../demo/01-oval.jpg" alt="2D 원본">
+    </div>
+    <div class="v-side clickable" data-shape="계란형" data-style="20대 · 우아형 · 시술 시뮬레이션" data-poster="../demo/01-oval.jpg" data-mesh="oval-3d.glb" data-textured="oval-textured.glb" data-eyebrow="../demo/01-oval-eyebrow.jpg" data-youth="../demo/01-oval-youth.jpg" id="hero-3d">
+      <h3>제작 과정 시뮬레이션 <small>4 단계 · 헤더 클릭=풀스크린</small></h3>
+      <div class="stage-stack" id="stage-stack">
+        <div class="stage active" data-stage="0">
+          <img src="../demo/01-oval.jpg" alt="2D 원본">
+          <div class="stage-num">1</div>
+          <div class="stage-label">2D 원본 사진</div>
+        </div>
+        <div class="stage" data-stage="1">
+          <model-viewer
+            src="oval-3d.glb"
+            camera-controls auto-rotate auto-rotate-delay="800"
+            shadow-intensity="2" shadow-softness="0.7" exposure="0.8"
+            tone-mapping="aces"
+            environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
+            camera-orbit="0deg 78deg 1.4m"
+            field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg"
+            min-camera-orbit="auto 30deg 1.0m" max-camera-orbit="auto 130deg 2.5m">
+          </model-viewer>
+          <div class="stage-num">2</div>
+          <div class="stage-label">3D 무텍스처 메쉬</div>
+        </div>
+        <div class="stage" data-stage="2">
+          <model-viewer
+            src="oval-textured.glb"
+            camera-controls auto-rotate auto-rotate-delay="800"
+            shadow-intensity="1.8" shadow-softness="0.7" exposure="1.05"
+            tone-mapping="aces"
+            environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
+            camera-orbit="0deg 78deg 1.4m"
+            field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg"
+            min-camera-orbit="auto 30deg 1.0m" max-camera-orbit="auto 130deg 2.5m">
+          </model-viewer>
+          <div class="stage-num">3</div>
+          <div class="stage-label">실사 텍스처 적용</div>
+        </div>
+        <div class="stage" data-stage="3">
+          <img src="../demo/01-oval-eyebrow.jpg" alt="시그니처 눈썹 시술 결과">
+          <div class="stage-num">4</div>
+          <div class="stage-label">★ 시그니처 눈썹 시술</div>
+        </div>
+        <div class="stage" data-stage="4">
+          <img src="../demo/01-oval-youth.jpg" alt="시술 후 어리고 이쁘게">
+          <div class="stage-num">5</div>
+          <div class="stage-label">★★ 시술 후 — 어리고 이쁘게</div>
+        </div>
+        <div class="stage-progress" id="stage-progress"></div>
+      </div>
+      <div class="stage-controls" id="stage-controls">
+        <button class="stage-btn outline" id="prev-stage" title="이전 (←)">◀</button>
+        <div class="stage-dots" id="stage-dots">
+          <span class="stage-dot active" data-dot="0"></span>
+          <span class="stage-dot" data-dot="1"></span>
+          <span class="stage-dot" data-dot="2"></span>
+          <span class="stage-dot" data-dot="3"></span>
+          <span class="stage-dot" data-dot="4"></span>
+        </div>
+        <button class="stage-btn" id="auto-stage" title="자동재생 (Space)">▶ 자동재생</button>
+        <button class="stage-btn outline" id="next-stage" title="다음 (→)">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="gallery-title">5 얼굴 형태 갤러리
+    <small>각 카드 회전 가능 · 모바일은 AR (우측 하단)</small>
+  </h3>
+  <div class="gallery-hint">▶ <b>카드를 클릭하면 전체화면 팝업으로 열립니다.</b> F 키 = 진짜 풀스크린 · D 키 = 배경 다크 · ESC = 닫기</div>
+  <div class="gallery-grid">
+    <div class="g-card" data-shape="계란형" data-style="20대 · 우아형" data-poster="../demo/01-oval.jpg" data-mesh="oval-3d.glb" data-textured="oval-textured.glb" data-eyebrow="../demo/01-oval-eyebrow.jpg" data-youth="../demo/01-oval-youth.jpg"><span class="g-zoom-hint">⛶ 클릭=시뮬</span>
+      <model-viewer src="oval-textured.glb" alt="계란형 3D" camera-controls auto-rotate shadow-intensity="1.6" shadow-softness="0.8" exposure="1.05" tone-mapping="aces" environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr" camera-orbit="0deg 78deg 1.4m" field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg" disable-zoom-on-init="false" poster="../demo/01-oval.jpg" onerror="this.closest('.g-card').classList.add('pending')"></model-viewer>
+      <div class="g-meta"><div class="g-shape">계란형</div><div class="g-style">20대 · 우아형</div></div>
+    </div>
+    <div class="g-card" data-shape="둥근형" data-style="20대 · 소녀형" data-poster="../demo/02-round.jpg" data-mesh="round-3d.glb" data-textured="round-textured.glb" data-eyebrow="../demo/02-round-eyebrow.jpg" data-youth="../demo/02-round-youth.jpg" id="card-round"><span class="g-zoom-hint">⛶ 클릭=시뮬</span>
+      <model-viewer src="round-textured.glb" alt="둥근형 3D" camera-controls auto-rotate shadow-intensity="1.6" shadow-softness="0.8" exposure="1.05" tone-mapping="aces" environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr" camera-orbit="0deg 78deg 1.4m" field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg" disable-zoom-on-init="false" poster="../demo/02-round.jpg" onerror="this.closest('.g-card').classList.add('pending')"></model-viewer>
+      <div class="g-meta"><div class="g-shape">둥근형</div><div class="g-style">20대 · 소녀형</div></div>
+    </div>
+    <div class="g-card" data-shape="각진형" data-style="30대 · 소년형" data-poster="../demo/03-square.png" data-mesh="square-3d.glb" data-textured="square-textured.glb" data-eyebrow="../demo/03-square-eyebrow.jpg" data-youth="../demo/03-square-youth.jpg" id="card-square"><span class="g-zoom-hint">⛶ 클릭=시뮬</span>
+      <model-viewer src="square-textured.glb" alt="각진형 3D" camera-controls auto-rotate shadow-intensity="1.6" shadow-softness="0.8" exposure="1.05" tone-mapping="aces" environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr" camera-orbit="0deg 78deg 1.4m" field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg" disable-zoom-on-init="false" poster="../demo/03-square.png" onerror="this.closest('.g-card').classList.add('pending')"></model-viewer>
+      <div class="g-meta"><div class="g-shape">각진형</div><div class="g-style">30대 · 소년형</div></div>
+    </div>
+    <div class="g-card" data-shape="하트형" data-style="30대 · 낭만형" data-poster="../demo/04-heart.png" data-mesh="heart-3d.glb" data-textured="heart-textured.glb" data-eyebrow="../demo/04-heart-eyebrow.jpg" data-youth="../demo/04-heart-youth.jpg" id="card-heart"><span class="g-zoom-hint">⛶ 클릭=시뮬</span>
+      <model-viewer src="heart-textured.glb" alt="하트형 3D" camera-controls auto-rotate shadow-intensity="1.6" shadow-softness="0.8" exposure="1.05" tone-mapping="aces" environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr" camera-orbit="0deg 78deg 1.4m" field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg" disable-zoom-on-init="false" poster="../demo/04-heart.png" onerror="this.closest('.g-card').classList.add('pending')"></model-viewer>
+      <div class="g-meta"><div class="g-shape">하트형</div><div class="g-style">30대 · 낭만형</div></div>
+    </div>
+    <div class="g-card" data-shape="긴형" data-style="40대 · 고전형" data-poster="../demo/05-long.jpg" data-mesh="long-3d.glb" data-textured="long-textured.glb" data-eyebrow="../demo/05-long-eyebrow.jpg" data-youth="../demo/05-long-youth.jpg" id="card-long"><span class="g-zoom-hint">⛶ 클릭=시뮬</span>
+      <model-viewer src="long-textured.glb" alt="긴형 3D" camera-controls auto-rotate shadow-intensity="1.6" shadow-softness="0.8" exposure="1.05" tone-mapping="aces" environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr" camera-orbit="0deg 78deg 1.4m" field-of-view="36deg" min-field-of-view="22deg" max-field-of-view="60deg" disable-zoom-on-init="false" poster="../demo/05-long.jpg" onerror="this.closest('.g-card').classList.add('pending')"></model-viewer>
+      <div class="g-meta"><div class="g-shape">긴형</div><div class="g-style">40대 · 고전형</div></div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="../" class="btn-outline">← Face Lab Phase 1 분석으로</a>
+    <a href="../../3D-시뮬레이션-연구리포트-20260624.html" class="btn">연구 리포트 보기</a>
+  </div>
+
+  <footer>
+    Face Lab Phase 2 P1 · 2026-06-24 · 운영진 임시 게시<br>
+    <a href="../../index.html">← 메인 포털</a> ·
+    <a href="../">Face Lab Phase 1</a> ·
+    <a href="../../3D-시뮬레이션-연구리포트-20260624.html">3D 연구 리포트</a>
+  </footer>
+</div>
+
+<!-- 전체화면 모달 -->
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-shape">
+  <div class="modal-stage" id="modal-stage">
+    <div class="modal-header">
+      <div class="modal-label">
+        <div class="ml-shape" id="modal-shape">—</div>
+        <div class="ml-style" id="modal-style">—</div>
+      </div>
+      <div class="modal-controls">
+        <button class="mc-btn" id="btn-dark" title="배경 토글 (D)">◐</button>
+        <button class="mc-btn" id="btn-rotate" title="자동 회전 토글 (R)">↻</button>
+        <button class="mc-btn" id="btn-fullscreen" title="전체화면 (F)">⛶</button>
+        <button class="mc-btn close-btn" id="btn-close" title="닫기 (ESC)">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="stage-stack modal-stages" id="modal-stage-stack">
+        <div class="stage active" data-stage="0">
+          <img id="m-img-0" alt="2D 원본">
+          <div class="stage-num">1</div>
+          <div class="stage-label">2D 원본 사진</div>
+        </div>
+        <div class="stage" data-stage="1">
+          <model-viewer id="m-mv-1"
+            camera-controls auto-rotate auto-rotate-delay="1000"
+            shadow-intensity="2" shadow-softness="0.7" exposure="0.85"
+            tone-mapping="aces"
+            environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
+            camera-orbit="0deg 78deg 1.45m"
+            field-of-view="32deg" min-field-of-view="18deg" max-field-of-view="60deg"
+            min-camera-orbit="auto 20deg 0.9m" max-camera-orbit="auto 140deg 3m">
+          </model-viewer>
+          <div class="stage-num">2</div>
+          <div class="stage-label">3D 무텍스처 메쉬</div>
+        </div>
+        <div class="stage" data-stage="2">
+          <model-viewer id="m-mv-2"
+            camera-controls auto-rotate auto-rotate-delay="1000"
+            shadow-intensity="1.8" shadow-softness="0.7" exposure="1.1"
+            tone-mapping="aces"
+            environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
+            camera-orbit="0deg 78deg 1.45m"
+            field-of-view="32deg" min-field-of-view="18deg" max-field-of-view="60deg"
+            min-camera-orbit="auto 20deg 0.9m" max-camera-orbit="auto 140deg 3m"
+            ar ar-modes="webxr scene-viewer quick-look">
+          </model-viewer>
+          <div class="stage-num">3</div>
+          <div class="stage-label">실사 텍스처 적용</div>
+        </div>
+        <div class="stage" data-stage="3">
+          <img id="m-img-3" alt="시그니처 눈썹">
+          <div class="stage-num">4</div>
+          <div class="stage-label">★ 시그니처 눈썹 시술</div>
+        </div>
+        <div class="stage" data-stage="4">
+          <img id="m-img-4" alt="시술 후 어리고 이쁘게">
+          <div class="stage-num">5</div>
+          <div class="stage-label">★★ 시술 후 — 어리고 이쁘게</div>
+        </div>
+        <div class="stage-progress" id="m-progress"></div>
+      </div>
+      <div class="stage-controls" id="m-controls" style="margin:14px 22px 4px;background:rgba(255,251,245,0.9)">
+        <button class="stage-btn outline" id="m-prev" title="이전 (←)">◀</button>
+        <div class="stage-dots" id="m-dots">
+          <span class="stage-dot active" data-mdot="0"></span>
+          <span class="stage-dot" data-mdot="1"></span>
+          <span class="stage-dot" data-mdot="2"></span>
+          <span class="stage-dot" data-mdot="3"></span>
+          <span class="stage-dot" data-mdot="4"></span>
+        </div>
+        <button class="stage-btn" id="m-auto" title="자동재생 (Space)">▶ 자동재생</button>
+        <button class="stage-btn outline" id="m-next" title="다음 (→)">▶</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <b>← / →</b> 단계 이동 · <b>Space</b> 자동재생 · <b>F</b> 전체화면 · <b>D</b> 다크 · <b>ESC</b> 닫기 · 모바일은 우측 하단 <b>AR</b> 버튼
+    </div>
+  </div>
+</div>
+
+<script>
+  const cards = document.querySelectorAll('.g-card');
+  const modal = document.getElementById('modal');
+  const stage = document.getElementById('modal-stage');
+  const mv = document.getElementById('modal-mv');
+  const shapeEl = document.getElementById('modal-shape');
+  const styleEl = document.getElementById('modal-style');
+
+  // 모달 빌드 모드
+  const mStages = modal.querySelectorAll('.modal-stages > .stage');
+  const mDots = modal.querySelectorAll('[data-mdot]');
+  const mProgress = document.getElementById('m-progress');
+  const mAutoBtn = document.getElementById('m-auto');
+  let mCurrent = 0, mAutoRunning = false, mAutoTimer = null;
+  const M_DURATION = 3500;
+
+  function setMStage(idx) {
+    mCurrent = ((idx % mStages.length) + mStages.length) % mStages.length;
+    mStages.forEach((s, i) => s.classList.toggle('active', i === mCurrent));
+    mDots.forEach((d, i) => d.classList.toggle('active', i === mCurrent));
+    mProgress.classList.remove('run');
+    mProgress.style.width = '0%';
+    if (mAutoRunning) {
+      mProgress.offsetWidth;
+      mProgress.classList.add('run');
+    }
+  }
+  function mNext() { setMStage(mCurrent + 1); }
+  function mPrev() { setMStage(mCurrent - 1); }
+  function mToggleAuto() {
+    mAutoRunning = !mAutoRunning;
+    mAutoBtn.textContent = mAutoRunning ? '⏸ 일시정지' : '▶ 자동재생';
+    if (mAutoRunning) {
+      mAutoTimer = setInterval(mNext, M_DURATION);
+      setMStage(mCurrent);
+    } else {
+      clearInterval(mAutoTimer);
+      mProgress.classList.remove('run');
+      mProgress.style.width = '0%';
+    }
+  }
+  document.getElementById('m-next').addEventListener('click', e => { e.stopPropagation(); mNext(); });
+  document.getElementById('m-prev').addEventListener('click', e => { e.stopPropagation(); mPrev(); });
+  mAutoBtn.addEventListener('click', e => { e.stopPropagation(); mToggleAuto(); });
+  mDots.forEach((d, i) => d.addEventListener('click', e => { e.stopPropagation(); setMStage(i); }));
+
+  function openModal(card) {
+    // 5 stage src 동적 주입
+    document.getElementById('m-img-0').src = card.dataset.poster;
+    document.getElementById('m-mv-1').setAttribute('src', card.dataset.mesh);
+    document.getElementById('m-mv-2').setAttribute('src', card.dataset.textured);
+    document.getElementById('m-img-3').src = card.dataset.eyebrow;
+    document.getElementById('m-img-4').src = card.dataset.youth || card.dataset.eyebrow;
+    shapeEl.textContent = card.dataset.shape;
+    styleEl.textContent = card.dataset.style;
+    setMStage(0);
+    if (mAutoRunning) mToggleAuto();  // 모달 열 때 자동재생 OFF 로 리셋
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.getElementById('m-mv-1').removeAttribute('src');
+    document.getElementById('m-mv-2').removeAttribute('src');
+    if (mAutoRunning) mToggleAuto();
+    document.body.style.overflow = '';
+    if (document.fullscreenElement) document.exitFullscreen();
+  }
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      stage.requestFullscreen?.() || stage.webkitRequestFullscreen?.();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+  function toggleDark() {
+    stage.classList.toggle('dark');
+  }
+  function toggleRotate() {
+    [document.getElementById('m-mv-1'), document.getElementById('m-mv-2')].forEach(m => {
+      if (m.hasAttribute('auto-rotate')) m.removeAttribute('auto-rotate');
+      else m.setAttribute('auto-rotate', '');
+    });
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.tagName === 'MODEL-VIEWER') return;
+      openModal(card);
+    });
+  });
+
+  // hero 3D side — h3 헤더 클릭 시 모달 (빌드 모드 컨트롤과 충돌 방지)
+  const hero3d = document.getElementById('hero-3d');
+  if (hero3d) {
+    hero3d.querySelector('h3').addEventListener('click', e => {
+      e.stopPropagation();
+      openModal(hero3d);
+    });
+  }
+
+  // ===== 빌드 모드 (4 단계 페이드) =====
+  const stageStack = document.getElementById('stage-stack');
+  if (stageStack) {
+    const stagesAll = stageStack.querySelectorAll('.stage');
+    const dotsAll = document.querySelectorAll('.stage-dot');
+    const progress = document.getElementById('stage-progress');
+    const autoBtn = document.getElementById('auto-stage');
+    let currentStage = 0;
+    let autoRunning = false;
+    let autoTimer = null;
+    const STAGE_DURATION = 3500;
+
+    function setStage(idx) {
+      currentStage = ((idx % stagesAll.length) + stagesAll.length) % stagesAll.length;
+      stagesAll.forEach((s, i) => s.classList.toggle('active', i === currentStage));
+      dotsAll.forEach((d, i) => d.classList.toggle('active', i === currentStage));
+      progress.classList.remove('run');
+      progress.style.width = '0%';
+      if (autoRunning) {
+        // 강제 reflow 후 transition 시작
+        progress.offsetWidth;
+        progress.classList.add('run');
+      }
+    }
+    function nextStage() { setStage(currentStage + 1); }
+    function prevStage() { setStage(currentStage - 1); }
+    function toggleAuto() {
+      autoRunning = !autoRunning;
+      autoBtn.textContent = autoRunning ? '⏸ 일시정지' : '▶ 자동재생';
+      if (autoRunning) {
+        autoTimer = setInterval(nextStage, STAGE_DURATION);
+        setStage(currentStage);
+      } else {
+        clearInterval(autoTimer);
+        progress.classList.remove('run');
+        progress.style.width = '0%';
+      }
+    }
+
+    document.getElementById('next-stage').addEventListener('click', e => { e.stopPropagation(); nextStage(); });
+    document.getElementById('prev-stage').addEventListener('click', e => { e.stopPropagation(); prevStage(); });
+    autoBtn.addEventListener('click', e => { e.stopPropagation(); toggleAuto(); });
+    dotsAll.forEach((d, i) => d.addEventListener('click', e => { e.stopPropagation(); setStage(i); }));
+
+    // 컨트롤 영역 클릭이 모달로 버블링 안 되도록
+    document.getElementById('stage-controls').addEventListener('click', e => e.stopPropagation());
+    stageStack.addEventListener('click', e => e.stopPropagation());
+
+    // 키보드: 좌/우 + 스페이스
+    document.addEventListener('keydown', e => {
+      if (modal.classList.contains('open')) return;  // 모달 중에는 무시
+      if (e.key === 'ArrowRight') nextStage();
+      else if (e.key === 'ArrowLeft') prevStage();
+      else if (e.code === 'Space' && e.target.tagName !== 'BUTTON') { e.preventDefault(); toggleAuto(); }
+    });
+  }
+
+  document.getElementById('btn-close').addEventListener('click', closeModal);
+  document.getElementById('btn-fullscreen').addEventListener('click', toggleFullscreen);
+  document.getElementById('btn-dark').addEventListener('click', toggleDark);
+  document.getElementById('btn-rotate').addEventListener('click', toggleRotate);
+
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key.toLowerCase() === 'f') toggleFullscreen();
+    else if (e.key.toLowerCase() === 'd') toggleDark();
+    else if (e.key.toLowerCase() === 'r') toggleRotate();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전직원 회의 · 2026-06-28 리얼 시술 시뮬레이션 도입 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;font-weight:700;margin-right:6px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  .person{background:#161617;border:1px solid #242425;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  .person .who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .person .who .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#a8854e);color:#0b0907;display:flex;align-items:center;justify-content:center;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px}
+  .person .who .name{font-weight:800;font-size:15px;color:#e7e5e1}
+  .person .who .role{font-size:12px;color:#8a8a84}
+  .person .conclusion{background:#1c1c1d;border-left:3px solid #d4af37;padding:10px 14px;margin-bottom:10px;font-size:14px;color:#f4e6b8}
+  .person p{font-size:14px;line-height:1.7;color:#cbc8c1;margin-bottom:8px}
+  .person p strong{color:#e7e5e1}
+  .person p em{color:#d4af37;font-style:normal;font-weight:700}
+  .person ul{margin:6px 0 6px 18px;font-size:13.5px;color:#cbc8c1;line-height:1.7}
+  .person li::marker{color:#d4af37}
+  .person .recommend{background:#2a1a18;border:1px dashed #d4af37;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:13.5px;color:#f4d4a8}
+  .person .recommend b{color:#ffb98a}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.partial{color:#f4d4a8}
+  td.fail{color:#f4a8a8}
+  .agree{background:#1c2a1c;border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px;color:#c8e6c9}
+  .agree b{color:#a8e6b3}
+  .source{font-size:11px;color:#666;letter-spacing:0.5px}
+  .source a{color:#8a8a84;text-decoration:none;border-bottom:1px dotted #555}
+  .options{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 22px;margin-top:8px}
+  .options h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  .options .opt{padding:14px 16px;background:#1c1c1d;border-radius:8px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+  .options .opt .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;flex-shrink:0;line-height:1;width:40px;text-align:center}
+  .options .opt .body b{font-size:15px;color:#e7e5e1;display:block;margin-bottom:4px}
+  .options .opt .body p{font-size:13px;color:#9a9a93;line-height:1.55;margin:0}
+  .options .opt .body .cost{font-size:11.5px;color:#d4af37;letter-spacing:1px;margin-top:4px;font-weight:600}
+  .options .opt.reco{border:1px solid #d4af37;background:linear-gradient(135deg,#1c1c1d,#2a241a)}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>전직원 회의</em> — 2026-06-28 (일) · 「리얼 + 이쁨」 시술 시뮬레이션 도입</h1>
+<p class="sub">출석: 김민서 · 유나 · 한승철 · 이서연 · 클로드 / 의장: 박정주 대표님 / 안건: Face Lab v3 한계 → v4 「실제 사람 같은 리얼 + 이쁨」 시뮬레이션 도입 합의</p>
+
+<div class="goal"><b>🎯 목표</b>4직원 병렬 리서치(기술·미적·인프라·전환율) → 「리얼 + 이쁨」 시뮬레이션 도입 합의 권고 1건 도출</div>
+
+<div class="meta-bar">
+  <div><b>리서치 시간</b>약 7분 (4 subagent 병렬, 총 ~190K 토큰)</div>
+  <div><b>검색 출처</b>총 40+ 웹 출처 (Modiface · Sephora · FLUX · PIPA · Replicate 등)</div>
+  <div><b>v3 한계</b>캔버스 결 합성 = 「픽셀 그리기」 수준 · 실사 변환 X</div>
+  <div><b>잔량</b>352.46 크 · v4 PoC 견적 10~30크</div>
+</div>
+
+<!-- A. 4직원 리서치 발언 -->
+<section>
+  <h2><span class="num">A</span>4직원 병렬 리서치 발언</h2>
+
+  <!-- 김민서 -->
+  <div class="person">
+    <div class="who"><div class="avatar" style="background:linear-gradient(135deg,#A8E6E6,#5BA8A8)">김</div><div><div class="name">김민서 (Face Lab 리드 · KAIST AI 박사)</div><div class="role">AI 시술 시뮬레이션 기술</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> <em>FLUX.1 Kontext (Higgsfield 경유) + MediaPipe 478 마스크</em> = 2026 기준 「리얼함 × 통합 속도 × ARTbrows 자산 재활용」 최적 조합. 캔버스 결 합성 → 픽셀 단위 시술 후 변환으로 즉시 점프 가능.</div>
+    <table>
+      <tr><th>#</th><th>옵션</th><th>정확도</th><th>통합</th><th>월 비용</th><th>판정</th></tr>
+      <tr><td>★1</td><td><strong>FLUX.1 Kontext + MediaPipe</strong></td><td class="win">9.0</td><td>3~5일</td><td class="win">0원 (보유 크레딧)</td><td class="win">권고</td></tr>
+      <tr><td>2</td><td>Modiface (L'Oreal)</td><td>8.5</td><td>2~3개월</td><td class="fail">$200K~500K/년</td><td class="fail">학원 승인 거부 가능</td></tr>
+      <tr><td>3</td><td>Perfect Corp YouCam</td><td>8.0</td><td>3~4주</td><td>$5K~30K/월</td><td>PMU 특화 부족</td></tr>
+      <tr><td>4</td><td>Banuba Face AR SDK</td><td>7.5</td><td>2~4주</td><td>~$2K/월</td><td>14일 무료 trial</td></tr>
+      <tr><td>5</td><td>SD 3.5/FLUX 셀프호스트</td><td>7.0</td><td>2~3주</td><td>$300~800/월</td><td>운영 부담 큼</td></tr>
+      <tr><td>6</td><td>3D 모핑 (PoC-07 활용)</td><td>6.5</td><td>2~3주</td><td>0원</td><td class="partial">uncanny valley 우려</td></tr>
+      <tr><td>7</td><td>StyleGAN3 swap</td><td class="fail">5.5</td><td>4주+</td><td>$500~1.5K/월</td><td class="fail">eyebrow ghosting 학계 공인</td></tr>
+    </table>
+    <p style="margin-top:10px"><strong>핵심 근거:</strong> Kontext = in-context editing으로 「내 얼굴이 그대로인데 눈썹만 바뀐」 character preservation 보장. SD inpainting의 prompt drift 한계 우회. MediaPipe 478 landmark + dense eyebrow contour → 마스크 자동 생성 → 합성까지 end-to-end 무인 파이프라인.</p>
+    <div class="recommend"><b>🔬 권고:</b> 내일 PoC-08로 1인 샘플 3장 즉시 베이크해서 v3 vs v4 비교 보고. 진행 승인 부탁드립니다.</div>
+    <p class="source" style="margin-top:8px">출처: <a href="https://bfl.ai/models/flux-kontext">FLUX Kontext</a> · <a href="https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev">HF Kontext</a> · <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker">MediaPipe</a> · <a href="https://www.banuba.com/blog/best-makeup-virtual-try-on-sdks-compared-and-tested">Banuba SDK 비교</a></p>
+  </div>
+
+  <!-- 유나 -->
+  <div class="person">
+    <div class="who"><div class="avatar">유</div><div><div class="name">유나 (그래픽·비주얼)</div><div class="role">「이쁨」 미적 큐레이션</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> 대표님, <em>「리얼 = 28% 비대칭·결 텍스처 보존」</em> + <em>「이쁨 = 240 케이스 × 2026 K-Hyper-Natural 톤」</em> — 완벽 대칭은 오히려 매력도를 깎습니다. 둘 다 자동화 가능.</div>
+    <ul>
+      <li><strong>1. 「이쁨」 정량 정의 — K-Hyper-Natural</strong>: 2026 한·중 트렌드 「Expressive Individuality」. 黄金비 점수 버리기. 4 기준 — ① 결 방향 일치도 ≥92% ② 좌우 미세 비대칭 3~7% ③ 채도 자연 픽셀 ±15% ④ 아치 피크 외각 2/3 지점</li>
+      <li><strong>2. 언캐니 밸리 회피 — 의도된 불완전</strong>: 정상 비대칭이 완벽 대칭보다 매력도 ↑ (NCBI 2024). plastic skin·porcelain smoothness → 즉시 「소름」 반응. 프롬프트 가드 = `natural skin texture, visible pores, subtle fine lines` + 금지어 `flawless, airbrushed, smooth`. 끝부분 4~7개 결 미세 흐림 자동 후처리</li>
+      <li><strong>3. 240 케이스 큐레이션 매트릭스</strong>: 8 스타일 × 6 얼굴형 × 5 피부톤 = 240. 케이스마다 ① 아치 위치 ② 결 밀도 ③ 색조 ④ 꼬리 비율 — 4 파라미터 JSON 룩업 테이블 자동화</li>
+      <li><strong>4. 사용자 반응 디자인</strong> (Maybelline·Fenty 검증): 풀스크린 BEFORE↔AFTER 슬라이더 + 3× 줌인 결 모드 + 정면·45°·하이앵글 3컷 + 「내 얼굴 추천 TOP 3」 카드. 「실제 시술 후 90% 재현 보장」 카피로 격차감 차단</li>
+      <li><strong>5. 장미지 시그니처 보존 — 결 DNA LoRA</strong>: 원장 실제 시술 결과 100~200장 → 「장미지 결」 LoRA 학습 → 모든 출력에 ±10% 가중치 오버레이. 워터마크처럼 박힘</li>
+    </ul>
+    <div class="recommend"><b>🙋 권고:</b> 240 케이스 큐레이션 시트 — 1주 풀세트(완성도) vs 8 스타일 MVP(속도) 둘 중 선택 부탁드립니다.</div>
+    <p class="source" style="margin-top:8px">출처: <a href="https://www.allurekorea.com/2025/12/24/뷰티-전문가들이-공통적으로-짚은-2026-뷰티-트렌드/">Allure Korea 2026</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11356113/">NCBI 비대칭 매력도</a> · <a href="https://www.glamar.io/blog/best-ar-beauty-try-on">Glamar UX</a> · <a href="https://www.microbladingkorea.com/guides/brow-shapes-for-face-shape">PMU 한국 매핑</a></p>
+  </div>
+
+  <!-- 한승철 -->
+  <div class="person">
+    <div class="who"><div class="avatar">한</div><div><div class="name">한승철 (풀스택 CTO)</div><div class="role">도입 비용·인프라·법적 안전</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> 대표님, <em>월 1,000명까지 Replicate FLUX Kontext + Supabase Storage 24시간 자동삭제</em>로 가도 <em>월 $80~120, PIPA·의료광고법 통과</em>, 1만 명 스케일에서 Fal.ai 또는 RunPod RTX 4090으로 전환.</div>
+
+    <p style="margin-top:10px"><strong>① 추론 호스팅 단가 (장당 1024px Kontext)</strong></p>
+    <table>
+      <tr><th>옵션</th><th>장당</th><th>지연</th><th>정확도</th><th>운영</th></tr>
+      <tr><td>Higgsfield (현재)</td><td class="win">~$0.02</td><td>5~12초</td><td>★★★★</td><td>0</td></tr>
+      <tr><td>Fal.ai FLUX Pro</td><td class="win">$0.04~0.05</td><td class="win">2~5초</td><td>★★★★★</td><td>0</td></tr>
+      <tr><td>Replicate Kontext Pro</td><td>$0.04~0.08</td><td>3~8초</td><td>★★★★★</td><td>0</td></tr>
+      <tr><td>RunPod Serverless 4090</td><td>$0.34/시간</td><td>4~10초</td><td>★★★★</td><td>中</td></tr>
+      <tr><td>자가호스팅 RTX 4090</td><td>월 $80~150</td><td>2~4초</td><td>★★★★</td><td class="fail">高 (모비딕 표준 위반)</td></tr>
+    </table>
+
+    <p style="margin-top:10px"><strong>② 법적 리스크 — 3종 가드 필수</strong></p>
+    <ul>
+      <li><strong>PIPA:</strong> 얼굴=민감정보(생체정보). 별도 동의 체크박스 필수 ("AI 시뮬 처리 + 보관기간 + 제3자 위탁(Replicate/Fal 미국)")</li>
+      <li><strong>의료광고법:</strong> 반영구=의료행위 논쟁 영역. AI 시뮬 결과를 「예상 결과」로 광고 시 사전심의 대상. → <strong>「체험용·외부 게시 금지」 워터마크</strong> 박는 게 안전 (CLAUDE.md §4 「AI 비포·애프터 금지」와 정합)</li>
+      <li><strong>GDPR:</strong> Article 9 특수 카테고리. EU 거주자 접근 시 explicit consent</li>
+      <li><strong>보관 정책:</strong> Supabase 업로드 → 추론 완료 즉시 원본 삭제 + 결과물 signed URL 24시간 만료 + DB 해시만. Vercel Cron + Edge Function 매시간 cleanup</li>
+    </ul>
+
+    <p style="margin-top:10px"><strong>③ 비용 시뮬 (장당 평균 3장 추론)</strong></p>
+    <table>
+      <tr><th>월 사용자</th><th>Higgsfield</th><th>Replicate</th><th>Fal.ai</th><th>자가호스팅</th></tr>
+      <tr><td>100명</td><td class="win">$6</td><td>$12~24</td><td>$12~15</td><td>$80+</td></tr>
+      <tr><td>1,000명</td><td>$60+</td><td class="win">$120~240</td><td class="win">$120~150</td><td>$80~</td></tr>
+      <tr><td>10,000명</td><td class="fail">한계 초과</td><td>$1.2~2.4K</td><td class="win">$1.2~1.5K</td><td>$200~400</td></tr>
+    </table>
+
+    <p style="margin-top:10px"><strong>④ 5축 정합:</strong> 5축 ② 다채널 AI 응답 + ⑤ 통합 자동화 웹앱 모두 「이미지 추론 API 게이트웨이」 공유 가능. `lib/inference/router.ts` 하나에서 Higgsfield/Replicate/Fal 라우팅 → Face Lab + 블로그 카드 + 인스타 무드컷 모두 같은 인프라.</p>
+
+    <div class="recommend"><b>🛠 권고:</b> Phase 1 (지금~월 1,000명) = Higgsfield 유지 + Replicate 백업 ($120/월 캡) · Supabase 24시간 자동삭제 + PIPA 별도 동의 체크박스 + "체험용 비공개" 워터마크 3종 이번 주 안에 박기. 진행 부탁드립니다.</div>
+    <p class="source" style="margin-top:8px">출처: <a href="https://replicate.com/pricing">Replicate</a> · <a href="https://fal.ai/docs/documentation/model-apis/pricing">Fal.ai</a> · <a href="https://docs.runpod.io/serverless/pricing">RunPod</a> · <a href="https://www.didomi.io/blog/south-korea-pipa-everything-you-need-to-know">PIPA Guide</a> · <a href="https://inblog.ai/ko/blog/medical-ad-review">한국 의료광고법 2026</a></p>
+  </div>
+
+  <!-- 이서연 -->
+  <div class="person">
+    <div class="who"><div class="avatar">이</div><div><div class="name">이서연 (기획·마케팅 PM)</div><div class="role">업계 사례 + 전환율</div></div></div>
+    <div class="conclusion"><strong>핵심:</strong> 대표님, 결론부터요. <em>Sephora Virtual Artist 전환율 +112%·구매확률 2.5배, Modiface 전환율 3배, Snapchat AR 필터 정적 광고 대비 +94%</em>. Face Lab은 단순 장난감이 아니라 <strong>카카오 상담 신청률 2배 끌어올릴 깔때기 중간 펌프</strong>.</div>
+
+    <p style="margin-top:10px"><strong>① 동종업계 시뮬레이터 사례</strong></p>
+    <table>
+      <tr><th>서비스</th><th>핵심 지표</th></tr>
+      <tr><td>L'Oréal Modiface</td><td class="win">전환율 3배(+200%) · 디지털 try-on 1억 세션</td></tr>
+      <tr><td>Sephora Virtual Artist</td><td class="win">전환율 +90~112% · 구매확률 2.5배 · 누적 try-on 2억 · 추가 매출 $100M</td></tr>
+      <tr><td>Snapchat AR 뷰티</td><td class="win">정적 광고 대비 +94%</td></tr>
+      <tr><td>Shopify AR/3D</td><td class="win">전환율 +94% · 반품률 -64%</td></tr>
+      <tr><td>강남언니 / 바비톡</td><td>자체 AR 약함 → <strong>우리 선점 기회</strong></td></tr>
+      <tr><td>Benefit Brow Try-On</td><td>마이크로블레이딩 결정 전 상담용 — <strong>눈썹 카테고리 직접 사례</strong></td></tr>
+    </table>
+    <p style="font-size:12.5px;color:#9a9a93;margin-top:4px">시장: 2025 $125억 → 2030 $488억 (CAGR 25.5%). 뷰티 브랜드 70%가 도입 중. <strong>반영구 학원은 아직 비어있음.</strong></p>
+
+    <p style="margin-top:10px"><strong>② 깔때기 통합 시뮬레이션</strong></p>
+    <pre style="font-size:12px;background:#0a0a0b;border:1px solid #242425;border-radius:8px;padding:10px;color:#9ad9a6;line-height:1.6;overflow-x:auto">인스타 광고 100,000 노출
+   ↓ CTR 2%
+Face Lab 진입 2,000명
+   ↓ 시뮬 완료율 60%
+시뮬 결과 PNG 저장 1,200명
+   ↓ 카카오 상담 CTR 18%
+상담 신청 216명
+   ↓ 학원 등록 전환 25%
+등록 54명 × 69만원 = 약 3,720만원/월</pre>
+
+    <p style="margin-top:10px"><strong>③ LTV — 시뮬 사용자 vs 일반 광고</strong></p>
+    <table>
+      <tr><th>구분</th><th>6개월 등록률</th><th>UGC 공유</th></tr>
+      <tr><td>일반 광고 노출</td><td>0.05%</td><td>거의 0</td></tr>
+      <tr><td>Face Lab 시뮬 사용자</td><td class="win">0.27% (5.4배)</td><td>1.3회/인</td></tr>
+      <tr><td><strong>시뮬 + 카카오 진입자</strong></td><td class="win"><strong>8~12% (100배+)</strong></td><td>2.1회/인</td></tr>
+    </table>
+    <p style="font-size:12.5px;color:#9a9a93;margin-top:4px">「재미로 한 번 해봤다」가 평생수강 락인의 입구. UGC 무료 노출 = 시뮬 1,200명 기준 <strong>1,560회/월</strong> (워터마크 효과).</p>
+
+    <div class="recommend"><b>🟡 권고:</b> Face Lab 결과 PNG에 「장미지눈썹연구소 K1 카톡 상담」 워터마크 + 1-클릭 카카오 채널 진입 버튼 — 이번 주 안에 박기. <strong>카카오 22일째 보류 결단도 이 순간 자연 해결</strong> (Face Lab이 카카오의 첫 유입 엔진).</div>
+    <p class="source" style="margin-top:8px">출처: <a href="https://www.thedrum.com/news/2019/07/02/conversion-rates-triple-when-l-or-al-uses-ar-tech-showcase-products">Drum Modiface 3배</a> · <a href="https://www.linkedin.com/posts/sami-tabshouri_beautytech-airetail-sephorainnovation-activity-7374759312121901057-2DJy">Sephora +112%</a> · <a href="https://freeyourself.com/blogs/news/virtual-try-on-beauty-technology-statistics">시장 통계 2025</a> · <a href="https://tinadavies.com/blogs/news/benefit-brow-try-on-app">Benefit Brow Try-On</a></p>
+  </div>
+
+  <!-- 클로드 종합 -->
+  <div class="person">
+    <div class="who"><div class="avatar">C</div><div><div class="name">클로드 (Claude Code · 종합)</div><div class="role">합의 정리</div></div></div>
+    <div class="conclusion"><strong>4직원 합의 (만장일치 + 일치 지점 3가지):</strong>
+      <ol style="margin-left:18px;margin-top:8px;font-size:13.5px">
+        <li><strong>기술 = FLUX.1 Kontext + MediaPipe</strong> (김민서 ✅ + 한승철 ✅) — Higgsfield 자산 재활용, 통합 3~5일, 정확도 9.0</li>
+        <li><strong>법적 = PIPA 동의 + 24시간 자동삭제 + 체험용 워터마크</strong> (한승철 ✅ + CLAUDE.md §4 정합 + 유나의 「실사 후 90% 재현」 카피와 일치)</li>
+        <li><strong>전환 = 결과 PNG 카카오 워터마크 + 1클릭 진입</strong> (이서연 ✅ — 카카오 22일째 보류도 자연 해결)</li>
+      </ol>
+    </div>
+
+    <div class="agree" style="margin-top:14px"><b>🟢 합의 종합 권고 — Face Lab v4 「리얼 시뮬레이션」 4 트랙:</b>
+      <ul style="margin-top:6px">
+        <li><strong>트랙 1 (내일 PoC, 0~5크)</strong> — 김민서: Higgsfield FLUX Kontext + MediaPipe 마스크로 1인 샘플 3장 즉시 베이크. v3 vs v4 비교.</li>
+        <li><strong>트랙 2 (이번 주, 0크)</strong> — 유나: 240 케이스 매트릭스 MVP (8 스타일 × 1 대표 얼굴형) JSON 룩업. K-Hyper-Natural 톤 가드 프롬프트.</li>
+        <li><strong>트랙 3 (이번 주, ~$120 캡)</strong> — 한승철: Replicate Kontext 백업 라우터 + Supabase 24h 자동삭제 + PIPA 별도 동의 + 워터마크 3종.</li>
+        <li><strong>트랙 4 (이번 주, 0크)</strong> — 이서연: 결과 PNG 워터마크 + 카카오 진입 버튼 (카카오 결단 후 즉시 활성).</li>
+      </ul>
+    </div>
+    <p style="font-size:13px;color:#9a9a93;margin-top:8px"><strong>예상 효과 (이서연 시뮬 기반):</strong> 인스타 광고 100K 노출 → Face Lab v4 진입 2K → PNG 저장 1.2K → 상담 216 → 등록 54명 × 69만원 = <strong>월 3,720만원</strong>. 6개월 LTV 5.4배 + UGC 무료 노출 월 1,560회.</p>
+  </div>
+
+</section>
+
+<!-- B. 대표님 결정 -->
+<div class="options">
+  <h3>대표님 결정 — 1글자 답변</h3>
+
+  <div class="opt reco"><div class="n">A</div><div class="body">
+    <b>4 트랙 동시 진행 (만장일치 합의)</b>
+    <p>김민서 PoC + 유나 240 케이스 MVP + 한승철 인프라 3종 + 이서연 워터마크·CTA. 이번 주 안에 v4 알파 → 다음 주 베타 게시.</p>
+    <p class="cost">~10크 (PoC 샘플) + $120/월 캡 (Replicate 백업) · 1주</p>
+  </div></div>
+
+  <div class="opt"><div class="n">B</div><div class="body">
+    <b>트랙 1만 — 김민서 PoC 1인 샘플만 먼저 (보수)</b>
+    <p>v4 가능성 검증 후 다른 트랙 진입 결정. 빠르고 안전.</p>
+    <p class="cost">~5크 · 1일</p>
+  </div></div>
+
+  <div class="opt"><div class="n">C</div><div class="body">
+    <b>3D 모핑 경로 (Blender PoC-07 활용) 우선</b>
+    <p>김민서 #6 옵션. 우리 자산 100% 재활용. 단 uncanny valley 우려로 일부 케이스만.</p>
+    <p class="cost">0크 (어제 자산) · 2~3주</p>
+  </div></div>
+
+  <div class="opt"><div class="n">D</div><div class="body">
+    <b>보류 — 내일 원장님 미팅 결과 보고 결정</b>
+    <p>원장님이 「리얼 시뮬」 콘셉트 컨펌하면 다음 주부터 시작. 회의 자료만 미팅에 동봉.</p>
+    <p class="cost">0크 · 미팅 후</p>
+  </div></div>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 운영진 전용 (cloudflared 임시 터널 / _site)</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="face-lab/">Face Lab v3</a> · <a href="원장님-미팅-보고-20260629.html">06/29 미팅 보고서</a> · <a href="회의-20260628-원장님미팅준비.html">06/28 회의록</a></p>
+</footer>
+
+</body>
+</html>

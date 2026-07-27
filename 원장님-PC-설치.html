@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원장님 PC 설치 — 중국어 영상 자동 번역</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&family=Inter:wght@300;400;500;700&display=swap');
+:root{
+  --bg-deep:#0B0907;--bg-card:#161311;--bg-card2:#1E1A17;
+  --text:#F5EDE3;--text-soft:#D6C9B8;--muted:#8A7E72;--line:#2A211C;
+  --gold:#C9A66B;--gold-light:#E0C088;--gold-deep:#A8854E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-deep);color:var(--text);font-family:'Noto Sans KR','Inter',sans-serif;font-weight:300;line-height:1.75;padding:50px 22px}
+.serif{font-family:'Nanum Myeongjo',serif}
+a{color:var(--gold-light);text-decoration:none}
+.wrap{max-width:880px;margin:0 auto}
+
+.eyebrow{letter-spacing:.4em;font-size:10.5px;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:14px;text-align:center}
+h1{font-family:'Nanum Myeongjo',serif;font-size:38px;font-weight:300;letter-spacing:-.01em;text-align:center;margin-bottom:10px}
+h1 em{font-style:normal;color:var(--gold-light);font-weight:800}
+.lead{color:var(--muted);font-size:14px;text-align:center;max-width:620px;margin:0 auto 36px;line-height:1.95}
+
+.cta-big{display:block;background:var(--gold);color:var(--bg-deep);padding:22px 28px;text-align:center;font-size:16px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin:0 auto 18px;max-width:520px;border:none;cursor:pointer}
+.cta-big:hover{background:var(--gold-light)}
+.cta-sub{text-align:center;color:var(--muted);font-size:12px;margin-bottom:40px}
+
+.step{background:var(--bg-card);border:1px solid var(--line);padding:24px 28px;margin-bottom:16px}
+.step .num{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.step h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.step p{color:var(--text-soft);font-size:13.5px;line-height:1.9}
+.step code{background:var(--bg-deep);padding:3px 10px;color:var(--gold-light);border:1px solid var(--line);font-family:'Consolas',monospace;font-size:12px}
+.step ul{margin-top:8px;padding-left:18px;color:var(--text-soft);font-size:13px;line-height:1.95}
+
+.note{background:linear-gradient(135deg,#1E1A17,#161311);border:1px dashed var(--gold-deep);padding:18px 22px;margin-top:24px;font-size:13px;color:var(--text-soft);line-height:1.95}
+.note b{color:var(--gold-light)}
+
+footer{text-align:center;margin-top:60px;color:var(--muted);font-size:12px;font-family:'Inter',sans-serif;letter-spacing:.05em}
+</style></head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">JANGMIJI ATELIER · 영상 자동 번역</div>
+  <h1 class="serif">원장님 PC <em>1-클릭 설치</em></h1>
+  <p class="lead">25GB 이상의 긴 강의 영상을 원장님 PC 가 알아서 처리합니다. 영상을 던지면 음성 인식 → 한국어 번역까지 자동, 끝나면 알림이 갑니다. 시청은 어디서든 가능합니다.</p>
+
+  <a class="cta-big" href="원장님-PC-설치/INSTALL.bat" download>⬇ INSTALL.bat 다운로드 (1.5KB)</a>
+  <p class="cta-sub">다운로드 → 더블 클릭 한 번이면 설치 완료 (자동 20분 정도)</p>
+
+  <div class="step">
+    <div class="num">STEP 01</div>
+    <h3 class="serif">다운로드한 INSTALL.bat 더블 클릭</h3>
+    <p>검은 창이 뜨면서 Python · ffmpeg · 영상 처리 도구를 자동으로 설치합니다.<br>
+    중간에 「관리자 권한 허용?」 묻는 창이 뜨면 <b>예</b> 클릭해 주세요. (총 15~20분)</p>
+    <ul>
+      <li>Python 3.12 (영상 처리 엔진)</li>
+      <li>ffmpeg (오디오 추출)</li>
+      <li>faster-whisper (음성 인식)</li>
+      <li>OpenAI 클라이언트 (한국어 번역)</li>
+      <li>폴더 감시기 (자동 처리)</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <div class="num">STEP 02</div>
+    <h3 class="serif">API 키 받기 (대표님께 요청)</h3>
+    <p>설치 끝나면 <code>%USERPROFILE%\jangmiji-translate\.env</code> 파일이 만들어집니다.<br>
+    이 파일을 <b>메모장</b>으로 열어서 다음 두 줄에 값을 채우세요:</p>
+    <ul>
+      <li><code>OPENAI_API_KEY=sk-proj-...</code> (대표님께 받기)</li>
+      <li><code>SUPABASE_SECRET_KEY=sb_secret_...</code> (대표님께 받기)</li>
+    </ul>
+    <p style="margin-top:10px;color:var(--muted);font-size:12.5px">※ 키는 카톡으로 보내드리겠습니다. 저장 후 메모장 닫으면 끝입니다.</p>
+  </div>
+
+  <div class="step">
+    <div class="num">STEP 03</div>
+    <h3 class="serif">바탕화면 「영상 번역 시작」 더블 클릭</h3>
+    <p>설치 완료되면 바탕화면에 <code>영상 번역 시작.bat</code> 아이콘이 생깁니다. 더블 클릭하면 검은 창이 뜨고 영상 폴더를 감시하기 시작합니다.<br>
+    이 창이 떠 있는 동안 자동 처리가 작동합니다. (창 닫으면 멈춤 — 다시 더블 클릭하면 재시작)</p>
+  </div>
+
+  <div class="step">
+    <div class="num">STEP 04</div>
+    <h3 class="serif">영상을 폴더에 던지기</h3>
+    <p><code>%USERPROFILE%\jangmiji-translate\_inbox\</code> 폴더에 영상 파일을 복사·이동하면 끝.<br>
+    자동으로 음성 인식 → 한국어 번역 → Supabase 클라우드에 결과 업로드.</p>
+    <ul>
+      <li>2분 영상: 약 2분 처리</li>
+      <li>30분 영상: 약 20~30분 처리</li>
+      <li>3시간 영상: 약 1.5~2시간 처리</li>
+      <li>25GB 영상: 약 2~4시간 처리</li>
+    </ul>
+    <p style="margin-top:10px;color:var(--muted);font-size:12.5px">※ 영상은 컴퓨터에 두고 처리 — 인터넷으로 옮길 필요 없음</p>
+  </div>
+
+  <div class="step">
+    <div class="num">STEP 05</div>
+    <h3 class="serif">결과 시청</h3>
+    <p>처리가 끝나면 <a href="https://jangmiji.staris.cloud/translate-zh.html"><code>https://jangmiji.staris.cloud/translate-zh.html</code></a> 페이지에서 「최근 번역된 영상」 목록에 표시됩니다.<br>
+    클릭하면 영상 + 한국어 자막이 자동 스크롤됩니다. 시청은 PC, 핸드폰, 태블릿 어디서든 OK.</p>
+  </div>
+
+  <div class="note">
+    <b>설치가 잘 안 될 경우</b> — 대표님께 한 마디만 알려주세요. <b>회사 PC 에서 대신 처리</b>해드립니다.<br>
+    이 경우 영상만 카카오·메일·USB 등으로 보내주시면 끝. 시스템 자체는 동일하게 작동합니다 (시청 페이지도 동일).
+  </div>
+
+  <footer>
+    JANGMIJI · EYEBROWS MAIN · 자동 영상 번역 시스템 v1
+  </footer>
+
+</div>
+</body></html>

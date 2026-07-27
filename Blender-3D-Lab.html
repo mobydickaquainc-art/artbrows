@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blender 3D Lab · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0B0B0D;--card:#161618;--cardalt:#1A1A1D;--border:#242427;
+    --pink:#FF6F84;--pink-soft:#FF8FBB;--gold:#FFD87A;--cream:#E7E5E1;
+    --muted:#9A9892;--green:#A8E6B3;--blue:#9FC8FF;--purple:#BB8FFF
+  }
+  body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--cream);line-height:1.65;min-height:100vh}
+  .serif{font-family:'Nanum Myeongjo',serif}
+  .latin{font-family:'Cormorant Garamond',serif}
+  .mono{font-family:'JetBrains Mono',monospace}
+  a{color:var(--pink-soft);text-decoration:none}
+  a:hover{color:var(--pink)}
+
+  /* ===== TOP NAV (sticky) ===== */
+  .lab-nav{position:sticky;top:0;z-index:100;background:rgba(11,11,13,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .lab-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--cream);letter-spacing:1.5px}
+  .lab-logo em{color:var(--pink);font-style:normal}
+  .lab-nav-links{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto;font-size:12.5px}
+  .lab-nav-links a{padding:7px 13px;border-radius:6px;color:var(--muted);font-weight:600;letter-spacing:0.3px;transition:.15s}
+  .lab-nav-links a:hover{background:var(--card);color:var(--cream)}
+  .back-link{padding:7px 13px;background:var(--border);border-radius:6px;color:var(--muted);font-size:12px;font-weight:600}
+  .back-link:hover{color:var(--cream)}
+
+  /* ===== CONTAINER ===== */
+  .wrap{max-width:1380px;margin:0 auto;padding:0 28px}
+
+  /* ===== HERO ===== */
+  .hero{padding:60px 0 40px;border-bottom:1px solid var(--border)}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--pink);letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:56px;letter-spacing:-1.5px;margin-bottom:18px;line-height:1.15}
+  h1 em{color:var(--pink);font-style:normal;font-family:'Cormorant Garamond',serif;font-weight:600}
+  .lead{color:var(--muted);font-size:16px;max-width:920px}
+  .lead b{color:var(--pink-soft)}
+  .lead .since{display:inline-block;padding:4px 12px;background:var(--card);border:1px solid var(--border);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);margin-left:10px;letter-spacing:0.5px}
+
+  /* ===== HUB STATS BAR ===== */
+  .hub-stats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:30px 0 0}
+  .hub-stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 14px;text-align:center}
+  .hub-stat .v{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--pink);font-weight:700;line-height:1}
+  .hub-stat .k{font-size:11px;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin-top:6px}
+
+  /* ===== SECTION ===== */
+  section.lab-sec{padding:48px 0;border-bottom:1px solid var(--border)}
+  section.lab-sec:last-of-type{border-bottom:0}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:8px;display:flex;align-items:baseline;gap:14px}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:var(--pink);font-size:42px;line-height:1;font-weight:500;letter-spacing:1px}
+  h2 .small{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--muted);font-weight:500;letter-spacing:0}
+  .sec-desc{color:var(--muted);font-size:13.5px;margin-bottom:22px;max-width:920px}
+
+  h3{font-family:'Nanum Myeongjo',serif;color:var(--pink);font-size:18px;margin:24px 0 12px}
+
+  /* ===== PROJECT CARD ===== */
+  .projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+  .proj{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;gap:10px;transition:.18s;position:relative;overflow:hidden}
+  .proj:hover{border-color:var(--pink);transform:translateY(-3px)}
+  .proj.placeholder{opacity:0.55;border-style:dashed;background:transparent}
+  .proj.placeholder:hover{transform:none;border-color:var(--border)}
+  .proj-status{display:inline-block;align-self:flex-start;padding:4px 12px;font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;border-radius:4px}
+  .st-live{background:var(--green);color:#0B130C}
+  .st-progress{background:var(--gold);color:#0B0907}
+  .st-planned{background:var(--border);color:var(--muted)}
+  .st-backlog{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .proj h3{font-family:'Nanum Myeongjo',serif;color:var(--cream);font-size:20px;margin:0;padding:0}
+  .proj .desc{color:var(--muted);font-size:13px;line-height:1.55}
+  .proj .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:6px;padding-top:10px;border-top:1px solid var(--border)}
+  .proj .meta b{color:var(--gold)}
+  .proj .open{margin-top:8px;font-size:13px;font-weight:700;color:var(--pink)}
+  .proj .open::after{content:" →"}
+
+  /* ===== ASSET CATALOG ===== */
+  .catalog{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:10px}
+  .cat-cell{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center}
+  .cat-cell .icon{font-size:30px;margin-bottom:8px;display:block}
+  .cat-cell .num{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold);font-weight:700;line-height:1}
+  .cat-cell .lab{font-size:12px;color:var(--muted);letter-spacing:0.5px;margin-top:4px;font-weight:600;text-transform:uppercase}
+  .cat-cell .sub{font-size:11px;color:var(--muted);margin-top:6px}
+
+  /* ===== TOOLBOX ===== */
+  .toolbox{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .tool{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:8px;padding:16px 18px}
+  .tool h4{font-family:'Nanum Myeongjo',serif;color:var(--gold);font-size:15px;margin-bottom:5px}
+  .tool p{font-size:12px;color:var(--muted);line-height:1.55}
+  .tool .price{display:inline-block;margin-top:8px;padding:3px 9px;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--green);letter-spacing:0.4px}
+
+  /* ===== PIPELINE ===== */
+  .pipe{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:14px 0}
+  .pipe-step{flex:1;min-width:170px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)}
+  .pipe-step b{color:var(--gold);display:block;font-size:13px;margin-bottom:4px}
+  .pipe-step em{color:var(--green);font-style:normal;font-size:11px;display:block;margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ===== TABLE ===== */
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:13px;margin:10px 0}
+  th,td{border-top:1px solid var(--border);padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:var(--cardalt);color:var(--pink);border-top:0;font-weight:700;font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
+  tbody td b{color:var(--cream)}
+
+  /* ===== RESOURCE LINKS ===== */
+  .resources{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+  .res{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;transition:.15s;display:block}
+  .res:hover{border-color:var(--pink);background:var(--cardalt)}
+  .res .type{display:inline-block;padding:2px 8px;font-size:10px;font-family:'JetBrains Mono',monospace;border-radius:3px;background:var(--border);color:var(--gold);letter-spacing:0.5px;margin-bottom:6px;text-transform:uppercase}
+  .res h5{font-family:'Nanum Myeongjo',serif;color:var(--cream);font-size:14px;margin-bottom:3px}
+  .res p{font-size:11.5px;color:var(--muted)}
+
+  /* ===== BOXES ===== */
+  .tip{background:rgba(168,230,179,0.08);border:1px solid rgba(168,230,179,0.3);border-radius:8px;padding:13px 16px;margin:10px 0;color:#CBE0CC;font-size:13px}
+  .tip b{color:var(--green)}
+  .info{background:rgba(159,200,255,0.08);border:1px solid rgba(159,200,255,0.3);border-radius:8px;padding:13px 16px;margin:10px 0;color:#CBE0FF;font-size:13px}
+  .info b{color:var(--blue)}
+
+  footer{padding:36px 0 50px;text-align:center;color:var(--muted);font-size:11.5px}
+  footer a{margin:0 8px}
+
+  @media(max-width:980px){
+    .hub-stats{grid-template-columns:repeat(3,1fr)}
+    .catalog,.toolbox{grid-template-columns:repeat(2,1fr)}
+    .pipe{flex-direction:column}
+    h1{font-size:36px}
+    .lab-nav{padding:12px 18px;gap:12px}
+    .lab-nav-links{order:3;width:100%;margin-left:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== STICKY NAV ===== -->
+<nav class="lab-nav">
+  <a href="#top" class="lab-logo"><em>Blender</em> 3D Lab</a>
+  <div class="lab-nav-links">
+    <a href="#projects">프로젝트</a>
+    <a href="#assets">자산</a>
+    <a href="#tools">도구·파이프라인</a>
+    <a href="#captions">인스타 캡션</a>
+    <a href="#schedule">게시 일정</a>
+    <a href="#roi">ROI</a>
+    <a href="#backlog">백로그</a>
+    <a href="#resources">리소스</a>
+  </div>
+  <a href="index.html" class="back-link">← 메인</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker">ARTBROWS · 3D 자동화 작업 허브</div>
+    <h1><em>말</em>로 만드는 3D — <em>한 GLB</em>에서 무한 자산<span class="since">since 2026-06-24</span></h1>
+    <p class="lead">
+      Claude Code ↔ Blender MCP ↔ Higgsfield ↔ PolyHaven 4-layer 통합 작업 허브.
+      <b>텍스트 한 줄 → 마네킹 GLB → 캐러셀 · 릴스 · 무한 변형.</b> 자산 단가 <b>0.66 크/장</b> 까지 도달.<br>
+      앞으로의 모든 ARTbrows 3D 작업이 이 페이지에서 관리됩니다 — 신규 프로젝트는 「프로젝트」 섹션 카드 추가로 확장.
+    </p>
+
+    <div class="hub-stats">
+      <div class="hub-stat"><div class="v">1</div><div class="k">진행 프로젝트</div></div>
+      <div class="hub-stat"><div class="v">47</div><div class="k">총 자산</div></div>
+      <div class="hub-stat"><div class="v">1</div><div class="k">GLB 모델</div></div>
+      <div class="hub-stat"><div class="v">5</div><div class="k">릴스 (5초)</div></div>
+      <div class="hub-stat"><div class="v">12</div><div class="k">캐러셀 PNG</div></div>
+      <div class="hub-stat"><div class="v">31크</div><div class="k">누적 비용</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== A. PROJECTS ===== -->
+<section class="lab-sec" id="projects">
+  <div class="wrap">
+    <h2><span class="num">A</span>프로젝트<span class="small">한 GLB = 한 프로젝트. 신규 프로젝트는 카드 추가로 확장.</span></h2>
+    <p class="sec-desc">각 프로젝트는 「소스 이미지 → 3D GLB → N 자산 (캐러셀·릴스·그리드)」 로 구성. GLB 1개당 31크 (1차 비용) + 무한 변형 0크.</p>
+
+    <div class="projects">
+      <!-- LIVE: 시그니처 마네킹 -->
+      <div class="proj">
+        <span class="proj-status st-live">● Live · 47 assets</span>
+        <h3>시그니처 마네킹 헤드</h3>
+        <p class="desc">매트 화이트 도자기 마네킹 · 닫힌 눈 · 모던 눈썹 라인 · ARTbrows 시그니처 디스플레이 표상.</p>
+        <div class="meta">
+          <span><b>GLB</b> 6.96MB</span>
+          <span><b>HDR</b> 4종</span>
+          <span><b>비용</b> 31크</span>
+          <span><b>출시</b> 2026-06-24</span>
+        </div>
+        <a class="open" href="시그니처마네킹-데모-20260624.html">자산 전체 보기</a>
+      </div>
+
+      <!-- BACKLOG -->
+      <div class="proj placeholder">
+        <span class="proj-status st-backlog">○ Backlog · 0 assets</span>
+        <h3>장미지 원장 가상 아바타</h3>
+        <p class="desc">원장님 실사 사진 5~20장 → Higgsfield Soul 트레이닝 → image_to_3d → GLB. 시술 시연·강의 영상용.</p>
+        <div class="meta">
+          <span><b>예상 비용</b> ~50크</span>
+          <span><b>소요</b> 30분</span>
+          <span><b>필요</b> 원장님 사진</span>
+        </div>
+      </div>
+
+      <div class="proj placeholder">
+        <span class="proj-status st-backlog">○ Backlog · 0 assets</span>
+        <h3>페르소나 마네킹 시리즈</h3>
+        <p class="desc">수아 (부업맘) · 하영 (미용 종사자) · 예린 (신부) · 선영 (시니어) 각각 GLB 생성. STORY 시리즈 3D 확장.</p>
+        <div class="meta">
+          <span><b>예상 비용</b> 31크 × 4 = 124크</span>
+          <span><b>소요</b> 페르소나당 8분</span>
+        </div>
+      </div>
+
+      <div class="proj placeholder">
+        <span class="proj-status st-backlog">○ Backlog · 0 assets</span>
+        <h3>시술 도구 3D 디스플레이</h3>
+        <p class="desc">기구 (마이크로 블레이드 · 색소 · 베이스) 3D 모델 → 360° 회전 영상. 「창시자의 도구」 컨셉 광고용.</p>
+        <div class="meta">
+          <span><b>예상 비용</b> 31크/도구</span>
+          <span><b>도구 후보</b> 4종</span>
+        </div>
+      </div>
+
+      <div class="proj placeholder">
+        <span class="proj-status st-backlog">○ Backlog · 0 assets</span>
+        <h3>살롱 인테리어 360° 투어</h3>
+        <p class="desc">선릉·봉은사 본진 PolyHaven 모델 + 마네킹 배치 → 가상 살롱 360° 영상. 신규 수강생 가상 투어.</p>
+        <div class="meta">
+          <span><b>예상 비용</b> 0~31크</span>
+          <span><b>소요</b> 1~2시간</span>
+        </div>
+      </div>
+
+      <div class="proj placeholder">
+        <span class="proj-status st-backlog">○ Backlog · 0 assets</span>
+        <h3>시술 전후 비교 (텍스처 매핑)</h3>
+        <p class="desc">시그니처 마네킹 GLB에 「전 (눈썹 없음)」 / 「후 (극사실 눈썹)」 텍스처 매핑 → 비포애프터 영상. AI 얼굴 정책과 무관.</p>
+        <div class="meta">
+          <span><b>예상 비용</b> 0~5크</span>
+          <span><b>소요</b> 1시간</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== B. ASSET CATALOG ===== -->
+<section class="lab-sec" id="assets">
+  <div class="wrap">
+    <h2><span class="num">B</span>자산 카탈로그<span class="small">현재 47 자산 · 분류별 한눈에</span></h2>
+    <p class="sec-desc">시그니처 마네킹 프로젝트의 모든 자산. 신규 프로젝트가 추가되면 이 그리드도 확장.</p>
+
+    <div class="catalog">
+      <a class="cat-cell" href="assets/blender-renders/mannequin-signature.glb">
+        <div class="icon">🗿</div>
+        <div class="num">1</div>
+        <div class="lab">GLB Model</div>
+        <div class="sub">6.96MB · PBR · symmetry</div>
+      </a>
+      <a class="cat-cell" href="assets/blender-renders/PoC-04-GRID-4x4-summary.png">
+        <div class="icon">🎞️</div>
+        <div class="num">16+1</div>
+        <div class="lab">정지 컷 (그리드)</div>
+        <div class="sub">4 HDR × 4 각도 + 시트</div>
+      </a>
+      <a class="cat-cell" href="assets/시리즈-시그니처마네킹/캐러셀-마네킹-1-후킹.png">
+        <div class="icon">🖼️</div>
+        <div class="num">12</div>
+        <div class="lab">캐러셀 (Ch.01+02)</div>
+        <div class="sub">정면 6 + 측면 6</div>
+      </a>
+      <a class="cat-cell" href="assets/시리즈-시그니처마네킹/릴스-360-natural-5초.mp4">
+        <div class="icon">🎬</div>
+        <div class="num">5</div>
+        <div class="lab">인스타 릴스 (5초)</div>
+        <div class="sub">4 무드 + 1차 베이스</div>
+      </a>
+    </div>
+
+    <h3>최근 작업물 — 시그니처 마네킹 데모 페이지</h3>
+    <p class="sec-desc">47 자산 한 페이지 종합 (11 섹션 · 비디오 인라인 재생 · 캡션 복사 버튼).</p>
+    <div class="resources">
+      <a class="res" href="시그니처마네킹-데모-20260624.html">
+        <span class="type">HTML · 11 sections</span>
+        <h5>시그니처 마네킹 데모 페이지 (자산 전체 1 페이지)</h5>
+        <p>STATS + 파이프라인 + 4×4 그리드 + 캐러셀 12장 + 릴스 5편 + 캡션 + 게시 라인업 + ROI</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== C. TOOLS · PIPELINE ===== -->
+<section class="lab-sec" id="tools">
+  <div class="wrap">
+    <h2><span class="num">C</span>도구 · 파이프라인<span class="small">Claude Code 한 줄로 7단계 자동</span></h2>
+    <p class="sec-desc">모든 프로젝트가 같은 파이프라인 재활용. 변경 시 메모리 <code class="mono" style="background:var(--card);padding:2px 7px;border-radius:4px;color:var(--gold);font-size:12px">blender-mcp-pipeline</code> 갱신.</p>
+
+    <h3>도구 매트릭스</h3>
+    <div class="toolbox">
+      <div class="tool">
+        <h4>Blender MCP</h4>
+        <p>Claude Code ↔ Blender 양방향. execute_blender_code · get_scene_info · viewport_screenshot.</p>
+        <span class="price">무료 · uvx blender-mcp</span>
+      </div>
+      <div class="tool">
+        <h4>Higgsfield generate_image</h4>
+        <p>nano_banana_2 (텍스트→이미지 마네킹·페르소나).</p>
+        <span class="price">1 크/장 · 15초</span>
+      </div>
+      <div class="tool">
+        <h4>Higgsfield generate_3d (Meshy)</h4>
+        <p>image_to_3d · PBR + quad + symmetry · 30000 polycount.</p>
+        <span class="price">30 크/GLB · 4분</span>
+      </div>
+      <div class="tool">
+        <h4>PolyHaven HDR · Models</h4>
+        <p>4종 검증 (Wood / Blue / Natural / Dramatic). CC0 무한 사용.</p>
+        <span class="price">무료 · CC0</span>
+      </div>
+      <div class="tool">
+        <h4>Blender Cycles · EEVEE</h4>
+        <p>Cycles (정지 컷 고품질 1080) · EEVEE (영상 빠름 60프 22초).</p>
+        <span class="price">로컬 · GPU/CPU</span>
+      </div>
+      <div class="tool">
+        <h4>ffmpeg + drawtext</h4>
+        <p>PNG 시퀀스 → mp4 · 한글 자막 burn-in (맑은고딕 Bold) · BGM merge.</p>
+        <span class="price">무료 · 5초/영상</span>
+      </div>
+    </div>
+
+    <h3>파이프라인 (7단계)</h3>
+    <div class="pipe">
+      <div class="pipe-step"><b>① 텍스트→이미지</b>nano_banana_2 1장<em>1크 · 15초</em></div>
+      <div class="pipe-step"><b>② 이미지→GLB</b>Meshy PBR + quad<em>30크 · 4분</em></div>
+      <div class="pipe-step"><b>③ Blender 임포트</b>auto-scale<em>0크 · 10초</em></div>
+      <div class="pipe-step"><b>④ HDR 적용</b>PolyHaven 4종<em>0크 · 각 5초</em></div>
+      <div class="pipe-step"><b>⑤ 정지 컷 렌더</b>4 HDR × 4 각도<em>0크 · 4분</em></div>
+      <div class="pipe-step"><b>⑥ 회전 영상</b>EEVEE 60프 × N<em>0크 · 22초/편</em></div>
+      <div class="pipe-step"><b>⑦ ffmpeg 합성</b>5초 릴스 + BGM<em>0크 · 5초/편</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== D. INSTAGRAM CAPTIONS ===== -->
+<section class="lab-sec" id="captions">
+  <div class="wrap">
+    <h2><span class="num">D</span>인스타 캡션 라이브러리<span class="small">복사 → 붙여넣기</span></h2>
+    <p class="sec-desc">현재 1 프로젝트 = 2 캡션 (정면 / 측면). 신규 프로젝트 추가시 캡션 라이브러리도 확장.</p>
+
+    <h3>시그니처 마네킹 — 정면 캐러셀 / Mood Reels 공통</h3>
+    <div style="background:#0B0B0C;border:1px solid var(--border);border-radius:10px;padding:18px 22px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#CBC8C1;white-space:pre-wrap;line-height:1.75;position:relative" id="cap1"><button onclick="copyCap('cap1')" style="position:absolute;top:12px;right:12px;background:var(--pink);color:#fff;border:none;padding:6px 14px;font-size:11px;font-weight:700;border-radius:5px;cursor:pointer;font-family:'Noto Sans KR',sans-serif">복사</button>어떤 조명에서도, 같은 한 줄.
+
+조명이 바뀌어도, 무드가 달라져도
+시그니처는 한 줄로 남습니다.
+
+—
+
+극사실눈썹 창시자가 직접 그리는
+당신만의 시그니처 라인.
+
+▷ 상담 신청 — 프로필 링크
+@artbrows.korea
+
+#ARTbrows #극사실눈썹 #시그니처눈썹
+#반영구눈썹 #브로우 #눈썹문신
+#선릉 #봉은사 #청담 #서울뷰티
+#시그니처 #프리미엄</div>
+
+    <h3 style="margin-top:24px">시그니처 마네킹 — 측면 캐러셀 (Chapter 02)</h3>
+    <div style="background:#0B0B0C;border:1px solid var(--border);border-radius:10px;padding:18px 22px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#CBC8C1;white-space:pre-wrap;line-height:1.75;position:relative" id="cap2"><button onclick="copyCap('cap2')" style="position:absolute;top:12px;right:12px;background:var(--pink);color:#fff;border:none;padding:6px 14px;font-size:11px;font-weight:700;border-radius:5px;cursor:pointer;font-family:'Noto Sans KR',sans-serif">복사</button>프로필도, 한 줄로.
+
+정면이든 측면이든
+시그니처 라인은 끊기지 않습니다.
+
+—
+
+옆에서 찍히는 그 순간에도,
+흐트러지지 않는 한 줄.
+
+▷ 상담 신청 — 프로필 링크
+@artbrows.korea
+
+#ARTbrows #프로필눈썹 #옆태눈썹
+#반영구눈썹 #시그니처라인 #브로우
+#선릉 #봉은사 #청담 #서울뷰티
+#시그니처 #프로필</div>
+  </div>
+</section>
+
+<!-- ===== E. SCHEDULE ===== -->
+<section class="lab-sec" id="schedule">
+  <div class="wrap">
+    <h2><span class="num">E</span>인스타 게시 일정<span class="small">D+0 ~ D+12 라인업</span></h2>
+    <p class="sec-desc">신규 프로젝트 추가시 같은 형태로 일정 늘리기.</p>
+
+    <table>
+      <thead><tr><th style="width:80px">D+N</th><th style="width:110px">요일·시간</th><th style="width:200px">자산</th><th>설명</th><th style="width:80px">상태</th></tr></thead>
+      <tbody>
+        <tr><td><b>D+0</b></td><td>월 19:30</td><td>Chapter 01 정면 캐러셀 6장</td><td>대표 후킹 + 4 무드 정지 + CTA. 첫 임팩트.</td><td>준비됨</td></tr>
+        <tr><td><b>D+2</b></td><td>수 19:30</td><td>Mood Reel · Natural (릴스)</td><td>자연광 hero 톤. 친근한 메인홈 무드.</td><td>준비됨</td></tr>
+        <tr><td><b>D+4</b></td><td>금 19:30</td><td>Mood Reel · Wood (릴스)</td><td>오프라인 살롱 신뢰 무드.</td><td>준비됨</td></tr>
+        <tr><td><b>D+6</b></td><td>일 21:00</td><td>Chapter 02 측면 캐러셀 6장</td><td>「프로필도 한 줄로」 두 번째 챕터.</td><td>준비됨</td></tr>
+        <tr><td><b>D+8</b></td><td>화 19:30</td><td>Mood Reel · Blue (릴스)</td><td>모던 디자인 살롱 호소.</td><td>준비됨</td></tr>
+        <tr><td><b>D+10</b></td><td>목 19:30</td><td>Mood Reel · Dramatic (릴스)</td><td>럭셔리 광고 슛 톤.</td><td>준비됨</td></tr>
+        <tr><td><b>D+12</b></td><td>토 21:00</td><td>인사이트 분석 + 결정</td><td>최고 반응 무드 단독 재게시 + Chapter 03 검토.</td><td>대기</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info">
+      <b>★ 게시 시작 조건</b> — 카카오 채널 미결정 (블록커 ①). 결정 후 캡션의 「프로필 링크」를 카카오 채널로 교체.
+    </div>
+  </div>
+</section>
+
+<!-- ===== F. ROI ===== -->
+<section class="lab-sec" id="roi">
+  <div class="wrap">
+    <h2><span class="num">F</span>ROI 결산<span class="small">자산 단가 추적</span></h2>
+    <p class="sec-desc">신규 프로젝트가 추가될 때마다 이 표 갱신.</p>
+
+    <table>
+      <thead><tr><th>프로젝트</th><th style="width:160px">자산</th><th style="width:100px">비용</th><th style="width:120px">장당 단가</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>시그니처 마네킹</b> — 1차 GLB + 24 정지 + 12 캐러셀 + 5 릴스 + 미리보기·시트</td>
+          <td>47 자산</td>
+          <td>31 크</td>
+          <td>0.66 크/장</td>
+        </tr>
+        <tr style="background:var(--cardalt)">
+          <td><b style="color:var(--pink-soft)">현재 누적</b></td>
+          <td><b>47 자산</b></td>
+          <td><b>31 크</b></td>
+          <td><b style="color:var(--pink)">0.66 크/장</b></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <b>★ ROI 변화 추적</b> — 06-24 신규 GLB: 31크/1장 → 첫 16컷: 1.94 크/장 → 캐러셀 추가: 1.0 → 릴스 1편: 0.86 → 무드 4편: <b>0.66 크/장</b> (이전 일러스트 1크/장 대비 34% 추가 절감).
+    </div>
+  </div>
+</section>
+
+<!-- ===== G. BACKLOG ===== -->
+<section class="lab-sec" id="backlog">
+  <div class="wrap">
+    <h2><span class="num">G</span>다음 작업 백로그<span class="small">시그니처 마네킹 확장 + 신규 프로젝트</span></h2>
+    <p class="sec-desc">우선순위 매겨진 다음 작업 후보. 진행 결정 시 「프로젝트」 섹션의 카드를 LIVE로 승격.</p>
+
+    <table>
+      <thead><tr><th style="width:50px">#</th><th>작업</th><th style="width:120px">예상 비용</th><th style="width:90px">소요</th><th style="width:100px">유형</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>시술 전후 비교 (시그니처 마네킹에 「전/후」 텍스처 매핑)</td><td>0~5크</td><td>1시간</td><td>같은 GLB 확장</td></tr>
+        <tr><td>2</td><td>Chapter 03 — 후면 캐러셀 (Back Edition)</td><td>0크</td><td>15분</td><td>같은 GLB 확장</td></tr>
+        <tr><td>3</td><td>Close-up Reel · Walk-around Reel (카메라 거리 변형)</td><td>0크</td><td>30분</td><td>같은 GLB 확장</td></tr>
+        <tr><td>4</td><td><b>장미지 원장 가상 아바타</b> (Soul 트레이닝 + image_to_3d)</td><td>~50크</td><td>30분</td><td>신규 GLB</td></tr>
+        <tr><td>5</td><td><b>페르소나 마네킹 시리즈</b> (수아 · 하영 · 예린 · 선영)</td><td>124크 (31×4)</td><td>30분</td><td>신규 GLB × 4</td></tr>
+        <tr><td>6</td><td>시술 도구 3D 디스플레이</td><td>~31크/도구</td><td>10분/도구</td><td>신규 GLB</td></tr>
+        <tr><td>7</td><td>살롱 인테리어 360° 투어</td><td>0~31크</td><td>1~2시간</td><td>PolyHaven 합성</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== H. RESOURCES ===== -->
+<section class="lab-sec" id="resources">
+  <div class="wrap">
+    <h2><span class="num">H</span>리소스 · 메모리 · 문서<span class="small">파이프라인 박제</span></h2>
+    <p class="sec-desc">신규 작업자가 처음 합류해도 이 섹션만으로 작업 가능하도록.</p>
+
+    <h3>도입 & 결과 페이지</h3>
+    <div class="resources">
+      <a class="res" href="Blender-MCP-도입가이드-20260624.html">
+        <span class="type">HTML · Setup</span>
+        <h5>Blender MCP 도입 가이드</h5>
+        <p>Claude Code 가 「말로」 3D 제어 — 셋업 5단계 + 5 활용 시나리오</p>
+      </a>
+      <a class="res" href="Blender-MCP-결과-20260624.html">
+        <span class="type">HTML · Result</span>
+        <h5>Blender MCP 정착 결과 페이지</h5>
+        <p>한눈 STATS + 함정 해결책 + 활용 시나리오 + 첫 GLB 16컷 자동화</p>
+      </a>
+      <a class="res" href="시그니처마네킹-데모-20260624.html">
+        <span class="type">HTML · Demo</span>
+        <h5>시그니처 마네킹 데모 (전체 1페이지)</h5>
+        <p>47 자산 모두 한눈에 + 인스타 캡션 복사 + 게시 라인업</p>
+      </a>
+      <a class="res" href="docs/시그니처마네킹-캐러셀-운영가이드.md">
+        <span class="type">MD · Operation</span>
+        <h5>시그니처 마네킹 캐러셀 운영가이드 v4</h5>
+        <p>콘셉트·구조·캡션·해시태그·게시 패턴 + Chapter 02 측면 + Mood Reels</p>
+      </a>
+    </div>
+
+    <h3>연구 리포트</h3>
+    <div class="resources">
+      <a class="res" href="3D-시뮬레이션-연구리포트-20260624.html">
+        <span class="type">HTML · Research</span>
+        <h5>3D 시뮬레이션 연구 (1차)</h5>
+        <p>이서연·유나·김민서·한승철 4직원 의견 · 웹·프로그램 10+ 방법 비교</p>
+      </a>
+      <a class="res" href="리얼리즘-연구리포트-20260624.html">
+        <span class="type">HTML · Research</span>
+        <h5>리얼리즘 연구 (2차)</h5>
+        <p>현재 한계 8요소 진단 + Higgsfield/Blender MCP 워크플로우 + ★★★★ 즉시 향상법</p>
+      </a>
+    </div>
+
+    <h3>메모리 (Claude Code 자동 로드)</h3>
+    <div class="resources">
+      <a class="res" href="#">
+        <span class="type">Memory · Project</span>
+        <h5>blender-mcp-pipeline</h5>
+        <p>파이프라인 정착·도구 매트릭스·함정 해결책·활용 시나리오 정리</p>
+      </a>
+      <a class="res" href="#">
+        <span class="type">Memory · Reference</span>
+        <h5>higgsfield-usage</h5>
+        <p>nano_banana_pro 1크/장 · image_to_3d 30크/회 (PBR + quad + symmetry)</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © ARTbrows 2026 · Blender 3D Lab · 2026-06-24 정착
+  <br><br>
+  <a href="index.html">← 메인 포털</a> · <a href="ARTbrows-업무보고-대시보드.html">업무 보고 대시보드</a> · <a href="gallery.html">갤러리</a>
+</footer>
+
+<script>
+function copyCap(id) {
+  const box = document.getElementById(id);
+  const text = box.textContent.replace(/^복사/, '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = box.querySelector('button');
+    const orig = btn.textContent;
+    btn.textContent = '복사됨 ✓';
+    btn.style.background = '#A8E6B3';
+    btn.style.color = '#0B0907';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1800);
+  });
+}
+</script>
+
+</body>
+</html>

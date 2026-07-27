@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v6 MetaHuman 워크플로 5일 매뉴얼 · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.65;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:32px;margin-bottom:8px}
+  h1 em{color:#FFB78A;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#FFB78A;font-weight:700;margin-right:8px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#FFB78A;margin-right:8px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:17px;margin:14px 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#FFB78A;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+
+  .day-card{background:#161617;border:1px solid #242425;border-radius:14px;padding:22px;margin-bottom:18px;border-left:5px solid #FFB78A}
+  .day-card .header{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+  .day-card .day-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:#FFB78A;font-weight:700;line-height:1}
+  .day-card .day-title{font-family:'Nanum Myeongjo',serif;font-size:20px;color:#e7e5e1;font-weight:800;flex:1}
+  .day-card .who{font-size:11px;color:#FFB78A;letter-spacing:1px;background:rgba(255,184,138,0.15);padding:4px 10px;border-radius:10px;font-weight:700}
+  .day-card .steps{margin-top:10px}
+  .step{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #2a2a2a;align-items:flex-start}
+  .step:last-child{border-bottom:0}
+  .step .icon{font-size:18px;flex-shrink:0;width:28px;text-align:center;color:#FFB78A}
+  .step .body{flex:1;font-size:13.5px;color:#cbc8c1;line-height:1.7}
+  .step .body b{color:#FFB78A;font-weight:700}
+  .step .body code{background:rgba(255,184,138,0.12);padding:2px 6px;border-radius:4px;font-family:Consolas,monospace;color:#FFD8B3;font-size:12.5px}
+
+  .info{background:#1c1c1d;border-left:3px solid #FFB78A;border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13px;color:#cbc8c1}
+  .info b{color:#FFB78A}
+
+  .pre{background:#0a0a0b;border:1px solid #242425;border-radius:8px;padding:14px;font-family:Consolas,monospace;font-size:12.5px;color:#9ad9a6;line-height:1.6;overflow-x:auto;margin:10px 0}
+  .pre .kw{color:#FFB78A}
+  .pre .com{color:#666}
+
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#FFB78A}
+</style>
+</head>
+<body>
+
+<h1><em>v6 MetaHuman 워크플로</em> — 5일 매뉴얼</h1>
+<p class="sub">07-01 (화) ~ 07-05 (토) · 한승철·김민서 · v5 템플릿 100% 재활용 · $60 진입</p>
+
+<div class="goal"><b>🎯 목표</b>MetaHuman 5종 페르소나 (수아·하영·예린·민지·지우) → Blender export → v5 템플릿 (artbrows_studio.py) 그대로 적용 → v6.0 PoC 16컷 + BEFORE/AFTER 8컷 디지털 휴먼 수준 완성</div>
+
+<!-- ★ 5 페르소나 reference (오늘 사전 생성) -->
+<section style="background:#161617;border:2px solid #FFB78A;border-radius:14px;padding:24px;margin-bottom:24px">
+  <h2 style="color:#FFB78A;border-bottom-color:#FFB78A"><span class="num" style="color:#FFB78A">★</span>5 페르소나 MetaHuman Reference (오늘 사전 생성 완료)</h2>
+  <p style="font-size:14px;color:#cbc8c1;margin-bottom:14px">대표님 미팅 중에 클로드가 사전 생성. <strong style="color:#FFB78A">차주 07-02 (수)</strong> MetaHuman Creator에서 「수아」 디자인 시 reference로 사용. 같은 인물을 MetaHuman으로 만들면 v5.7~5.8 자산과 같은 페르소나로 연결됨.</p>
+  <img src="face-lab/3d/v5-renders/v6-5-personas-grid.png" alt="v6 5 페르소나 Reference" style="width:100%;border-radius:10px;display:block">
+  <p style="text-align:center;font-size:13px;color:#9a9a93;margin-top:10px"><strong>↑ 2142×514 · 수아(38) · 하영(28) · 예린(28) · 민지(23) · 지우(30)</strong></p>
+  <p style="font-size:13px;color:#cbc8c1;margin-top:12px"><strong>비용:</strong> 7.5 크 (5 × 1.5크) · 잔량 276.96 → <strong style="color:#FFB78A">269.46</strong></p>
+</section>
+
+<!-- DAY 1 -->
+<section>
+  <div class="day-card">
+    <div class="header">
+      <div class="day-num">D1</div>
+      <div class="day-title">07-01 (화) · Unreal 5.8 설치 + Epic 계정 + MCP 셋업</div>
+      <div class="who">한승철</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="icon">✅</div><div class="body"><b>Epic Games Launcher 설치</b> — <strong style="color:#a8e6b3">06-29 오전 클로드가 winget으로 자동 설치 완료</strong> · <code>C:\Program Files\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe</code> v20.1.0 · 시작 메뉴에서 실행 → 로그인만</div></div>
+      <div class="step"><div class="icon">⬇️</div><div class="body"><b>Unreal Engine 5.8 다운로드</b> — Launcher 실행 → 좌 Unreal Engine → Library 탭 → 「+ Add Versions」 → 5.8 선택 → <strong style="color:#FFB78A">Install Folder = D:\Unreal\UE_5.8</strong> (D 797GB 여유) → Install 클릭 → ~80GB 약 1시간 백그라운드</div></div>
+      <div class="step"><div class="icon">🎭</div><div class="body"><b>MetaHuman Creator 가입</b> (metahuman.unrealengine.com · 무료 · Epic 계정 그대로 사용)</div></div>
+      <div class="step"><div class="icon">🔌</div><div class="body"><b>Unreal MCP Plugin 활성화</b> (UE 5.8 공식 · 2026-06-17 출시) — Edit > Plugins > 검색 'MCP' > Enable + restart UE</div></div>
+      <div class="step"><div class="icon">🔗</div><div class="body"><b>.mcp.json 이미 등록 완료</b> <code>"unreal": { "command": "uvx", "args": ["unreal-mcp"] }</code> (UE 5.8 실행 시 자동 활성화)</div></div>
+      <div class="step"><div class="icon">✅</div><div class="body"><b>핸드셰이크 검증</b> — Claude Code 재시작 후 클로드가 <code>get_unreal_scene_info</code> 호출하여 연결 OK 확인</div></div>
+    </div>
+    <div class="info">⏱ <b>예상 시간:</b> 2~3시간 (다운로드 시간 포함) · 대표님 PC GPU NVIDIA RTX 3070+ 권장</div>
+  </div>
+</section>
+
+<!-- DAY 2 -->
+<section>
+  <div class="day-card">
+    <div class="header">
+      <div class="day-num">D2</div>
+      <div class="day-title">07-02 (수) · MetaHuman 1체 「수아」 디자인 + 시범 export</div>
+      <div class="who">김민서</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="icon">🎨</div><div class="body"><b>MetaHuman Creator 웹</b>에서 「수아」 디자인 — 38세 한국 여성 · 따뜻한 워킹맘 · 자료실의 reference PNG 활용 (이미 5 페르소나 reference 생성됨)</div></div>
+      <div class="step"><div class="icon">⚙️</div><div class="body"><b>Quixel Bridge로 UE 5.8 import</b> — 자동 link · 약 5분 (헤어 Groom + 피부 SSS + 눈 shader 자동)</div></div>
+      <div class="step"><div class="icon">📤</div><div class="body"><b>FBX export</b> — Asset Actions > Export · Body + Face Skeletal Mesh (Hair는 별도 처리)</div></div>
+      <div class="step"><div class="icon">🌀</div><div class="body"><b>Blender import</b> — File > Import > glTF/FBX · Character Control Rig 애드온($60)으로 자동 Rigify 변환</div></div>
+      <div class="step"><div class="icon">🧪</div><div class="body"><b>v5 템플릿 적용</b> <code>exec(open('tools/blender-templates/artbrows_studio.py').read())</code> → <code>setup_artbrows_studio(hdr, angle)</code> 한 줄로 SSS + HDR + 카메라 셋업</div></div>
+    </div>
+    <div class="info">⏱ <b>예상 시간:</b> 4~5시간 · MetaHuman Creator 학습 곡선 1시간 포함</div>
+  </div>
+</section>
+
+<!-- DAY 3 -->
+<section>
+  <div class="day-card">
+    <div class="header">
+      <div class="day-num">D3</div>
+      <div class="day-title">07-03 (목) · 「수아」 v6.0 PoC 16컷 + BEFORE/AFTER 8컷</div>
+      <div class="who">클로드 (Blender MCP 자동)</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="icon">🎬</div><div class="body"><b>v5.4 패턴 재활용</b> — 4 PolyHaven HDR × 4 각도 = 16컷 자동 렌더 (PoC-04 매크로 그대로)</div></div>
+      <div class="step"><div class="icon">🔀</div><div class="body"><b>BEFORE GLB 추가</b> — 같은 MetaHuman을 옅은 자연 눈썹으로 매핑 (Substance Painter 또는 Blender Texture Paint)</div></div>
+      <div class="step"><div class="icon">📊</div><div class="body"><b>v6.1 그리드 합성</b> — PIL 4×4 16컷 + 2×4 BEFORE/AFTER 8컷 = 총 24 자산 (PoC-04 + v5.6 패턴 재활용)</div></div>
+      <div class="step"><div class="icon">📈</div><div class="body"><b>v5.8 vs v6.0 비교</b> — 같은 인물 「수아」 nano_banana_pro reference vs MetaHuman 렌더 = 디지털 휴먼 차이 시각 증명</div></div>
+    </div>
+    <div class="info">⏱ <b>예상 시간:</b> 1~2시간 (대부분 자동) · 비용 0 추가 크</div>
+  </div>
+</section>
+
+<!-- DAY 4 -->
+<section>
+  <div class="day-card">
+    <div class="header">
+      <div class="day-num">D4</div>
+      <div class="day-title">07-04 (금) · 「수아」 STORY 04 인스타 캐러셀 + 5종 풀세트 견적</div>
+      <div class="who">이서연·유나·김민서</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="icon">📱</div><div class="body"><b>인스타 캐러셀 5장</b> — v6 「수아」 BEFORE/AFTER + 4 무드 = STORY 04 부업맘 시즌 2 (살구핑크 + 명조 디자인 시스템)</div></div>
+      <div class="step"><div class="icon">📋</div><div class="body"><b>5종 풀세트 견적</b> — 「하영·예린·민지·지우」 4종 추가 → MetaHuman Creator 각 1시간 × 4 = 4시간 + Quixel Bridge import × 4 = 즉시 가능</div></div>
+      <div class="step"><div class="icon">🎥</div><div class="body"><b>(옵션) MetaHuman Animator</b> — ARKit 51 blendshape으로 표정 변화 (시술 후 미소 등) · MP4 영상 가능</div></div>
+    </div>
+    <div class="info">⏱ <b>예상 시간:</b> 3~4시간</div>
+  </div>
+</section>
+
+<!-- DAY 5 -->
+<section>
+  <div class="day-card">
+    <div class="header">
+      <div class="day-num">D5</div>
+      <div class="day-title">07-05 (토) · 한 주 회의 + 5종 풀세트 진입 결정</div>
+      <div class="who">전직원</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="icon">🗣️</div><div class="body"><b>한 주 결과 회의</b> — v6.0 「수아」 PoC 검증 결과 + 인스타 게시 효과 측정</div></div>
+      <div class="step"><div class="icon">🎯</div><div class="body"><b>결정 1:</b> 5종 풀세트 진입 vs 단계적 (수아·하영 우선) — 시간/비용 트레이드오프</div></div>
+      <div class="step"><div class="icon">🎯</div><div class="body"><b>결정 2:</b> Higgsfield Plus 유지 vs Meshy Pro 추가 — MetaHuman으로 GLB 충당 가능하면 Meshy Pro 불필요</div></div>
+      <div class="step"><div class="icon">📊</div><div class="body"><b>차주 (07-06) 미팅 자료 준비</b> — 원장님께 「v5 → v6 차원 점프」 보고</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 기술 메모 -->
+<section>
+  <h2><span class="num">★</span>기술 메모 — Unreal MCP 자동화 범위</h2>
+  <div class="info">
+    <b>Epic 공식 UE 5.8 MCP (2026-06-17 출시)</b>로 클로드가 자동 가능한 작업:
+    <ul style="margin:8px 0 0 22px;line-height:1.8;color:#cbc8c1">
+      <li>액터 생성·이동·삭제 (Spawn / Transform / Destroy)</li>
+      <li>라이팅 자동 셋업 (Lumen 환경광·HDRi 적용)</li>
+      <li>머티리얼 인스턴스 생성·연결</li>
+      <li>Sequencer 자동 (카메라 애니메이션)</li>
+      <li>MetaHuman ARKit blendshape 자동 (표정 변화)</li>
+      <li>FBX/GLB export 자동</li>
+      <li>Python 스크립트 (.py) 자동 등록·실행</li>
+    </ul>
+  </div>
+
+  <h3>📂 .mcp.json 등록 완료 (현재)</h3>
+  <div class="pre">
+{
+  <span class="kw">"mcpServers"</span>: {
+    <span class="kw">"blender"</span>: { <span class="kw">"command"</span>: <span class="kw">"uvx"</span>, <span class="kw">"args"</span>: [<span class="kw">"blender-mcp"</span>] },
+    <span class="kw">"unreal"</span>: { <span class="kw">"command"</span>: <span class="kw">"uvx"</span>, <span class="kw">"args"</span>: [<span class="kw">"unreal-mcp"</span>] }  <span class="com">// 차주 UE 설치 후 활성화</span>
+  }
+}
+  </div>
+</section>
+
+<!-- 비용 -->
+<section>
+  <h2><span class="num">💰</span>5일 비용 합계</h2>
+  <table>
+    <tr><th>항목</th><th>비용</th></tr>
+    <tr><td>Unreal Engine 5.8</td><td class="win">0원</td></tr>
+    <tr><td>MetaHuman Creator</td><td class="win">0원</td></tr>
+    <tr><td>MetaHuman 5종 (수아·하영·예린·민지·지우)</td><td class="win">0원</td></tr>
+    <tr><td>Character Control Rig (Blender 애드온)</td><td>$60 (1회)</td></tr>
+    <tr><td>Higgsfield (reference 1체 7.5크 또는 0)</td><td>0~7.5 크</td></tr>
+    <tr><td><strong>총 합계</strong></td><td><strong>$60 + 0~7.5 크</strong></td></tr>
+  </table>
+  <p style="font-size:13px;color:#9a9a93;margin-top:8px">→ <strong>옵션 D Meshy Pro $20/월</strong>와 비교: 1회 $60으로 5종 평생 자산 · 매월 $20 절감 · 디지털 휴먼급 품질 점프</p>
+</section>
+
+<footer>
+  <p>© ARTbrows 2026 · v6 MetaHuman 워크플로 5일 매뉴얼 · 운영진 전용</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="MetaHuman-도입-계획-20260629.html">상위 계획</a> · <a href="face-lab/3d/v5-human.html">v5 결정타</a> · <a href="미팅-통합-발표-20260629.html">미팅 발표</a></p>
+</footer>
+
+</body>
+</html>

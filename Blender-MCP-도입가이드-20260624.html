@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blender MCP 도입 가이드 · 2026-06-24 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0F0F10;color:#E7E5E1;line-height:1.72;padding:36px 24px 70px;max-width:1280px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin-bottom:8px}
+  h1 em{color:#FF8FBB;font-style:normal}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:20px;color:#FF8FBB;letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+  .lead{color:#BDB9B1;font-size:14.5px;max-width:880px}
+  .lead b{color:#FF8FBB}
+
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin:22px 0 30px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#BDB9B1}
+  .meta-bar b{color:#FF8FBB;margin-right:6px}
+
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:25px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF8FBB;margin-right:10px;font-size:32px;vertical-align:-3px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF8FBB;font-size:18px;margin:18px 0 10px}
+
+  /* 단계 카드 */
+  .step{background:#161617;border:1px solid #242425;border-radius:14px;padding:20px 24px;margin-bottom:14px;position:relative}
+  .step::before{content:attr(data-step);position:absolute;top:-12px;left:18px;background:#FF8FBB;color:#0F0F10;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px}
+  .step h3{margin-top:0}
+  .step p{font-size:13.5px;color:#CBC8C1;margin-bottom:10px}
+  .step p b{color:#FFF}
+
+  pre{background:#0B0B0C;border:1px solid #2A2A2A;border-radius:8px;padding:12px 14px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px;color:#A8E6B3;overflow-x:auto;margin:8px 0;line-height:1.6}
+  pre.json{color:#9FC8FF}
+  pre code{color:inherit;background:none;padding:0}
+  code{background:#1F1F20;color:#FFD87A;padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px}
+
+  .alert{background:#2A1818;border:1px solid #5A2828;border-radius:8px;padding:12px 16px;margin:10px 0;color:#F4C4C0;font-size:13px}
+  .alert b{color:#FFB0A8}
+  .info{background:#1F2A3A;border:1px solid #9FC8FF;border-radius:8px;padding:12px 16px;margin:10px 0;color:#CBE0FF;font-size:13px}
+  .info b{color:#9FC8FF}
+  .tip{background:#1F3A28;border:1px solid #A8E6B3;border-radius:8px;padding:12px 16px;margin:10px 0;color:#CBE0CC;font-size:13px}
+  .tip b{color:#A8E6B3}
+
+  table{width:100%;border-collapse:collapse;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;font-size:13px;margin:10px 0}
+  th,td{border-top:1px solid #2A2A2A;padding:10px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1A1A1B;color:#FF8FBB;border-top:0;font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase}
+  tbody td b{color:#FFF}
+
+  ul.flat{list-style:none;padding:0;margin:8px 0}
+  ul.flat li{padding:8px 12px;background:#161617;border-left:3px solid #FF8FBB;border-radius:0 8px 8px 0;margin-bottom:6px;font-size:13px;color:#CBC8C1}
+  ul.flat li b{color:#FFF}
+
+  .arrow-flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#CBC8C1;margin:10px 0}
+  .flow-step{padding:6px 12px;background:#1F1F20;border-radius:14px;color:#FFD87A;border:1px solid #2A2A2A}
+  .flow-arrow{color:#FF8FBB;font-weight:700}
+
+  footer{margin-top:50px;padding-top:24px;border-top:1px solid #2A2A2A;color:#666;font-size:11.5px;text-align:center}
+  footer a{color:#FF8FBB}
+</style>
+</head>
+<body>
+
+<div class="kicker">ARTbrows · 도구 도입 가이드</div>
+<h1><em>Blender MCP</em> 도입 가이드 — Claude Code 가 「말로」 3D 제어</h1>
+<p class="lead">
+  대표님 요청 (06/24): "<b>MCP 로 연동 가능하면 제일 좋겠다</b>. 클로드코드에서 제어 가능한 퀄리티 뛰어난 3D model 구현".<br>
+  Blender MCP = Claude Code ↔ Blender 양방향 통신. <b>「큐브 만들어 줘」, 「이 GLB 의 눈썹 부분 0.2mm 굵게」</b> 처럼 자연어로 3D 제어 가능.
+</p>
+
+<div class="meta-bar">
+  <div><b>대상</b>대표님 / 김민서 (Face Lab 리드)</div>
+  <div><b>현재 PC 상태</b>Blender 미설치 (확인 완료)</div>
+  <div><b>소요 시간</b>1차 셋업 30분~1시간</div>
+  <div><b>비용</b>무료 (오픈소스)</div>
+</div>
+
+<!-- A. 왜 Blender MCP -->
+<section>
+  <h2><span class="num">A</span>왜 Blender MCP — ARTbrows 활용 시나리오</h2>
+  <ul class="flat">
+    <li><b>「이 GLB 의 눈썹 영역 0.2mm 더 굵게」</b> — Claude 가 Blender Python 호출 → 메쉬 vertex 변경 → 새 GLB 저장 → 자동 _site 게시</li>
+    <li><b>「장미지 원장 가상 아바타에 시술 후 5년 잔주름 시뮬」</b> — Blender 의 face wrinkle generator + Claude 제어</li>
+    <li><b>「PolyHaven 의 스튜디오 조명 HDR 로 5장 캐릭터 자동 리렌더」</b> — Blender Cycles 자동 렌더 → 더 사실주의</li>
+    <li><b>「Hyper3D Rodin 으로 「장미지 원장 시그니처 마네킹 헤드」 생성」</b> — Claude → Blender MCP → Hyper3D → 즉시 결과</li>
+    <li><b>「5 캐릭터에 시술 전/후 표정 변화 (Blendshape) 자동 적용」</b> — 한 번 셋업 → 5장 모두 자동</li>
+  </ul>
+  <div class="info">
+    <b>★ 핵심</b> — Higgsfield 는 「사진 → 3D」 만 강함. Blender MCP = 「만들어진 3D 의 후처리 + 정밀 제어 + 자동 렌더」. <em>둘은 보완 관계</em>.
+  </div>
+</section>
+
+<!-- B. 사전 요구사항 -->
+<section>
+  <h2><span class="num">B</span>사전 요구사항</h2>
+  <table>
+    <thead><tr><th style="width:22%">항목</th><th style="width:14%">최소</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>Blender</b></td><td>3.0+</td><td>최신 권장 (4.x). 무료. <code>blender.org/download</code></td></tr>
+      <tr><td><b>Python</b></td><td>3.10+</td><td>이미 보유 (3.12.3 확인). 신규 설치 불필요</td></tr>
+      <tr><td><b>uv 패키지 매니저</b></td><td>최신</td><td><code>winget install astral-sh.uv</code> 또는 <code>pip install uv</code></td></tr>
+      <tr><td><b>Claude Code 또는 Claude Desktop</b></td><td>최신</td><td>MCP 설정 파일 편집 필요</td></tr>
+      <tr><td><b>OS</b></td><td>Windows 10+ / macOS / Linux</td><td>대표님 PC = Windows 11 ✓</td></tr>
+      <tr><td><b>GPU</b></td><td>옵션</td><td>없어도 작동. Cycles 렌더 시 NVIDIA GPU 권장</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- C. 6 단계 설치 -->
+<section>
+  <h2><span class="num">C</span>6 단계 설치 — 30 분 안에 완료</h2>
+
+  <div class="step" data-step="1">
+    <h3>Blender 4.x 다운로드 + 설치</h3>
+    <p><a href="https://www.blender.org/download/" target="_blank" style="color:#FF8FBB">blender.org/download</a> 에서 Windows MSI 다운로드 → 더블 클릭 설치 (기본 옵션 OK).</p>
+    <p>설치 후 PowerShell 에서 확인:</p>
+    <pre>blender --version
+# Blender 4.x.x 표시되면 OK</pre>
+    <div class="alert">⚠️ PATH 에 자동 추가 안 되면 시스템 환경변수에 <code>C:\Program Files\Blender Foundation\Blender 4.x</code> 수동 추가</div>
+  </div>
+
+  <div class="step" data-step="2">
+    <h3>uv 패키지 매니저 설치</h3>
+    <p>PowerShell (관리자) 에서:</p>
+    <pre>winget install astral-sh.uv
+# 또는 pip
+pip install uv</pre>
+    <p>설치 확인:</p>
+    <pre>uv --version
+# uv 0.x.x</pre>
+  </div>
+
+  <div class="step" data-step="3">
+    <h3>Blender Add-on 설치 (addon.py)</h3>
+    <p>1. <a href="https://github.com/ahujasid/blender-mcp/blob/main/addon.py" target="_blank" style="color:#FF8FBB">github.com/ahujasid/blender-mcp/blob/main/addon.py</a> → <b>Raw 클릭 → 다른 이름으로 저장 → <code>addon.py</code></b></p>
+    <p>2. Blender 실행 → <b>Edit → Preferences → Add-ons → Install...</b> → <code>addon.py</code> 선택</p>
+    <p>3. 검색창에 「MCP」 입력 → <b>「Interface: Blender MCP」</b> 체크박스 활성화</p>
+    <p>4. 우측 N 키 패널에 「BlenderMCP」 탭 생김 → <b>「Connect to MCP Server」</b> 클릭</p>
+    <div class="info">★ Blender 안 우측 N 키 (사이드 패널) 못 보이면 → 3D 뷰포트 클릭 후 N 키 누름</div>
+  </div>
+
+  <div class="step" data-step="4">
+    <h3>Claude Code (또는 Desktop) MCP 설정 추가</h3>
+    <p><b>Claude Code 사용 시</b> — <code>~/.claude.json</code> 또는 프로젝트 <code>.mcp.json</code>:</p>
+    <pre class="json">{
+  "mcpServers": {
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    }
+  }
+}</pre>
+    <p><b>Claude Desktop 사용 시</b> — Windows: <code>%APPDATA%\Claude\claude_desktop_config.json</code>:</p>
+    <pre class="json">{
+  "mcpServers": {
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    }
+  }
+}</pre>
+    <div class="info">★ 설정 후 <b>Claude Code/Desktop 재시작</b> 필수. 시작 시 자동으로 <code>uvx blender-mcp</code> 가 실행됨 (Blender 가 켜져 있고 Connect 상태여야 작동)</div>
+  </div>
+
+  <div class="step" data-step="5">
+    <h3>연결 테스트</h3>
+    <p>Blender 실행 + Add-on 의 「Connect to MCP Server」 ON 상태 확인 후 Claude 에 입력:</p>
+    <pre>블렌더에 빨간색 큐브 만들어 줘</pre>
+    <p>→ Blender 뷰포트에 빨간 큐브가 즉시 생김. 성공.</p>
+    <p>다음 테스트:</p>
+    <pre>현재 씬에 있는 모든 객체 보여줘</pre>
+    <pre>큐브의 크기를 2배로 키워줘</pre>
+  </div>
+
+  <div class="step" data-step="6">
+    <h3>ARTbrows 자산 임포트 테스트</h3>
+    <p>Face Lab 5장 GLB 를 Blender 로 가져와 Claude 가 조작 가능한지:</p>
+    <pre>D:\work\jangmi\artbrows-project\face-lab\3d\oval-textured.glb 임포트 해서 보여줘</pre>
+    <p>→ Blender 안에 oval-textured.glb 모델 로드. 이후:</p>
+    <pre>이 메쉬에 PolyHaven 의 studio_small_03 HDR 환경 적용 후 정면 카메라로 렌더해 줘</pre>
+    <pre>눈썹 영역 vertex 를 0.2mm 굵게 확장해 줘</pre>
+    <div class="tip">★ 성공 시 — <b>「Claude Code 가 말로 ARTbrows 의 3D 자산 직접 제어」 = 대표님 비전 100% 달성</b></div>
+  </div>
+</section>
+
+<!-- D. 가능한 명령 예시 -->
+<section>
+  <h2><span class="num">D</span>Claude 가 Blender 에 보낼 수 있는 명령 (실제 사용 예)</h2>
+  <table>
+    <thead><tr><th style="width:32%">자연어 명령 (Claude 에 입력)</th><th>실제 동작</th></tr></thead>
+    <tbody>
+      <tr><td><b>"oval-textured.glb 임포트"</b></td><td>Blender 씬에 모델 로드</td></tr>
+      <tr><td><b>"이 모델 정면·옆면·45° 3 컷 렌더"</b></td><td>Cycles 자동 렌더 + PNG 저장</td></tr>
+      <tr><td><b>"눈썹 영역 머티리얼 색을 #5C3A20 (다크 브라운) 으로"</b></td><td>머티리얼 baseColor 변경</td></tr>
+      <tr><td><b>"PolyHaven 의 studio_small_03 환경 추가"</b></td><td>PolyHaven API 자동 호출 + HDR 적용</td></tr>
+      <tr><td><b>"Hyper3D Rodin 으로 '깨끗한 마네킹 헤드' 생성"</b></td><td>Hyper3D AI 호출 → 결과 임포트</td></tr>
+      <tr><td><b>"이 메쉬의 정점 수 알려줘"</b></td><td>씬 검사 + 결과 텍스트</td></tr>
+      <tr><td><b>"전체 카메라 위치를 (0, -2, 1.5) 로 이동"</b></td><td>카메라 transform 변경</td></tr>
+      <tr><td><b>"이 GLB 를 ../demo/01-oval-blender.glb 로 저장"</b></td><td>export GLB</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- E. ARTbrows 워크플로우 통합 -->
+<section>
+  <h2><span class="num">E</span>ARTbrows 워크플로우 통합 — 사진 → 3D → 시술 시뮬레이션 자동화</h2>
+  <p style="font-size:13.5px;color:#CBC8C1">대표님 비전 — "<b>사진 하나만 올리면 다 되는 것</b>". Blender MCP 도입 후 이상적 흐름:</p>
+
+  <div class="arrow-flow">
+    <span class="flow-step">유저 사진 1장</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Higgsfield image_to_3d</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">GLB (텍스처 ON)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Blender MCP 임포트</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">눈썹 영역 자동 시술 변형</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">광대·턱 미세 보정</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Cycles 렌더 4 컷</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Three.js 결과 표시</span>
+  </div>
+
+  <p style="font-size:13px;color:#9A9A93;margin-top:14px">★ 모든 단계 = Claude 가 자연어 1 줄로 자동 호출. 김민서 (Face Lab 리드) 가 Python 스크립트 1회 작성 → 사용자 사진 업로드 시마다 자동 실행</p>
+</section>
+
+<!-- F. 문제 해결 -->
+<section>
+  <h2><span class="num">F</span>문제 해결 (자주 발생 이슈)</h2>
+  <ul class="flat">
+    <li><b>1. <code>uvx blender-mcp</code> 실행 안 됨</b> — uv PATH 미설정. PowerShell 재시작 또는 시스템 환경 변수에 <code>%LOCALAPPDATA%\Programs\Astral\uv\bin</code> 추가</li>
+    <li><b>2. Blender 의 「Connect to MCP Server」 버튼 없음</b> — Add-on 활성화 안 됨. Edit → Preferences → Add-ons 검색창에 「MCP」 체크 확인</li>
+    <li><b>3. Claude Code 가 blender 서버 못 찾음</b> — 설정 파일 위치 잘못. Windows 의 정확한 경로 = <code>%APPDATA%\Claude\claude_desktop_config.json</code> · Claude Code = <code>~/.claude.json</code> 또는 프로젝트 <code>.mcp.json</code></li>
+    <li><b>4. Blender 가 응답 안 함</b> — Blender 가 꺼져 있거나 Connect 끊김. Blender 재실행 + Connect 다시 클릭</li>
+    <li><b>5. 한글 파일 경로 오류</b> — Blender Python 의 한글 path 인코딩 이슈. ASCII 사본 임시 폴더 사용 권장 (메모리 [[edge-headless-screenshot]] 와 같은 패턴)</li>
+    <li><b>6. PolyHaven / Sketchfab 자산 다운로드 안 됨</b> — 방화벽/프록시 차단. <code>polyhaven.com</code> 화이트리스트</li>
+    <li><b>7. Cycles 렌더 매우 느림</b> — GPU 미설정. Edit → Preferences → System → CUDA/OptiX 활성화 (NVIDIA GPU 있을 때)</li>
+  </ul>
+</section>
+
+<!-- G. 보안 -->
+<section>
+  <h2><span class="num">G</span>보안·IP 보호 주의사항</h2>
+  <div class="alert">
+    <b>★ CLAUDE.md §4 + 원장님 자료 분석 PDF p.2 명시</b><br>
+    Blender MCP 로 처리된 모든 결과물 (메쉬·렌더·텍스처) = ARTbrows 시그니처 IP. 외부 클라우드 (PolyHaven · Sketchfab · Hyper3D) 에 업로드 시 주의. <em>장미지 원장님 / 수강생 실제 얼굴은 외부 AI 서비스에 절대 업로드 X</em>.
+  </div>
+  <ul class="flat">
+    <li><b>1.</b> Hyper3D Rodin = 외부 AI. AI 가상 캐릭터만 처리. 실제 인물 X</li>
+    <li><b>2.</b> PolyHaven = HDR 환경 자산만 다운. 우리 자산 업로드 X</li>
+    <li><b>3.</b> 최종 결과 GLB = 비공개 저장소 (운영진 임시 _site, 사용자 라이브 별도 정책)</li>
+    <li><b>4.</b> Blender 의 「Save As」 = 로컬 D:\ 만 사용. 외부 클라우드 동기화 X</li>
+  </ul>
+</section>
+
+<!-- H. 다음 단계 -->
+<section>
+  <h2><span class="num">H</span>다음 단계 — 도입 후 1주일 로드맵</h2>
+  <table>
+    <thead><tr><th style="width:14%">일자</th><th style="width:22%">작업</th><th>담당</th></tr></thead>
+    <tbody>
+      <tr><td>D+0 (오늘)</td><td>본 가이드 검토 + Blender 4.x 설치</td><td>대표님</td></tr>
+      <tr><td>D+1</td><td>uv + Add-on 설치 + 첫 큐브 생성 테스트</td><td>대표님 / 김민서 원격 지원</td></tr>
+      <tr><td>D+2</td><td>oval-textured.glb 임포트 + 정면 렌더 PoC</td><td>김민서</td></tr>
+      <tr><td>D+3~D+4</td><td>눈썹 영역 vertex 변형 Python 스크립트 작성 (재사용 가능)</td><td>김민서</td></tr>
+      <tr><td>D+5</td><td>5 캐릭터 모두 자동 적용 → 결과 비교</td><td>김민서</td></tr>
+      <tr><td>D+6~D+7</td><td>웹 워크플로우 통합 (Three.js 결과 표시)</td><td>김민서 + 한승철</td></tr>
+      <tr><td>6/29 회의</td><td>전 직원 회의 시연 + P2 (사용자 사진 자동) 일정 확정</td><td>전 직원</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  Blender MCP 도입 가이드 · ARTbrows · 2026-06-24 · 운영진 임시 게시<br>
+  · 소스: <a href="https://github.com/ahujasid/blender-mcp" target="_blank">github.com/ahujasid/blender-mcp</a><br>
+  <a href="index.html">← 메인 포털</a> ·
+  <a href="리얼리즘-연구리포트-20260624.html">리얼리즘 2차 연구</a> ·
+  <a href="3D-시뮬레이션-연구리포트-20260624.html">1차 연구 리포트</a> ·
+  <a href="face-lab/3d/">Face Lab 3D 갤러리</a>
+</footer>
+
+</body>
+</html>

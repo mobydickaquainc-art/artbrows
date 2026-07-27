@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>강의 일정 카드 디자이너 · prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800;900&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.6;font-size:14px;min-height:100vh}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+
+  /* 헤더 */
+  .head{margin-bottom:24px}
+  .chip{display:inline-block;background:#FF4D7E;color:#fff;font-weight:700;font-size:10.5px;letter-spacing:3px;padding:6px 14px;border-radius:20px;margin-bottom:10px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;color:#F5EDE3}
+  .lead{font-size:13px;color:#CBC8C1;margin-top:6px}
+
+  /* 2단 레이아웃 */
+  .grid{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+
+  /* 옵션 패널 */
+  .panel{background:#161617;border-radius:14px;padding:20px 22px}
+  .group{margin-bottom:18px}
+  .group-label{font-size:11.5px;color:#8A8A84;font-weight:700;letter-spacing:1.5px;margin-bottom:9px;display:block;text-transform:uppercase}
+  .options{display:flex;flex-wrap:wrap;gap:7px}
+  .opt{background:transparent;border:1.5px solid #2A2A2A;color:#CBC8C1;font-family:inherit;font-size:13px;padding:7px 14px;border-radius:18px;cursor:pointer;transition:all 0.15s}
+  .opt:hover{border-color:#E0C088;color:#F5EDE3}
+  .opt.sel{border-color:#FF4D7E;color:#FF4D7E;font-weight:700}
+
+  /* 미리보기 */
+  .preview-wrap{background:#161617;border-radius:14px;padding:18px;position:sticky;top:24px}
+  .preview-wrap h3{font-size:11px;color:#8A8A84;letter-spacing:1.5px;font-weight:700;margin-bottom:10px;text-transform:uppercase}
+  .preview{background:#FAF5E8;border-radius:10px;padding:14px;aspect-ratio:4/5;overflow:hidden;position:relative}
+  .preview.dark{background:#1A0E08}
+  .preview.white{background:#FFFFFF}
+
+  /* 미리보기 - 달력 mini */
+  .p-title{font-family:'Nanum Myeongjo',serif;font-weight:800;text-align:center;font-size:24px;color:#2C2117;margin-bottom:8px}
+  .p-handle{text-align:center;font-size:9px;color:#7A6450;margin-bottom:8px}
+  .p-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:10px}
+  .p-dow{text-align:center;font-weight:700;padding:4px 0;background:#F0DCC8;border-radius:3px;font-size:9px}
+  .p-dow.sun{color:#DC5060}
+  .p-dow.sat{color:#5A82C8}
+  .p-cell{aspect-ratio:1/1.1;background:#FAF5E8;border:1px solid #E5D8C5;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:#2C2117;position:relative;padding:2px}
+  .p-cell.off{color:#9A8A78}
+  .p-cell.off::after{content:'휴무';font-size:7px;color:#B5A89A;margin-top:1px}
+  .p-cell .num-yellow{background:#FFD966;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px}
+  .p-cell .num-pink{background:#FF8DA1;border-radius:8px;color:#fff;padding:1px 5px;font-weight:700;font-size:9px}
+  .p-cell .num-blue{background:#7FB3FF;border-radius:8px;color:#fff;padding:1px 5px;font-weight:700;font-size:9px}
+  .p-cell .micro{font-size:6px;color:#7A6450;margin-top:1px;line-height:1.1}
+  .p-notice{text-align:center;font-size:8px;color:#7A6450;margin-top:8px}
+  .p-brand{text-align:center;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:14px;color:#E0C088;margin-top:6px}
+
+  .preview.dark .p-title,.preview.dark .p-cell{color:#F5EDE3}
+  .preview.dark .p-cell{background:#2A1F18;border-color:#3A2D24}
+  .preview.dark .p-dow{background:#3A2D24;color:#F5EDE3}
+  .preview.dark .p-notice{color:#CBC8C1}
+  .preview.dark .p-handle{color:#CBC8C1}
+
+  /* 액션 */
+  .actions{margin-top:14px;display:grid;gap:8px}
+  .btn{padding:12px;border:none;border-radius:10px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;text-align:center}
+  .btn.pri{background:#E0C088;color:#0B0907}
+  .btn.pri:hover{background:#F5EDE3}
+  .btn.gh{background:transparent;color:#E0C088;border:1.5px solid #E0C088}
+
+  /* 하단 안내 */
+  .hint{background:rgba(224,192,136,0.08);border:1px solid #3A2D24;border-radius:10px;padding:14px;font-size:12.5px;color:#CBC8C1;margin-top:14px}
+  .hint b{color:#E0C088}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="head">
+    <div class="chip">PROTOTYPE · prototype 1</div>
+    <h1>강의 일정 카드 — 디자이너</h1>
+    <p class="lead">옵션 선택 → 즉시 미리보기 → 한 번 클릭으로 인스타 카드 완성</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- 옵션 패널 -->
+    <div class="panel">
+
+      <div class="group">
+        <label class="group-label">색 톤</label>
+        <div class="options" data-key="tone">
+          <button class="opt sel" data-v="cream">크림+살구 (원장님 기존)</button>
+          <button class="opt" data-v="dark">Luxury Dark</button>
+          <button class="opt" data-v="white">화이트 미니멀</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="group-label">수업 강조</label>
+        <div class="options" data-key="style">
+          <button class="opt sel" data-v="colored">컬러 원·막대 (기존)</button>
+          <button class="opt" data-v="badge">단색 라벨</button>
+          <button class="opt" data-v="emoji">이모지</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="group-label">휴무 표시</label>
+        <div class="options" data-key="off">
+          <button class="opt sel" data-v="text">「휴무」 글자</button>
+          <button class="opt" data-v="gray">회색 음영</button>
+          <button class="opt" data-v="blank">빈 칸</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="group-label">하단 안내</label>
+        <div class="options" data-key="notice">
+          <button class="opt sel" data-v="default">휴무·수업 외 시술 예약 가능 (기존)</button>
+          <button class="opt" data-v="warm">언제든 편하게 문의 주세요</button>
+          <button class="opt" data-v="none">없음</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="group-label">서명·워터마크</label>
+        <div class="options" data-key="sign">
+          <button class="opt sel" data-v="brand">ARTbrows (기존)</button>
+          <button class="opt" data-v="jangmiji">장미지 손글씨</button>
+          <button class="opt" data-v="handle">@artbrows_academy</button>
+        </div>
+      </div>
+
+      <div class="hint">
+        💡 <b>추천 기본값</b>이 자동 선택돼 있어요. <b>그대로 「확정」 누르면 1초 끝</b>. 바꾸고 싶은 항목만 골라주세요.
+      </div>
+    </div>
+
+    <!-- 미리보기 -->
+    <div class="preview-wrap">
+      <h3>미리보기 (1080×1350)</h3>
+      <div class="preview" id="preview">
+        <div class="p-handle">@artbrows_academy</div>
+        <div class="p-title">7월 일정 안내</div>
+        <div class="p-grid">
+          <div class="p-dow sun">일</div><div class="p-dow">월</div><div class="p-dow">화</div><div class="p-dow">수</div><div class="p-dow">목</div><div class="p-dow">금</div><div class="p-dow sat">토</div>
+          <!-- 7월 1일 = 수요일 -->
+          <div class="p-cell off"></div><div class="p-cell off"></div><div class="p-cell off"></div>
+          <div class="p-cell off">1</div><div class="p-cell off">2</div><div class="p-cell off">3</div><div class="p-cell off">4</div>
+          <div class="p-cell"><span class="num-yellow">5</span><div class="micro">14기</div></div>
+          <div class="p-cell off">6</div><div class="p-cell off">7</div><div class="p-cell off">8</div><div class="p-cell off">9</div><div class="p-cell off">10</div><div class="p-cell off">11</div>
+          <div class="p-cell"><span class="num-yellow">12</span><div class="micro">14기</div></div>
+          <div class="p-cell off">13</div>
+          <div class="p-cell"><span class="num-pink">14</span><div class="micro">소묘 13기</div></div>
+          <div class="p-cell"><span class="num-pink">15</span></div>
+          <div class="p-cell"><span class="num-pink">16</span></div>
+          <div class="p-cell off">17</div><div class="p-cell off">18</div>
+          <div class="p-cell"><span class="num-yellow">19</span><div class="micro">14기</div></div>
+          <div class="p-cell off">20</div><div class="p-cell off">21</div><div class="p-cell off">22</div><div class="p-cell off">23</div><div class="p-cell off">24</div><div class="p-cell off">25</div>
+          <div class="p-cell"><span class="num-yellow">26</span><div class="micro">14기</div></div>
+          <div class="p-cell"><span class="num-blue">27</span><div class="micro">74기 눈썹</div></div>
+          <div class="p-cell"><span class="num-blue">28</span></div>
+          <div class="p-cell"><span class="num-blue">29</span></div>
+          <div class="p-cell off">30</div><div class="p-cell off">31</div>
+        </div>
+        <div class="p-notice" id="pNotice">휴무와 수업 외의 날짜는 전부 시술 예약 가능합니다.</div>
+        <div class="p-brand" id="pBrand">ARTbrows</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn pri">✓ 확정 · 카드 만들기</button>
+        <button class="btn gh">↻ 추천 기본값으로 다시</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// 옵션 칩 토글
+document.querySelectorAll('.options').forEach(group => {
+  const key = group.dataset.key;
+  group.querySelectorAll('.opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.opt').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      applyPreview();
+    });
+  });
+});
+
+function getSel(key) {
+  const grp = document.querySelector(`.options[data-key="${key}"]`);
+  const sel = grp.querySelector('.opt.sel');
+  return sel ? sel.dataset.v : '';
+}
+
+function applyPreview() {
+  const preview = document.getElementById('preview');
+  const tone = getSel('tone');
+  preview.classList.remove('dark', 'white');
+  if (tone === 'dark') preview.classList.add('dark');
+  if (tone === 'white') preview.classList.add('white');
+
+  // 안내 문구
+  const notice = getSel('notice');
+  const noticeEl = document.getElementById('pNotice');
+  if (notice === 'warm') noticeEl.textContent = '언제든 편하게 문의 주세요.';
+  else if (notice === 'none') noticeEl.textContent = '';
+  else noticeEl.textContent = '휴무와 수업 외의 날짜는 전부 시술 예약 가능합니다.';
+
+  // 서명
+  const sign = getSel('sign');
+  const brandEl = document.getElementById('pBrand');
+  if (sign === 'jangmiji') brandEl.textContent = '장미지';
+  else if (sign === 'handle') brandEl.textContent = '@artbrows_academy';
+  else brandEl.textContent = 'ARTbrows';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTbrows · 4개 페이지 와이어프레임 (2026-07-13 회의)</title>
+<style>
+:root {
+  --bg: #0B0907;
+  --panel: #14100D;
+  --line: #2A2620;
+  --text: #E8E1D5;
+  --muted: #8B8378;
+  --gold: #E0C088;
+  --pink: #FF6B9D;
+  --coral: #FF8C7A;
+  --wire: #3D3730;
+  --wire-fill: #1E1A15;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nanum Myeongjo', 'Noto Serif KR', serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 32px 24px;
+  min-height: 100vh;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+h1 {
+  font-size: 28px;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.sub {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+  font-family: 'Pretendard', sans-serif;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+.tab {
+  padding: 14px 24px;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Pretendard', sans-serif;
+  transition: all 0.2s;
+}
+.tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+.tab:hover { color: var(--text); }
+.page { display: none; }
+.page.active { display: block; }
+.page-title {
+  font-size: 22px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.page-meta {
+  font-family: 'Pretendard', sans-serif;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+.wire {
+  background: var(--wire-fill);
+  border: 1.5px dashed var(--wire);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 12px;
+  position: relative;
+  font-family: 'Pretendard', sans-serif;
+}
+.wire-label {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  background: var(--bg);
+  padding: 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+.wire-title {
+  color: var(--text);
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+.wire-desc {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.cols { display: grid; gap: 16px; }
+.cols-2 { grid-template-columns: 1fr 1fr; }
+.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 900px) {
+  .cols-2, .cols-3 { grid-template-columns: 1fr; }
+}
+.chip {
+  display: inline-block;
+  background: rgba(224, 192, 136, 0.1);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin-right: 6px;
+  font-family: 'Pretendard', sans-serif;
+}
+.cta-chip {
+  background: var(--pink);
+  color: #0B0907;
+  border-color: var(--pink);
+  font-weight: 600;
+}
+.mock-hero {
+  height: 240px;
+  background: linear-gradient(135deg, rgba(224,192,136,0.15), rgba(255,107,157,0.1));
+  border: 1.5px dashed var(--wire);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-family: 'Nanum Myeongjo', serif;
+}
+.tree {
+  font-family: 'Consolas', 'Menlo', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+  background: rgba(0,0,0,0.3);
+  padding: 12px 16px;
+  border-radius: 6px;
+  border-left: 3px solid var(--gold);
+  overflow-x: auto;
+}
+.pipeline {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.step {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Pretendard', sans-serif;
+  position: relative;
+}
+.step::after {
+  content: '→';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+}
+.step:last-child::after { display: none; }
+.notice {
+  background: rgba(255,107,157,0.08);
+  border-left: 3px solid var(--pink);
+  padding: 12px 16px;
+  margin: 16px 0;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Pretendard', sans-serif;
+}
+.notice strong { color: var(--pink); }
+.footer-info {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-family: 'Pretendard', sans-serif;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>ARTbrows · 4개 페이지 와이어프레임</h1>
+<div class="sub">2026-07-13 (월) 09:00 전체 회의 · 유미코리아 벤치마크 기반 · <strong style="color:#E0C088">시안 아님, 구조 설계도</strong></div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(0)">① 홍보 페이지</button>
+  <button class="tab" onclick="switchTab(1)">② 예약 페이지</button>
+  <button class="tab" onclick="switchTab(2)">③ 강의 구매</button>
+  <button class="tab" onclick="switchTab(3)">④ 상담 페이지</button>
+</div>
+
+<!-- ============ 1. 홍보 페이지 ============ -->
+<div class="page active">
+  <div class="page-title">① 홍보 페이지 — 브랜드 신뢰 형성 + 상담·수강 리드 유입</div>
+  <div class="page-meta">
+    <span class="chip">3~4일</span>
+    <span class="chip">유나 + 이서연 + 김다은</span>
+    <span class="chip">Luxury Dark</span>
+    <span class="cta-chip chip">CTA: 상담 신청 / 강의 보기</span>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 상단 네비 (고정)</span>
+    <div class="wire-title">[로고 · 홈] [시술] [아카데미] [갤러리] [지점] · CTA [상담 신청]</div>
+    <div class="wire-desc">유미코리아처럼 카테고리 분리하지 않고 5개 메뉴로 압축. 우측 CTA 상시 노출.</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 히어로 (240vh)</span>
+    <div class="mock-hero">"극사실 눈썹 창시자, 장미지 원장" (Nanum Myeongjo)</div>
+    <div class="cols cols-2">
+      <div><span class="cta-chip chip">상담 신청</span> · 핫핑크 primary</div>
+      <div><span class="chip">강의 보기</span> · 골드 outline</div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 실시간 사회적 증거 <em style="color:#FF6B9D">(유미코리아 차용)</em></span>
+    <div class="wire-title">방금 · ㅇㅇㅇ 님이 극사실 3일반 상담 신청 · 3분 전 · ㄴㄴㄴ 님 방문 상담 예약</div>
+    <div class="wire-desc">가로 롤링 티커. 신뢰·희소성 동시 형성.</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 브랜드 스토리</span>
+    <div class="wire-title">30년 노하우 · 클레임 거의 0 · 시술 전 펜슬로 미리 그리는 정확성</div>
+    <div class="wire-desc">원장님 인물 사진 좌측 + 카피 우측 · Luxury Dark 톤 · 인용 부호 활용</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 시술 소개 (3~4개 카드)</span>
+    <div class="cols cols-3">
+      <div><strong>극사실 눈썹</strong><br><small>대표 시술 · 30년 노하우</small></div>
+      <div><strong>아이라인</strong><br><small>자연스러운 라인</small></div>
+      <div><strong>SMP 두피</strong><br><small>모발 밀도 개선</small></div>
+    </div>
+    <div class="wire-desc" style="margin-top:12px">각 카드 → 시술 상세 페이지 (하위 페이지 4개)</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 마스터 작품 갤러리 (원장님 직접 6점)</span>
+    <div class="wire-title">서명작 3점 + 대표작 3점 · 확대 뷰어</div>
+    <div class="wire-desc">유미코리아 「비포애프터」 대응 · 우리는 「작품집」 톤 (에디토리얼)</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 아카데미 프리뷰</span>
+    <div class="wire-title">3 강의 카테고리 요약 → 아카데미 상세 페이지 이동</div>
+    <div class="wire-desc">「극사실 3일반」 히어로 상품 · 「이지클래스」·「원데이」 병기</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 지점 안내</span>
+    <div class="wire-title">선릉 본진 + 봉은사 · 지도 임베드 + 오시는 길 텍스트</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 하단 CTA</span>
+    <div class="cols cols-3">
+      <div><span class="cta-chip chip">상담 신청</span></div>
+      <div><span class="chip">카카오 채널</span></div>
+      <div><span class="chip">전화 · 02-XXXX</span></div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 푸터</span>
+    <div class="wire-desc">사업자등록번호 · 대표자명 · 개인정보 책임자 · 전화·주소 · 개인정보 처리방침 · 이용약관 · K1 카톡방 링크</div>
+  </div>
+
+  <div class="notice">
+    📱 <strong>모바일 하단 플로팅 3버튼</strong> — 전화 · 카톡 · 상담 신청 <em style="color:#8B8378">(유미코리아 차용 · 모바일 컨버전 필수)</em>
+  </div>
+</div>
+
+<!-- ============ 2. 예약 페이지 ============ -->
+<div class="page">
+  <div class="page-title">② 예약 페이지 — 시술 · 방문 상담 예약</div>
+  <div class="page-meta">
+    <span class="chip">4~5일</span>
+    <span class="chip">한승철 + 김다은</span>
+    <span class="chip">기존 달력 재활용</span>
+    <span class="cta-chip chip">SMS/알림톡 확인</span>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 4단계 예약 흐름</span>
+    <div class="pipeline">
+      <div class="step">1. 예약 종류</div>
+      <div class="step">2. 지점 선택</div>
+      <div class="step">3. 날짜·시간</div>
+      <div class="step">4. 연락처 입력</div>
+      <div class="step">완료 + SMS</div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ Step 1 · 예약 종류</span>
+    <div class="cols cols-3">
+      <div><strong>극사실 시술</strong><br><small>1시간 30분</small></div>
+      <div><strong>리터치</strong><br><small>45분</small></div>
+      <div><strong>방문 상담</strong><br><small>30분 · 무료</small></div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ Step 2 · 지점</span>
+    <div class="cols cols-2">
+      <div><strong>선릉 본진</strong> · 서울 강남구 · 도보 5분</div>
+      <div><strong>봉은사</strong> · 서울 강남구 · 도보 3분</div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ Step 3 · 날짜·시간 (달력)</span>
+    <div class="wire-title">기존 calendar.html 컴포넌트 재활용 · 마감된 슬롯 회색</div>
+    <div class="tree">
+July 2026
+Mon Tue Wed Thu Fri Sat Sun
+        1   2   3   4   5
+  6   7   8   9  10  11  12   ← 오늘
+ 13  14  15  16  17  18  19
+ 20  21  22  23  24  25  26
+ 27  28  29  30  31
+
+시간: 10:00 · 11:30 · 13:00 · 14:30 · 16:00 · 17:30
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ Step 4 · 연락처</span>
+    <div class="wire-desc">이름 · 연락처(-없이) · 요청 사항 (선택 · 200자) · 개인정보 동의 · 예약 완료 CTA</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 완료 화면</span>
+    <div class="wire-title">✅ 예약이 완료되었습니다 · 예약번호 ABX-2026-0001 · SMS로 확인 발송</div>
+    <div class="wire-desc">Google Calendar 추가 · 예약 취소·변경 링크 (예약번호 + 연락처로 조회)</div>
+  </div>
+
+  <div class="notice">
+    🔔 <strong>결정 대기</strong>: SMS 채널 = 카카오 알림톡 (친밀) / SMS (범용) / 이메일 (기록) — <em>원장님 선호 확인 필요</em>
+  </div>
+</div>
+
+<!-- ============ 3. 강의 구매 ============ -->
+<div class="page">
+  <div class="page-title">③ 오프라인 강의 구매 — 결제 · 수강권 발급</div>
+  <div class="page-meta">
+    <span class="chip">5~7일 실개발</span>
+    <span class="chip">+ PG 심사 3~7일</span>
+    <span class="chip">한승철 + 김다은</span>
+    <span class="cta-chip chip">토스페이먼츠 추천</span>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 강의 목록 (3개)</span>
+    <div class="cols cols-3">
+      <div>
+        <strong style="color:#E0C088">극사실 3일반</strong><br>
+        <small>200만원 · 5~7명 · 3일 집중</small><br>
+        <span class="cta-chip chip">HERO</span>
+      </div>
+      <div>
+        <strong>이지클래스</strong><br>
+        <small>69만원 · 대중 진입</small>
+      </div>
+      <div>
+        <strong>원데이 특강</strong><br>
+        <small>20~40만원 · 리드 매그넷</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 상품 상세 페이지</span>
+    <div class="wire-desc">
+      • 히어로 (강의명 + 원장님 사진 + 다음 기수 D-day)<br>
+      • 커리큘럼 (3일 X 시간별)<br>
+      • 강사 소개 (장미지 원장)<br>
+      • 수강생 후기 3~5개 (원장님 자료 대기)<br>
+      • 일정 선택 → 다음 기수 라디오<br>
+      • CTA: <span class="cta-chip chip">결제하기</span>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 결제 흐름</span>
+    <div class="pipeline">
+      <div class="step">강의 선택</div>
+      <div class="step">구매자 정보</div>
+      <div class="step">PG 결제창</div>
+      <div class="step">완료</div>
+      <div class="step">K1 초대 + SMS</div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 결제 완료 후</span>
+    <div class="wire-title">✅ 수강 신청 완료 · 수강권 번호 CLS-2026-0001</div>
+    <div class="wire-desc">
+      • K1 카톡방 초대 링크 자동 발송 (SMS·카톡)<br>
+      • 수강권 마이페이지 링크 (구매번호 + 연락처)<br>
+      • 강의 D-7·D-1 알림 자동 예약
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 마이페이지 (수강권 조회)</span>
+    <div class="wire-desc">구매번호 + 연락처 → 강의 정보 · 커리큘럼 · 취소·환불 요청</div>
+  </div>
+
+  <div class="notice">
+    💳 <strong>결정 대기 3개</strong>: <br>
+    1. PG = <strong>토스</strong> (심사 3~5일 · 빠름) / 카카오페이 (5~7일) / 네이버페이 (7일+)<br>
+    2. K1 자동 초대 = 수동 발송 (안전) / API 자동 (편함, 조사 필요)<br>
+    3. 환불 정책 = 강의 3일 전 100% · 1일 전 50% · 당일 0% (제안)
+  </div>
+</div>
+
+<!-- ============ 4. 상담 페이지 ============ -->
+<div class="page">
+  <div class="page-title">④ 상담 페이지 — 문의 폼 · 상담 신청 (구매 전 리드)</div>
+  <div class="page-meta">
+    <span class="chip">1~2일</span>
+    <span class="chip">이서연 + 한승철</span>
+    <span class="chip">가장 단순</span>
+    <span class="cta-chip chip">알림톡 · 이메일</span>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 상담 카테고리 선택</span>
+    <div class="cols cols-3">
+      <div><strong>시술 상담</strong><br><small>극사실 눈썹 · 아이라인 등</small></div>
+      <div><strong>강의 상담</strong><br><small>극사실 3일반 · 이지클래스</small></div>
+      <div><strong>기타</strong><br><small>제휴 · 문의</small></div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 상담 폼</span>
+    <div class="wire-desc">
+      • 이름 (필수)<br>
+      • 연락처 (필수 · 하이픈 없이)<br>
+      • 문의 내용 (필수 · 500자)<br>
+      • 사진 첨부 (선택 · 눈썹 현재 상태 등 · 최대 3장)<br>
+      • 개인정보 동의 (필수)<br>
+      • CTA <span class="cta-chip chip">상담 신청</span>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 접수 후</span>
+    <div class="pipeline">
+      <div class="step">폼 제출</div>
+      <div class="step">DB 저장</div>
+      <div class="step">원장님·운영진 알림</div>
+      <div class="step">SMS 확인</div>
+      <div class="step">1~2일 내 답변</div>
+    </div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ 접수 확인 페이지</span>
+    <div class="wire-title">✅ 상담 신청이 완료되었습니다 · 접수번호 CON-2026-0001</div>
+    <div class="wire-desc">1~2일 내 원장님·상담팀이 카톡·전화로 연락 드립니다</div>
+  </div>
+
+  <div class="wire">
+    <span class="wire-label">▼ FAQ (자주 묻는 질문 20개 · 선택)</span>
+    <div class="wire-desc">아코디언 UI · 시술·강의·결제·취소 4 카테고리별 · SEO 효과 있음</div>
+  </div>
+
+  <div class="notice">
+    📮 <strong>결정 대기</strong>: 접수 알림 채널 = 원장님만 카톡 / 운영진 전체 이메일 / 둘 다 — <em>원장님 결정 필요</em>
+  </div>
+</div>
+
+<!-- ============ 푸터 정보 ============ -->
+<div class="footer-info">
+  ARTbrows Meeting Prep · 2026-07-10 작성 · 2026-07-13 (월) 09:00 회의용<br>
+  <strong style="color:#E0C088">이 문서는 구조 와이어프레임입니다.</strong> 실제 디자인은 유나가 별도 시안으로 진행.
+</div>
+
+</div>
+
+<script>
+function switchTab(idx) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === idx));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

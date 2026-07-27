@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D 얼굴 시뮬레이션 연구 리포트 · 2026-06-24 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0F0F10;color:#E7E5E1;line-height:1.72;padding:36px 24px 70px;max-width:1280px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:40px;letter-spacing:-1px;margin-bottom:8px}
+  h1 em{color:#FF8FBB;font-style:normal}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:22px;color:#FF8FBB;letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+  .lead{color:#BDB9B1;font-size:15px;max-width:840px}
+  .lead b{color:#FF8FBB}
+  .lead em{color:#A8E6B3;font-style:normal;font-weight:700}
+
+  /* 직원 칩 줄 */
+  .team-row{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 30px}
+  .team-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:#161617;border:1px solid #242425;border-radius:24px;font-size:12.5px;color:#D6D2CB}
+  .team-chip .ic{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px}
+  .team-chip.lee .ic{background:#FFB0C4;color:#5A1F2F}
+  .team-chip.yuna .ic{background:#FFD87A;color:#5A4014}
+  .team-chip.min .ic{background:#9FC8FF;color:#1E3A5F}
+  .team-chip.han .ic{background:#A8E6B3;color:#1E4A28}
+  .team-chip b{color:#FFF}
+
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:34px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#BDB9B1}
+  .meta-bar b{color:#FF8FBB;margin-right:6px}
+
+  section{margin-bottom:38px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF8FBB;margin-right:10px;font-size:32px;vertical-align:-3px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF8FBB;font-size:19px;margin:22px 0 12px}
+  h4{font-size:15px;color:#FFD87A;margin:14px 0 8px;letter-spacing:0.5px}
+
+  table{width:100%;border-collapse:collapse;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;font-size:13px;margin-bottom:14px}
+  th,td{border-top:1px solid #2A2A2A;padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1A1A1B;color:#FF8FBB;border-top:0;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+  tbody td b{color:#FFF}
+  tbody tr:hover{background:#1A1A1B}
+  .score{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;color:#A8E6B3}
+  .score.mid{color:#FFD87A}
+  .score.low{color:#F4B4B4}
+
+  /* 직원 의견 카드 */
+  .opinion{background:#161617;border:1px solid #242425;border-radius:14px;padding:22px 26px;margin-bottom:14px}
+  .opinion h3{margin-top:0;display:flex;align-items:center;gap:10px}
+  .opinion h3 .ic{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px}
+  .opinion.lee h3 .ic{background:#FFB0C4;color:#5A1F2F}
+  .opinion.yuna h3 .ic{background:#FFD87A;color:#5A4014}
+  .opinion.min h3 .ic{background:#9FC8FF;color:#1E3A5F}
+  .opinion.han h3 .ic{background:#A8E6B3;color:#1E4A28}
+  .opinion h3 small{display:block;font-family:'Pretendard',sans-serif;font-size:11.5px;color:#8B8680;font-weight:500;margin-top:2px;letter-spacing:1px}
+  .opinion .stance{color:#FF8FBB;font-size:13.5px;font-weight:700;margin-bottom:10px;padding:8px 12px;background:rgba(255,143,187,0.10);border-left:3px solid #FF8FBB;border-radius:0 6px 6px 0}
+  .opinion ul{padding-left:20px;font-size:13.5px;color:#CBC8C1;line-height:1.85}
+  .opinion ul li::marker{color:#FF8FBB}
+  .opinion ul li b{color:#FFF}
+  .opinion .pick{margin-top:14px;padding:10px 14px;background:#1F1B14;border:1px dashed #FFD87A;border-radius:8px;font-size:13px;color:#FFD87A}
+  .opinion .pick b{color:#FFF}
+
+  /* 추천 룰 */
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  @media (max-width:780px){.roadmap{grid-template-columns:1fr}}
+  .road-card{background:#161617;border:1px solid #242425;border-radius:14px;padding:18px 20px}
+  .road-card .road-tag{display:inline-block;padding:3px 10px;border-radius:14px;font-size:10.5px;font-weight:700;letter-spacing:2px}
+  .road-card.p0 .road-tag{background:#FF8FBB;color:#0F0F10}
+  .road-card.p1 .road-tag{background:#FFD87A;color:#0F0F10}
+  .road-card.p2 .road-tag{background:#9FC8FF;color:#0F0F10}
+  .road-card.p3 .road-tag{background:#A8E6B3;color:#0F0F10}
+  .road-card h4{color:#FFF;margin:8px 0 6px;font-family:'Nanum Myeongjo',serif;font-size:17px;font-weight:800}
+  .road-card .road-time{font-size:11.5px;color:#FF8FBB;font-weight:700;margin-bottom:6px;letter-spacing:0.5px}
+  .road-card .road-desc{font-size:12.5px;color:#CBC8C1;line-height:1.7}
+
+  ul.flat{list-style:none;padding:0}
+  ul.flat li{padding:10px 14px;background:#161617;border-left:3px solid #FF8FBB;border-radius:0 8px 8px 0;margin-bottom:8px;font-size:13.5px;color:#CBC8C1}
+  ul.flat li b{color:#FFF}
+
+  .quote{background:linear-gradient(135deg,#2A1F2F,#0F0907);border:1px solid #FF8FBB;border-radius:14px;padding:18px 22px;margin:22px 0;font-style:italic;font-size:14.5px;color:#FFD0DD}
+  .quote::before{content:"\"";font-family:'Cormorant Garamond',serif;font-size:60px;color:#FF8FBB;line-height:0;margin-right:8px;vertical-align:-20px;font-style:normal}
+
+  footer{margin-top:50px;padding-top:24px;border-top:1px solid #2A2A2A;color:#666;font-size:11.5px;text-align:center}
+  footer a{color:#FF8FBB}
+</style>
+</head>
+<body>
+
+<div class="kicker">ARTbrows · 전 직원 연구 회의</div>
+<h1>「2D 사진을 <em>3D 엔진</em>으로 더 리얼하게」 — 방법 연구 리포트</h1>
+<p class="lead">
+  대표님 인용 (2026-06-24): "현재는 2D 이미지나 사진으로 보여주고 있는데, 리얼하게 보여주기 위해서
+  <b>3D 엔진</b>을 활용해서도 보여주고 싶다. 웹에서 또는 프로그램 툴을 통해서 보여줄 수 있는 다양한 방법을 연구해 달라."
+</p>
+
+<div class="team-row">
+  <span class="team-chip lee"><span class="ic">이</span><b>이서연</b> · 기획·마케팅</span>
+  <span class="team-chip yuna"><span class="ic">유</span><b>유나</b> · 그래픽·비주얼 디자이너</span>
+  <span class="team-chip min"><span class="ic">민</span><b>김민서</b> · Face Lab 리드 (AI·3D)</span>
+  <span class="team-chip han"><span class="ic">한</span><b>한승철</b> · 풀스택 (인프라·성능)</span>
+</div>
+
+<div class="meta-bar">
+  <div><b>연구 일자</b>2026-06-24 (수)</div>
+  <div><b>전제</b>Face Lab Phase 1 PoC 완료 + Higgsfield Plus 보유 (≥ 660 크)</div>
+  <div><b>목표</b>유저가 「내 얼굴 + 시그니처 눈썹」을 입체적·실사로 미리 본다</div>
+  <div><b>결정 시점</b>2026-06-29 (월) 정례 회의에서 P0/P1 채택</div>
+</div>
+
+<!-- A. 4 직원 의견 -->
+<section>
+  <h2><span class="num">A</span>전 직원 4인 관점별 의견</h2>
+
+  <div class="opinion lee">
+    <h3><span class="ic">이</span> 이서연 · 기획·마케팅 <small>유저 경험·전환·CTA</small></h3>
+    <div class="stance">★ 입장 — "리얼하게 보여줄수록 「상담 신청」 전환이 높아진다. 다만 90초 이상 기다리게 하면 다 떠난다."</div>
+    <ul>
+      <li><b>전환 가설</b> — 2D 사진 대비 3D 시뮬레이션 = 「시술 결정」 까지의 심리적 거리 단축. 인스타·중국 SNS 에서 「3D 시뮬레이션」 자체가 콘텐츠 (바이럴)</li>
+      <li><b>최대 허용 대기 시간</b> — 30초. 60초 이상이면 50% 이탈. 「로딩 동안 8 스타일 진단 결과 보여주기」로 체감 시간 단축</li>
+      <li><b>레퍼런스</b> — 레드노트의 「얼굴 미학 / 성형 시뮬레이션」 인기 영상 = 모두 「프리뷰 3초 안에 결과」 패턴</li>
+      <li><b>UX 핵심</b> — 「슬라이더」(전/후) 가 「3D 회전」보다 전환 강함. 회전은 「내 얼굴이 그대로다」 라는 신뢰 + 슬라이더는 「변화량」 강조</li>
+      <li><b>마케팅 활용</b> — 3D 모델 회전 영상 = 인스타 릴스 자동 생성. 한 시술 케이스 × 5 각도 영상 = 즉시 사용 가능 콘텐츠</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — 「2D 시뮬레이션 (즉시) → 3D 모델 (백그라운드 로딩)」 2단계 UX. 3D 는 「추가 보너스」로 보여줘서 대기 부담 ↓</div>
+  </div>
+
+  <div class="opinion yuna">
+    <h3><span class="ic">유</span> 유나 · 그래픽·비주얼 디자이너 <small>리얼리즘 · 아트 디렉션 · 톤</small></h3>
+    <div class="stance">★ 입장 — "AI 3D 는 「Uncanny Valley」 문제가 가장 크다. 어색한 3D = 브랜드 손상. 리얼리즘 90점 이상 아니면 안 보이는 게 낫다."</div>
+    <ul>
+      <li><b>퀄리티 기준</b> — Apple MetaHuman / Pixar 급 = 90+ · 일반 3D 아바타 = 50~70 (Uncanny Valley) · Higgsfield generate_3d / TripoSR = 40~60 (시연용 OK, 마케팅엔 부족)</li>
+      <li><b>해법 A</b> — 「얼굴은 실사 + 눈썹 영역만 3D 합성」 (가장 안전). InstantStyle / DragGAN 으로 눈썹만 변형 → 실사 유지</li>
+      <li><b>해법 B</b> — 「Stylized 3D」 (일러스트 스타일로 거리감 만들기). 사실주의 추구 X. 「ARTbrows 시그니처 스케치 톤」 으로 카메라 / 광대뼈 디자인 톤 통일</li>
+      <li><b>해법 C</b> — 「NeRF / Gaussian Splatting」 (사진 5~10장 → 실사 3D). 신기술. 품질 80+, 단점 = 촬영 부담</li>
+      <li><b>아트 디렉션</b> — 살구톤 + 명조 디자인 시스템 유지 필수. 3D 뷰어 배경 = 크림 화이트 (#FFFBF5) + 핫핑크 액센트</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — 「얼굴 = 실사 (2D) + 눈썹 = 3D 변형」 하이브리드. Uncanny Valley 회피 + 시그니처 라인 강조 가능</div>
+  </div>
+
+  <div class="opinion min">
+    <h3><span class="ic">민</span> 김민서 · Face Lab 리드 <small>AI · 3D 재구성 · 정확도</small></h3>
+    <div class="stance">★ 입장 — "단일 사진 → 3D 얼굴 재구성은 오픈소스로 90% 가능. 본질은 「얼굴 메쉬 + 눈썹 변형 알고리즘」 결합이다."</div>
+    <ul>
+      <li><b>FLAME / DECA / EMOCA</b> — 학술 표준. 단일 사진 → FLAME 5023 vertex 메쉬. Python 환경 필요. CPU 5~15초 · GPU 1~3초. 정확도 ★★★★</li>
+      <li><b>SMPL-X + FLAME</b> — 전신 + 얼굴. 학원용 오버스펙. 얼굴만이면 FLAME 충분</li>
+      <li><b>TripoSR / Hunyuan3D</b> — 최신 (2024) 단일 이미지 → 3D 메쉬. 5초 내. 정확도 ★★★ (얼굴 디테일 부족)</li>
+      <li><b>Gaussian Splatting</b> — 사진 다중 (5~20장) → 실사 3D 렌더. 정확도 ★★★★★, 단점 = 촬영 부담 + 메쉬 추출 어려움 (직접 변형 X)</li>
+      <li><b>Higgsfield generate_3d</b> — image_to_3d 모델. 즉시 사용 가능 (지금 보유). 정확도 ★★★ (시연용)</li>
+      <li><b>★ 눈썹 변형</b> — DragDiffusion / InstantStyle 로 2D 단계에서 「내 얼굴」 + 「추천 눈썹 8 형」 합성. 메쉬는 부수적</li>
+      <li><b>실시간 AR (라이브 카메라)</b> — MediaPipe Face Mesh + Three.js. 실시간 시연 = 「오프라인 살롱 데모」 강력</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — 즉시: <b>Higgsfield generate_3d → Three.js viewer</b> (오늘 PoC) · 정밀: <b>FLAME + DragDiffusion</b> (Phase 2, 2주) · 데모: <b>MediaPipe + Three.js 실시간 AR</b> (Phase 1.7, 3일)</div>
+  </div>
+
+  <div class="opinion han">
+    <h3><span class="ic">한</span> 한승철 · 풀스택 (인프라·성능) <small>로딩 시간 · CDN · 비용</small></h3>
+    <div class="stance">★ 입장 — "웹에서 3D 뷰어 자체는 5KB. 진짜 문제는 「3D 모델 파일 크기 (5~50MB)」 와 「추론 서버 비용」 이다."</div>
+    <ul>
+      <li><b>Three.js / Babylon.js / model-viewer</b> — 라이브러리 자체는 가벼움. `&lt;model-viewer&gt;` (Google) = 코드 3줄로 GLB 임베드. 5KB 학습 곡선</li>
+      <li><b>GLB 파일 크기</b> — Higgsfield generate_3d 출력 ~ 3~10MB. 모바일 4G 에서 3~10초 다운로드. Draco 압축 시 ~ 1~3MB</li>
+      <li><b>FLAME / DECA</b> — Python 서버 필요. AWS g4dn.xlarge GPU = 시간당 $0.50. 동시 사용자 10명 → 월 $300+. 학원 규모엔 비쌈</li>
+      <li><b>대안</b> — Modal / Replicate / RunPod 등 서버리스 GPU (요청당 과금). 사용자당 ~$0.02. 10명/일 = 월 $6 정도</li>
+      <li><b>Higgsfield 옵션</b> — 우리 보유 크레딧. image_to_3d ~ 5~10 크/장. 월 100명 시연 = 500~1000 크 (Plus 플랜 충분)</li>
+      <li><b>CDN</b> — Cloudflare R2 / Netlify CDN. 한국·미국·중국 모두 100ms 이하. 추가 비용 거의 없음</li>
+      <li><b>성능 함정</b> — 클라이언트 추론 (TensorFlow.js · onnx.js) = 폰에서 30초+ 멈춤. 반드시 서버 추론</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — 시연·소량: Higgsfield generate_3d (지금 보유) + `&lt;model-viewer&gt;` 임베드 (가장 쉬움). 본격 라이브: Replicate FLAME API + R2 CDN (월 $20 안쪽)</div>
+  </div>
+</section>
+
+<!-- B. 종합 비교 -->
+<section>
+  <h2><span class="num">B</span>방법 × 4 직원 평가 종합표 (각 0~5점)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%">방법</th>
+        <th style="width:9%">속도</th>
+        <th style="width:9%">리얼리즘</th>
+        <th style="width:9%">전환력</th>
+        <th style="width:9%">개발 난이도</th>
+        <th style="width:9%">비용</th>
+        <th>핵심 한 줄</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Higgsfield generate_3d</b><br><small>image_to_3d 모델</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td>오늘 즉시 가능. 시연 / 마케팅 영상용</td>
+      </tr>
+      <tr>
+        <td><b>&lt;model-viewer&gt; 임베드</b><br><small>Google 오픈소스, GLB 뷰어</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td>HTML 3줄. Higgsfield 결과 그대로 임베드</td>
+      </tr>
+      <tr>
+        <td><b>Three.js + MediaPipe</b><br><small>실시간 AR (Phase 1.7)</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td>라이브 카메라 → 얼굴에 눈썹 오버레이. 살롱 데모</td>
+      </tr>
+      <tr>
+        <td><b>FLAME + DECA</b><br><small>학술 3D 얼굴 재구성</small></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td>Python + GPU. 정밀 3D. 2주 셋업</td>
+      </tr>
+      <tr>
+        <td><b>Hunyuan3D / TripoSR</b><br><small>최신 image-to-3D AI</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td>오픈소스. Replicate 로 1줄 호출</td>
+      </tr>
+      <tr>
+        <td><b>Gaussian Splatting (NeRF 후속)</b><br><small>사진 다중 → 실사 3D</small></td>
+        <td><span class="score low">★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td>최고 리얼리즘. 5~20장 촬영 필요. R&amp;D 영역</td>
+      </tr>
+      <tr>
+        <td><b>InstantStyle / DragDiffusion</b><br><small>2D 합성 (얼굴 유지 + 눈썹 변형)</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><b>유나 추천</b>. Uncanny Valley 회피. 시그니처 라인 강조</td>
+      </tr>
+      <tr>
+        <td><b>Unreal MetaHuman</b><br><small>영화급 실사 + Pixel Streaming</small></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td>마케팅 영상용. 실시간 웹 X. 영상 제작 단계만</td>
+      </tr>
+      <tr>
+        <td><b>Banuba / DeepAR / 8thWall</b><br><small>상용 WebAR SDK</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td>월 $200+ 라이선스. 즉시 라이브AR. 인스타 필터급</td>
+      </tr>
+      <tr>
+        <td><b>Ready Player Me / Avaturn</b><br><small>사진 → 3D 아바타 SDK</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td>게이밍·메타버스용. 시술 시뮬레이션엔 톤 미스매치</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- C. 카테고리별 -->
+<section>
+  <h2><span class="num">C</span>카테고리별 방법 상세 — 「웹 / 데스크탑 / 모바일」</h2>
+
+  <h3>C-1. 웹 (브라우저 안, 설치 없음)</h3>
+  <ul class="flat">
+    <li><b>&lt;model-viewer&gt;</b> (Google · 오픈소스 · 가장 쉬움) — GLB / GLTF 파일을 HTML 3줄로 임베드. 회전·줌·AR 모드 자동. iOS Quick Look 지원. <em>→ Phase 2 PoC 1차 후보</em></li>
+      <li><b>Three.js</b> (오픈소스 · WebGL 표준) — 자유도 최고. 라이트닝·재질·애니메이션 직접 제어. 학습 곡선 보통</li>
+      <li><b>Babylon.js</b> (Microsoft · 오픈소스) — Three.js 대안. 게임 / 인터랙티브 강함. 학원용엔 Three.js 가 더 가벼움</li>
+      <li><b>Spline</b> (노코드 3D 에디터 · 임베드) — 디자이너 친화. 학원 메인 페이지 히어로 영상으로 가능</li>
+      <li><b>Banuba / DeepAR / 8thWall</b> (상용 WebAR SDK) — 인스타 필터 수준의 실시간 얼굴 트래킹 + 메이크업·눈썹 변형. 월 라이선스 $200~$2000</li>
+      <li><b>MediaPipe Face Mesh + Three.js</b> (자체 구현) — 실시간 카메라 → 478 랜드마크 → 3D 메쉬 오버레이. <em>김민서 추천 = 살롱 데모용 강력</em></li>
+      <li><b>WebXR / WebAR</b> (네이티브 표준) — iPhone/Android 브라우저에서 AR. 아직 호환성 제한적</li>
+  </ul>
+
+  <h3>C-2. 데스크탑 / 프로그램 툴</h3>
+  <ul class="flat">
+    <li><b>Blender</b> (무료 · 오픈소스) — 정밀 3D 모델링 + 렌더링. 학원 캐릭터 모델 제작 + 영상 굽기</li>
+    <li><b>Unreal Engine 5 + MetaHuman</b> (무료, Epic) — 영화급 실사 얼굴. 「장미지 원장님 가상 아바타」 제작 + 인스타 광고 영상 굽기</li>
+    <li><b>Unity + ARFoundation</b> (무료) — 모바일 앱 출시 시 사용. 웹은 WebGL 빌드</li>
+    <li><b>Character Creator 4 + iClone</b> (Reallusion · 유료 $300~) — 빠른 캐릭터 제작 + 애니메이션</li>
+    <li><b>Pinscreen / Avatar SDK</b> (상용 API · 단일 사진 → 3D 아바타) — 가격 협상, 학원 규모엔 ROI 애매</li>
+    <li><b>FLAME / DECA / EMOCA</b> (학술 오픈소스, Python) — 단일 사진 → FLAME 메쉬. 정밀 + 자유 변형 가능. <em>김민서 Phase 2 본격</em></li>
+    <li><b>Higgsfield generate_3d</b> (현재 보유 · MCP) — image_to_3d / multi_image_to_3d / sam_3_3d / 3d_rigging. 오늘 즉시 PoC 가능</li>
+    <li><b>Hunyuan3D / TripoSR / SF3D</b> (오픈소스 · Replicate) — 5초 내 image-to-3D. 서버리스 GPU</li>
+  </ul>
+
+  <h3>C-3. 모바일 SDK / 네이티브</h3>
+  <ul class="flat">
+    <li><b>Apple ARKit (Face Tracking)</b> — iPhone X+ 전용. TrueDepth 카메라 사용 시 정밀. Snapchat / Instagram 수준</li>
+    <li><b>Google ARCore (Augmented Faces)</b> — Android 호환. 468 메쉬 + 메이크업 오버레이</li>
+    <li><b>Banuba SDK (iOS/Android/Web)</b> — 상용 라이선스. 인스타 필터급 즉시 효과</li>
+    <li><b>DeepAR</b> — Banuba 대안. 가격 더 저렴, 품질 약간 낮음</li>
+  </ul>
+
+  <h3>C-4. 하이브리드 / 신기술 R&amp;D</h3>
+  <ul class="flat">
+    <li><b>Gaussian Splatting</b> (2023~) — NeRF 후속. 사진 5~20장 → 실사 3D. 「장미지 원장님 가상 아바타」 영구 자산화에 적합 (1번 촬영 → 평생 사용)</li>
+    <li><b>Stable Diffusion + ControlNet (InstantStyle / IP-Adapter)</b> — 2D 단계에서 「얼굴 유지 + 눈썹·메이크업 변형」. <em>유나 추천 = Uncanny Valley 회피</em></li>
+    <li><b>DragDiffusion / DragGAN</b> — 정밀 점 제어로 「눈썹 모양」 만 변형. 시그니처 라인 매칭에 최적</li>
+    <li><b>Higgsfield Soul + generate_3d 결합</b> — Soul = 가상 아바타 생성 + 3D 변환. 학원용 「8 스타일 진단 카드」 자동화</li>
+  </ul>
+</section>
+
+<!-- D. 로드맵 -->
+<section>
+  <h2><span class="num">D</span>추천 로드맵 — 「오늘 / 이번 주 / 이번 달 / 분기」</h2>
+  <div class="roadmap">
+    <div class="road-card p0">
+      <span class="road-tag">P0 — 오늘</span>
+      <h4>Higgsfield generate_3d PoC</h4>
+      <div class="road-time">2~6시간 · ~10 크</div>
+      <div class="road-desc">Face Lab 시연 캐릭터 5장 중 1장 (계란형) → GLB 메쉬 변환 → <b>&lt;model-viewer&gt; 임베드</b>. 회전·줌 동작 검증. <em>오늘 시작 (이미 PoC 호출 진행 중)</em></div>
+    </div>
+    <div class="road-card p1">
+      <span class="road-tag">P1 — 이번 주</span>
+      <h4>5장 모두 3D 변환 + 갤러리</h4>
+      <div class="road-time">1~2일 · ~50 크</div>
+      <div class="road-desc">5장 × generate_3d → GLB 갤러리. 사용자 사진 → 분석 결과에 「내 얼굴 3D 모델」 추가. 6/29 정례 회의 시연용</div>
+    </div>
+    <div class="road-card p2">
+      <span class="road-tag">P2 — 이번 달 (7월)</span>
+      <h4>실시간 AR + 눈썹 변형</h4>
+      <div class="road-time">1~2주 · 김민서 + 한승철 협업</div>
+      <div class="road-desc">MediaPipe + Three.js 라이브 카메라 시뮬레이션. InstantStyle 로 「추천 눈썹 8 형」 합성. 살롱·학원 데모. <b>유나 「하이브리드 (얼굴 실사 + 눈썹 변형)」 추천 채택</b></div>
+    </div>
+    <div class="road-card p3">
+      <span class="road-tag">P3 — 분기 (9~10월)</span>
+      <h4>장미지 원장 가상 아바타 (MetaHuman)</h4>
+      <div class="road-time">3~4주 · 외주 가능</div>
+      <div class="road-desc">Unreal Engine MetaHuman 으로 원장님 「실사 같은 가상 아바타」 영구 자산화. 인스타 광고·중국 SNS·미국 진출 영상 제작 (9월 LA·SF 출장 자료에 활용)</div>
+    </div>
+  </div>
+</section>
+
+<!-- E. 즉시 시작 P0 -->
+<section>
+  <h2><span class="num">E</span>P0 즉시 시작 — Higgsfield generate_3d + &lt;model-viewer&gt; (오늘 채택 시)</h2>
+  <h4>구현 코드 (HTML 3 줄)</h4>
+  <table>
+    <tbody>
+      <tr><td><b>1단계</b></td><td>Higgsfield <code>generate_3d</code> 모델 <code>image_to_3d</code> 호출 → GLB URL 받음 (~ 30~120초)</td></tr>
+      <tr><td><b>2단계</b></td><td><code>&lt;model-viewer src="model.glb" auto-rotate camera-controls&gt;&lt;/model-viewer&gt;</code> — HTML 3 줄</td></tr>
+      <tr><td><b>3단계</b></td><td>iOS Quick Look · Android Scene Viewer 자동 지원 → 모바일 「내 공간에 띄우기」 가능</td></tr>
+      <tr><td><b>4단계</b></td><td>face-lab/3d/ 신설 → 시연 페이지 게시. 모범 사례 1건 → 5장 확장</td></tr>
+    </tbody>
+  </table>
+
+  <h3>P0 KPI</h3>
+  <ul class="flat">
+    <li><b>로딩 시간</b> — 최초 진입 후 GLB 표시까지 ≤ 8초 (한승철 기준)</li>
+    <li><b>모바일 동작</b> — iPhone Safari + Android Chrome 모두 OK</li>
+    <li><b>이탈률</b> — 3D 뷰어 진입 후 90% 이상 회전/줌 1회 이상 사용 (이서연 검증)</li>
+    <li><b>리얼리즘</b> — 「내 얼굴이라는 인식」 70% 이상 (유나 검증 — 5명 블라인드 테스트)</li>
+    <li><b>비용</b> — 사용자당 5~10 크 = 660 크로 100~130명 시연 가능 (한승철)</li>
+  </ul>
+</section>
+
+<!-- F. 결정 대기 -->
+<section>
+  <h2><span class="num">F</span>대표님 결정 대기 항목</h2>
+  <ul class="flat">
+    <li><b>F-1.</b> P0 오늘 채택? — Higgsfield generate_3d + &lt;model-viewer&gt; 시연 페이지 만들기 (자율 진행 OK?)</li>
+    <li><b>F-2.</b> P1 「내 얼굴 3D 모델」 기능을 라이브 (eyebrows.staris.cloud) 에 노출? — 보안·개인정보 검토 필요</li>
+    <li><b>F-3.</b> P2 실시간 AR (라이브 카메라 + 눈썹 합성) 일정 — 7월 1주차? 또는 후반?</li>
+    <li><b>F-4.</b> P3 MetaHuman 외주 — 9월 LA·SF 출장 전 가상 아바타 영상 1편 제작 (예산 200~500만원 추정)</li>
+    <li><b>F-5.</b> 신기술 R&amp;D — Gaussian Splatting / FLAME 자체 인프라 구축 vs Higgsfield + Replicate 외부 의존? (중국·미국 진출 시 자체 인프라 강점)</li>
+  </ul>
+</section>
+
+<!-- 인용 -->
+<div class="quote">
+  유저가 「내 얼굴 + 시그니처 눈썹」을 손가락으로 돌려보는 순간 — 그 인터랙션 1초가 인스타 사진 100장보다 강하다. 다만 어색한 3D 1초는 사진 100장보다 더 큰 타격이다. <br>
+  &nbsp; — 유나 (그래픽·비주얼 디자이너)
+</div>
+
+<footer>
+  3D 얼굴 시뮬레이션 연구 리포트 · ARTbrows · 2026-06-24 · 운영진 임시 게시 · 4 직원 (이서연·유나·김민서·한승철) 공동 작성<br>
+  <a href="index.html">← 메인 포털</a> ·
+  <a href="face-lab/">Face Lab Phase 1 LIVE</a> ·
+  <a href="얼굴비율-미학-기획-20260622.html">Face Lab 기획안</a> ·
+  <a href="원장님자료-분석리포트-20260624.html">원장님 자료 분석</a>
+</footer>
+
+</body>
+</html>

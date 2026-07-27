@@ -1,0 +1,114 @@
+{
+  "id": "2026-07-23-style14-vertical-column",
+  "title": "14 Vertical Column · 털 같은 눈썹 3원칙",
+  "slug": "2026-07-23-style14-vertical-column",
+  "status": "draft",
+  "createdAt": "2026-07-23T09:10:00.000Z",
+  "updatedAt": "2026-07-23T11:00:00.000Z",
+  "defaultLang": "ko",
+  "aspect": "portrait",
+  "stylePreset": "vertical-column-story",
+  "translations": {
+    "ko": {
+      "title": "VERTICAL COLUMN · 원장 검토용 시안",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "T MAGAZINE · N˚07",
+          "brand": "ARTBROWS",
+          "headline": "털 같은 눈썹,\n3가지 이유.",
+          "subheadline": "장미지 원장의 20년 노트에서 · Ⅰ. Ⅱ. Ⅲ.",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-03.png",
+          "imageAlt": "원장 저널 · 3단 논거",
+          "signatureLabel": "JOURNAL · MIJI JANG"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "Ⅰ. 결은 계산된다.\n\n각 방향, 각 각도, 각 밀도는\n30년의 손끝 데이터로 정해진다.",
+          "signature": "CH.01",
+          "signatureRole": "털 같은 눈썹 · 논거 1"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "treatment",
+          "eyebrow": "Ⅱ. 색소는 사라져야 한다",
+          "leftTitle": "A0 → A3\n색소의 3단계",
+          "leftItems": [
+            {
+              "num": "01",
+              "text": "A0 · 표피층 초기 착색",
+              "sub": "1주차 · 최상단 각질에 자리"
+            },
+            {
+              "num": "02",
+              "text": "A1 · 자연 각질 탈락",
+              "sub": "2~3주차 · 표피 재생 사이클"
+            },
+            {
+              "num": "03",
+              "text": "A3 · 결만 남는다",
+              "sub": "6개월+ · 색은 사라지고 결만 남음"
+            }
+          ],
+          "rightHeadline": "결만\n남는다.",
+          "rightPrice": "A3",
+          "rightFootnote": "색소 잔존 X · 결의 흔적만 · 20년 관찰 데이터"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "Ⅲ. 진짜 눈썹처럼 보인다.\n\n「진짜 머리카락이야?」\n주변이 되묻는 순간,\n작업은 완성된다.",
+          "signature": "CH.03",
+          "signatureRole": "털 같은 눈썹 · 논거 3 · 원장 원문"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "정본 데이터 · 3단 요약",
+          "leftTitle": "20년의\n노트에서",
+          "leftItems": [
+            {
+              "num": "Ⅰ",
+              "text": "결은 계산",
+              "sub": "손끝 데이터"
+            },
+            {
+              "num": "Ⅱ",
+              "text": "색소는 사라짐",
+              "sub": "결만 남음"
+            },
+            {
+              "num": "Ⅲ",
+              "text": "진짜처럼",
+              "sub": "주변이 되묻는다"
+            }
+          ],
+          "rightHeadline": "털 같은\n눈썹.",
+          "rightPrice": "3원칙",
+          "rightFootnote": "원장 · 극사실눈썹 창시자 · 특허 3장"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "eyebrow": "MASTERCLASS · 창업반 15기",
+          "headline": "3원칙,\n당신의 손끝에서도.",
+          "highlight": "당신의 손끝",
+          "signature": "Miji Jang",
+          "cta": "교육 상담 신청 →",
+          "ctaHref": "/enroll",
+          "subline": "선릉 본원 · 원장 직강 · 3원칙 실습"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  }
+}

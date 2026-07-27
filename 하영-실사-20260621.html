@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STORY 07 하영편 · 실사 4컷 완성 · 2026-06-21 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.5}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .summary{background:#161617;border:1px solid #242425;border-radius:10px;padding:16px 18px;margin-bottom:24px;font-size:13px;line-height:1.65}
+  .summary strong{color:#d4af37}
+  .legend{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;font-size:12px}
+  .legend span{padding:4px 10px;border-radius:14px;border:1px solid #333}
+  .pick{background:#d4af37;color:#111;border-color:#d4af37}
+  .ref{background:#1a3a5a;color:#9fc8ff;border-color:#2a5a8a}
+  .new{background:#264d2a;color:#a8e6b3;border-color:#3a6b40}
+  .old{background:#3a3a3a;color:#aaa}
+  section{margin-bottom:36px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:20px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .card{background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+  .card img{width:100%;aspect-ratio:9/16;object-fit:cover;cursor:zoom-in;display:block;background:#000}
+  .card.sq img{aspect-ratio:1/1}
+  .card .meta{padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:12px}
+  .card .lbl{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .card .lbl .chip{font-size:10px;padding:2px 6px;border-radius:8px;background:#2a2a2a;color:#bbb}
+  .card .lbl .chip.pick{background:#d4af37;color:#111}
+  .card .lbl .chip.ref{background:#1a3a5a;color:#9fc8ff}
+  .card .lbl .chip.new{background:#264d2a;color:#a8e6b3}
+  .card .lbl .chip.old{background:#3a3a3a;color:#999}
+  .card .desc{color:#9a9a93;font-size:11.5px;line-height:1.45}
+  .card .quote{color:#d4af37;font-family:'Nanum Myeongjo',serif;font-size:13px;margin-top:4px;font-weight:700}
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:99;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+  .modal.on{display:flex}
+  .modal img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+  .modal .x{position:fixed;top:14px;right:18px;color:#fff;font-size:30px;cursor:pointer;background:rgba(0,0,0,.4);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center}
+  .next{background:#161617;border:1px solid #d4af37;border-radius:10px;padding:18px 20px;margin-bottom:24px}
+  .next h3{color:#d4af37;font-family:'Nanum Myeongjo',serif;font-size:16px;margin-bottom:8px}
+  .next ul{padding-left:20px;font-size:13px;line-height:1.7;color:#c8c6c2}
+  .next li::marker{color:#d4af37}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>STORY 07 하영편</em> — 실사 4컷 완성</h1>
+<p class="sub">2026-06-21 · C안 채택(reference 1장 + 컷1·3·4) 실행 결과 · 클릭 시 원본 크기로 확대</p>
+
+<div class="summary">
+  <strong>요약</strong> — 어제 채택본(컷2 「아틀리에 드로잉」)을 기준으로 인물 reference 1장을 새로 굽고, 그 reference 를 medias 로 묶어 <strong>컷1·3·4</strong>를 자유로운 환경으로 재생성했습니다.
+  <br>· 소비: <strong>10 크레딧</strong> (컷1 거울 반사 어색해서 1회 재생성 포함 / 잔량 722)
+  <br>· 결과: 컷1(밤 · 마감 후) · 컷2(낮 · 워크룸, 어제 채택) · 컷3(낮 · 자연광 자랑) · 컷4(낮 · 동료 모먼트) → 시간대 다양하면서 인물·복장·살구톤 일관성 확보
+  <br>· 다음 단계: Veo 3.1 영상 합성 + 자막 burn-in + 게시 패키지 (R3 본격 진입)
+</div>
+
+<div class="legend">
+  <span class="pick">PICK · 채택본</span>
+  <span class="ref">REF · 인물 reference</span>
+  <span class="new">NEW · 오늘 신규</span>
+  <span class="old">OLD · 어제 시도(폐기)</span>
+</div>
+
+<!-- 1. 인물 Reference -->
+<section>
+  <h2><span class="num">01</span>인물 Reference (시리즈 동일성 고정)</h2>
+  <div class="grid">
+    <div class="card sq">
+      <img src="assets/시리즈-미용편/하영-실사-reference.png" alt="하영 실사 reference">
+      <div class="meta">
+        <div class="lbl">하영 · 정면 reference <span class="chip ref">REF</span></div>
+        <div class="desc">1:1 · 28세 한국 여성 · 묶음머리 · 흰 셔츠 + 베이지 앞치마 · 회색 스튜디오 배경 · 컷2 채택본과 동일 룩으로 고정</div>
+        <div class="desc">→ 컷1·3·4 의 medias[image] 로 전달 → 시리즈 인물 일관성 확보</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. STORY 07 실사 4컷 -->
+<section>
+  <h2><span class="num">02</span>STORY 07 실사 4컷 — 컷1·2·3·4 (시간대 순)</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷1-기.png" alt="컷1 기">
+      <div class="meta">
+        <div class="lbl">컷1 · 기 <span class="chip new">NEW</span></div>
+        <div class="quote">"손은 좋은데, 다음 한 발이 보이지 않을 때"</div>
+        <div class="desc">9:16 · 마감 후 미용실 · 펜던트 조명 + 창문 야경 · 사이드 앵글로 거울 반사 없이 깔끔 · 조용한 사색 모먼트</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷2-승.png" alt="컷2 승">
+      <div class="meta">
+        <div class="lbl">컷2 · 승 <span class="chip pick">PICK</span></div>
+        <div class="quote">"기술 위에, 한 줄 더"</div>
+        <div class="desc">9:16 · 자연광 워크룸 · 패드 + 펜 + 손에 집중 · <strong>어제(6/19) 채택본</strong> — 이번 4컷의 톤 기준</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷3-전.png" alt="컷3 전">
+      <div class="meta">
+        <div class="lbl">컷3 · 전 <span class="chip new">NEW</span></div>
+        <div class="quote">"이미 좋은 손에, 새로운 시그니처"</div>
+        <div class="desc">9:16 · 햇살 자연광 · 완성 패드 들고 환한 미소 · 꽃 화분 + 가위·빗 → <strong>「가위와 펜이 한 화면에」</strong> 메시지 완벽 시각화</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷4-전2.png" alt="컷4 전2">
+      <div class="meta">
+        <div class="lbl">컷4 · 전2 <span class="chip new">NEW</span></div>
+        <div class="quote">"내 가게의, 다음 메뉴"</div>
+        <div class="desc">9:16 · 미용실 거울·도구 선반 · 동료에게 패드 자랑 (시나리오는 1명, 결과는 3인 그룹 모먼트로 인정·축하 분위기 더 풍부)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 다음 단계 -->
+<section>
+  <h2><span class="num">02-B</span>완성 쇼츠 24초 · 자막 burn-in</h2>
+  <div class="grid" style="grid-template-columns:minmax(280px,420px)">
+    <div class="card">
+      <video controls preload="metadata" style="width:100%;aspect-ratio:9/16;background:#000;display:block">
+        <source src="assets/시리즈-미용편/미용편-쇼츠-실사완성.mp4" type="video/mp4">
+      </video>
+      <div class="meta">
+        <div class="lbl">미용편 쇼츠 · 실사 완성본 <span class="chip new">NEW</span></div>
+        <div class="desc">1080×1920 · 24초 · H.264 · 8.7MB · ffmpeg 합성 (0 크레딧)</div>
+        <div class="desc">컷1(5초) → 컷2(7초) → 컷3(6초) → 컷4(4초) → 엔드카드(2초) · 한글 자막 burn-in + 페이드 인/아웃 + BGM 페이드</div>
+        <div class="desc" style="color:#a8e6b3">✓ 엔드카드 B안 적용 완료 — 살구톤 텍스트 카드(STORY · 07 / ARTBROWS / 상담 신청 / @artbrows.korea) 0 크레딧 재생성</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">02-D</span>STORY 07-B 단발 모델 시리즈 — 병행 운영 (6 크레딧 / 잔량 720)</h2>
+  <p class="sub" style="margin-bottom:14px">시도1 reference 임포트 → 컷1·2·3·4 단발 모델로 재생성 + 영상 + 썸네일. 묶음(A · 차분 프로) ↔ 단발(B · 젊은 발랄) 두 시리즈로 인스타 A/B 운영.</p>
+  <div class="grid" style="grid-template-columns:repeat(4,minmax(160px,1fr))">
+    <div class="card"><img src="assets/시리즈-미용편/실사-컷1-기-단발모델.png" alt="단발 컷1"><div class="meta"><div class="lbl">컷1 · 기 <span class="chip new">단발</span></div></div></div>
+    <div class="card"><img src="assets/시리즈-미용편/실사-컷2-승-단발모델.png" alt="단발 컷2"><div class="meta"><div class="lbl">컷2 · 승 <span class="chip new">단발</span></div></div></div>
+    <div class="card"><img src="assets/시리즈-미용편/실사-컷3-전-단발모델.png" alt="단발 컷3"><div class="meta"><div class="lbl">컷3 · 전 <span class="chip new">단발</span></div></div></div>
+    <div class="card"><img src="assets/시리즈-미용편/실사-컷4-전2-단발모델.png" alt="단발 컷4"><div class="meta"><div class="lbl">컷4 · 전2 <span class="chip new">단발</span></div></div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(280px,420px) minmax(280px,520px);margin-top:16px">
+    <div class="card">
+      <video controls preload="metadata" style="width:100%;aspect-ratio:9/16;background:#000;display:block">
+        <source src="assets/시리즈-미용편/미용편-쇼츠-단발모델.mp4" type="video/mp4">
+      </video>
+      <div class="meta">
+        <div class="lbl">07-B 단발 쇼츠 <span class="chip new">NEW</span></div>
+        <div class="desc">24초 · 1080×1920 · 8MB · ffmpeg 합성 (0 크레딧) · 같은 자막/BGM/엔드카드</div>
+      </div>
+    </div>
+    <div class="card sq">
+      <img src="assets/모집카드시안/썸네일-미용편-단발-1080.png" alt="07-B 단발 썸네일">
+      <div class="meta">
+        <div class="lbl">07-B 단발 썸네일 <span class="chip new">NEW</span></div>
+        <div class="desc">1080×1080 · STORY 07-B 칩으로 묶음(07) 구분 · 우측 단발 컷2(드로잉 집중)</div>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:14px"><strong>인스타 A/B 운영 제안</strong> — 묶음(07)은 「프로 차분·이성적 신뢰」 톤으로 카드/캐러셀, 단발(07-B)은 「젊은 발랄·감성적 친근」 톤으로 릴스/쇼츠. 같은 헤드라인 「기술 위에, 한 줄 더」 + CTA 「상담 신청」 공통. 7일 게시 후 인게이지먼트 비교로 본진 결정.</p>
+</section>
+
+<section>
+  <h2><span class="num">02-C</span>썸네일 1080×1080 · 실사 전환</h2>
+  <div class="grid" style="grid-template-columns:minmax(280px,520px)">
+    <div class="card sq">
+      <img src="assets/모집카드시안/썸네일-미용편-실사-1080.png" alt="STORY 07 미용편 썸네일">
+      <div class="meta">
+        <div class="lbl">미용편 썸네일 · 실사 <span class="chip new">NEW</span></div>
+        <div class="desc">1080×1080 · Edge headless · 0 크레딧</div>
+        <div class="desc">좌측 — STORY 07 칩 + 「기술 위에, 한 줄 더」 명조 헤드 + 부제 + ARTBROWS 메타</div>
+        <div class="desc">우측 — 컷2 실사(자연광 워크룸·집중 모먼트) · 시리즈 6편 디자인 시스템 유지하면서 인물만 실사 전환</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">02-E</span>「직장 안에서, 한 발 더」 캐러셀 6장 — 02 ↔ 07 연결 (0 크레딧)</h2>
+  <p class="sub" style="margin-bottom:14px">STORY 02 직장인편(지우) + STORY 07 미용편(하영 실사) 시너지. 「퇴사 부담 없는 + 1」 진입 메시지. 모녀 캐러셀과 격주 교차 게시 제안.</p>
+  <div class="grid" style="grid-template-columns:repeat(3,minmax(180px,1fr));gap:14px">
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-1.png" alt="1 후킹"><div class="meta"><div class="lbl">1 · 후킹 <span class="chip new">NEW</span></div><div class="desc">직장 안에서, 한 발 더 · STORY 02↔07 칩</div></div></div>
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-2.png" alt="2 STORY 02"><div class="meta"><div class="lbl">2 · STORY 02 직장인 <span class="chip new">NEW</span></div><div class="desc">전공이 아니어도, 전문가가 된다 · 지우</div></div></div>
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-3.png" alt="3 다리"><div class="meta"><div class="lbl">3 · 다리 <span class="chip new">NEW</span></div><div class="desc">당신의 일터가, 다음 시그니처의 시작</div></div></div>
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-4.png" alt="4 STORY 07"><div class="meta"><div class="lbl">4 · STORY 07 미용 <span class="chip new">NEW</span></div><div class="desc">기술 위에, 한 줄 더 · 하영 실사</div></div></div>
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-5.png" alt="5 통합"><div class="meta"><div class="lbl">5 · 통합 비교 <span class="chip new">NEW</span></div><div class="desc">사원증 너머 vs 가위 곁의 한 줄</div></div></div>
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-6.png" alt="6 CTA"><div class="meta"><div class="lbl">6 · CTA <span class="chip new">NEW</span></div><div class="desc">상담 신청 · @artbrows.korea</div></div></div>
+  </div>
+  <p class="sub" style="margin-top:14px"><strong>운영 가이드</strong> — 게시 타이밍(평일 19:30·D+3 릴스·D+7 분석)·캡션·해시태그 3그룹·KPI·스토리 후속 활용 모두 <a href="docs/직장-캐러셀-운영가이드.md" style="color:#d4af37">docs/직장-캐러셀-운영가이드.md</a> 참고.</p>
+</section>
+
+<section>
+  <h2><span class="num">02-I</span>STORY 03 신부편 「예린」 — 실사 4컷 + 영상 + 썸네일 (06/22, +10 크 / 잔량 694)</h2>
+  <p class="sub" style="margin-bottom:14px">시리즈 실사 전환 3편째. 예린(28세 신부) reference 1장 + 컷1·2·3·4 환경 컷 동시 굽기 → 영상·썸네일·엔드카드 일괄 완성. 「가장 빛나는 날에, 자신 있는 한 줄」 톤.</p>
+  <div class="grid" style="grid-template-columns:repeat(4,minmax(160px,1fr));gap:14px">
+    <div class="card"><img src="assets/시리즈-신부편/실사-컷1-기.png" alt="컷1"><div class="meta"><div class="lbl">컷1 · 기 <span class="chip new">NEW</span></div><div class="desc">"내일은 가장 빛나는 날"</div></div></div>
+    <div class="card"><img src="assets/시리즈-신부편/실사-컷2-승.png" alt="컷2"><div class="meta"><div class="lbl">컷2 · 승 <span class="chip new">NEW</span></div><div class="desc">"내 인생의 단 한 번의 표정"</div></div></div>
+    <div class="card"><img src="assets/시리즈-신부편/실사-컷3-전.png" alt="컷3"><div class="meta"><div class="lbl">컷3 · 전 <span class="chip new">NEW</span></div><div class="desc">"지워질 걱정 없이, 온전히 나로"</div></div></div>
+    <div class="card"><img src="assets/시리즈-신부편/실사-컷4-전2.png" alt="컷4"><div class="meta"><div class="lbl">컷4 · 전2 <span class="chip new">NEW</span></div><div class="desc">"가장 자신 있는 모습으로" · 어머니 모먼트</div></div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(280px,420px) minmax(280px,520px);margin-top:16px">
+    <div class="card">
+      <video controls preload="metadata" style="width:100%;aspect-ratio:9/16;background:#000;display:block">
+        <source src="assets/시리즈-신부편/신부편-쇼츠-실사완성.mp4" type="video/mp4">
+      </video>
+      <div class="meta">
+        <div class="lbl">신부편 실사 쇼츠 <span class="chip new">NEW</span></div>
+        <div class="desc">24초 · 1080×1920 · 8MB · ffmpeg (0크) · STORY 03 전용 엔드카드</div>
+      </div>
+    </div>
+    <div class="card sq">
+      <img src="assets/모집카드시안/썸네일-신부편-실사-1080.png" alt="신부편 실사 썸네일">
+      <div class="meta">
+        <div class="lbl">신부편 실사 썸네일 <span class="chip new">NEW</span></div>
+        <div class="desc">1080×1080 · STORY 03 칩 · 「가장 빛나는 날, 가장 자신 있는 한 줄」</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">02-H</span>STORY 02 직장인편 — 실사 영상·썸네일 (회의 3안 확장, +6 크 / 잔량 704)</h2>
+  <p class="sub" style="margin-bottom:14px">어제 reference 그대로 활용 → 컷1(밤·사색)·컷3(자연광·미소)·컷4(카페·친구) 3컷 추가 + 컷2(사무실 채택본). 시리즈 02 일러스트 → 실사 전환 완성. 영상·썸네일·엔드카드(STORY 02 전용) 동시 완성.</p>
+  <div class="grid" style="grid-template-columns:repeat(4,minmax(160px,1fr));gap:14px">
+    <div class="card"><img src="assets/시리즈-직장인편/실사-컷1-기.png" alt="컷1"><div class="meta"><div class="lbl">컷1 · 기 <span class="chip new">NEW</span></div><div class="desc">"사원증 너머의 길이, 보이지 않을 때"</div></div></div>
+    <div class="card"><img src="assets/시리즈-직장인편/실사-컷2-승.png" alt="컷2"><div class="meta"><div class="lbl">컷2 · 승 <span class="chip pick">06/22</span></div><div class="desc">"전공이 달라도, 전문가가 됩니다"</div></div></div>
+    <div class="card"><img src="assets/시리즈-직장인편/실사-컷3-전.png" alt="컷3"><div class="meta"><div class="lbl">컷3 · 전 <span class="chip new">NEW</span></div><div class="desc">"퇴근 후의 시간이, 새 직업이 됩니다"</div></div></div>
+    <div class="card"><img src="assets/시리즈-직장인편/실사-컷4-전2.png" alt="컷4"><div class="meta"><div class="lbl">컷4 · 전2 <span class="chip new">NEW</span></div><div class="desc">"두 번째 명함을, 손에 들었습니다"</div></div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(280px,420px) minmax(280px,520px);margin-top:16px">
+    <div class="card">
+      <video controls preload="metadata" style="width:100%;aspect-ratio:9/16;background:#000;display:block">
+        <source src="assets/시리즈-직장인편/직장인편-쇼츠-실사완성.mp4" type="video/mp4">
+      </video>
+      <div class="meta">
+        <div class="lbl">직장인편 실사 쇼츠 <span class="chip new">NEW</span></div>
+        <div class="desc">24초 · 1080×1920 · 8MB · ffmpeg (0크) · STORY 02 전용 엔드카드</div>
+      </div>
+    </div>
+    <div class="card sq">
+      <img src="assets/모집카드시안/썸네일-직장인편-실사-1080.png" alt="직장인편 실사 썸네일">
+      <div class="meta">
+        <div class="lbl">직장인편 실사 썸네일 <span class="chip new">NEW</span></div>
+        <div class="desc">1080×1080 · STORY 02 칩 · 「전공이 달라도, 전문가가 됩니다」</div>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:14px"><strong>시리즈 톤 통일</strong> — 캐러셀 직장 + 9칸 그리드 + STORY 02·07 모두 실사 일관. 일러스트 시리즈는 「과거 자산」으로 보존 (시리즈 6편 부업맘·시니어·미대생 등은 추후 결정).</p>
+</section>
+
+<section>
+  <h2><span class="num">02-G</span>STORY 02 직장인편 「지우」 실사 전환 + 캐러셀 톤 통일 — 회의 3안 (06/22, 10 크레딧 / 잔량 710)</h2>
+  <p class="sub" style="margin-bottom:14px">유나 의견 반영: 캐러셀 4번(하영 실사) ↔ 2번(지우 일러스트) 톤 갈림 해소. 지우 실사 reference 1장 + 사무실 환경 컷 1장 + 캐러셀 2번 재캡처. 카피 「전공이 아니어도, 전문가가 된다」 → 「전공이 달라도, 전문가가 됩니다」로 수정.</p>
+  <div class="grid" style="grid-template-columns:repeat(3,minmax(180px,1fr));gap:14px">
+    <div class="card sq"><img src="assets/시리즈-직장인편/지우-실사-reference.png" alt="지우 reference"><div class="meta"><div class="lbl">지우 reference <span class="chip ref">NEW</span></div><div class="desc">32세 직장인 · 단발 · 사원증 · 베이지 블라우스 + 차콜 블레이저</div></div></div>
+    <div class="card sq"><img src="assets/시리즈-직장인편/지우-실사-사무실.png" alt="지우 사무실"><div class="meta"><div class="lbl">지우 사무실 컷 <span class="chip new">NEW</span></div><div class="desc">노을 사무실·패드 들고 사색 · 캐러셀 2번 슬라이드 우측 배치용</div></div></div>
+    <div class="card sq"><img src="assets/모집카드시안/캐러셀-직장-2.png" alt="캐러셀 직장 2 갱신"><div class="meta"><div class="lbl">캐러셀 직장 · 2번 <span class="chip new">UPDATED</span></div><div class="desc">지우 일러스트 → 실사 전환 · 4번(하영 실사)과 톤 통일</div></div></div>
+  </div>
+  <p class="sub" style="margin-top:14px"><strong>완료:</strong> 캐러셀 6장 톤 통일 / 메인 포털·갤러리 PNG 자동 반영 (src 그대로). <strong>다음:</strong> STORY 02 직장인편 영상도 실사 전환 시 reference 그대로 활용 가능 (시리즈 02 확장 대비).</p>
+</section>
+
+<section>
+  <h2><span class="num">02-F</span>인스타 그리드 9칸 모킹 갱신 — STORY 07/07-B + 캐러셀 2종 반영 (0 크레딧)</h2>
+  <p class="sub" style="margin-bottom:14px">기존 4편 기반 9칸을 시리즈 7편 완결 + 캐러셀 2종 시대로 재배치. 첫인상 첫 줄에 신규 미용편 실사(07) + BRAND 인용 배치로 「장미지 원장 시그니처」 강화.</p>
+  <div class="grid" style="grid-template-columns:minmax(280px,520px)">
+    <div class="card">
+      <img src="assets/모집카드시안/인스타-그리드-9칸-실사.png" alt="인스타 그리드 9칸 모킹">
+      <div class="meta">
+        <div class="lbl">인스타 프로필 9칸 모킹 <span class="chip new">NEW</span></div>
+        <div class="desc">1320×2000 · 폰 프레임 안 9칸 실사 배치</div>
+        <div class="desc"><strong>1행 시그니처</strong> — 후킹 / <strong>신부편 실사(03)</strong> / BRAND 인용</div>
+        <div class="desc"><strong>2행 실사 시리즈</strong> — <strong>직장인편(02)</strong> / <strong>미용편 묶음(07)</strong> / <strong>미용편 단발(07-B)</strong></div>
+        <div class="desc"><strong>3행 캐러셀+행동</strong> — 캐러셀 모녀 / CTA / 캐러셀 직장</div>
+        <div class="desc" style="color:#a8e6b3">★ v4 갱신 (2026-06-22) — 9칸 100% 실사+캐러셀+카드 / 일러스트 시리즈 보존(릴스 탭으로 분리)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="next">
+  <h3>다음 단계</h3>
+  <ul>
+    <li>유튜브 게시 패키지 · 인스타 릴스 동시 게시 가이드 (묶음 + 단발 두 영상)</li>
+    <li>인스타 그리드 운영가이드 갱신 (게시 순서·2주 캘린더에 07/07-B + 캐러셀 2종 반영)</li>
+  </ul>
+</div>
+
+<!-- 4. 어제 시도(폐기) 참고 -->
+<section>
+  <h2><span class="num">03</span>참고 · 어제(6/19) 시도본 (폐기)</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷1-기-시도1.png" alt="컷1 시도1">
+      <div class="meta">
+        <div class="lbl">컷1 시도1 <span class="chip old">OLD</span></div>
+        <div class="desc">9:16 · reference 없이 단독 생성 · 인물 동일성 부족</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷1-기-시도2.png" alt="컷1 시도2">
+      <div class="meta">
+        <div class="lbl">컷1 시도2 <span class="chip old">OLD</span></div>
+        <div class="desc">9:16 · 같은 단독 방식 두 번째 시도 · 위와 동일 사유로 폐기</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" id="modal" onclick="this.classList.remove('on')">
+  <span class="x">×</span>
+  <img id="modalImg" src="">
+</div>
+
+<script>
+  document.querySelectorAll('.card img').forEach(img => {
+    img.addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById('modalImg').src = img.src;
+      document.getElementById('modal').classList.add('on');
+    });
+  });
+</script>
+
+<footer>
+  ARTbrows 산하 STORY 시리즈 · 07 하영편 실사 전환 · 2026-06-21
+  · <a href="index.html">← 포털 홈</a>
+  · <a href="gallery.html">갤러리</a>
+  · <a href="비교-실사시안-20260619.html">어제 채택 결과(6/19)</a>
+</footer>
+
+</body>
+</html>

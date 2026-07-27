@@ -1,0 +1,158 @@
+{
+  "id": "2026-07-20-master-methodology",
+  "title": "[참조·초안] 원장 노하우 (원장님 자료 정리 진행 중)",
+  "slug": "2026-07-20-master-methodology",
+  "status": "archived",
+  "createdAt": "2026-07-20T19:00:00.000Z",
+  "updatedAt": "2026-07-20T19:00:00.000Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "원장 노하우 방법론",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "brand": "ARTBROWS",
+          "volume": "MASTER METHOD · SINCE 2000",
+          "headline": "결의 법칙\n1234321",
+          "subheadline": "원장 30년 노하우 · 극사실눈썹의 정본 공식",
+          "imageSrc": "/hero-mood/hero-portrait-G.png",
+          "imageAlt": "장미지 원장 시술 장면 · 펜슬 설계",
+          "signatureLabel": "MIJI JANG · SEONLEUNG ATELIER"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER · 20 YEARS"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ads/ig-69/02-eyebrow-macro.png",
+          "imageAlt": "극사실눈썹 매크로 · 사람과 똑같은 결",
+          "bottomLabel": "SINCE 1세대 · 사람과 똑같은 결"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "PRINCIPLE 01 · 극사실 단선 3구간",
+          "leftTitle": "털의 길이 · 3층",
+          "leftItems": [
+            { "num": "▸", "text": "주요선 · 3~4mm",     "sub": "중심 결 · 밀도 최대" },
+            { "num": "▸", "text": "보조선 · 1.5~2.5mm", "sub": "층 사이 · 자연 연결" },
+            { "num": "▸", "text": "솜털 · 0.5~1mm",     "sub": "디테일 · 자연 표현" }
+          ],
+          "rightHeadline": "털의\n합",
+          "rightPrice": "3층",
+          "rightFootnote": "합쳐야 진짜 · 하나만은 평면"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "1-2-3-4-3-2-1\n결의 리듬을\n손이 기억할 때\n진짜 눈썹이 태어난다.",
+          "signature": "결의 법칙",
+          "signatureRole": "MASTER METHOD · 30 YEARS COMPRESSED"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "PRINCIPLE 02 · 디자인 4단계 워크플로우",
+          "leftTitle": "설계 · 4 STEPS",
+          "leftItems": [
+            { "num": "01", "text": "테두리 잡기",     "sub": "시술 영역 지정 · 프레임" },
+            { "num": "02", "text": "모류선 그리기",   "sub": "결 방향 · 흐름 결정" },
+            { "num": "03", "text": "시술결 그리기",   "sub": "1234321 리듬 적용" },
+            { "num": "04", "text": "테두리 제거·확인", "sub": "완성 · 자연 마무리" }
+          ],
+          "rightHeadline": "설계\n4단계",
+          "rightPrice": "정본",
+          "rightFootnote": "원장 30년 · 시술 5,000+"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ads/ig-69/03-curriculum.png",
+          "imageAlt": "원장 시술 · 골드 머신 · 검정 장갑 · 벨벳",
+          "bottomLabel": "원장 손끝 · 특허 머신 · 30년 무게"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "PATENT · 국내 유일 특허 3장",
+          "leftTitle": "인증 · REGISTERED",
+          "leftItems": [
+            { "num": "①", "text": "특허 10-2639903",     "sub": "극사실 기법" },
+            { "num": "②", "text": "상표 40-2300477",     "sub": "ARTbrow" },
+            { "num": "③", "text": "특허 10-2863985",     "sub": "극사실 머신 · 일반캡·샤프캡·핸들" }
+          ],
+          "rightHeadline": "특허\n3장",
+          "rightPrice": "국내 유일",
+          "rightFootnote": "기법 · 상표 · 머신 모두 원장 등록"
+        },
+        {
+          "kind": "signature-style",
+          "category": "founder",
+          "concept": {
+            "title": "PATENT MACHINE · 10-2863985",
+            "formula": ["일반캡", "샤프캡", "핸들"],
+            "result": "= ARTbrow 극사실 머신",
+            "caption": "「원장 30년 노하우가 담긴 유일한 도구」"
+          },
+          "style": {
+            "title": "3 PART SIGNATURE",
+            "items": [
+              { "label": "일반캡", "desc": "니들 조절 · 색소 역류방지 이중캡 · 투명캡 · 모래시계 흐름" },
+              { "label": "샤프캡", "desc": "피부 침투 깊이 제한 · 2중 안전 · 정확한층 유지" },
+              { "label": "핸들",   "desc": "자석 흡착 · 과학적 발열방지 · 니들 지지대 · 다이아몬드 커팅" },
+              { "label": "SAFETY", "desc": "2중 안전 구조 · 감염 방지 · 재사용 절대 금지" }
+            ]
+          }
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "COLOR · 인증 색소 4종",
+          "leftTitle": "COLORS · A0 ~ A3",
+          "leftItems": [
+            { "num": "A0", "text": "솔루션",       "sub": "농도 조절 · 진정 랩핑 · 원액 완화" },
+            { "num": "A1", "text": "브라운",       "sub": "밝은 자연 · 청담 시크" },
+            { "num": "A2", "text": "딥브라운",     "sub": "중간톤 · 매혹적 깊이" },
+            { "num": "A3", "text": "블랙브라운",   "sub": "짙은 마감 · 프리미엄 존재감" }
+          ],
+          "rightHeadline": "인증\n색소",
+          "rightPrice": "양주시\n보건소",
+          "rightFootnote": "위생용품 품목제조 등록 · 원장 정본"
+        },
+        {
+          "kind": "umbrella-4cats",
+          "category": "founder",
+          "eyebrow": "極写実 · THE HYPERREAL UNIVERSE",
+          "headline": "극사실 · 4대 카테고리",
+          "killer": "진짜 머리카락이야 · 진짜 눈썹이야 · 원래 입술 색깔 아니었어?",
+          "cats": [
+            { "key": "brow",     "label": "눈썹",     "badge": "진행 중", "active": true },
+            { "key": "eyeline",  "label": "아이라인", "badge": "준비 중", "active": false },
+            { "key": "lip",      "label": "입술",     "badge": "준비 중", "active": false },
+            { "key": "hairline", "label": "헤어라인", "badge": "준비 중", "active": false }
+          ],
+          "footnote": "극사실 = 반영구 전 영역의 통일된 철학 · 결의 법칙 1234321 확장"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "reels",
+          "headline": "원장에게 직접,\n1234321을 손이 기억할 때까지.",
+          "highlight": "직접",
+          "subline": "이지 클래스 → 소묘 → 극사실 · 3일 원장 1:1 완성\n창업반 890 · 6+6개월 무제한 실습 · 강사반 자격",
+          "signature": "Miji Jang",
+          "cta": "교육 상담 신청",
+          "ctaHref": "/enroll"
+        }
+      ]
+    },
+    "en": { "title": "", "slides": [] },
+    "zh": { "title": "", "slides": [] }
+  }
+}

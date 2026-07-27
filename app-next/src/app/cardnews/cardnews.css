@@ -1,0 +1,832 @@
+/* 카드뉴스 슬라이드 공통 스타일 (2026-07-17 · 원장님 통합 브랜드 가이드 6톤 반영)
+   색·폰트 값은 @/lib/artbrows/tokens.css 의 --ab-* 변수만 사용.
+   임의 색 리터럴 금지. */
+
+/* Image-First Wizard 업로드 스피너 (2026-07-21) */
+@keyframes ab-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.ab-spin { animation: ab-spin 1.4s linear infinite; display: inline-block; }
+
+/* 슬라이드 프레임 · 인스타 3 프리셋 (default = 4:5 portrait) */
+.slide-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;      /* default portrait */
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ab-card-radius);
+  box-shadow: var(--ab-card-shadow);
+  font-family: var(--ab-font-body);
+}
+/* 2026-07-20 · 원장님 「인스타 카드뉴스 플랫폼」 요구 · aspect modifier */
+.slide-frame.aspect-square   { aspect-ratio: 1 / 1;  }  /* 1080×1080 · 피드 기본 */
+.slide-frame.aspect-portrait { aspect-ratio: 4 / 5;  }  /* 1080×1350 · 피드 몰입 (default) */
+.slide-frame.aspect-story    { aspect-ratio: 9 / 16; }  /* 1080×1920 · 스토리·릴스 */
+
+/* 6톤 카테고리 배경/텍스트 자동 적용 */
+.slide-frame.ab-cat-treatment { background: var(--ab-cat-treatment-bg); color: var(--ab-cat-treatment-fg); }
+.slide-frame.ab-cat-founder   { background: var(--ab-cat-founder-bg);   color: var(--ab-cat-founder-fg); }
+.slide-frame.ab-cat-review    { background: var(--ab-cat-review-bg);    color: var(--ab-cat-review-fg); }
+.slide-frame.ab-cat-classroom { background: var(--ab-cat-classroom-bg); color: var(--ab-cat-classroom-fg); }
+.slide-frame.ab-cat-detail    { background: var(--ab-cat-detail-bg);    color: var(--ab-cat-detail-fg); }
+.slide-frame.ab-cat-reels     { background: var(--ab-cat-reels-bg);     color: var(--ab-cat-reels-fg); }
+
+/* 슬라이드 인덱스 배지 (미리보기 갤러리용) */
+.slide-index {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--ab-ivory);
+  font-family: var(--ab-font-body-latin);
+  font-size: 10.5px;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  border-radius: 12px;
+  z-index: 10;
+  font-weight: 600;
+}
+.slide-frame[data-tone="light"] .slide-index { background: rgba(31, 24, 23, 0.7); }
+
+/* ── 공통 요소 (톤별 색 자동 반전) ── */
+.cn-eyebrow {
+  font-family: var(--ab-font-body-latin);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--ab-gold);
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+.slide-frame[data-tone="light"] .cn-eyebrow { color: var(--ab-gold-deep); }
+
+.cn-headline {
+  font-family: var(--ab-font-headline);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  white-space: pre-line;
+  color: inherit;
+}
+.cn-headline .gold { color: var(--ab-gold); font-weight: 800; }
+.slide-frame[data-tone="light"] .cn-headline .gold { color: var(--ab-gold-deep); }
+
+.cn-body {
+  font-family: var(--ab-font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  white-space: pre-line;
+  opacity: 0.88;
+}
+
+.cn-signature {
+  font-family: var(--ab-font-signature);
+  font-weight: 700;
+  color: var(--ab-gold);
+  letter-spacing: 0.02em;
+}
+.slide-frame[data-tone="light"] .cn-signature { color: var(--ab-gold-deep); }
+
+.cn-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--ab-gold);
+  margin: 0;
+  opacity: 0.7;
+}
+
+.cn-cta {
+  display: inline-block;
+  padding: 12px 26px;
+  background: var(--ab-gold);
+  color: var(--ab-black);
+  font-family: var(--ab-font-body-latin);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+  text-decoration: none;
+}
+.slide-frame[data-tone="light"] .cn-cta { background: var(--ab-ink); color: var(--ab-ivory); }
+
+/* ==================== 01. Cover-Founder ==================== */
+.l-cover-founder {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  height: 100%;
+}
+.l-cover-founder .cf-image {
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+}
+.l-cover-founder .cf-image img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.l-cover-founder .cf-image::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 55%, rgba(0, 0, 0, 0.35) 100%);
+}
+.l-cover-founder .cf-text {
+  padding: 8% 8% 8% 6%;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.l-cover-founder .cf-text .cn-headline {
+  font-size: clamp(28px, 4.6vw, 46px);
+  margin-bottom: 24px;
+}
+.l-cover-founder .cf-text .cn-quote {
+  font-family: var(--ab-font-headline);
+  font-style: italic;
+  font-size: clamp(13px, 1.7vw, 16px);
+  line-height: 1.7;
+  border-left: 2px solid var(--ab-gold);
+  padding-left: 14px;
+  margin-top: 24px;
+  white-space: pre-line;
+  opacity: 0.9;
+}
+.l-cover-founder .cf-text .cn-quote .by {
+  display: block;
+  margin-top: 8px;
+  color: var(--ab-gold);
+  font-family: var(--ab-font-body-latin);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  opacity: 1;
+}
+.slide-frame[data-tone="light"] .l-cover-founder .cf-text .cn-quote { border-left-color: var(--ab-gold-deep); }
+.slide-frame[data-tone="light"] .l-cover-founder .cf-text .cn-quote .by { color: var(--ab-gold-deep); }
+
+/* ==================== 02. Number-Big ==================== */
+.l-number-big {
+  height: 100%;
+  padding: 12% 10%;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+}
+.l-number-big .nb-num {
+  font-family: var(--ab-font-headline);
+  font-size: clamp(80px, 12vw, 140px);
+  color: var(--ab-gold);
+  line-height: 1;
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+.slide-frame[data-tone="light"] .l-number-big .nb-num { color: var(--ab-gold-deep); }
+.l-number-big .cn-headline { font-size: clamp(24px, 3.5vw, 34px); margin-bottom: 20px; }
+
+/* ==================== 03. Icon-Duo / 04. Icon-Trio ==================== */
+.l-icon-set {
+  height: 100%;
+  padding: 12% 10%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.l-icon-set .cn-headline { font-size: clamp(22px, 3vw, 28px); margin-bottom: 32px; }
+.l-icon-set .is-items {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+}
+.l-icon-set.duo .is-items { grid-template-columns: 1fr 1fr; }
+.l-icon-set.trio .is-items { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.l-icon-set .is-item {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 20px 10px;
+  border: 1px solid var(--ab-gold-line);
+  border-radius: 8px;
+}
+.l-icon-set .is-icon { font-size: 40px; line-height: 1; }
+.l-icon-set .is-title {
+  font-family: var(--ab-font-headline);
+  font-size: 15px;
+  font-weight: 700;
+}
+.l-icon-set .is-caption {
+  font-size: 11px;
+  line-height: 1.55;
+  opacity: 0.75;
+}
+
+/* ==================== 05. Checklist ==================== */
+.l-checklist {
+  height: 100%;
+  padding: 12% 10%;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.l-checklist .cn-headline { font-size: clamp(22px, 3vw, 28px); margin-bottom: 24px; }
+.l-checklist .cl-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.l-checklist .cl-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ab-gold-line);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.l-checklist .cl-item::before {
+  content: '✓';
+  color: var(--ab-gold);
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.slide-frame[data-tone="light"] .l-checklist .cl-item::before { color: var(--ab-gold-deep); }
+
+/* ==================== 06. Portrait-Frame ==================== */
+.l-portrait { height: 100%; position: relative; overflow: hidden; }
+.l-portrait .pf-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.l-portrait .pf-overlay {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 24px 26px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.75) 100%);
+  color: var(--ab-ivory);
+}
+.l-portrait .pf-overlay .cn-eyebrow { color: var(--ab-gold); margin-bottom: 8px; }
+.l-portrait .pf-overlay .cn-headline {
+  font-size: clamp(20px, 2.8vw, 26px);
+  color: var(--ab-ivory);
+  margin: 0;
+}
+.l-portrait .pf-overlay .pf-caption {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* ==================== 07. Product-Hero ==================== */
+.l-product { height: 100%; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+.l-product .ph-img-wrap { flex: 1; overflow: hidden; position: relative; }
+.l-product .ph-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.l-product .ph-label {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 12px 20px;
+  font-family: var(--ab-font-body-latin);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--ab-gold);
+  text-transform: uppercase;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
+}
+.l-product .ph-body {
+  padding: 20px 22px 24px;
+  border-top: 1px solid var(--ab-gold-line);
+}
+.l-product .ph-body .cn-eyebrow { margin-bottom: 6px; }
+.l-product .ph-body .cn-headline { font-size: 18px; margin-bottom: 6px; }
+.l-product .ph-body .ph-caption { font-size: 12px; opacity: 0.85; line-height: 1.55; }
+
+/* ==================== 08. Quote-Bold ==================== */
+.l-quote-bold {
+  height: 100%;
+  padding: 12% 10%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.l-quote-bold .cn-eyebrow { margin-bottom: 32px; }
+.l-quote-bold .qb-quote {
+  font-family: var(--ab-font-headline);
+  font-style: italic;
+  font-size: clamp(24px, 3.4vw, 34px);
+  line-height: 1.35;
+  white-space: pre-line;
+  position: relative;
+  padding: 0 6%;
+}
+.l-quote-bold .qb-quote::before {
+  content: '\201C';
+  position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
+  font-family: var(--ab-font-headline);
+  font-size: 60px;
+  color: var(--ab-gold);
+  line-height: 1;
+  opacity: 0.6;
+}
+.slide-frame[data-tone="light"] .l-quote-bold .qb-quote::before { color: var(--ab-gold-deep); }
+.l-quote-bold .qb-by {
+  margin-top: 30px;
+  font-family: var(--ab-font-body);
+  font-size: 13.5px;
+  line-height: 1.6;
+  max-width: 80%;
+  white-space: pre-line;
+  opacity: 0.8;
+}
+
+/* ==================== 09. Signature-Style ==================== */
+/* 좌 딥 배경 (Brand Concept) + 우 아이보리 (Signature Style) 대비 · 카테고리 색과 별개로 원장님 정본 그대로 */
+.l-signature-style { display: grid; grid-template-columns: 1fr 1fr; height: 100%; }
+.l-signature-style .ss-concept {
+  background: var(--ab-black);
+  color: var(--ab-ivory);
+  padding: 10% 8%;
+  display: flex; flex-direction: column; justify-content: center; text-align: center;
+}
+.l-signature-style .ss-style {
+  background: var(--ab-ivory);
+  color: var(--ab-ink);
+  padding: 10% 8%;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.l-signature-style .ss-title {
+  font-family: var(--ab-font-body-latin);
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--ab-gold);
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+.l-signature-style .ss-style .ss-title { color: var(--ab-gold-deep); }
+.l-signature-style .ss-formula {
+  font-family: var(--ab-font-headline);
+  font-size: clamp(16px, 2.1vw, 20px);
+  line-height: 2.2;
+  font-weight: 600;
+}
+.l-signature-style .ss-formula .plus { color: var(--ab-gold); margin: 0 6px; font-weight: 400; }
+.l-signature-style .ss-result {
+  font-family: var(--ab-font-headline);
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 800;
+  margin-top: 14px;
+  margin-bottom: 22px;
+}
+.l-signature-style .ss-caption {
+  font-size: 11.5px;
+  opacity: 0.75;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+.l-signature-style .ss-items { display: flex; flex-direction: column; gap: 16px; }
+.l-signature-style .ss-items .ss-row {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ab-gold-line);
+}
+.l-signature-style .ss-items .ss-row:last-child { border-bottom: none; }
+.l-signature-style .ss-items .ss-label {
+  font-family: var(--ab-font-body-latin);
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.l-signature-style .ss-items .ss-desc { font-size: 11.5px; opacity: 0.75; line-height: 1.55; white-space: pre-line; }
+
+/* ==================== 10. Curriculum-Row ==================== */
+.l-curriculum { height: 100%; padding: 10% 9%; display: flex; flex-direction: column; }
+.l-curriculum .cn-headline { font-size: clamp(22px, 3vw, 30px); margin-bottom: 32px; }
+.l-curriculum .cr-rows { display: flex; flex-direction: column; gap: 0; margin-top: auto; margin-bottom: auto; }
+.l-curriculum .cr-row {
+  display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 20px;
+  padding: 14px 0; border-bottom: 1px solid var(--ab-gold-line);
+}
+.l-curriculum .cr-row:last-child { border-bottom: none; }
+.l-curriculum .cr-num { font-family: var(--ab-font-headline); font-size: 24px; color: var(--ab-gold); font-weight: 300; }
+.slide-frame[data-tone="light"] .l-curriculum .cr-num { color: var(--ab-gold-deep); }
+.l-curriculum .cr-title { font-family: var(--ab-font-headline); font-size: 16.5px; font-weight: 700; }
+.l-curriculum .cr-meta {
+  font-family: var(--ab-font-body-latin); font-size: 11px;
+  color: var(--ab-gold); letter-spacing: 0.05em; text-align: right; line-height: 1.4;
+}
+.slide-frame[data-tone="light"] .l-curriculum .cr-meta { color: var(--ab-gold-deep); }
+
+/* ==================== 11. Price-Table ==================== */
+.l-price-table { height: 100%; padding: 12% 9%; display: flex; flex-direction: column; justify-content: center; }
+.l-price-table .cn-headline { font-size: clamp(24px, 3.2vw, 32px); margin-bottom: 34px; }
+.l-price-table .pt-item {
+  border-top: 1px solid var(--ab-gold-line); border-bottom: 1px solid var(--ab-gold-line);
+  padding: 22px 0; margin-bottom: 20px;
+}
+.l-price-table .pt-name { font-family: var(--ab-font-headline); font-size: 15px; opacity: 0.75; margin-bottom: 8px; }
+.l-price-table .pt-price {
+  font-family: var(--ab-font-headline);
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 800;
+  color: var(--ab-gold);
+  margin-bottom: 12px;
+}
+.slide-frame[data-tone="light"] .l-price-table .pt-price { color: var(--ab-gold-deep); }
+.l-price-table .pt-conditions { display: flex; flex-wrap: wrap; gap: 8px; }
+.l-price-table .pt-cond {
+  font-family: var(--ab-font-body-latin); font-size: 11px; padding: 4px 10px;
+  border: 1px solid var(--ab-gold-line); border-radius: 20px; opacity: 0.85;
+}
+.l-price-table .pt-foot { font-size: 11px; opacity: 0.7; margin-top: 6px; letter-spacing: 0.02em; }
+
+/* ==================== 12. Closing-CTA ==================== */
+.l-closing {
+  height: 100%; padding: 14% 10%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.l-closing .cn-headline { font-size: clamp(28px, 4vw, 40px); margin-bottom: 22px; }
+.l-closing .cl-body {
+  font-size: 13.5px; line-height: 1.75; max-width: 80%; margin-bottom: 40px; opacity: 0.85;
+}
+.l-closing .cl-signature {
+  font-family: var(--ab-font-signature); font-weight: 700;
+  font-size: clamp(38px, 5vw, 52px);
+  color: var(--ab-gold);
+  margin-bottom: 30px;
+  letter-spacing: 0.02em;
+}
+.slide-frame[data-tone="light"] .l-closing .cl-signature { color: var(--ab-gold-deep); }
+
+/* ==================== 뼈대 placeholder 스타일 (미구현 컴포넌트 fallback) ==================== */
+.l-placeholder {
+  height: 100%; padding: 12% 10%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 18px;
+}
+.l-placeholder .ph-kind {
+  font-family: var(--ab-font-body-latin); font-size: 12px;
+  color: var(--ab-gold); letter-spacing: 0.3em;
+  border: 1px dashed var(--ab-gold); padding: 6px 14px; border-radius: 2px;
+}
+.l-placeholder .ph-note { font-size: 12px; line-height: 1.7; max-width: 80%; opacity: 0.75; }
+
+/* ==================== 갤러리 페이지 ==================== */
+.cardnews-page {
+  min-height: 100vh;
+  background: var(--ab-black);
+  padding: 60px 20px 100px;
+  color: var(--ab-ivory);
+}
+.cardnews-page .cn-wrap { max-width: 1400px; margin: 0 auto; }
+.cardnews-page .cn-title {
+  font-family: var(--ab-font-headline);
+  font-size: 32px; font-weight: 800; margin-bottom: 8px;
+}
+.cardnews-page .cn-subtitle {
+  font-family: var(--ab-font-body-latin);
+  font-size: 12.5px; color: var(--ab-gold); letter-spacing: 0.2em;
+  margin-bottom: 34px; text-transform: uppercase;
+}
+.cardnews-page .cn-meta {
+  color: var(--ab-text-soft); font-size: 12.5px; margin-bottom: 40px; line-height: 1.8;
+}
+.cardnews-page .cn-meta a { color: var(--ab-gold-light); text-decoration: underline; }
+.cardnews-page .cn-section-head {
+  font-family: var(--ab-font-headline);
+  font-size: 22px; margin-top: 60px; margin-bottom: 20px;
+}
+.cardnews-page .cn-section-head .caption {
+  display: block;
+  font-family: var(--ab-font-body-latin);
+  font-size: 11.5px; color: var(--ab-gold); letter-spacing: 0.2em;
+  margin-top: 6px; font-weight: 400;
+}
+.cardnews-page .cn-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+@media (max-width: 900px) { .cardnews-page .cn-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .cardnews-page .cn-grid { grid-template-columns: 1fr; } }
+.cardnews-page .cn-slide-wrap { position: relative; }
+.cardnews-page .cn-slide-label {
+  font-family: var(--ab-font-body-latin);
+  font-size: 10.5px; color: var(--ab-text-muted);
+  margin-top: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.cardnews-page .cn-slide-label .cat-chip {
+  display: inline-block; margin-left: 8px;
+  padding: 2px 8px; border-radius: 10px;
+  font-size: 9.5px; letter-spacing: 0.15em;
+  border: 1px solid var(--ab-gold-line); color: var(--ab-gold);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Magazine 9종 (2026-07-20 정본 · Vogue Beauty · Maison Noir 로즈 브론즈)
+   원장님 「너무 예전 참고용 그대로」 지적 → 완전 리셋 신규 정본
+═══════════════════════════════════════════════════════════════════════ */
+
+/* ═══════ Maison Noir 정본 팔레트 (2026-07-20 · 원장님 승인 레퍼런스) ═══════
+   레퍼런스: Fashion Portfolio Maison Noir · 딥 블랙 + 로즈 브론즈 + 크림 아이보리
+   IG-69만원 힉스필드 산출물과 정합 · 카드뉴스 기본값 */
+:root {
+  --mn-black:        #0A0806;       /* Deep obsidian black (배경) */
+  --mn-charcoal:     #1A100B;       /* 카드 배경 · 2차 표면 */
+  --mn-charcoal-2:   #221510;       /* 그라디언트 스텝 */
+  --mn-rose-bronze:  #B08862;       /* 로즈 브론즈 (라벨·강조 라인) */
+  --mn-rose-soft:    #C89B76;       /* 소프트 로즈 (하이라이트) */
+  --mn-champagne:    #E8C9AE;       /* 샴페인 (헤드 강조 단어) */
+  --mn-cream:        #F4E5D2;       /* 워머 크림 (헤드 텍스트) */
+  --mn-gold-deep:    #6B4530;       /* 딥 골드 (라이트 배경 텍스트) */
+  --mn-ivory-warm:   #F0DBC3;       /* 아이보리 워머 (본문) */
+  --mn-text-soft:    #C8A88C;       /* 서브 텍스트 · 캡션 */
+  --mn-line:         #3D2A20;       /* 얇은 구분선 */
+  --mn-line-soft:    rgba(176, 136, 98, 0.22);
+  --mn-gold-line:    linear-gradient(90deg, transparent, var(--mn-rose-bronze) 20%, var(--mn-champagne) 50%, var(--mn-rose-bronze) 80%, transparent);
+}
+
+/* 매거진 공통 프레임 (매거진 kind만 · legacy 영향 X) */
+.slide-frame.mag {
+  background: var(--mn-black);
+  color: var(--mn-ivory-warm);
+  container-type: inline-size;
+}
+.slide-frame.mag .mag-label {
+  font-family: var(--ab-font-body-latin), 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--mn-rose-bronze);
+  font-weight: 500;
+}
+.slide-frame.mag .mag-serif {
+  font-family: var(--ab-font-headline), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.slide-frame.mag .mag-hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mn-rose-bronze), transparent);
+  border: none;
+  margin: 24px 0;
+}
+.slide-frame.mag .mag-hairline.solid { background: var(--mn-rose-bronze); }
+.slide-frame.mag .mag-signature {
+  font-family: var(--ab-font-signature), cursive;
+  color: var(--mn-champagne);
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+/* M1. magazine-cover */
+.slide-frame.mag.l-magazine-cover {
+  padding: 42px 40px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.l-magazine-cover .mc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; z-index: 2; }
+.l-magazine-cover .mc-brand { font-family: var(--ab-font-headline), serif; letter-spacing: 0.35em; font-size: 13px; color: var(--mn-champagne); font-weight: 500; text-transform: uppercase; }
+.l-magazine-cover .mc-vol { font-family: var(--ab-font-body-latin), sans-serif; font-size: 10px; letter-spacing: 0.32em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+.l-magazine-cover .mc-image-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0.55;
+  z-index: 0;
+}
+.l-magazine-cover .mc-fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, var(--mn-black) 0%, rgba(10,8,6,0.35) 40%, rgba(10,8,6,0.15) 60%, var(--mn-black) 100%);
+  z-index: 1;
+}
+.l-magazine-cover .mc-head {
+  z-index: 2; margin-top: auto; margin-bottom: auto;
+  font-family: var(--ab-font-headline), serif;
+  font-size: clamp(28px, 6cqw, 54px);
+  color: var(--mn-ivory-warm);
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  white-space: pre-line;
+}
+.l-magazine-cover .mc-sub {
+  z-index: 2;
+  margin-top: 14px;
+  font-family: var(--ab-font-headline), serif;
+  font-style: italic;
+  color: var(--mn-champagne);
+  font-size: clamp(14px, 2.4cqw, 20px);
+  opacity: 0.9;
+}
+.l-magazine-cover .mc-sig { z-index: 2; margin-top: 24px; display: flex; align-items: center; gap: 12px; }
+.l-magazine-cover .mc-sig .mag-hairline { flex: 1; margin: 0; }
+.l-magazine-cover .mc-sig-label { font-family: var(--ab-font-body-latin), sans-serif; font-size: 10px; letter-spacing: 0.28em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+
+/* M2. hero-portrait */
+.slide-frame.mag.l-hero-portrait { padding: 0; position: relative; overflow: hidden; }
+.l-hero-portrait .hp-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.l-hero-portrait .hp-corner { position: absolute; top: 24px; right: 28px; z-index: 2; padding: 4px 10px; border: 1px solid var(--mn-rose-bronze); background: rgba(10,8,6,0.45); }
+.l-hero-portrait .hp-bottom {
+  position: absolute; left: 28px; right: 28px; bottom: 26px; z-index: 2;
+  display: flex; align-items: center; gap: 14px;
+}
+.l-hero-portrait .hp-bottom .mag-hairline { flex: 1; margin: 0; }
+.l-hero-portrait .hp-bottom .mag-label { color: var(--mn-champagne); }
+.l-hero-portrait::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,8,6,0.35) 0%, transparent 30%, transparent 65%, rgba(10,8,6,0.85) 100%);
+  z-index: 1; pointer-events: none;
+}
+
+/* M3. macro-close-up */
+.slide-frame.mag.l-macro-close-up { padding: 0; display: grid; grid-template-columns: 3fr 2fr; }
+.l-macro-close-up .mcu-img-wrap { position: relative; overflow: hidden; }
+.l-macro-close-up .mcu-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.l-macro-close-up .mcu-overlay-label {
+  position: absolute; top: 20px; left: 20px;
+  padding: 4px 10px; border: 1px solid var(--mn-rose-bronze);
+  color: var(--mn-champagne); background: rgba(10,8,6,0.45);
+  font-family: var(--ab-font-body-latin), sans-serif; font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase;
+}
+.l-macro-close-up .mcu-text {
+  background: var(--mn-charcoal); padding: 34px 26px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.l-macro-close-up .mcu-quote {
+  font-family: var(--ab-font-headline), serif; font-style: italic;
+  font-size: clamp(15px, 2.5cqw, 22px); color: var(--mn-ivory-warm);
+  line-height: 1.35; margin-bottom: 20px; white-space: pre-line;
+}
+.l-macro-close-up .mcu-by { font-family: var(--ab-font-body-latin), sans-serif; font-size: 10px; letter-spacing: 0.25em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+
+/* M4. before-after-split */
+.slide-frame.mag.l-before-after-split { padding: 0; display: grid; grid-template-rows: 1fr auto; }
+.l-before-after-split .ba-panels { display: grid; grid-template-columns: 1fr 1fr; }
+.l-before-after-split.vertical .ba-panels { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+.l-before-after-split .ba-panel { position: relative; overflow: hidden; }
+.l-before-after-split .ba-panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.l-before-after-split .ba-label {
+  position: absolute; top: 20px; left: 22px;
+  font-family: var(--ab-font-headline), serif; font-weight: 500;
+  font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--mn-champagne);
+  padding: 4px 12px;
+  border-top: 1px solid var(--mn-rose-bronze); border-bottom: 1px solid var(--mn-rose-bronze);
+  background: rgba(10,8,6,0.55);
+}
+.l-before-after-split .ba-strip {
+  padding: 14px 26px; background: var(--mn-black);
+  font-family: var(--ab-font-body-latin), sans-serif; font-size: 10.5px; letter-spacing: 0.22em;
+  color: var(--mn-rose-bronze); text-transform: uppercase; text-align: center;
+  border-top: 1px solid var(--mn-line);
+}
+
+/* M5. pullquote-editorial */
+.slide-frame.mag.l-pullquote-editorial {
+  padding: 60px 44px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.l-pullquote-editorial .pq-mark {
+  font-family: var(--ab-font-headline), serif; font-style: italic;
+  font-size: 96px; color: var(--mn-rose-bronze); line-height: 0.6; margin-bottom: 18px;
+}
+.l-pullquote-editorial .pq-quote {
+  font-family: var(--ab-font-headline), serif; font-style: italic; font-weight: 400;
+  font-size: clamp(20px, 3.6cqw, 34px); line-height: 1.28;
+  color: var(--mn-ivory-warm);
+  white-space: pre-line; max-width: 92%;
+}
+.l-pullquote-editorial .pq-sig { margin-top: 36px; text-align: center; }
+.l-pullquote-editorial .pq-role { margin-top: 8px; font-family: var(--ab-font-body-latin), sans-serif; font-size: 10px; letter-spacing: 0.32em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+
+/* M6. case-study-detail */
+.slide-frame.mag.l-case-study-detail {
+  padding: 44px 36px; display: grid;
+  grid-template-columns: 5fr 4fr; gap: 28px; align-items: center;
+}
+.l-case-study-detail .cs-left .cs-eyebrow { margin-bottom: 18px; }
+.l-case-study-detail .cs-left .cs-left-title {
+  font-family: var(--ab-font-headline), serif; font-size: 17px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--mn-champagne); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--mn-line);
+}
+.l-case-study-detail .cs-item {
+  display: grid; grid-template-columns: 34px 1fr; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--mn-line-soft);
+}
+.l-case-study-detail .cs-item:last-child { border-bottom: none; }
+.l-case-study-detail .cs-num { font-family: var(--ab-font-body-latin), sans-serif; font-size: 12px; letter-spacing: 0.15em; color: var(--mn-rose-bronze); font-weight: 600; padding-top: 2px; }
+.l-case-study-detail .cs-text { font-family: var(--ab-font-headline), serif; font-size: 15px; color: var(--mn-ivory-warm); line-height: 1.35; }
+.l-case-study-detail .cs-sub { font-family: var(--ab-font-body-latin), sans-serif; font-size: 10.5px; color: var(--mn-text-soft); margin-top: 3px; letter-spacing: 0.05em; }
+.l-case-study-detail .cs-right { border-left: 1px solid var(--mn-line); padding-left: 26px; }
+.l-case-study-detail .cs-head { font-family: var(--ab-font-headline), serif; font-size: clamp(20px, 3.4cqw, 30px); color: var(--mn-ivory-warm); line-height: 1.15; margin-bottom: 20px; white-space: pre-line; }
+.l-case-study-detail .cs-price { font-family: var(--ab-font-headline), serif; font-size: clamp(28px, 5cqw, 44px); color: var(--mn-champagne); font-weight: 500; letter-spacing: -0.01em; }
+.l-case-study-detail .cs-foot { margin-top: 14px; font-family: var(--ab-font-body-latin), sans-serif; font-size: 10.5px; letter-spacing: 0.22em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+
+/* M7. atelier-scene */
+.slide-frame.mag.l-atelier-scene { padding: 0; display: grid; grid-template-rows: 1fr auto; }
+.l-atelier-scene .as-img-wrap { position: relative; overflow: hidden; }
+.l-atelier-scene .as-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.l-atelier-scene .as-overlay { position: absolute; left: 28px; right: 28px; bottom: 24px; z-index: 2; }
+.l-atelier-scene .as-eyebrow { color: var(--mn-champagne); margin-bottom: 8px; }
+.l-atelier-scene .as-head { font-family: var(--ab-font-headline), serif; font-size: clamp(18px, 3cqw, 26px); color: var(--mn-ivory-warm); line-height: 1.15; white-space: pre-line; }
+.l-atelier-scene .as-img-wrap::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
+  background: linear-gradient(180deg, transparent, rgba(10,8,6,0.85));
+  z-index: 1; pointer-events: none;
+}
+.l-atelier-scene .as-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  background: var(--mn-black); border-top: 1px solid var(--mn-line);
+}
+.l-atelier-scene .as-col { padding: 18px 12px; text-align: center; border-right: 1px solid var(--mn-line-soft); }
+.l-atelier-scene .as-col:last-child { border-right: none; }
+.l-atelier-scene .as-col-label { font-family: var(--ab-font-body-latin), sans-serif; font-size: 9.5px; letter-spacing: 0.28em; color: var(--mn-rose-bronze); text-transform: uppercase; margin-bottom: 6px; }
+.l-atelier-scene .as-col-value { font-family: var(--ab-font-headline), serif; font-size: 20px; color: var(--mn-champagne); }
+
+/* M8. cta-editorial */
+.slide-frame.mag.l-cta-editorial {
+  padding: 60px 44px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.l-cta-editorial .cta-hair-top { width: 60%; margin-bottom: 40px; }
+.l-cta-editorial .cta-head {
+  font-family: var(--ab-font-headline), serif; font-weight: 400;
+  font-size: clamp(24px, 4.5cqw, 40px); line-height: 1.2;
+  color: var(--mn-ivory-warm); white-space: pre-line;
+}
+.l-cta-editorial .cta-head .gold-word { color: var(--mn-champagne); font-style: italic; }
+.l-cta-editorial .cta-sub { margin-top: 20px; font-family: var(--ab-font-headline), serif; font-style: italic; color: var(--mn-text-soft); font-size: clamp(13px, 2cqw, 16px); white-space: pre-line; }
+.l-cta-editorial .cta-sig { margin-top: 34px; }
+.l-cta-editorial .cta-btn {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 12px 24px;
+  border: 1px solid var(--mn-rose-bronze);
+  color: var(--mn-champagne);
+  font-family: var(--ab-font-body-latin), sans-serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.l-cta-editorial .cta-btn:hover { background: rgba(176, 136, 98, 0.1); }
+.l-cta-editorial .cta-hair-bot { width: 60%; margin-top: 34px; }
+
+/* M9. umbrella-4cats */
+.slide-frame.mag.l-umbrella-4cats {
+  padding: 44px 34px; display: flex; flex-direction: column; justify-content: center;
+}
+.l-umbrella-4cats .u4-eyebrow { text-align: center; margin-bottom: 14px; color: var(--mn-champagne); }
+.l-umbrella-4cats .u4-head { text-align: center; font-family: var(--ab-font-headline), serif; font-size: clamp(20px, 3.4cqw, 28px); color: var(--mn-ivory-warm); margin-bottom: 16px; }
+.l-umbrella-4cats .u4-killer { text-align: center; font-family: var(--ab-font-headline), serif; font-style: italic; color: var(--mn-text-soft); font-size: clamp(11px, 1.8cqw, 14px); margin-bottom: 26px; padding: 0 12px; line-height: 1.5; }
+.l-umbrella-4cats .u4-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+.l-umbrella-4cats .u4-cat {
+  padding: 20px 12px; text-align: center;
+  border: 1px solid var(--mn-line);
+  background: var(--mn-charcoal);
+}
+.l-umbrella-4cats .u4-cat.active { border-color: var(--mn-rose-bronze); background: linear-gradient(135deg, var(--mn-charcoal), var(--mn-charcoal-2)); }
+.l-umbrella-4cats .u4-cat:not(.active) { opacity: 0.5; }
+.l-umbrella-4cats .u4-cat-label { font-family: var(--ab-font-headline), serif; font-size: 20px; color: var(--mn-ivory-warm); margin-bottom: 8px; }
+.l-umbrella-4cats .u4-cat-badge { font-family: var(--ab-font-body-latin), sans-serif; font-size: 9px; letter-spacing: 0.28em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+.l-umbrella-4cats .u4-cat.active .u4-cat-badge { color: var(--mn-champagne); }
+.l-umbrella-4cats .u4-foot { text-align: center; font-family: var(--ab-font-body-latin), sans-serif; font-size: 10px; letter-spacing: 0.22em; color: var(--mn-rose-bronze); text-transform: uppercase; }
+
+/* ═══ 인스타 chrome · Magazine kind (2026-07-20 · 참고 캐러셀 감성 흡수) ═══ */
+/* @handle 상단 · magazine-cover 제외 (자체 brand 있음) */
+.slide-frame.mag:not(.l-magazine-cover)::before {
+  content: '@artbrows_academy';
+  position: absolute;
+  top: 12px; left: 14px;
+  z-index: 20;
+  padding: 3px 9px;
+  font-family: var(--ab-font-body-latin), sans-serif;
+  font-size: 9px; letter-spacing: 0.22em;
+  color: var(--mn-champagne);
+  background: rgba(10, 8, 6, 0.65);
+  border: 1px solid var(--mn-line-soft);
+  border-radius: 2px;
+  pointer-events: none;
+  text-transform: lowercase;
+}
+
+/* 해시태그 footer · 모든 매거진 kind 하단 */
+.slide-frame.mag::after {
+  content: '@ARTBROWS_ACADEMY · #극사실눈썹 · #장미지원장 · #선릉본원';
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: var(--ab-font-body-latin), sans-serif;
+  font-size: 7.5px; letter-spacing: 0.32em;
+  color: var(--mn-rose-bronze);
+  opacity: 0.7;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* magazine-cover 하단 footer는 시그니처 라벨 위쪽에 여유 확보 */
+.slide-frame.mag.l-magazine-cover::after {
+  bottom: 4px;
+  color: var(--mn-champagne);
+  opacity: 0.55;
+}
+
+/* hero-portrait · atelier-scene 하단 이미지 오버레이와 겹침 방지 */
+.slide-frame.mag.l-hero-portrait::after,
+.slide-frame.mag.l-atelier-scene::after {
+  z-index: 25;
+  bottom: 6px;
+  background: rgba(10, 8, 6, 0.75);
+  padding: 3px 12px;
+  border-radius: 2px;
+}
+
+/* pullquote/cta의 상하 hairline 이 handle과 겹침 방지 · handle 아래로 */
+.slide-frame.mag.l-pullquote-editorial::before,
+.slide-frame.mag.l-cta-editorial::before {
+  top: 10px;
+}
+
+/* before-after-split 라벨과 handle 겹침 방지 · handle 위로 z-index */
+.slide-frame.mag.l-before-after-split::before {
+  z-index: 25;
+}
+
+/* 인스타 chrome opt-out · 스타일 프리셋 (Silhouette Reveal · Broken Grid · Grain Frame Editorial)
+ * 2026-07-23 · 원장님 지시 「미니멀 3 스타일군 chrome off」
+ * wrapper 에 `.no-insta-chrome` 클래스 부여 시 descendants 의 mag chrome 완전 숨김 */
+.no-insta-chrome .slide-frame.mag::before,
+.no-insta-chrome .slide-frame.mag::after {
+  display: none !important;
+  content: none !important;
+}

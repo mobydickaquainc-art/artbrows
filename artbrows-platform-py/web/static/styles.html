@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>강의 일정 카드 — 스타일 갤러리 · 장미지 연구소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&family=Caveat:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;min-height:100vh}
+
+  /* 상단 네비 */
+  .top{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:14px 28px;display:flex;align-items:center;gap:14px;z-index:100}
+  .top a{color:#E0C088;text-decoration:none;font-weight:700;font-size:13px}
+  .top .crumb{color:#5A5A56;font-size:12px}
+  .top .now{color:#FFB78A;font-weight:700;font-size:12px}
+
+  /* Hero */
+  .hero{padding:40px 28px 28px;text-align:center}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:10.5px;letter-spacing:4px;padding:7px 18px;border-radius:24px;margin-bottom:12px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:36px;letter-spacing:-0.5px}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-size:14px;color:#CBC8C1;margin-top:10px}
+  .hint{font-size:12px;color:#8A8A84;margin-top:8px}
+
+  /* 트렌드 표시 */
+  .trend-bar{max-width:1100px;margin:18px auto 0;padding:14px 22px;background:linear-gradient(90deg,#161617,#1A0E08);border:1px solid #2A2A2A;border-radius:14px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .trend-bar .label{font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px}
+  .trend-bar .tag{font-size:12px;color:#CBC8C1;padding:4px 10px;background:#0B0907;border:1px solid #2A2A2A;border-radius:14px}
+
+  /* 갤러리 */
+  .gallery{max-width:1280px;margin:30px auto;padding:0 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:980px){.gallery{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){.gallery{grid-template-columns:1fr}}
+
+  .style-card{background:#161617;border:1px solid #2A2A2A;border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column}
+  .style-card:hover{transform:translateY(-4px);border-color:#E0C088;box-shadow:0 18px 40px rgba(224,192,136,0.18)}
+  .style-card.selected{border-color:#FF4D7E;box-shadow:0 0 0 2px #FF4D7E inset}
+
+  /* 미니 카드 미리보기 (1080×1350 4:5 압축) */
+  .preview{aspect-ratio:4/5;padding:18px;display:flex;flex-direction:column;font-size:9px;line-height:1.3}
+  .pv-handle{text-align:center;font-size:8px;opacity:0.6;margin-bottom:6px}
+  .pv-title{text-align:center;font-weight:800;font-size:22px;margin-bottom:8px}
+  .pv-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1.5px;flex:1}
+  .pv-dow{text-align:center;padding:2px 0;font-weight:700;font-size:7px;border-radius:2px}
+  .pv-cell{aspect-ratio:1/1.1;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7px;padding:1px}
+  .pv-brand{text-align:center;font-weight:800;font-size:14px;margin-top:6px}
+
+  /* 스타일 1: 크림 살구 (원장님 6월) */
+  .s1 .preview{background:#FAF6F0;color:#3D2818}
+  .s1 .pv-title{font-family:'Nanum Myeongjo',serif}
+  .s1 .pv-dow{background:#FAD7C7;color:#3D2818}
+  .s1 .pv-dow.sun{background:#FFE5D0;color:#FF4D7E}
+  .s1 .pv-cell{background:#FAF6F0;border:0.5px solid #E5D8C5;color:#3D2818}
+  .s1 .pv-cell.off{color:#9A8A78}
+  .s1 .pv-cell.y{background:#FFD966;font-weight:700}
+  .s1 .pv-cell.p{background:#FF8DA1;color:#fff;font-weight:700}
+  .s1 .pv-cell.b{background:#7FB3FF;color:#fff;font-weight:700}
+  .s1 .pv-brand{color:#FF4D7E;font-family:'Nanum Myeongjo',serif}
+
+  /* 스타일 2: Luxury Dark (Champagne Gold) */
+  .s2 .preview{background:#0B0907;color:#F5EDE3}
+  .s2 .pv-title{font-family:'Nanum Myeongjo',serif;color:#E0C088}
+  .s2 .pv-dow{background:#161617;color:#E0C088;border:0.5px solid #2A2A2A}
+  .s2 .pv-cell{background:#0B0907;border:0.5px solid #2A2A2A}
+  .s2 .pv-cell.off{color:#5A5A56}
+  .s2 .pv-cell.y{background:#E0C088;color:#0B0907;font-weight:700}
+  .s2 .pv-cell.p{background:#FF4D7E;color:#fff;font-weight:700}
+  .s2 .pv-cell.b{background:#A8E6B3;color:#0B0907;font-weight:700}
+  .s2 .pv-brand{font-family:'Cormorant Garamond',serif;color:#E0C088}
+
+  /* 스타일 3: K-Beauty Soft Pastel */
+  .s3 .preview{background:linear-gradient(180deg,#FFF0F5,#F0E6FF);color:#5D4636}
+  .s3 .pv-title{font-family:'Nanum Myeongjo',serif;color:#A875D9}
+  .s3 .pv-dow{background:#fff;color:#A875D9}
+  .s3 .pv-dow.sun{background:#FFE0EB;color:#FF6699}
+  .s3 .pv-cell{background:#fff;border:0.5px solid #F0E0EE}
+  .s3 .pv-cell.off{color:#C9B8C9}
+  .s3 .pv-cell.y{background:#FFE082;font-weight:700}
+  .s3 .pv-cell.p{background:linear-gradient(135deg,#FF8AA8,#D89AFF);color:#fff;font-weight:700}
+  .s3 .pv-cell.b{background:linear-gradient(135deg,#A8DCFF,#C5A8FF);color:#fff;font-weight:700}
+  .s3 .pv-brand{color:#A875D9;font-family:'Caveat',cursive;font-size:18px}
+
+  /* 스타일 4: Editorial Magazine (Vogue 톤) */
+  .s4 .preview{background:#FFFFFF;color:#000}
+  .s4 .pv-title{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:26px}
+  .s4 .pv-dow{background:#000;color:#fff;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+  .s4 .pv-cell{background:#fff;border:0.5px solid #000;font-family:'Bebas Neue',sans-serif}
+  .s4 .pv-cell.off{color:#999}
+  .s4 .pv-cell.y{background:#000;color:#fff;font-weight:700}
+  .s4 .pv-cell.p{background:#FF0050;color:#fff;font-weight:700}
+  .s4 .pv-cell.b{background:#0050FF;color:#fff;font-weight:700}
+  .s4 .pv-brand{font-family:'Bebas Neue',sans-serif;letter-spacing:3px;color:#000}
+
+  /* 스타일 5: Handwritten Notes (베이지 + 손글씨) */
+  .s5 .preview{background:#F5EDE0;color:#5C4A36}
+  .s5 .pv-title{font-family:'Caveat',cursive;font-size:30px;color:#8B5A3C}
+  .s5 .pv-dow{background:#E8D8C0;color:#5C4A36;font-family:'Caveat',cursive;font-size:9px}
+  .s5 .pv-cell{background:#FFFCF5;border:1px dashed #C8B89C;font-family:'Caveat',cursive}
+  .s5 .pv-cell.off{color:#A89880;font-style:italic}
+  .s5 .pv-cell.y{background:#FFE082;font-weight:700;border-style:solid}
+  .s5 .pv-cell.p{background:#F4A593;color:#fff;font-weight:700;border-style:solid}
+  .s5 .pv-cell.b{background:#8DB6CE;color:#fff;font-weight:700;border-style:solid}
+  .s5 .pv-brand{font-family:'Caveat',cursive;color:#8B5A3C;font-size:20px}
+
+  /* 스타일 6: Y2K Pop (네온 + 그라데이션) */
+  .s6 .preview{background:linear-gradient(135deg,#1A0033,#330044);color:#FFE5FF}
+  .s6 .pv-title{background:linear-gradient(90deg,#FF00FF,#00FFFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;font-size:26px}
+  .s6 .pv-dow{background:rgba(255,0,255,0.2);color:#FF00FF;border:0.5px solid #FF00FF}
+  .s6 .pv-cell{background:rgba(0,255,255,0.05);border:0.5px solid #00FFFF;color:#FFE5FF}
+  .s6 .pv-cell.off{color:#666;border-color:#333}
+  .s6 .pv-cell.y{background:linear-gradient(135deg,#FFFF00,#FF00FF);color:#1A0033;font-weight:700}
+  .s6 .pv-cell.p{background:linear-gradient(135deg,#FF00FF,#FF0080);color:#fff;font-weight:700}
+  .s6 .pv-cell.b{background:linear-gradient(135deg,#00FFFF,#0080FF);color:#fff;font-weight:700}
+  .s6 .pv-brand{background:linear-gradient(90deg,#FF00FF,#00FFFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900}
+
+  /* 메타 정보 */
+  .meta{padding:14px 18px;background:#0a0908;border-top:1px solid #2A2A2A}
+  .meta .name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#F5EDE3;margin-bottom:4px}
+  .meta .tag{display:inline-block;font-size:9.5px;color:#E0C088;background:rgba(224,192,136,0.1);padding:2px 8px;border-radius:8px;margin-right:5px;letter-spacing:1px;font-weight:700}
+  .meta .desc{font-size:12px;color:#CBC8C1;margin-top:6px;line-height:1.55}
+  .meta .pick{margin-top:10px;text-align:right;font-size:11px;color:#8A8A84}
+  .meta .pick.sel{color:#FF4D7E;font-weight:700}
+
+  /* 액션 바 */
+  .actions{position:sticky;bottom:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-top:1px solid #2A2A2A;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;gap:14px;z-index:99}
+  .actions .info{font-size:12.5px;color:#CBC8C1}
+  .actions .info b{color:#FFB78A;font-weight:700}
+  .btn{padding:10px 22px;border:none;border-radius:8px;font-family:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
+  .btn.pri{background:#E0C088;color:#0B0907}
+  .btn.pri:hover{background:#F5EDE3}
+  .btn.gh{background:transparent;color:#CBC8C1;border:1px solid #2A2A2A}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a href="/static/lab.html">← 장미지 연구소</a>
+  <span class="crumb">/ SaaS A · 학원·강의 /</span>
+  <span class="now">강의 일정 — 스타일 갤러리</span>
+</nav>
+
+<div class="hero">
+  <div class="chip">CARD STYLE GALLERY · 2026-06-30 트렌드 기반</div>
+  <h1>요즘 트렌드 + 다양한 스타일<br><em>카드 레이아웃 자동</em></h1>
+  <p class="lead">스타일 선택 → 7월 일정 카드 자동 생성 → 카톡·인스타 공유</p>
+  <p class="hint">상세페이지 만들 때처럼 — 클릭 한 번에 완성</p>
+
+  <div class="trend-bar">
+    <span class="label">★ 자동 조사된 2026-06 트렌드</span>
+    <span class="tag">#럭셔리다크</span>
+    <span class="tag">#K-Beauty 파스텔</span>
+    <span class="tag">#Vogue 에디토리얼</span>
+    <span class="tag">#손글씨 베이지</span>
+    <span class="tag">#Y2K 팝</span>
+    <span class="tag">#极写实艺术眉 (중국)</span>
+  </div>
+</div>
+
+<div class="gallery">
+
+  <!-- 스타일 1: 크림 살구 (기존) -->
+  <div class="style-card s1 selected" data-id="cream">
+    <div class="preview">
+      <div class="pv-handle">@artbrows_academy</div>
+      <div class="pv-title">7월 일정</div>
+      <div class="pv-grid">
+        <div class="pv-dow sun">일</div><div class="pv-dow">월</div><div class="pv-dow">화</div><div class="pv-dow">수</div><div class="pv-dow">목</div><div class="pv-dow">금</div><div class="pv-dow">토</div>
+        <div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off">1</div><div class="pv-cell off">2</div><div class="pv-cell off">3</div><div class="pv-cell off">4</div>
+        <div class="pv-cell y">5</div><div class="pv-cell off">6</div><div class="pv-cell off">7</div><div class="pv-cell off">8</div><div class="pv-cell off">9</div><div class="pv-cell off">10</div><div class="pv-cell off">11</div>
+        <div class="pv-cell y">12</div><div class="pv-cell off">13</div><div class="pv-cell p">14</div><div class="pv-cell p">15</div><div class="pv-cell p">16</div><div class="pv-cell off">17</div><div class="pv-cell off">18</div>
+        <div class="pv-cell y">19</div><div class="pv-cell off">20</div><div class="pv-cell off">21</div><div class="pv-cell off">22</div><div class="pv-cell off">23</div><div class="pv-cell off">24</div><div class="pv-cell off">25</div>
+        <div class="pv-cell y">26</div><div class="pv-cell b">27</div><div class="pv-cell b">28</div><div class="pv-cell b">29</div><div class="pv-cell off">30</div><div class="pv-cell off">31</div>
+      </div>
+      <div class="pv-brand">ARTbrows</div>
+    </div>
+    <div class="meta">
+      <div class="name">크림 살구 (기존)</div>
+      <span class="tag">원장님 6월 인스타</span><span class="tag">친근</span>
+      <p class="desc">원장님이 매월 만드시던 톤. 따뜻하고 친근한 인상. 기존 게시물과 일관성.</p>
+      <p class="pick sel">✓ 선택됨</p>
+    </div>
+  </div>
+
+  <!-- 스타일 2: Luxury Dark -->
+  <div class="style-card s2" data-id="dark">
+    <div class="preview">
+      <div class="pv-handle">@artbrows_academy</div>
+      <div class="pv-title">7월 일정</div>
+      <div class="pv-grid">
+        <div class="pv-dow">일</div><div class="pv-dow">월</div><div class="pv-dow">화</div><div class="pv-dow">수</div><div class="pv-dow">목</div><div class="pv-dow">금</div><div class="pv-dow">토</div>
+        <div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off">1</div><div class="pv-cell off">2</div><div class="pv-cell off">3</div><div class="pv-cell off">4</div>
+        <div class="pv-cell y">5</div><div class="pv-cell off">6</div><div class="pv-cell off">7</div><div class="pv-cell off">8</div><div class="pv-cell off">9</div><div class="pv-cell off">10</div><div class="pv-cell off">11</div>
+        <div class="pv-cell y">12</div><div class="pv-cell off">13</div><div class="pv-cell p">14</div><div class="pv-cell p">15</div><div class="pv-cell p">16</div><div class="pv-cell off">17</div><div class="pv-cell off">18</div>
+        <div class="pv-cell y">19</div><div class="pv-cell off">20</div><div class="pv-cell off">21</div><div class="pv-cell off">22</div><div class="pv-cell off">23</div><div class="pv-cell off">24</div><div class="pv-cell off">25</div>
+        <div class="pv-cell y">26</div><div class="pv-cell b">27</div><div class="pv-cell b">28</div><div class="pv-cell b">29</div><div class="pv-cell off">30</div><div class="pv-cell off">31</div>
+      </div>
+      <div class="pv-brand">ARTbrows</div>
+    </div>
+    <div class="meta">
+      <div class="name">Luxury Dark ★ NEW</div>
+      <span class="tag">우리 메인 톤</span><span class="tag">럭셔리</span><span class="tag">Champagne Gold</span>
+      <p class="desc">Vogue Korea Dark Beauty Editorial. 「극사실 아트 눈썹」 브랜드 정합. 프리미엄 느낌.</p>
+      <p class="pick">탭하여 선택</p>
+    </div>
+  </div>
+
+  <!-- 스타일 3: K-Beauty Soft Pastel -->
+  <div class="style-card s3" data-id="kbeauty">
+    <div class="preview">
+      <div class="pv-handle">@artbrows_academy</div>
+      <div class="pv-title">7월 일정</div>
+      <div class="pv-grid">
+        <div class="pv-dow sun">일</div><div class="pv-dow">월</div><div class="pv-dow">화</div><div class="pv-dow">수</div><div class="pv-dow">목</div><div class="pv-dow">금</div><div class="pv-dow">토</div>
+        <div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off">1</div><div class="pv-cell off">2</div><div class="pv-cell off">3</div><div class="pv-cell off">4</div>
+        <div class="pv-cell y">5</div><div class="pv-cell off">6</div><div class="pv-cell off">7</div><div class="pv-cell off">8</div><div class="pv-cell off">9</div><div class="pv-cell off">10</div><div class="pv-cell off">11</div>
+        <div class="pv-cell y">12</div><div class="pv-cell off">13</div><div class="pv-cell p">14</div><div class="pv-cell p">15</div><div class="pv-cell p">16</div><div class="pv-cell off">17</div><div class="pv-cell off">18</div>
+        <div class="pv-cell y">19</div><div class="pv-cell off">20</div><div class="pv-cell off">21</div><div class="pv-cell off">22</div><div class="pv-cell off">23</div><div class="pv-cell off">24</div><div class="pv-cell off">25</div>
+        <div class="pv-cell y">26</div><div class="pv-cell b">27</div><div class="pv-cell b">28</div><div class="pv-cell b">29</div><div class="pv-cell off">30</div><div class="pv-cell off">31</div>
+      </div>
+      <div class="pv-brand">ARTbrows</div>
+    </div>
+    <div class="meta">
+      <div class="name">K-Beauty Soft Pastel</div>
+      <span class="tag">파스텔</span><span class="tag">한국 미용</span><span class="tag">젊은층</span>
+      <p class="desc">핑크·라벤더 그라데이션. 20~30대 여성 인스타 트렌드. 신부·웨딩 시즌 강력.</p>
+      <p class="pick">탭하여 선택</p>
+    </div>
+  </div>
+
+  <!-- 스타일 4: Editorial Magazine -->
+  <div class="style-card s4" data-id="editorial">
+    <div class="preview">
+      <div class="pv-handle">@artbrows_academy</div>
+      <div class="pv-title">JULY</div>
+      <div class="pv-grid">
+        <div class="pv-dow">S</div><div class="pv-dow">M</div><div class="pv-dow">T</div><div class="pv-dow">W</div><div class="pv-dow">T</div><div class="pv-dow">F</div><div class="pv-dow">S</div>
+        <div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off">1</div><div class="pv-cell off">2</div><div class="pv-cell off">3</div><div class="pv-cell off">4</div>
+        <div class="pv-cell y">5</div><div class="pv-cell off">6</div><div class="pv-cell off">7</div><div class="pv-cell off">8</div><div class="pv-cell off">9</div><div class="pv-cell off">10</div><div class="pv-cell off">11</div>
+        <div class="pv-cell y">12</div><div class="pv-cell off">13</div><div class="pv-cell p">14</div><div class="pv-cell p">15</div><div class="pv-cell p">16</div><div class="pv-cell off">17</div><div class="pv-cell off">18</div>
+        <div class="pv-cell y">19</div><div class="pv-cell off">20</div><div class="pv-cell off">21</div><div class="pv-cell off">22</div><div class="pv-cell off">23</div><div class="pv-cell off">24</div><div class="pv-cell off">25</div>
+        <div class="pv-cell y">26</div><div class="pv-cell b">27</div><div class="pv-cell b">28</div><div class="pv-cell b">29</div><div class="pv-cell off">30</div><div class="pv-cell off">31</div>
+      </div>
+      <div class="pv-brand">ARTBROWS</div>
+    </div>
+    <div class="meta">
+      <div class="name">Editorial Magazine</div>
+      <span class="tag">Vogue 톤</span><span class="tag">미니멀</span><span class="tag">고급</span>
+      <p class="desc">흑백 + 강렬한 액센트. 패션 잡지처럼. B2B·고급 클라이언트·해외 진출 시.</p>
+      <p class="pick">탭하여 선택</p>
+    </div>
+  </div>
+
+  <!-- 스타일 5: Handwritten Notes -->
+  <div class="style-card s5" data-id="hand">
+    <div class="preview">
+      <div class="pv-handle">@artbrows_academy</div>
+      <div class="pv-title">7월 일정</div>
+      <div class="pv-grid">
+        <div class="pv-dow">일</div><div class="pv-dow">월</div><div class="pv-dow">화</div><div class="pv-dow">수</div><div class="pv-dow">목</div><div class="pv-dow">금</div><div class="pv-dow">토</div>
+        <div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off">1</div><div class="pv-cell off">2</div><div class="pv-cell off">3</div><div class="pv-cell off">4</div>
+        <div class="pv-cell y">5</div><div class="pv-cell off">6</div><div class="pv-cell off">7</div><div class="pv-cell off">8</div><div class="pv-cell off">9</div><div class="pv-cell off">10</div><div class="pv-cell off">11</div>
+        <div class="pv-cell y">12</div><div class="pv-cell off">13</div><div class="pv-cell p">14</div><div class="pv-cell p">15</div><div class="pv-cell p">16</div><div class="pv-cell off">17</div><div class="pv-cell off">18</div>
+        <div class="pv-cell y">19</div><div class="pv-cell off">20</div><div class="pv-cell off">21</div><div class="pv-cell off">22</div><div class="pv-cell off">23</div><div class="pv-cell off">24</div><div class="pv-cell off">25</div>
+        <div class="pv-cell y">26</div><div class="pv-cell b">27</div><div class="pv-cell b">28</div><div class="pv-cell b">29</div><div class="pv-cell off">30</div><div class="pv-cell off">31</div>
+      </div>
+      <div class="pv-brand">ARTbrows</div>
+    </div>
+    <div class="meta">
+      <div class="name">Handwritten Notes</div>
+      <span class="tag">손글씨</span><span class="tag">따뜻한</span><span class="tag">정성</span>
+      <p class="desc">「장미지 원장님이 직접 손으로 쓴」 느낌. 진정성·정성 강조. 단골 손님 케어 메시지.</p>
+      <p class="pick">탭하여 선택</p>
+    </div>
+  </div>
+
+  <!-- 스타일 6: Y2K Pop -->
+  <div class="style-card s6" data-id="y2k">
+    <div class="preview">
+      <div class="pv-handle">@artbrows_academy</div>
+      <div class="pv-title">JULY ★</div>
+      <div class="pv-grid">
+        <div class="pv-dow">일</div><div class="pv-dow">월</div><div class="pv-dow">화</div><div class="pv-dow">수</div><div class="pv-dow">목</div><div class="pv-dow">금</div><div class="pv-dow">토</div>
+        <div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off"></div><div class="pv-cell off">1</div><div class="pv-cell off">2</div><div class="pv-cell off">3</div><div class="pv-cell off">4</div>
+        <div class="pv-cell y">5</div><div class="pv-cell off">6</div><div class="pv-cell off">7</div><div class="pv-cell off">8</div><div class="pv-cell off">9</div><div class="pv-cell off">10</div><div class="pv-cell off">11</div>
+        <div class="pv-cell y">12</div><div class="pv-cell off">13</div><div class="pv-cell p">14</div><div class="pv-cell p">15</div><div class="pv-cell p">16</div><div class="pv-cell off">17</div><div class="pv-cell off">18</div>
+        <div class="pv-cell y">19</div><div class="pv-cell off">20</div><div class="pv-cell off">21</div><div class="pv-cell off">22</div><div class="pv-cell off">23</div><div class="pv-cell off">24</div><div class="pv-cell off">25</div>
+        <div class="pv-cell y">26</div><div class="pv-cell b">27</div><div class="pv-cell b">28</div><div class="pv-cell b">29</div><div class="pv-cell off">30</div><div class="pv-cell off">31</div>
+      </div>
+      <div class="pv-brand">ARTBROWS</div>
+    </div>
+    <div class="meta">
+      <div class="name">Y2K Pop</div>
+      <span class="tag">네온</span><span class="tag">젊은층</span><span class="tag">중국 트렌드</span>
+      <p class="desc">레드노트·小红书 인기 톤. 10~20대 학생·인플루언서 대상. 중국 시장 진출.</p>
+      <p class="pick">탭하여 선택</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- 액션 바 -->
+<div class="actions">
+  <div class="info">선택: <b id="selName">크림 살구 (기존)</b></div>
+  <div style="display:flex;gap:10px">
+    <button class="btn gh" onclick="window.location.href='/static/calendar.html'">달력으로</button>
+    <button class="btn pri" onclick="apply()">✓ 이 스타일로 PNG 생성</button>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.style-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.style-card').forEach(c => {
+      c.classList.remove('selected');
+      const pick = c.querySelector('.pick');
+      if (pick) { pick.textContent = '탭하여 선택'; pick.classList.remove('sel'); }
+    });
+    card.classList.add('selected');
+    const pick = card.querySelector('.pick');
+    if (pick) { pick.textContent = '✓ 선택됨'; pick.classList.add('sel'); }
+    const name = card.querySelector('.name').textContent;
+    document.getElementById('selName').textContent = name;
+  });
+});
+
+function apply() {
+  const sel = document.querySelector('.style-card.selected');
+  const name = sel ? sel.querySelector('.name').textContent : '';
+  alert('「' + name + '」 스타일 선택됨.\n\n다음 단계: 이 스타일로 7월 일정 카드 PNG 자동 생성\n(대표님 의견 받으면 진짜 통합)');
+}
+</script>
+
+</body>
+</html>

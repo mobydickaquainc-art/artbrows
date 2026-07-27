@@ -1,0 +1,30 @@
+{
+  "type": "treatment",
+  "name": "박정주",
+  "phone": "01080387403",
+  "kakao_id": "@numjou",
+  "email": "numjou@naver.com",
+  "course": "hyperreal_brow",
+  "channel": "instagram",
+  "experience": "first",
+  "message": "개발자\n\n— 관심 시술: 극사실 눈썹 (시그니처)\n— 시술 경험: 처음 시술받음\n— 희망 일정: 최대한 빨리\n— 신청 슬롯: 2026-08-05 19:00 · 저녁 시술 상담",
+  "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/consult",
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+  "ip": "219.240.86.***",
+  "slot": {
+    "date": "2026-08-05",
+    "time": "19:00",
+    "kind": "treatment_consult",
+    "status": "held"
+  },
+  "id": "c-2026-07-20T01-39-27-ydz6",
+  "createdAt": "2026-07-20T01:39:27.544Z",
+  "updatedAt": "2026-07-20T01:39:27.544Z",
+  "status": "new",
+  "history": [
+    {
+      "at": "2026-07-20T01:39:27.544Z",
+      "action": "created"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blender MCP · 시술 전후 텍스처 스왑 PoC · 2026-06-25 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;font-weight:700;margin-right:6px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.lose{color:#f4c4a8}
+  .stats{display:grid;grid-template-columns:repeat(4, 1fr);gap:10px;margin-bottom:16px}
+  .stat{background:#161617;border:1px solid #242425;border-radius:8px;padding:14px;text-align:center}
+  .stat .v{font-family:'Cormorant Garamond',serif;font-size:32px;color:#d4af37;font-weight:700;display:block;line-height:1}
+  .stat .l{font-size:11px;color:#8a8a84;letter-spacing:1px;margin-top:6px;text-transform:uppercase}
+  .grid-img{display:block;margin:20px auto;max-width:100%;border:1px solid #242425;border-radius:8px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;background:#161617;border-radius:8px;padding:8px}
+  .pair img{width:100%;display:block;border-radius:4px}
+  .pair .lbl{font-size:11px;color:#8a8a84;text-align:center;letter-spacing:1px;padding:4px;text-transform:uppercase}
+  .pair .lbl.b{color:#f4c4a8}
+  .pair .lbl.a{color:#a8e6b3}
+  .cuts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+  .cut{background:#161617;border:1px solid #242425;border-radius:8px;padding:12px}
+  .cut h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:15px;margin-bottom:8px}
+  .verdict{background:#1c2a1c;border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;font-size:14px;color:#c8e6c9;margin-bottom:14px}
+  .verdict b{color:#a8e6b3}
+  .limit{background:#2a2418;border:1px solid #5a4828;border-radius:10px;padding:14px 18px;font-size:14px;color:#f4e0a8;margin-bottom:14px}
+  .limit b{color:#f4c47a}
+  .code{background:#0a0a0b;border:1px solid #242425;border-radius:8px;padding:14px;font-family:Consolas,'Courier New',monospace;font-size:12px;color:#9ad9a6;overflow-x:auto;line-height:1.45}
+  .code .kw{color:#d4af37}
+  .code .str{color:#f4c4a8}
+  .code .com{color:#666;font-style:italic}
+  .options{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:20px 22px;margin-top:8px}
+  .options h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin-bottom:14px}
+  .options .opt{padding:14px 16px;background:#1c1c1d;border-radius:8px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+  .options .opt .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;flex-shrink:0;line-height:1;width:40px;text-align:center}
+  .options .opt .body b{font-size:15px;color:#e7e5e1;display:block;margin-bottom:4px}
+  .options .opt .body p{font-size:13px;color:#9a9a93;line-height:1.55;margin:0}
+  .options .opt .body .cost{font-size:11.5px;color:#d4af37;letter-spacing:1px;margin-top:4px;font-weight:600}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>Blender MCP · 시술 전후 텍스처 스왑 PoC</em></h1>
+<p class="sub">2026-06-25 · 대표님 결정 1+6 채택 실행 결과 · 어제 마네킹 GLB(31크 자산) 그대로 활용 + 0크 추가 변형 검증</p>
+
+<div class="goal"><b>🎯 목표</b>STEP A: ARTbrows-Blender-템플릿 라이브러리 구축 + STEP B: 시술 전후 텍스처 스왑 PoC 4~6장 렌더 <span style="color:#a8e6b3"> · ✅ 달성: 템플릿 8 함수 + 8장 렌더 (전 4 · 후 4) + 4×2 비교 그리드 1장</span></div>
+
+<div class="meta-bar">
+  <div><b>잔량</b>354.46 → <strong>352.46</strong> (눈썹 텍스처 2크)</div>
+  <div><b>총 자산</b>10 (텍스처 2 · 렌더 8 · 그리드 1 + 검증 1)</div>
+  <div><b>검증 시간</b>약 45분 (템플릿 30분 + 렌더 15분)</div>
+  <div><b>한 줄 셋업</b><code>setup_artbrows_studio(hdr, angle)</code></div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><span class="v">8</span><div class="l">렌더 컷</div></div>
+  <div class="stat"><span class="v">2</span><div class="l">크레딧</div></div>
+  <div class="stat"><span class="v">8</span><div class="l">템플릿 함수</div></div>
+  <div class="stat"><span class="v">100%</span><div class="l">인물·조명 일관성</div></div>
+</div>
+
+<!-- A. STEP A: 템플릿 라이브러리 -->
+<section>
+  <h2><span class="num">A</span>STEP A — ARTbrows-Blender-템플릿 라이브러리 v1</h2>
+  <p style="font-size:14px;color:#cbc8c1;margin-bottom:14px"><strong>위치:</strong> <code>tools/blender-templates/artbrows_studio.py</code> · 한승철 권고 「표준 라이브러리」 권고 실현. Claude Code에서 <code>exec(open(path).read())</code> 한 줄로 주입해서 매번 0초 셋업.</p>
+
+  <table>
+    <tr><th>함수</th><th>역할</th></tr>
+    <tr><td><code>setup_cycles(samples, res, denoise)</code></td><td>Cycles 엔진 + GPU + 샘플 + 해상도 한 줄 셋업</td></tr>
+    <tr><td><code>apply_hdr(hdr_image_name, strength)</code></td><td>HDR 환경맵 적용 — 이미 로드된 .hdr 또는 fallback 자동 선택</td></tr>
+    <tr><td><code>position_camera(angle_name)</code></td><td>4 각도 프리셋 (Front · Front_45 · Right_Profile · Macro_Close) 자동 track-to</td></tr>
+    <tr><td><code>apply_artbrows_skin_shader(obj, color, sss_weight, roughness)</code></td><td><strong>함정 가드:</strong> Subsurface 신/구 입력명 호환 (<code>if 'Subsurface Weight' in inputs:</code>) — 한승철 권고</td></tr>
+    <tr><td><code>add_brow_decal_plane(location, rotation)</code></td><td>이마 데칼 평면 추가 (텍스처 스왑 슬롯)</td></tr>
+    <tr><td><code>apply_brow_decal_texture(plane, image, alpha_mode)</code></td><td>눈썹 텍스처 + Invert→Alpha (흰 배경 자동 컷아웃)</td></tr>
+    <tr><td><code>hide_decal(plane, hide)</code></td><td><strong>0크 토글:</strong> 같은 GLB · 같은 조명에서 「전/후」 전환</td></tr>
+    <tr><td><code>setup_artbrows_studio(hdr, angle, samples, ...)</code></td><td>위 4개를 묶은 「한 줄 스튜디오」 — Cycles + HDR + 카메라 + 셰이더 일괄</td></tr>
+    <tr><td><code>render_to(output_path)</code></td><td>PNG 저장 + 자동 디렉토리 생성</td></tr>
+    <tr><td><code>artbrows_handshake()</code></td><td>씬 검증 한 줄 리포트 (engine·samples·UV·HDR·camera)</td></tr>
+  </table>
+
+  <div style="margin-top:14px">
+    <strong style="color:#d4af37;font-size:14px">사용 예시 — 어제 PoC 16컷이 「8줄」 로 줄어듦:</strong>
+    <div class="code">
+<span class="com"># 어제: 약 80줄 코드 + 함정 디버깅 3회</span>
+<span class="com"># 오늘: 8줄, 함정 가드 영구 내장</span>
+
+<span class="kw">exec</span>(<span class="kw">open</span>(<span class="str">'tools/blender-templates/artbrows_studio.py'</span>).read())
+
+<span class="kw">setup_artbrows_studio</span>(hdr_image_name=<span class="str">'brown_photostudio_02.hdr'</span>, angle_name=<span class="str">'Front_45'</span>)
+<span class="kw">add_brow_decal_plane</span>(location=(0, -0.50, 0.555))
+<span class="kw">apply_brow_decal_texture</span>(<span class="str">'BrowDecal'</span>, <span class="str">'brow-decal-pair.png'</span>, alpha_mode=<span class="kw">True</span>)
+
+<span class="kw">hide_decal</span>(<span class="str">'BrowDecal'</span>, hide=<span class="kw">True</span>);   <span class="kw">render_to</span>(<span class="str">'before.png'</span>)  <span class="com"># 전</span>
+<span class="kw">hide_decal</span>(<span class="str">'BrowDecal'</span>, hide=<span class="kw">False</span>);  <span class="kw">render_to</span>(<span class="str">'after.png'</span>)   <span class="com"># 후</span>
+    </div>
+  </div>
+</section>
+
+<!-- B. STEP B: 텍스처 스왑 PoC -->
+<section>
+  <h2><span class="num">B</span>STEP B — 시술 전후 텍스처 스왑 PoC 결과</h2>
+
+  <div class="verdict"><b>🟢 검증 통과:</b> 같은 GLB · 같은 HDR · 같은 카메라에서 <strong>데칼 hide 토글 1줄</strong>로 「전/후」 무한 변형. 인물·라이팅 일관성 100% 보장.</div>
+
+  <!-- 텍스처 자체 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin:20px 0 10px">B-1. 눈썹 텍스처 (nano_banana_pro 2크 → PIL 짝 재조립 0크)</h3>
+  <div class="pair">
+    <div>
+      <img src="assets/blender-renders/brow-decal-texture.png" alt="원본 nano_banana_pro 출력">
+      <div class="lbl">원본 (nano_banana_pro 1024×1024)</div>
+    </div>
+    <div>
+      <img src="assets/blender-renders/brow-decal-pair.png" alt="PIL 짝 재조립">
+      <div class="lbl">PIL 짝 재조립 (좌우 미러)</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:#9a9a93;margin-top:6px"><strong>처리 흐름:</strong> nano_banana_pro 출력 (위/아래 2줄) → PIL 상단 크롭 → 좌우 미러 → 가운데 gap → 좌우 한 쌍 (1851×277). Blender 머티리얼에 Invert→Alpha 노드로 흰 배경 자동 컷아웃.</p>
+
+  <!-- 4 각도 × 전후 그리드 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin:20px 0 10px">B-2. 4 각도 × 전/후 = 8컷 비교 그리드 (자동 합성)</h3>
+  <img class="grid-img" src="assets/blender-renders/PoC-05-GRID-before-after-4x2.png" alt="4×2 비교 그리드" style="max-width:540px">
+  <p style="font-size:13px;color:#9a9a93;text-align:center"><strong>그리드:</strong> 행=각도(정면·45°·측면·클로즈업) · 열=전/후 · 총 8 셀, 1164×2270 PNG</p>
+
+  <!-- 각도별 개별 비교 -->
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:18px;margin:20px 0 10px">B-3. 각도별 개별 비교 (Before · After 좌우)</h3>
+
+  <div class="cuts">
+    <div class="cut">
+      <h3>① 정면 (Front)</h3>
+      <div class="pair">
+        <div><img src="assets/blender-renders/PoC-05-A-Front-before.png" alt="Front Before"><div class="lbl b">전</div></div>
+        <div><img src="assets/blender-renders/PoC-05-A-Front-after.png" alt="Front After"><div class="lbl a">후</div></div>
+      </div>
+      <p style="font-size:12px;color:#9a9a93;margin-top:6px">✅ 텍스처 스왑 효과 가장 명확 · 메인홈 hero 후보</p>
+    </div>
+
+    <div class="cut">
+      <h3>② 45° 사선 (Front_45)</h3>
+      <div class="pair">
+        <div><img src="assets/blender-renders/PoC-05-B-Front45-before.png" alt="Front45 Before"><div class="lbl b">전</div></div>
+        <div><img src="assets/blender-renders/PoC-05-B-Front45-after.png" alt="Front45 After"><div class="lbl a">후</div></div>
+      </div>
+      <p style="font-size:12px;color:#9a9a93;margin-top:6px">△ 데칼 평면이 사선에서 시야각 좁아짐 — 살짝 보임</p>
+    </div>
+
+    <div class="cut">
+      <h3>③ 측면 (Right_Profile)</h3>
+      <div class="pair">
+        <div><img src="assets/blender-renders/PoC-05-C-Right-before.png" alt="Right Before"><div class="lbl b">전</div></div>
+        <div><img src="assets/blender-renders/PoC-05-C-Right-after.png" alt="Right After"><div class="lbl a">후</div></div>
+      </div>
+      <p style="font-size:12px;color:#9a9a93;margin-top:6px">⚠ 평면 데칼의 한계 — 측면 0° 시야 (다음 PoC 과제)</p>
+    </div>
+
+    <div class="cut">
+      <h3>④ 클로즈업 (Macro)</h3>
+      <div class="pair">
+        <div><img src="assets/blender-renders/PoC-05-D-Macro-before.png" alt="Macro Before"><div class="lbl b">전</div></div>
+        <div><img src="assets/blender-renders/PoC-05-D-Macro-after.png" alt="Macro After"><div class="lbl a">후</div></div>
+      </div>
+      <p style="font-size:12px;color:#9a9a93;margin-top:6px">✅ 극사실 결 디테일 강조 · 인스타 캐러셀 클로징 컷 후보</p>
+    </div>
+  </div>
+</section>
+
+<!-- C. 비용·시간 결산 -->
+<section>
+  <h2><span class="num">C</span>비용·시간 결산</h2>
+  <table>
+    <tr><th>항목</th><th>값</th><th>비고</th></tr>
+    <tr><td>눈썹 텍스처 생성</td><td class="win">2 크</td><td>nano_banana_pro 1장 (PIL 짝 재조립은 0크)</td></tr>
+    <tr><td>4 각도 × 전/후 = 8 렌더</td><td class="win">0 크</td><td>Cycles 32 samples, denoise · 평균 ~1분/컷</td></tr>
+    <tr><td>그리드 합성</td><td class="win">0 크</td><td>PIL 4×2 자동 합성</td></tr>
+    <tr><td>템플릿 라이브러리</td><td class="win">0 크</td><td>1회 작성 → 영구 자산화</td></tr>
+    <tr><td><strong>합계</strong></td><td class="win"><strong>2 크</strong></td><td>잔량 354.46 → 352.46</td></tr>
+  </table>
+  <p style="font-size:13px;color:#9a9a93;margin-top:10px">→ 한승철 어제 권고대로 <strong>「자산 단가 96%↓」 검증.</strong> 앞으로 페르소나 5종 (수아·하영·예린·민지·지우) 각 GLB 31크 · 텍스처 스왑 0크. <strong>STORY 시리즈 「시술 전후」 캐러셀 4세트 = 약 10크.</strong></p>
+</section>
+
+<!-- D. 다음 단계 -->
+<section>
+  <h2><span class="num">D</span>다음 단계 옵션 (대표님 결정 대기)</h2>
+</section>
+
+<div class="options">
+  <h3>대표님 결정 — 1글자 답변</h3>
+
+  <div class="opt"><div class="n">1</div><div class="body">
+    <b>인스타 캐러셀 1세트 (5장) 시리즈 7편 합류</b>
+    <p>지금 8 컷에서 베스트 5장(Front · 45° · Macro before/after) 추려 캐러셀로 게시 + 운영가이드 갱신.</p>
+    <p class="cost">0 크 · 30분</p>
+  </div></div>
+
+  <div class="opt"><div class="n">2</div><div class="body">
+    <b>측면 데칼 한계 해결 — UV 매핑 기반 영구 텍스처</b>
+    <p>마네킹의 기존 UV에 눈썹을 직접 페인트 (Image Editor + Cycles bake). 4 각도 모두 자연.</p>
+    <p class="cost">0 크 · 1시간 (텍스처 페인트 + 베이크)</p>
+  </div></div>
+
+  <div class="opt"><div class="n">3</div><div class="body">
+    <b>눈썹 변형 라이브러리 (3종) — 자연·아치·각도</b>
+    <p>3가지 눈썹 스타일 nano_banana_pro 생성 → 같은 GLB · 같은 컷에 슬롯 토글로 즉시 비교.</p>
+    <p class="cost">6 크 · 1시간</p>
+  </div></div>
+
+  <div class="opt"><div class="n">4</div><div class="body">
+    <b>STEP 2 진입 — Meshy Pro $20/월 결제 + 5종 페르소나 GLB 일괄</b>
+    <p>한승철 어제 권고 두 번째. 단가 73%↓ + 페르소나 5종 GLB 한꺼번에. 「시술 전후 × 페르소나 5명」 인스타 캐러셀 가능.</p>
+    <p class="cost">$20/월 + 50크 (Meshy Pro 50 GLB 중 5)</p>
+  </div></div>
+
+  <div class="opt"><div class="n">5</div><div class="body">
+    <b>유나 하이브리드 PoC (Blender 구도 + AI 페이스 합성)</b>
+    <p>마네킹 렌더 위에 Higgsfield image-to-image로 실제 얼굴 덮어쓰기. 표정 한계 풀면 인물 캐러셀도 0크 라인 진입.</p>
+    <p class="cost">2~6 크 · 반나절</p>
+  </div></div>
+
+  <div class="opt"><div class="n">6</div><div class="body">
+    <b>보류 — 잔량 보존하고 다른 블록커(카카오·원장님 자료) 집중</b>
+    <p>오늘 검증 끝났으니 며칠 묵혀두고 카카오 채널·인스타 D+1 게시·원장님 자료에 집중.</p>
+    <p class="cost">0 크 · 즉시</p>
+  </div></div>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · 이 페이지는 운영진 전용 (cloudflared 임시 터널 / _site)</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="회의-20260625-블렌더효과.html">06/25 전직원 회의</a> · <a href="Blender-MCP-결과-20260624.html">어제 PoC 결과</a> · <a href="docs/PROGRESS.md">PROGRESS.md</a></p>
+</footer>
+
+</body>
+</html>

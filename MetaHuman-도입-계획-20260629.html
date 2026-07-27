@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetaHuman 도입 계획 · 다음 주 (07-01~07-05) · ARTbrows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.6;max-width:1100px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:32px;margin-bottom:8px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .goal{background:linear-gradient(135deg,#1a2a1c,#1c1f1c);border:1px solid #2e5a32;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:14px;color:#a8e6b3}
+  .goal b{color:#d4af37;font-weight:700;margin-right:8px}
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid #2a2a2a;padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#1a1a1b;color:#d4af37;font-weight:700}
+  td.win{color:#a8e6b3;font-weight:700}
+  td.partial{color:#f4d4a8}
+  .timeline{position:relative;padding-left:30px;margin-bottom:14px}
+  .timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:#FFD87A}
+  .entry{position:relative;margin-bottom:18px}
+  .entry::before{content:"";position:absolute;left:-29px;top:6px;width:14px;height:14px;border-radius:50%;background:#FFD87A;border:3px solid #0f0f10}
+  .entry .date{display:inline-block;background:#FFD87A;color:#1F140D;font-weight:700;font-size:12px;padding:3px 12px;border-radius:14px;margin-bottom:6px}
+  .entry .ev{font-size:14.5px;color:#FFD8B3;font-weight:600;margin-bottom:4px}
+  .entry .desc{font-size:13px;color:#cbc8c1}
+  .info{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:14px;font-size:13.5px;color:#cbc8c1}
+  .info b{color:#FFD8B3}
+  .compare{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:14px}
+  .compare h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:16px;margin-bottom:10px}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>MetaHuman 도입 계획</em> — 차주 (07-01~07-05)</h1>
+<p class="sub">대표님 「3+1」 채택 · v5.7 nano_banana_pro 실사(즉시 완료) + MetaHuman 시범 도입 차주 진행</p>
+
+<div class="goal"><b>🎯 목표</b>MetaHuman 1체 시범 도입 → Blender export → ARTbrows v6 인물 GLB (현재 Meshy 한계 점프)</div>
+
+<!-- ⭐ 발전 가능성 미리보기 -->
+<section style="background:linear-gradient(135deg,#1A1A2A,#0B0907);border:3px solid #FFB78A;border-radius:14px;padding:24px;margin-bottom:24px;box-shadow:0 14px 40px rgba(0,0,0,0.4)">
+  <h2 style="color:#FFB78A;border-bottom-color:#FFB78A"><span class="num" style="color:#FFB78A">★</span>발전 가능성 미리보기 — 현재 (v5.8) vs 차주 (v6 MetaHuman)</h2>
+  <p style="font-size:14.5px;color:#FAD7C7;margin-bottom:14px">
+    <strong>v5.8 nano_banana_pro = 「실사 사진」 수준 도달 (오늘 완성).</strong><br>
+    <strong>v6 MetaHuman = 「디지털 휴먼」 수준 (차주 도입 예정).</strong> 같은 인물·같은 환경·같은 시그니처 자연 결 — 디테일과 깊이가 한 차원 점프.
+  </p>
+  <img src="face-lab/3d/v5-renders/v6-FUTURE-vs-NOW.png" alt="v5.8 vs v6 MetaHuman 발전 가능성" style="width:100%;border-radius:12px;display:block;box-shadow:0 12px 36px rgba(0,0,0,0.5)">
+  <p style="text-align:center;font-size:13px;color:#FAD7C7;margin-top:12px"><strong>↑ 1224×696 · 좌 v5.8 (오늘) · 우 v6 MetaHuman 가능성 미리보기 (차주)</strong></p>
+
+  <div style="background:rgba(255,184,138,0.12);border-radius:10px;padding:16px;margin-top:14px">
+    <p style="font-size:14px;color:#FFB78A;font-weight:700;margin-bottom:6px">★ 차주에 달성할 톤</p>
+    <p style="font-size:13.5px;color:#FAD7C7;margin:0;line-height:1.7">
+    Canon EOS R5 85mm f/1.4 · 보케 · 모공 디테일 · 머리카락 한 올 · ARTbrows 시그니처 결 미세 그라데이션 · subsurface 산란 = <strong style="color:#fff">Vogue Korea editorial 수준</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- A. 왜 MetaHuman인가 -->
+<section>
+  <h2><span class="num">A</span>왜 MetaHuman인가 — Meshy GLB 한계 점프</h2>
+  <table>
+    <tr><th>항목</th><th>현재 (Meshy + Blender)</th><th>MetaHuman 도입 후</th></tr>
+    <tr><td>얼굴 mesh</td><td>31K 폴리</td><td class="win">1M+ 폴리 (디지털 휴먼급)</td></tr>
+    <tr><td>피부 결</td><td>SSS 표준</td><td class="win">모공·결·붉기 한 올 단위</td></tr>
+    <tr><td>머리카락</td><td>GLB 텍스처 (mesh)</td><td class="win">Groom 시스템 (진짜 헤어 strand)</td></tr>
+    <tr><td>눈동자·치아</td><td>일반 mesh</td><td class="win">전용 SSS + Reflection shader</td></tr>
+    <tr><td>표정 변화</td><td>정지 1포즈</td><td class="win">ARKit 51 blendshape (자연 미소·진지·관심)</td></tr>
+    <tr><td>비용 (1체)</td><td>32 크 (~$1.6)</td><td class="win">0원 (Epic 무료)</td></tr>
+    <tr><td>「리얼 + 이쁨」 수준</td><td>실사 사진 수준 (v5.7)</td><td class="win">디지털 휴먼 수준 (영화급)</td></tr>
+  </table>
+</section>
+
+<!-- B. 도입 path -->
+<section>
+  <h2><span class="num">B</span>도입 path — MetaHuman만 빼와서 Blender 사용 (★ 가장 효율)</h2>
+  <div class="info">
+    <strong>핵심 결정:</strong> Unreal MCP 풀 도입 X (200GB 디스크 · 학습 곡선 큼). <b>MetaHuman만 활용</b>:
+    Unreal에서 MetaHuman 1체 생성 → FBX/GLB export → 기존 Blender + Higgsfield 워크플로에 그대로 흡수.
+    우리 PoC-07 템플릿 + v5 5단계 그대로 활용 가능.
+  </div>
+
+  <div class="compare">
+    <h3>옵션 비교</h3>
+    <table>
+      <tr><th>옵션</th><th>시간</th><th>디스크</th><th>학습</th><th>효과</th></tr>
+      <tr><td><strong>1. MetaHuman만 빼와서 Blender</strong></td><td class="win">1일</td><td>80GB</td><td class="win">낮음</td><td class="win">★★★★</td></tr>
+      <tr><td>2. Unreal MCP 풀 도입</td><td>1주~1개월</td><td>200GB+</td><td>높음</td><td class="win">★★★★★</td></tr>
+      <tr><td>3. 현재 워크플로 유지</td><td>0</td><td>0</td><td>0</td><td>★★★ (v5.7로 이미 강력)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- C. 차주 타임라인 -->
+<section>
+  <h2><span class="num">C</span>차주 (07-01~07-05) 타임라인</h2>
+  <div class="timeline">
+    <div class="entry">
+      <div class="date">07-01 (화)</div>
+      <div class="ev">Unreal Engine 5.8 설치 + MetaHuman Creator 가입</div>
+      <div class="desc">한승철 주도. Unreal 다운로드 (~80GB) + Epic 계정 + MetaHuman Creator 웹 접근.</div>
+    </div>
+    <div class="entry">
+      <div class="date">07-02 (수)</div>
+      <div class="ev">MetaHuman 1체 디자인 — 「수아」 (STORY 04 부업맘 페르소나)</div>
+      <div class="desc">김민서 주도. MetaHuman Creator로 한국인 여성 38세 · 부업맘 페르소나 디자인. 머리·피부·표정 셋업.</div>
+    </div>
+    <div class="entry">
+      <div class="date">07-03 (목)</div>
+      <div class="ev">FBX/GLB export + Blender 임포트 + v5 템플릿 적용</div>
+      <div class="desc">v5.1 SSS + v5.2 살구톤 + v5.3 DOF + v5.4 PolyHaven HDR + v5.5 BEFORE/AFTER 모두 그대로 활용. v6.0 PoC.</div>
+    </div>
+    <div class="entry">
+      <div class="date">07-04 (금)</div>
+      <div class="ev">v6 16컷 + BEFORE/AFTER × 4 무드 + 인스타 캐러셀</div>
+      <div class="desc">v5.4 패턴 재활용. 「수아」 시술 전후 4 무드 = STORY 04 콘텐츠 자산 즉시 게시 가능.</div>
+    </div>
+    <div class="entry">
+      <div class="date">07-05 (토)</div>
+      <div class="ev">결정 — MetaHuman 1체 vs 5종 페르소나 풀 도입</div>
+      <div class="desc">07-04 결과 보고 회의 → 다음 페르소나 (하영·예린·민지·지우) 4 추가 = MetaHuman 5종 풀세트 결정.</div>
+    </div>
+  </div>
+</section>
+
+<!-- D. 한승철 인프라 준비 -->
+<section>
+  <h2><span class="num">D</span>한승철 인프라 준비 (사전 체크)</h2>
+  <ul style="font-size:13.5px;color:#cbc8c1;line-height:1.9;margin-left:22px">
+    <li><strong>대표님 PC 사양 확인</strong> — Unreal 5.8 권장: NVIDIA RTX 3070+ / 32GB RAM / 100GB 빈 디스크</li>
+    <li><strong>맥미니 검토</strong> — MetaHuman은 Mac 지원하지만 Lumen 일부 제한. NVIDIA Windows가 본격</li>
+    <li><strong>Epic 계정 + Quixel 계정</strong> — MetaHuman은 둘 다 무료, Epic 가입 5분</li>
+    <li><strong>Character Control Rig 애드온</strong> (CG Channel 2026-05) — Blender에서 MetaHuman 리그 자동 변환</li>
+    <li><strong>FaceBuilder × MetaHuman 연동</strong> (Keentools) — 사진→MetaHuman 자동 변환 (장미지 원장님 사진도 가능!)</li>
+  </ul>
+</section>
+
+<!-- E. 차주 비용 -->
+<section>
+  <h2><span class="num">E</span>비용 (차주 합계)</h2>
+  <table>
+    <tr><th>항목</th><th>비용</th></tr>
+    <tr><td>Unreal Engine 5.8</td><td class="win">0원</td></tr>
+    <tr><td>MetaHuman Creator</td><td class="win">0원</td></tr>
+    <tr><td>Character Control Rig (Blender)</td><td>$60 (1회 결제)</td></tr>
+    <tr><td>FaceBuilder × MetaHuman (옵션)</td><td>$149/년</td></tr>
+    <tr><td>대표님 PC GPU 부족 시 RunPod 임시 임대</td><td>$0.34/시간 (옵션)</td></tr>
+    <tr><td>Higgsfield 잔량</td><td class="win">284 크 그대로 (절약)</td></tr>
+  </table>
+  <p style="font-size:13px;color:#9a9a93;margin-top:8px">→ <strong>최소 진입 = $60 (Character Control Rig)</strong>. 옵션 D Meshy Pro $20/월 결제와 비교 → MetaHuman이 평생 자산 · 절대 우위</p>
+</section>
+
+<!-- F. 06-29 회의 합의와의 정합 -->
+<section>
+  <h2><span class="num">F</span>06-29 5직원 회의 합의와의 정합</h2>
+  <div class="info">
+    <strong>06-28 회의 합의:</strong> 「FLUX Kontext + MediaPipe + Meshy Pro + 5 페르소나」 트랙 D (한승철 STEP 2). <br><br>
+    <strong>MetaHuman 통합 path:</strong> Meshy Pro 5종 페르소나 → MetaHuman 5종 페르소나로 <strong>업그레이드</strong>. 결과적으로 같은 5 인물이지만 <strong>품질 한 차원 점프</strong> (디지털 휴먼급). 「5직원 합의 + MetaHuman」 = 차주 권장 path.
+  </div>
+</section>
+
+<footer>
+  <p>© ARTbrows 2026 · MetaHuman 도입 계획 · 차주 진행 예정 · 운영진 전용</p>
+  <p><a href="index.html">← 메인 포털</a> · <a href="face-lab/3d/v5-human.html">v5 Blender PoC</a> · <a href="회의-20260628-리얼시뮬레이션.html">06-28 5직원 회의</a> · <a href="원장님-미팅-보고-20260629.html">06-29 미팅 보고서</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실사 시안 비교 · 2026-06-19 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.5}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:28px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:24px}
+  .legend{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;font-size:12px}
+  .legend span{padding:4px 10px;border-radius:14px;border:1px solid #333}
+  .pick{background:#d4af37;color:#111;border-color:#d4af37}
+  .hold{background:#3a3a3a;color:#aaa}
+  .fail{background:#5a1818;color:#f4b4b4;border-color:#7a2828}
+  .new{background:#1a3a5a;color:#9fc8ff;border-color:#2a5a8a}
+  section{margin-bottom:36px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .card{background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+  .card img{width:100%;aspect-ratio:9/16;object-fit:cover;cursor:zoom-in;display:block;background:#000}
+  .card.sq img{aspect-ratio:1/1}
+  .card .meta{padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:12px}
+  .card .lbl{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+  .card .lbl .chip{font-size:10px;padding:2px 6px;border-radius:8px;background:#2a2a2a;color:#bbb}
+  .card .lbl .chip.pick{background:#d4af37;color:#111}
+  .card .lbl .chip.hold{background:#3a3a3a;color:#999}
+  .card .lbl .chip.fail{background:#5a1818;color:#f4b4b4}
+  .card .lbl .chip.new{background:#1a3a5a;color:#9fc8ff}
+  .card .desc{color:#9a9a93;font-size:11.5px;line-height:1.45}
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+  .modal.on{display:flex}
+  .modal img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+  .modal .x{position:fixed;top:14px;right:18px;color:#fff;font-size:30px;cursor:pointer;background:rgba(0,0,0,.4);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+</style>
+</head>
+<body>
+
+<h1><em>실사 시안</em> 비교 — 2026-06-19</h1>
+<p class="sub">전직원 회의 1번 결정 적용 결과 + STORY 07 컷1 시도 보고 · 클릭 시 원본 크기로 확대</p>
+
+<div class="legend">
+  <span class="pick">PICK · 채택</span>
+  <span class="hold">HOLD · 보류</span>
+  <span class="fail">FAIL · 실패</span>
+  <span class="new">NEW · 오늘 신규</span>
+  <span>회색 = 참고용</span>
+</div>
+
+<!-- 1. 어제 실사 테스트 3장 -->
+<section>
+  <h2><span class="num">01</span>어제(6/18) 실사 테스트 3장 — 회의 채택 결과</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="assets/실사테스트-20260618/01-하영-살롱.png" alt="01 하영 살롱">
+      <div class="meta">
+        <div class="lbl">01 · 하영 살롱 <span class="chip hold">HOLD</span></div>
+        <div class="desc">9:16 · STORY 07 컷1 후보였으나 「준비된 미소」 톤이 다큐 톤과 충돌 → 사용 안 함</div>
+      </div>
+    </div>
+    <div class="card sq">
+      <img src="assets/실사테스트-20260618/02-hero-아시안여성-셀카무드.png" alt="02 셀카무드">
+      <div class="meta">
+        <div class="lbl">02 · 셀카무드 <span class="chip pick">PICK</span></div>
+        <div class="desc">1:1 · 小红书 原相机直出 톤 · 메인홈 hero 채택 → assets/메인홈무드/hero-portrait-E-셀카무드.png</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/실사테스트-20260618/03-hero-아틀리에-드로잉.png" alt="03 아틀리에 드로잉">
+      <div class="meta">
+        <div class="lbl">03 · 아틀리에 드로잉 <span class="chip pick">PICK</span></div>
+        <div class="desc">9:16 · 손·도구·집중 모먼트 · STORY 07 컷2 채택 → assets/시리즈-미용편/실사-컷2-승.png</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 적용된 곳 -->
+<section>
+  <h2><span class="num">02</span>적용 결과 — 메인홈 hero + STORY 07 컷2</h2>
+  <div class="grid">
+    <div class="card sq">
+      <img src="assets/메인홈무드/hero-portrait-E-셀카무드.png" alt="hero E">
+      <div class="meta">
+        <div class="lbl">메인홈 Hero <span class="chip pick">PICK</span></div>
+        <div class="desc">메인홈.html line 208 적용 완료 (hero-portrait-C → E) · alt 「原相机直出 — 자연광 셀카 무드」</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷2-승.png" alt="컷2 실사">
+      <div class="meta">
+        <div class="lbl">STORY 07 컷2 (승) <span class="chip pick">PICK</span></div>
+        <div class="desc">「햇살 스튜디오 책상에서 눈썹 드로잉」 · 기존 일러스트 컷2-승.png 는 「과거 자산」으로 보존</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 오늘 시도 -->
+<section>
+  <h2><span class="num">03</span>오늘(6/19) STORY 07 컷1 시도 — 문제 발생</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷1-기-시도1.png" alt="컷1 시도1">
+      <div class="meta">
+        <div class="lbl">컷1 시도1 (soul_2 + ref) <span class="chip new">NEW</span></div>
+        <div class="desc">인물 100% 일관성 ✓ · 환경이 reference(컷2)에 끌려가 「책상 작업」 톤. 컷1 「마감 후 미용실 거울 앞 손 보기」 의도와 다름</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/시리즈-미용편/실사-컷1-기-시도2.png" alt="컷1 시도2">
+      <div class="meta">
+        <div class="lbl">컷1 시도2 (nano_banana_pro + ref) <span class="chip fail">FAIL</span></div>
+        <div class="desc">검은 빈 이미지 — 모델이 「새 환경 + 인물 동일」 명령을 처리 못함. 크레딧은 차감(약 1.4)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 방향 옵션 -->
+<section>
+  <h2><span class="num">04</span>방향 옵션 — 대표님 결정 대기</h2>
+  <div style="background:#1a1a1c;border:1px solid #2a2a2a;border-radius:8px;padding:18px;font-size:14px;line-height:1.7">
+    <p><b style="color:#d4af37">A.</b> 시도1 살림 (크레딧 0) — 컷1을 「작업 책상 옆 손 잠시 멈춤(드로잉 직전 사색)」 으로 시나리오 재해석. 컷2와 헷갈리는 위험은 있음.</p>
+    <p style="margin-top:8px"><b style="color:#d4af37">B.</b> soul_2 + reference 없이 prompt-only 재시도 (~0.7 크레딧) — 인물 살짝 달라질 수 있지만 환경 자유.</p>
+    <p style="margin-top:8px"><b style="color:#d4af37">C. (추천)</b> 새 인물 reference 따로 1장 (~1 크레딧) → 인물만 깨끗하게 → 컷1·3·4 모두 환경 자유롭게. 총 약 4 크레딧으로 끝.</p>
+    <p style="margin-top:8px"><b style="color:#d4af37">D.</b> STOP — 카카오 채널 / 원장님 자료 먼저 처리 후 STORY 07 재개.</p>
+    <p style="margin-top:14px;color:#8a8a84;font-size:12.5px">현재 크레딧: <b style="color:#fff">658.34</b> · 오늘 사용 <b>2.12</b> (시도1+시도2)</p>
+  </div>
+</section>
+
+<footer>
+  ARTbrows · 실사 시안 비교 · 2026-06-19 (금) · 회의 우선순위 1번 적용 + 4번 STORY 07 진행 보고
+</footer>
+
+<div class="modal" id="modal" onclick="this.classList.remove('on')">
+  <span class="x">×</span>
+  <img id="modal-img" src="" alt="">
+</div>
+
+<script>
+  document.querySelectorAll('.card img').forEach(img => {
+    img.addEventListener('click', e => {
+      const m = document.getElementById('modal');
+      document.getElementById('modal-img').src = img.src;
+      m.classList.add('on');
+    });
+  });
+</script>
+
+</body>
+</html>

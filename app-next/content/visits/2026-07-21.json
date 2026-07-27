@@ -1,0 +1,267 @@
+{
+  "date": "2026-07-21",
+  "total": 30,
+  "byPath": {
+    "/meetings/2026-07-20": 1,
+    "/cardnews/view/2026-07-20-changupbaan-15th": 3,
+    "/cardnews/from-images": 9,
+    "/cardnews/edit/2026-07-21-recruit-changupbaan-6811": 2,
+    "/cardnews/edit/2026-07-21-recruit-changupbaan-6811/pro": 1,
+    "/cardnews/view/2026-07-21-recruit-changupbaan-6811": 1,
+    "/": 6,
+    "/cardnews/edit/2026-07-21-recruit-changupbaan-8772": 1,
+    "/cardnews/edit/2026-07-21-founder-methodology-9530": 1,
+    "/cardnews/edit/2026-07-20-changupbaan-15th": 1,
+    "/cardnews/view/2026-07-20-easy-class-15th": 2,
+    "/cardnews/view/2026-07-20-hyperreal-brow-15th": 2
+  },
+  "byLang": {
+    "ko": 30
+  },
+  "byUa": {
+    "mobile": 7,
+    "desktop": 23
+  },
+  "events": [
+    {
+      "at": "2026-07-21T00:45:30.401Z",
+      "path": "/meetings/2026-07-20",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/meetings/2026-07-20",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T00:46:19.542Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:03:05.242Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:09:22.813Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:14:50.177Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:16:09.114Z",
+      "path": "/cardnews/edit/2026-07-21-recruit-changupbaan-6811",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-21-recruit-changupbaan-6811",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:16:46.920Z",
+      "path": "/cardnews/edit/2026-07-21-recruit-changupbaan-6811/pro",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-21-recruit-changupbaan-6811/pro",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:16:56.394Z",
+      "path": "/cardnews/edit/2026-07-21-recruit-changupbaan-6811",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-21-recruit-changupbaan-6811",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:18:41.335Z",
+      "path": "/cardnews/view/2026-07-21-recruit-changupbaan-6811",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-21-recruit-changupbaan-6811?lang=ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:19:31.444Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T02:57:32.557Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T03:01:24.960Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T03:07:39.309Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:05:52.352Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:15:35.758Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:17:16.014Z",
+      "path": "/cardnews/edit/2026-07-21-recruit-changupbaan-8772",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-21-recruit-changupbaan-8772",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:18:22.185Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:20:49.065Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:22:24.830Z",
+      "path": "/cardnews/edit/2026-07-21-founder-methodology-9530",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-21-founder-methodology-9530",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:32:40.049Z",
+      "path": "/cardnews/edit/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T10:42:45.703Z",
+      "path": "/cardnews/from-images",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/from-images",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T11:50:02.415Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T12:20:39.089Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "mobile",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:06:15.739Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:08:17.299Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:09:24.805Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:10:16.626Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:19:18.100Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:19:36.005Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-21T23:19:46.922Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    }
+  ]
+}

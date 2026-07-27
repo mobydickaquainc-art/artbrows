@@ -1,0 +1,53 @@
+{
+  "id": "2026-07-26-recruit-hyperreal-4383",
+  "title": "극사실눈썹 강의 모집 (1~3장) (Gemini · 안정)",
+  "slug": "2026-07-26-recruit-hyperreal-4383",
+  "status": "draft",
+  "createdAt": "2026-07-26T23:57:33.129Z",
+  "updatedAt": "2026-07-27T01:21:49.539Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "극사실눈썹 강의 모집 (1~3장)",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "VOL 15",
+          "brand": "ARTBROWS",
+          "headline": "극사실의 정점\n마스터클래스",
+          "subheadline": "소수에게만 허락된 20년 장인정신의 전수",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-02.png",
+          "signatureLabel": "MIJI JANG · 2026",
+          "bottomLabel": "MIJI JANG · ARTBROWS"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "극사실눈썹 창시자"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "headline": "하이엔드 기술의 전수",
+          "highlight": "창업반 6+6 무제한 책임제",
+          "signature": "ARTbrows",
+          "cta": "마스터클래스 합류하기 →",
+          "ctaHref": "/academy-enroll",
+          "subline": "900여명 수강 배출 · 선릉/삼성 본원"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "aspect": "portrait"
+}

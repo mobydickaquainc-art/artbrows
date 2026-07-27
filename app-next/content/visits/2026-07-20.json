@@ -1,0 +1,989 @@
+{
+  "date": "2026-07-20",
+  "total": 119,
+  "byPath": {
+    "/": 22,
+    "/manager": 14,
+    "/consult": 5,
+    "/en": 2,
+    "/zh": 5,
+    "/enroll": 10,
+    "/cardnews": 16,
+    "/cardnews/edit/auto-2026-07-20t05-35-08": 2,
+    "/cardnews/view/auto-2026-07-20t05-35-08": 1,
+    "/cardnews/edit/19": 1,
+    "/cardnews/view/auto-2026-07-17t06-56-44": 1,
+    "/cardnews/edit/auto-2026-07-20t05-42-53": 4,
+    "/cardnews/tutorial": 1,
+    "/cardnews/layouts": 1,
+    "/cardnews/view/2026-07-20-hyperreal-brow-15th": 8,
+    "/cardnews/view/2026-07-20-easy-class-15th": 8,
+    "/cardnews/view/2026-07-20-changupbaan-15th": 13,
+    "/cardnews/edit/2026-07-20-easy-class-15th": 1,
+    "/cardnews/view/2026-07-20-master-methodology": 1,
+    "/academy/methodology": 2,
+    "/meetings/2026-07-20": 1
+  },
+  "byLang": {
+    "ko": 102,
+    "en": 12,
+    "zh": 5
+  },
+  "byUa": {
+    "desktop": 119
+  },
+  "events": [
+    {
+      "at": "2026-07-20T00:32:49.089Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:33:43.125Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:33:53.757Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T00:34:14.010Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T00:41:00.103Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T00:48:00.063Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T00:49:47.301Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:50:11.370Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T00:50:14.400Z",
+      "path": "/en",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/en",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:50:21.110Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:50:25.113Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:50:54.226Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T00:58:29.685Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:05:14.334Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:07:22.795Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:27:48.474Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:32:53.275Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:33:02.386Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:38:40.526Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:38:57.636Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:39:39.287Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:39:41.840Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:39:47.543Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:39:58.251Z",
+      "path": "/en",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/en",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:40:20.833Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:15.960Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:19.326Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:21.513Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:28.244Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:30.791Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:34.806Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:44.066Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:41:45.444Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:42:29.658Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:42:30.973Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T01:50:20.675Z",
+      "path": "/manager",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/manager",
+      "ua_kind": "desktop",
+      "variant": "manager"
+    },
+    {
+      "at": "2026-07-20T01:50:33.374Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:04:57.167Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:07:31.404Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:13:33.250Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:13:39.133Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:14:04.155Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:35:51.594Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T02:36:05.728Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:31:42.207Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:35:09.230Z",
+      "path": "/cardnews/edit/auto-2026-07-20t05-35-08",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/auto-2026-07-20t05-35-08",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:35:29.194Z",
+      "path": "/cardnews/view/auto-2026-07-20t05-35-08",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/view/auto-2026-07-20t05-35-08?lang=ko",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:36:06.565Z",
+      "path": "/cardnews/edit/auto-2026-07-20t05-35-08",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/auto-2026-07-20t05-35-08",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:36:09.952Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:36:49.304Z",
+      "path": "/cardnews/edit/19",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/19",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:37:46.882Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:38:08.491Z",
+      "path": "/cardnews/view/auto-2026-07-17t06-56-44",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/view/auto-2026-07-17t06-56-44",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:38:15.464Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:42:53.641Z",
+      "path": "/cardnews/edit/auto-2026-07-20t05-42-53",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/auto-2026-07-20t05-42-53",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:43:39.697Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:44:43.176Z",
+      "path": "/cardnews/edit/auto-2026-07-20t05-42-53",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/auto-2026-07-20t05-42-53",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:48:14.323Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:49:47.931Z",
+      "path": "/cardnews/tutorial",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/tutorial",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:53:32.690Z",
+      "path": "/zh",
+      "lang": "zh",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/zh",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:53:39.405Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:53:43.842Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T05:53:50.839Z",
+      "path": "/cardnews/edit/auto-2026-07-20t05-42-53",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/auto-2026-07-20t05-42-53",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:02:56.704Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:03:09.358Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:04:04.709Z",
+      "path": "/cardnews/layouts",
+      "lang": "ko",
+      "referer": "http://localhost:3000/cardnews/layouts",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:10:23.921Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:10:24.476Z",
+      "path": "/cardnews/edit/auto-2026-07-20t05-42-53",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/cardnews/edit/auto-2026-07-20t05-42-53",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:19:34.325Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:19:51.150Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:20:15.459Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:20:35.154Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:20:45.251Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:23:28.546Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:23:34.539Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:42:27.685Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:42:49.077Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:42:56.837Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T06:56:13.129Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:02:53.119Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:03:18.823Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:03:26.742Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:04:08.031Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:04:09.824Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:04:11.250Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:04:11.949Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:04:14.936Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:16:21.586Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://qualifying-millions-brain-annually.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:30:00.499Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:31:30.493Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:31:45.236Z",
+      "path": "/cardnews/edit/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/edit/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:31:50.830Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:31:55.997Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T07:32:26.539Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T08:04:08.810Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T08:05:01.531Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T08:05:12.785Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:06:45.187Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:07:36.824Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:07:56.822Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:08:26.203Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:08:31.949Z",
+      "path": "/cardnews",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:08:34.035Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T09:08:41.829Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T12:18:13.701Z",
+      "path": "/cardnews/view/2026-07-20-master-methodology",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-master-methodology",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:35:11.183Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:35:44.199Z",
+      "path": "/academy/methodology",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/academy/methodology",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:36:14.976Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:36:19.839Z",
+      "path": "/enroll",
+      "lang": "en",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/enroll",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:36:27.101Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:36:30.740Z",
+      "path": "/consult",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/consult",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:36:40.840Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:47:20.778Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:47:51.011Z",
+      "path": "/academy/methodology",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/academy/methodology",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:47:58.792Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:52:30.470Z",
+      "path": "/meetings/2026-07-20",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/meetings/2026-07-20",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:54:40.495Z",
+      "path": "/",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:54:46.633Z",
+      "path": "/cardnews/view/2026-07-20-changupbaan-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-changupbaan-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:55:02.688Z",
+      "path": "/cardnews/view/2026-07-20-easy-class-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-easy-class-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    },
+    {
+      "at": "2026-07-20T14:55:12.489Z",
+      "path": "/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "lang": "ko",
+      "referer": "https://ant-football-assume-lauderdale.trycloudflare.com/cardnews/view/2026-07-20-hyperreal-brow-15th",
+      "ua_kind": "desktop",
+      "variant": "founder"
+    }
+  ]
+}

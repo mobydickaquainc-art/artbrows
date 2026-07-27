@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회의록 — ARTbrows 통합 포털</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+:root{--apricot:#FBEAE2;--cream:#FFFBF5;--ink:#2A1D1A;--muted:#9A6A5E;--coral:#FF7A66;--hotpink:#FF6F84;--gold:#E8B872;--line:#F0D6CC;--plum:#5A3A4A;--done:#5BAE8A;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--apricot);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+.serif{font-family:'Nanum Myeongjo',serif}
+a{color:inherit;text-decoration:none}
+.eyebrow{letter-spacing:.4em;font-size:11.5px;color:var(--coral);font-weight:800}
+.wrap{max-width:900px;margin:0 auto;padding:0 22px;width:100%}
+.top{padding:18px 26px}.top a{font-weight:800;font-size:18px}.top a span{color:var(--coral)}
+.hero{text-align:center;padding:40px 22px 26px}
+.hero h1{font-size:40px;font-weight:400;margin:12px 0 10px}
+.hero p{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto}
+.meet{background:var(--cream);border-radius:20px;padding:26px 28px;margin:16px 0;box-shadow:0 6px 18px rgba(232,169,155,.16)}
+.mhead{display:flex;align-items:center;flex-wrap:wrap;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:16px}
+.datechip{background:#2A1D1A;color:#FFD9CF;font-weight:800;font-size:12px;padding:4px 13px;border-radius:999px}
+.mhead h2{font-size:20px;font-weight:800;flex:1;min-width:200px}
+.tag{font-size:11.5px;font-weight:800;padding:3px 11px;border-radius:999px;background:#E2F3EC;color:#2F8C68}
+.attend{font-size:13px;color:var(--muted);margin-bottom:16px}
+.attend b{color:var(--ink)}
+.speak{background:var(--apricot);border-radius:14px;padding:16px 18px;margin:10px 0;border-left:3px solid var(--coral)}
+.speak .who{font-weight:800;font-size:14.5px;margin-bottom:6px}
+.speak .who span{font-size:12px;color:var(--coral);font-weight:700}
+.speak ul{list-style:none}
+.speak li{position:relative;padding-left:15px;margin:4px 0;font-size:13.5px;color:#5a4540}
+.speak li::before{content:"";position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--coral)}
+.decision{background:linear-gradient(135deg,#FFF1ED,#FBEAE2);border:1px dashed var(--coral);border-radius:14px;padding:16px 18px;margin-top:14px}
+.decision .dt{font-weight:800;font-size:13px;color:var(--hotpink);margin-bottom:6px}
+.decision ul{list-style:none}
+.decision li{position:relative;padding-left:18px;margin:4px 0;font-size:14px;font-weight:600}
+.decision li::before{content:"✓";position:absolute;left:0;color:var(--done);font-weight:900}
+.result{margin-top:12px;font-size:13.5px;color:var(--muted)}
+.result a{color:var(--hotpink);font-weight:800}
+footer{background:var(--plum);color:#F6E6DF;text-align:center;padding:26px;font-size:12.5px;margin-top:auto}
+.center{text-align:center;padding:14px 0 30px}
+.btn{display:inline-block;background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:800;padding:11px 24px;border-radius:999px}
+.btn:hover{border-color:var(--coral);color:var(--coral)}
+@media(max-width:640px){.hero h1{font-size:30px}}
+</style></head>
+<body>
+  <div class="top"><a href="index.html">← ART<span>brows</span> 홈</a></div>
+
+  <div class="hero">
+    <div class="eyebrow">TEAM MEETING NOTES</div>
+    <h1 class="serif">회의록</h1>
+    <p>AI 직원(이서연·유나)과 PD(정주)가 함께한 전직원 기획 회의 기록입니다. 어떤 안을 왜 골랐는지 그대로 남겼습니다.</p>
+  </div>
+
+  <div class="wrap">
+
+    <!-- 회의 0 -->
+    <div class="meet">
+      <div class="mhead">
+        <span class="datechip">2026-06-06 (금)</span>
+        <h2>전직원 회의 — Phase 1 집중 실행</h2>
+        <span class="tag">● 실행 계획 확정</span>
+      </div>
+      <div class="attend">참석 · <b>정주(PD)</b> · <b>이서연</b>(기획·마케팅) · <b>유나</b>(그래픽·비주얼)</div>
+
+      <div class="speak">
+        <div class="who">👨‍💼 정주 <span>PD</span></div>
+        <ul>
+          <li>Phase 1 목표를 명확히 하고, 카드·쇼츠·퍼널을 동시에 진행합니다.</li>
+          <li>실제 사진 자료와 상담 링크 수급을 우선 요청합니다.</li>
+          <li>이번 주 결과로 Phase 2 진입 여부를 판단합니다.</li>
+        </ul>
+      </div>
+      <div class="speak">
+        <div class="who">👩‍💼 이서연 <span>기획·마케팅</span></div>
+        <ul>
+          <li>이번 주 핵심 작업은 모집 카드 3종과 쇼츠 1편 추가 제작입니다.</li>
+          <li>랜딩/상담 퍼널 초안을 함께 준비해 Phase 2 전환 조건을 확인합니다.</li>
+          <li>브랜드 자료(가격·커리큘럼·후기·실사 사진·상담링크)를 빠르게 확보합니다.</li>
+        </ul>
+      </div>
+      <div class="speak">
+        <div class="who">🎨 유나 <span>그래픽·비주얼</span></div>
+        <ul>
+          <li>카드 3종은 후킹 / 커리큘럼 / 상담 CTA로 구성합니다.</li>
+          <li>추가 쇼츠는 성장 스토리·모집형 두 가지 톤 중 하나를 선택해 제작합니다.</li>
+          <li>시리즈 톤은 통일하되, 각 카드·쇼츠마다 강점을 다르게 보여줍니다.</li>
+        </ul>
+      </div>
+
+      <div class="decision">
+        <div class="dt">결정 사항</div>
+        <ul>
+          <li>이번 주 작업 방향: 모집 카드 3종 + 쇼츠 1편 추가 제작</li>
+          <li>랜딩/상담 퍼널 초안 마련 및 실제 사진 자료 수급</li>
+          <li>Phase 1 성과 기준: 카드·쇼츠로 상담 신청 가능성 확인</li>
+        </ul>
+      </div>
+      <div class="result">결과 · Phase 1 집중 실행 계획 확정 · `docs/PROGRESS.md`와 대시보드 업데이트</div>
+    </div>
+
+    <!-- 회의 1 -->
+    <div class="meet">
+      <div class="mhead">
+        <span class="datechip">2026-06-03 (수)</span>
+        <h2>코믹 × 지브리풍 모집 쇼츠 기획</h2>
+        <span class="tag">● 유튜브 게시 완료</span>
+      </div>
+      <div class="attend">참석 · <b>정주(PD)</b> · <b>이서연</b>(기획·마케팅) · <b>유나</b>(그래픽·비주얼)</div>
+
+      <div class="speak">
+        <div class="who">👩‍💼 이서연 <span>기획·마케팅</span></div>
+        <ul>
+          <li>첫 3초에 '눈썹 때문에 매일 전쟁'인 공감대를 때려야 한다 → 타겟이 '내 얘기'라 느끼게</li>
+          <li>구조: 공감(눈썹 참사) → 변신(창시자) → 자신감 → 상담 신청 CTA</li>
+          <li>한 편 잘 되면 직장인편·신부편 등 시리즈화 가능</li>
+        </ul>
+      </div>
+      <div class="speak">
+        <div class="who">🎨 유나 <span>그래픽·비주얼</span></div>
+        <ul>
+          <li>지브리 수채 + 과장된 코믹 표정, 눈썹 없는 주인공으로 귀엽게</li>
+          <li>변신씬은 바람·꽃잎·금가루 반짝(지브리 클리셰 패러디)</li>
+          <li>원장님은 실제 얼굴 대신 '빛나는 장인의 손길'로만 (제작 원칙 준수)</li>
+        </ul>
+      </div>
+
+      <div class="decision">
+        <div class="dt">결정 사항</div>
+        <ul>
+          <li>컨셉 A안 「눈썹 잔혹사」 채택 (코믹·임팩트)</li>
+          <li>마스코트 '도비'(대표님 반려견) 추가 → 주인공과 함께 눈썹 변신</li>
+          <li>6컷 구성 · 간판은 "장미지 눈썹 연구소" 글씨로</li>
+        </ul>
+      </div>
+      <div class="result">결과 · 주인공+도비 6컷 제작 → 편집 → <a href="https://youtube.com/shorts/DF-7i_clWgw">유튜브 쇼츠 게시 ▶</a></div>
+    </div>
+
+    <!-- 회의 2 -->
+    <div class="meet">
+      <div class="mhead">
+        <span class="datechip">2026-06-04 (목)</span>
+        <h2>인스타 원생 모집 광고 (이미지 + 쇼츠)</h2>
+        <span class="tag">● 제작 완료</span>
+      </div>
+      <div class="attend">참석 · <b>정주(PD)</b> · <b>이서연</b>(기획·마케팅) · <b>유나</b>(그래픽·비주얼)</div>
+
+      <div class="speak">
+        <div class="who">👩‍💼 이서연 <span>기획·마케팅</span></div>
+        <ul>
+          <li>광고는 바이럴이 아니라 '상담 신청 전환'이 목적 — 정보가 한 장에 다 담겨야</li>
+          <li>타겟: 반영구를 '배우려는' 예비 원생(뷰티샵·창업·부업)</li>
+          <li>메시지: 극사실눈썹 창시자 직강 · 소수정예 한정 · CTA는 상담 신청</li>
+        </ul>
+      </div>
+      <div class="speak">
+        <div class="who">🎨 유나 <span>그래픽·비주얼</span></div>
+        <ul>
+          <li>0.5초 안에 멈추게 하는 럭셔리 에디토리얼(살구핑크+골드)</li>
+          <li>실제 얼굴 없이 무드+그래픽 + 모집 정보는 또렷하게 (제작 원칙)</li>
+          <li>쇼츠는 무드 영상 + 핵심 카피, 짧고 강력하게</li>
+        </ul>
+      </div>
+
+      <div class="decision">
+        <div class="dt">결정 사항</div>
+        <ul>
+          <li>광고 톤: '정공법 프리미엄' (창시자 권위 + 소수정예 한정)</li>
+          <li>이미지·쇼츠 같은 톤으로 통일 (광고 일관성)</li>
+        </ul>
+      </div>
+      <div class="result">결과 · 모집 광고 이미지 1 + 광고 쇼츠 1 제작 완료 (인스타 업로드용)</div>
+    </div>
+
+    <!-- 회의 3 -->
+    <div class="meet">
+      <div class="mhead">
+        <span class="datechip">2026-06-05 (금)</span>
+        <h2>수강생 성장기 스토리텔링 쇼츠 (시나리오 기획)</h2>
+        <span class="tag">● 제작 완료</span>
+      </div>
+      <div class="attend">참석 · <b>정주(PD)</b> · <b>이서연</b>(기획·마케팅) · <b>유나</b>(그래픽·비주얼)</div>
+
+      <div class="speak">
+        <div class="who">👩‍💼 이서연 <span>기획·마케팅</span></div>
+        <ul>
+          <li>이번엔 '시나리오 먼저' — 컷보다 이야기가 먼저 서야 몰입된다</li>
+          <li>평범한 그녀가 창시자에게 배워 전문가로 성장 → 공감·희망·상담 전환의 3박자</li>
+          <li>기승전결 구조로 '나도 저렇게 될 수 있다'는 감정선 설계</li>
+        </ul>
+      </div>
+      <div class="speak">
+        <div class="who">🎨 유나 <span>그래픽·비주얼</span></div>
+        <ul>
+          <li>주인공 '하은' 캐릭터를 먼저 만들어 레퍼런스로 고정 → 컷마다 동일 인물 유지</li>
+          <li>색감으로 성장을 표현: 막막함(흐린 욕실) → 발견(따뜻) → 몰입 → 첫 성공(반짝) → 전문가(황금빛)</li>
+          <li>핵심 '첫 성공·변신' 컷만 AI 모션(seedance), 나머지는 줌/팬 — 임팩트에 크레딧 집중</li>
+        </ul>
+      </div>
+
+      <div class="decision">
+        <div class="dt">결정 사항</div>
+        <ul>
+          <li>시나리오 「평범했던 그녀의 새로운 시작」 채택 (주인공 하은)</li>
+          <li>하은 캐릭터 2안(살구핑크 니트·수수한 호감형) 확정 → 변신 낙폭 극대화</li>
+          <li>6컷 기승전결 + CTA · 영상화는 '하이브리드'(핵심컷 AI모션 + 줌/팬)</li>
+        </ul>
+      </div>
+      <div class="result">결과 · 24초 성장 스토리 쇼츠 완성 → <a href="https://youtube.com/shorts/Eni8T-MTRrs">유튜브 게시 ▶</a> · <a href="gallery.html">갤러리</a></div>
+    </div>
+
+    <!-- 회의 4 -->
+    <div class="meet">
+      <div class="mhead">
+        <span class="datechip">2026-06-05 (금)</span>
+        <h2>성장 스토리 시리즈화 — 직장인편</h2>
+        <span class="tag">● 제작 완료</span>
+      </div>
+      <div class="attend">참석 · <b>정주(PD)</b> · <b>이서연</b>(기획·마케팅) · <b>유나</b>(그래픽·비주얼)</div>
+
+      <div class="speak">
+        <div class="who">👩‍💼 이서연 <span>기획·마케팅</span></div>
+        <ul>
+          <li>1편이 '보편적 성장'으로 공감대를 깔았으니, 이제 타겟별로 '내 얘기'를 만드는 확장 전략</li>
+          <li>직장인(이직·부업, 풀 가장 큼) / 신부(인생 전환점) / 부업맘(경단녀 복귀)로 시리즈화</li>
+          <li>각 편 엔딩 CTA는 1편과 동일하게 상담 신청으로 통일 → 퍼널 일관성</li>
+        </ul>
+      </div>
+      <div class="speak">
+        <div class="who">🎨 유나 <span>그래픽·비주얼</span></div>
+        <ul>
+          <li>1편 하은의 지브리 수채 톤·살구핑크 팔레트를 그대로 유지 → 한눈에 '같은 시리즈'</li>
+          <li>각 편 새 주인공이되 화풍 통일, 기승전결 6컷 템플릿 재활용 → 제작 속도 2배</li>
+          <li>직장인편은 '사원증'을 스토리 장치로: 목에 걸고(야근) → 책상에 내려놓고(학습) → 벗고(전문가)</li>
+        </ul>
+      </div>
+
+      <div class="decision">
+        <div class="dt">결정 사항</div>
+        <ul>
+          <li>성장 스토리 '시리즈화' 확정 · 첫 편은 타겟 풀이 가장 큰 직장인편</li>
+          <li>새 주인공 '지우'(사원증 건 직장인) 1안 확정 → 직장인 정체성 강조</li>
+          <li>1편과 동일한 하이브리드 영상화(핵심 변신컷 AI모션 + 줌/팬)</li>
+        </ul>
+      </div>
+      <div class="result">결과 · 직장인편 24초 쇼츠 완성 → <a href="gallery.html">갤러리 게시 ▶</a> (유튜브 업로드 예정)</div>
+    </div>
+
+  </div>
+
+  <div class="center"><a class="btn" href="index.html">← 포털 홈으로</a></div>
+  <footer>ARTbrows 통합 포털 · 회의록 · PD 정주 · AI 직원 이서연(기획)·유나(그래픽) · 갱신 2026-06-06</footer>
+</body></html>

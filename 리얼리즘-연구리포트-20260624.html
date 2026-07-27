@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「더 리얼하게」 - 언리얼·웹·AI 비교 연구 리포트 · 2026-06-24 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0F0F10;color:#E7E5E1;line-height:1.72;padding:36px 24px 70px;max-width:1280px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:40px;letter-spacing:-1px;margin-bottom:8px}
+  h1 em{color:#FF8FBB;font-style:normal}
+  .kicker{font-family:'Cormorant Garamond',serif;font-size:22px;color:#FF8FBB;letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+  .lead{color:#BDB9B1;font-size:15px;max-width:880px}
+  .lead b{color:#FF8FBB}
+  .lead em{color:#A8E6B3;font-style:normal;font-weight:700}
+
+  .team-row{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 30px}
+  .team-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:#161617;border:1px solid #242425;border-radius:24px;font-size:12.5px;color:#D6D2CB}
+  .team-chip .ic{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px}
+  .team-chip.lee .ic{background:#FFB0C4;color:#5A1F2F}
+  .team-chip.yuna .ic{background:#FFD87A;color:#5A4014}
+  .team-chip.min .ic{background:#9FC8FF;color:#1E3A5F}
+  .team-chip.han .ic{background:#A8E6B3;color:#1E4A28}
+  .team-chip b{color:#FFF}
+
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin-bottom:34px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#BDB9B1}
+  .meta-bar b{color:#FF8FBB;margin-right:6px}
+
+  section{margin-bottom:38px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #2A2A2A}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF8FBB;margin-right:10px;font-size:32px;vertical-align:-3px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF8FBB;font-size:19px;margin:22px 0 12px}
+
+  /* 직원 의견 카드 */
+  .opinion{background:#161617;border:1px solid #242425;border-radius:14px;padding:22px 26px;margin-bottom:14px}
+  .opinion h3{margin-top:0;display:flex;align-items:center;gap:10px}
+  .opinion h3 .ic{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px}
+  .opinion.lee h3 .ic{background:#FFB0C4;color:#5A1F2F}
+  .opinion.yuna h3 .ic{background:#FFD87A;color:#5A4014}
+  .opinion.min h3 .ic{background:#9FC8FF;color:#1E3A5F}
+  .opinion.han h3 .ic{background:#A8E6B3;color:#1E4A28}
+  .opinion h3 small{display:block;font-family:'Pretendard',sans-serif;font-size:11.5px;color:#8B8680;font-weight:500;margin-top:2px;letter-spacing:1px}
+  .opinion .stance{color:#FF8FBB;font-size:13.5px;font-weight:700;margin-bottom:10px;padding:8px 12px;background:rgba(255,143,187,0.10);border-left:3px solid #FF8FBB;border-radius:0 6px 6px 0}
+  .opinion ul{padding-left:20px;font-size:13.5px;color:#CBC8C1;line-height:1.85}
+  .opinion ul li::marker{color:#FF8FBB}
+  .opinion ul li b{color:#FFF}
+  .opinion .pick{margin-top:14px;padding:10px 14px;background:#1F1B14;border:1px dashed #FFD87A;border-radius:8px;font-size:13px;color:#FFD87A}
+  .opinion .pick b{color:#FFF}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden;font-size:13px;margin-bottom:14px}
+  th,td{border-top:1px solid #2A2A2A;padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1A1A1B;color:#FF8FBB;border-top:0;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+  tbody td b{color:#FFF}
+  tbody tr:hover{background:#1A1A1B}
+  .score{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;color:#A8E6B3}
+  .score.mid{color:#FFD87A}
+  .score.low{color:#F4B4B4}
+
+  /* 박스 */
+  .alert{background:#2A1818;border:1px solid #5A2828;border-radius:10px;padding:14px 18px;margin-bottom:18px;color:#F4C4C0;font-size:13.5px}
+  .alert b{color:#FFB0A8}
+  .info{background:linear-gradient(135deg,#1F2A3A,#0B0907);border:1px solid #9FC8FF;border-radius:10px;padding:14px 18px;margin-bottom:18px;color:#CBC8C1;font-size:13.5px}
+  .info b{color:#9FC8FF}
+  .pick-strip{background:linear-gradient(135deg,#1F3A28,#0B0907);border:1px solid #A8E6B3;border-radius:10px;padding:14px 18px;margin-bottom:18px;color:#CBC8C1;font-size:13.5px}
+  .pick-strip b{color:#A8E6B3}
+
+  /* 로드맵 */
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  @media (max-width:780px){.roadmap{grid-template-columns:1fr}}
+  .road-card{background:#161617;border:1px solid #242425;border-radius:14px;padding:18px 20px}
+  .road-card .road-tag{display:inline-block;padding:3px 10px;border-radius:14px;font-size:10.5px;font-weight:700;letter-spacing:2px}
+  .road-card.p0 .road-tag{background:#FF8FBB;color:#0F0F10}
+  .road-card.p1 .road-tag{background:#FFD87A;color:#0F0F10}
+  .road-card.p2 .road-tag{background:#9FC8FF;color:#0F0F10}
+  .road-card.p3 .road-tag{background:#A8E6B3;color:#0F0F10}
+  .road-card h4{color:#FFF;margin:8px 0 6px;font-family:'Nanum Myeongjo',serif;font-size:17px;font-weight:800}
+  .road-card .road-time{font-size:11.5px;color:#FF8FBB;font-weight:700;margin-bottom:6px;letter-spacing:0.5px}
+  .road-card .road-desc{font-size:12.5px;color:#CBC8C1;line-height:1.7}
+
+  ul.flat{list-style:none;padding:0}
+  ul.flat li{padding:10px 14px;background:#161617;border-left:3px solid #FF8FBB;border-radius:0 8px 8px 0;margin-bottom:8px;font-size:13.5px;color:#CBC8C1}
+  ul.flat li b{color:#FFF}
+
+  /* 언리얼 카드 강조 */
+  .unreal-card{background:linear-gradient(135deg,#2A1F3A,#0B0907);border:2px solid #FF8FBB;border-radius:14px;padding:22px 26px;margin-bottom:20px}
+  .unreal-card h3{color:#FF8FBB;margin-top:0;font-size:22px}
+  .unreal-card h3 small{display:block;font-family:'Pretendard',sans-serif;font-size:12px;color:#BDB9B1;font-weight:500;margin-top:4px;letter-spacing:1px}
+  .unreal-card .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  @media (max-width:780px){.unreal-card .vs-grid{grid-template-columns:1fr}}
+  .pros-box,.cons-box{background:rgba(15,15,16,0.6);border-radius:10px;padding:14px}
+  .pros-box{border-left:3px solid #A8E6B3}
+  .cons-box{border-left:3px solid #F4B4B4}
+  .pros-box h4{color:#A8E6B3;font-size:14px;margin-bottom:8px}
+  .cons-box h4{color:#F4B4B4;font-size:14px;margin-bottom:8px}
+  .pros-box ul,.cons-box ul{padding-left:18px;font-size:12.5px;color:#CBC8C1;line-height:1.75}
+
+  .quote{background:linear-gradient(135deg,#2A1F2F,#0F0907);border:1px solid #FF8FBB;border-radius:14px;padding:18px 22px;margin:22px 0;font-style:italic;font-size:14.5px;color:#FFD0DD}
+  .quote::before{content:"\"";font-family:'Cormorant Garamond',serif;font-size:60px;color:#FF8FBB;line-height:0;margin-right:8px;vertical-align:-20px;font-style:normal}
+
+  footer{margin-top:50px;padding-top:24px;border-top:1px solid #2A2A2A;color:#666;font-size:11.5px;text-align:center}
+  footer a{color:#FF8FBB}
+</style>
+</head>
+<body>
+
+<div class="kicker">ARTbrows · 전 직원 연구 회의 2차</div>
+<h1>「<em>지금보다 더 리얼하게</em>」 — 언리얼·웹·AI 비교 연구 리포트</h1>
+<p class="lead">
+  대표님 인용 (2026-06-24): "지금보다 더 리얼하게 하려면 어떻게 해야 되는지 전직원 회의해 보자.
+  <b>웹에서 보는 게 제일 좋긴 하지만 정 안되면 컴퓨터에서만 실행되어야 된다.</b>
+  온라인 게임이나 핸드폰 게임은 요즘 엄청 리얼하다.
+  <em>언리얼 엔진 적용해야 될지 아니면 다른 게 있는지</em> 체크해 보자."
+</p>
+
+<div class="team-row">
+  <span class="team-chip lee"><span class="ic">이</span><b>이서연</b> · 기획·마케팅</span>
+  <span class="team-chip yuna"><span class="ic">유</span><b>유나</b> · 그래픽·비주얼 디자이너</span>
+  <span class="team-chip min"><span class="ic">민</span><b>김민서</b> · Face Lab 리드 (AI·3D)</span>
+  <span class="team-chip han"><span class="ic">한</span><b>한승철</b> · 풀스택 (인프라·성능)</span>
+</div>
+
+<div class="meta-bar">
+  <div><b>회의 일자</b>2026-06-24 (수) 2차</div>
+  <div><b>현재 상태</b>Face Lab Phase 2 P1 — Higgsfield image_to_3d + 텍스처 ON GLB</div>
+  <div><b>리얼리즘 점수 현재</b>★★★ / ★★★★★ (시연용 등급)</div>
+  <div><b>목표</b>★★★★★ — 「Apple MetaHuman / 카카오 라이브2D / 게임급」</div>
+</div>
+
+<!-- A. 현재 한계 진단 -->
+<section>
+  <h2><span class="num">A</span>현재 한계 진단 — 왜 「실제 사람」 처럼 안 보일까</h2>
+  <div class="alert">
+    <b>★ 현재 Higgsfield image_to_3d 의 본질적 한계</b> — 단일 사진 → 3D 메쉬 추정은 「뒤통수·옆얼굴·목 아래」 정보가 부족. 또 PBR (Physically Based Rendering) 재질이 단순함. 피부 = subsurface scattering (서브서피스 스캐터링) 없음. 머리카락 = 단일 메쉬 (가닥별 X). 조명 = HDR 환경 매핑 단순.
+  </div>
+  <table>
+    <thead><tr><th style="width:24%">리얼리즘 요소</th><th style="width:14%">현재</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr><td><b>피부 (Subsurface)</b></td><td><span class="score low">★</span></td><td>빛이 피부 안에서 산란 (귀끝·콧날에 붉은 기). 현재 일반 매트 텍스처</td></tr>
+      <tr><td><b>머리카락 (Hair shader)</b></td><td><span class="score low">★</span></td><td>실제 머리는 5만~10만 가닥. 현재 = 단일 메쉬</td></tr>
+      <tr><td><b>눈동자 (다층 굴절)</b></td><td><span class="score low">★</span></td><td>각막·홍채·동공 다층. 빛 반사·굴절. 현재 = 평면</td></tr>
+      <tr><td><b>조명 (HDR 환경)</b></td><td><span class="score mid">★★★</span></td><td>model-viewer "neutral" = HDRI 사용. 그래도 단순. RTX 급 광선 추적 X</td></tr>
+      <tr><td><b>그림자 (Soft + AO)</b></td><td><span class="score mid">★★</span></td><td>Ambient Occlusion (모서리·구덩이 음영) 약함</td></tr>
+      <tr><td><b>카메라 (DoF + 노이즈)</b></td><td><span class="score low">★</span></td><td>Depth of Field·필름 그레인 없음 = "CG 티"</td></tr>
+      <tr><td><b>메쉬 정밀도</b></td><td><span class="score mid">★★★</span></td><td>21K~28K 정점. MetaHuman = 100K+. 얼굴 디테일 부족</td></tr>
+      <tr><td><b>표정·미세 근육</b></td><td><span class="score low">★</span></td><td>정적 메쉬. 미소·놀람 등 표현 X</td></tr>
+    </tbody>
+  </table>
+  <div class="info">
+    <b>★ 즉 「게임·MetaHuman 급 리얼리즘」 = 8 요소 모두 ★★★★ 이상</b> 가야. 단일 사진 → 메쉬 추정 모델로는 본질적 한계. 다른 접근 필요.
+  </div>
+</section>
+
+<!-- B. 4 직원 의견 -->
+<section>
+  <h2><span class="num">B</span>전 직원 4인 관점별 의견</h2>
+
+  <div class="opinion lee">
+    <h3><span class="ic">이</span> 이서연 · 기획·마케팅 <small>유저 경험·전환·실용</small></h3>
+    <div class="stance">★ 입장 — "리얼리즘은 ★★★★ 면 충분. 마지막 ★ 하나로 가는 비용이 100배다. 사용자가 「내 얼굴이다」 라고 인식하면 충분."</div>
+    <ul>
+      <li><b>「Uncanny Valley」 한계</b> — ★★★ → ★★★★ 는 효과 큼. ★★★★ → ★★★★★ 는 인지 차이 미세하지만 비용 100배</li>
+      <li><b>★★★★ 의 정의</b> — 「실사 + 정면」 = 인스타 사진. 회전 시 약간 어색해도 「내 얼굴」 인식 → 전환 발생</li>
+      <li><b>마케팅 활용</b> — 「3D 회전 영상」 자체가 콘텐츠. 인스타 릴스 = 5~10초. 그 시간 안에 ★★★★ 면 충분</li>
+      <li><b>중국·미국 시장 (9월 LA·SF)</b> — 레드노트 · 틱톡 = 「리얼 + 즉시」 가 핵심. Pixel Streaming (서버 비용) = 큐 부하 시 영상 끊김 위험</li>
+      <li><b>★ 결론</b> — 언리얼 ★★★★★ vs 웹 ★★★★ + AI 합성 = 후자 강력 추천. 단, MetaHuman 영상 1편은 마케팅용으로 따로</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — 「유저 인터랙션 = 웹 (★★★★)」 + 「인스타 광고 = MetaHuman 영상 1편 외주」 분리 전략</div>
+  </div>
+
+  <div class="opinion yuna">
+    <h3><span class="ic">유</span> 유나 · 그래픽·비주얼 디자이너 <small>리얼리즘 · 아트 디렉션</small></h3>
+    <div class="stance">★ 입장 — "현재 ★★★ 의 가장 큰 문제 = 피부 톤이 너무 균일. 살아있는 사람은 「부분별 색 차이」가 핵심. 게임·MetaHuman 도 결국 이걸 처리한다."</div>
+    <ul>
+      <li><b>피부 ★★★★ 핵심</b> — Subsurface Scattering (SSS) + multi-layer texture (모공·잔주름·홍조). Three.js + PBR + SSS 도 ★★★★ 가능</li>
+      <li><b>머리카락 ★★★★ 핵심</b> — Strand-based (가닥별) 렌더. Unreal Hair Strand = 가장 강력. Three.js 도 PolyHaven 카드형 헤어로 ★★★</li>
+      <li><b>눈동자 ★★★★ 핵심</b> — Iris parallax + 각막 굴절 + 다층 반사. Three.js Shader 직접 작성 가능</li>
+      <li><b>★ 「Stylized Realism」 전략</b> — 100% 실사 X. ARTbrows 시그니처 「에디토리얼 톤」 (살구톤 + 부드러운 라이트) 으로 거리감 만들기. 「약간의 양식화」 = 부담스럽지 않고 럭셔리</li>
+      <li><b>실측 데이터 필요</b> — 장미지 원장님 또는 모델 1명을 실측 (사진 100장 다각도) → Gaussian Splatting 으로 「Photo-real 3D」 가능. 한 번 만들면 평생 자산</li>
+      <li><b>레퍼런스</b> — Apple Vision Pro의 「Persona」, Snapchat AR Mirror, LoL Champion 모델, 카카오 라이브2D — 모두 「리얼 X 양식화」 균형</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — <b>「Gaussian Splatting + Three.js + PBR」</b> 하이브리드. Unreal MetaHuman 은 마케팅 영상 1편 외주 (자산 영구 사용). 일상 인터랙션 = 웹</div>
+  </div>
+
+  <div class="opinion min">
+    <h3><span class="ic">민</span> 김민서 · Face Lab 리드 <small>AI · 3D 재구성 · 렌더링</small></h3>
+    <div class="stance">★ 입장 — "본질적 해법은 「더 많은 입력」 또는 「더 강한 prior (사전 지식)」. 단일 사진 한계는 inherent. 다중 사진 / 비디오 / MetaHuman prior 가 답."</div>
+    <ul>
+      <li><b>방법 1: Multi-view (사진 5~20장)</b> — Gaussian Splatting (2023~) · NeRF · Instant-NGP. <b>품질 ★★★★★</b>. 촬영 부담 있음. 메쉬 추출 → Unreal/Unity 가능</li>
+      <li><b>방법 2: Video → 4D</b> — 짧은 비디오 (10초) → 동적 3D. Dust3R · DUSt3R · MultiHMR. ★★★★</li>
+      <li><b>방법 3: Strong Prior (MetaHuman / FLAME)</b> — 거대 모델 사전 지식 활용. 단일 사진 → MetaHuman 캐릭터 자동 생성. <b>품질 ★★★★★</b>. 제어 강함</li>
+      <li><b>방법 4: AI Image (2D)</b> — Stable Diffusion 3 + ControlNet + InstantStyle. 「내 얼굴 + 시그니처 눈썹」 = 실사 ★★★★★. 단점 = 회전·인터랙션 X</li>
+      <li><b>방법 5: Hybrid AI</b> — 3D 메쉬 + AI Postprocessing. Unreal MetaHuman 의 출력에 Stable Diffusion 후처리 = 끝판왕</li>
+      <li><b>현실적 단계</b> — Phase 2 = Gaussian Splatting 자체 테스트 (R&D). Phase 3 = MetaHuman 외주 1편. Phase 4 = 자체 인프라 구축</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — <b>「Gaussian Splatting (단기 R&D) + MetaHuman 외주 (중기) + Stable Diffusion 3 합성 (즉시)」</b> 3축. 언리얼 직접 채용은 인력 부담 큼</div>
+  </div>
+
+  <div class="opinion han">
+    <h3><span class="ic">한</span> 한승철 · 풀스택 (인프라·성능) <small>웹 vs 네이티브 · 비용</small></h3>
+    <div class="stance">★ 입장 — "Unreal 의 「Pixel Streaming」 만 알면 결론 끝. 서버에서 렌더 → 비디오 스트리밍. 동시 사용자 1명당 서버 1대. 학원 규모로 매월 ₩300만 ↑"</div>
+    <ul>
+      <li><b>웹 옵션 1: Three.js + PBR + SSS</b> — 무료 · 가벼움 · 학습 곡선 보통. 리얼리즘 ★★★. 모바일 OK. <b>즉시 가능</b></li>
+      <li><b>웹 옵션 2: Babylon.js</b> — Microsoft. Three.js 보다 게임 엔진급. 리얼리즘 ★★★★. 학습 곡선 약간 ↑</li>
+      <li><b>웹 옵션 3: WebGPU (차세대)</b> — Three.js / Babylon.js WebGPU 백엔드. RTX 급 가능. 호환성 = Chrome 113+, Safari 17+. 2026년 호환성 95%+</li>
+      <li><b>웹 옵션 4: Unreal Pixel Streaming</b> — 서버에서 Unreal 렌더 → WebRTC 비디오 전송. 품질 ★★★★★. <b>비용 폭탄</b>: 동시 1명 = AWS g5.xlarge ₩1500/시간. 월 100명 동시 = ₩300만+. 가정용 PC 사양 무관 = 강점</li>
+      <li><b>웹 옵션 5: NVIDIA Omniverse / CloudXR</b> — RTX 스트리밍. Pixel Streaming 보다 효율. 같은 가격대</li>
+      <li><b>데스크탑 옵션 1: Unreal Engine 5</b> — 영화급. 무료. 단, 컴퓨터 사양 GTX 3060+ 필요. 학원 강의실 PC = 이 사양 가능? <b>일반 유저는 절대 못 깔음</b></li>
+      <li><b>데스크탑 옵션 2: Unity HDRP</b> — 게임급. 무료. Unreal 보다 가벼움. 학습 곡선 약간 ↑</li>
+      <li><b>데스크탑 옵션 3: Blender Cycles</b> — 무료. 사진 사실주의 가능. 단, <b>오프라인 렌더</b> = 인터랙티브 X. 영상 1편 굽기용</li>
+      <li><b>모바일 게임 비교</b> — 「엘리스 같은 RPG」 = 미리 만들어진 자산. 학원용 = 「사용자 사진 즉시 처리」 = 다름. 모바일 게임 엔진 (Unity / Unreal 모바일) 으로 똑같이 못 함</li>
+      <li><b>★ 사용자 사진 즉시 처리 + 리얼리즘 ★★★★</b> = 「웹 + Three.js + 사전 처리 (Gaussian Splatting)」 만 유일한 해법</li>
+    </ul>
+    <div class="pick">★ <b>추천</b> — <b>「Three.js + PBR + SSS (기본) + WebGPU (2027 마이그레이션) + MetaHuman 영상 외주 (마케팅 1편)」</b>. 자체 Unreal 도입 X (인력·비용)</div>
+  </div>
+</section>
+
+<!-- C. 언리얼 깊이 분석 -->
+<section>
+  <h2><span class="num">C</span>★ 언리얼 엔진 깊이 분석 — 대표님 명시 옵션</h2>
+  <div class="unreal-card">
+    <h3>Unreal Engine 5 + MetaHuman <small>Epic Games · 무료 (사용 가능) · 영화·게임 표준</small></h3>
+    <p style="font-size:13.5px;color:#CBC8C1;margin-bottom:12px">
+      Unreal Engine 5 = 「영화·게임 산업 표준」. MetaHuman = Epic 의 사진 사실주의 얼굴 생성 도구. Stranger Things · The Matrix Awakens · Fortnite · 영화 「Mandalorian」 모두 Unreal 5 로 제작.
+    </p>
+    <div class="vs-grid">
+      <div class="pros-box">
+        <h4>★ 장점</h4>
+        <ul>
+          <li><b>리얼리즘 ★★★★★</b> — 게임·영화 산업 최고 표준</li>
+          <li><b>MetaHuman Creator</b> — 사진 → MetaHuman 자동 (5~20분)</li>
+          <li><b>피부 SSS · Hair Strand · Eye Shader</b> 모두 내장</li>
+          <li><b>Lumen + Nanite</b> — 실시간 광선 추적 + 무한 메쉬</li>
+          <li><b>무료</b> (게임 매출 ₩100만 이하 무료, 그 이상 5% 로열티). 학원용 = 무료</li>
+          <li><b>Pixel Streaming</b> — 서버에서 렌더 → 어떤 디바이스도 봄</li>
+        </ul>
+      </div>
+      <div class="cons-box">
+        <h4>★ 단점</h4>
+        <ul>
+          <li><b>학습 곡선 매우 큼</b> — 풀타임 3D 아티스트 + 엔지니어 6개월+</li>
+          <li><b>웹 직접 배포 X</b> — Pixel Streaming = 서버 비용 폭탄</li>
+          <li><b>데스크탑 = GTX 3060+ 필요</b> — 학원 강의실 PC 부족 가능</li>
+          <li><b>「사용자 사진 → MetaHuman」 자동화 어려움</b> — MetaHuman 은 사진 1장 → 자동 변환 약함 (직접 메쉬 매핑 필요)</li>
+          <li><b>맥북에선 무거움</b> — 윈도우 + 강력 GPU 권장</li>
+          <li><b>스튜디오 / 외주 비용</b> — 모델 1편 영상 (30초) = ₩200~500만</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="info">
+    <b>★ 결론 — 자체 도입 X / 외주 영상 1편 O</b><br>
+    Unreal MetaHuman 의 「영화급 영상」 가치 = 인스타·중국 SNS 광고에서 폭발적. 다만 일상 유저 인터랙션 (Face Lab) 으로 적용 = 비용·인력 부담 너무 큼.
+    → <b>「9월 LA·SF 출장 전 MetaHuman 외주 영상 1편 (₩300만)」 + 「웹 Three.js (PBR + SSS) 기본 인터랙션」</b>
+  </div>
+</section>
+
+<!-- D. 대안 비교 종합표 -->
+<section>
+  <h2><span class="num">D</span>대안 비교 종합표 (각 0~5점)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%">방법</th>
+        <th style="width:9%">리얼리즘</th>
+        <th style="width:9%">웹 가능</th>
+        <th style="width:9%">속도</th>
+        <th style="width:9%">개발</th>
+        <th style="width:9%">비용</th>
+        <th>한 줄 평</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Unreal MetaHuman</b><br><small>영화·게임 최고</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td>외주 영상 1편 OK · 자체 도입 X</td>
+      </tr>
+      <tr>
+        <td><b>Unreal Pixel Streaming</b><br><small>서버 렌더 → 웹</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td>품질 끝판왕 · 월 ₩300만+ 비용</td>
+      </tr>
+      <tr>
+        <td><b>Unity HDRP</b><br><small>게임급 + WebGL</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td>Unreal 보다 가볍지만 인력 필요</td>
+      </tr>
+      <tr>
+        <td><b>★ Three.js + PBR + SSS</b><br><small>웹 표준 + 고급 셰이더</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><b>현실적 ★★★★ 끝판왕</b></td>
+      </tr>
+      <tr>
+        <td><b>Babylon.js + WebGPU</b><br><small>차세대 웹</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td>2027 시점 최강 웹 옵션</td>
+      </tr>
+      <tr>
+        <td><b>★ Gaussian Splatting</b><br><small>다중 사진 → 실사 3D</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><b>장미지 원장 「영구 자산」 가능</b></td>
+      </tr>
+      <tr>
+        <td><b>Stable Diffusion 3 + ControlNet</b><br><small>2D AI 합성</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><b>인터랙션 X · 결과 사진은 끝판왕</b></td>
+      </tr>
+      <tr>
+        <td><b>NVIDIA Omniverse RTX Streaming</b><br><small>RTX 광선추적 → 웹</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td>Pixel Streaming 대안 · 비싸지만 더 효율</td>
+      </tr>
+      <tr>
+        <td><b>Blender Cycles</b><br><small>오프라인 사진 사실주의</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score mid">★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td>영상 1편 굽기 OK · 인터랙션 X</td>
+      </tr>
+      <tr>
+        <td><b>Banuba SDK / Snap AR</b><br><small>상용 WebAR</small></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score">★★★★</span></td>
+        <td><span class="score low">★★</span></td>
+        <td>월 ₩100~300만 라이선스 · 즉시 라이브AR</td>
+      </tr>
+      <tr>
+        <td><b>Apple Vision Pro (네이티브)</b><br><small>visionOS 앱</small></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score">★★★★★</span></td>
+        <td><span class="score low">★</span></td>
+        <td><span class="score low">★</span></td>
+        <td>$3500 헤드셋 · 일반 유저 X</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- E. 「리얼리즘 ★★★★」 핵심 비결 -->
+<section>
+  <h2><span class="num">E</span>「웹에서 ★★★★ 달성 비결」 — 8 요소 체크리스트</h2>
+  <div class="pick-strip">
+    <b>★ 핵심 — Three.js 만으로도 ★★★★ 도달 가능</b>. 8 요소를 모두 ★★★★ 까지 끌어올리는 게 핵심. 다음 라운드 (P0) 후보:
+  </div>
+  <ul class="flat">
+    <li><b>1. 피부 SSS</b> — Three.js MeshPhysicalMaterial + `thickness` + `transmission` + `attenuationColor`. 코끝·귀 빛 통과 효과. <em>★ → ★★★★</em></li>
+    <li><b>2. 머리카락</b> — PolyHaven 의 「Hair Cards」 + 알파 셰이더 · 또는 Strand Renderer (WebGPU). <em>★ → ★★★</em></li>
+    <li><b>3. 눈동자 셰이더</b> — Iris parallax + 각막 굴절 (Three.js refraction shader). <em>★ → ★★★★</em></li>
+    <li><b>4. HDR 환경</b> — PolyHaven `studio_small_*.hdr` (스튜디오 조명) 적용. model-viewer `environment-image` 교체. <em>★★★ → ★★★★★</em></li>
+    <li><b>5. AO 베이크</b> — Substance Painter / Blender 에서 Ambient Occlusion 베이크 → 모서리 음영. <em>★★ → ★★★★</em></li>
+    <li><b>6. Depth of Field + Film Grain</b> — Three.js EffectComposer + BokehPass + FilmPass. 카메라 "찍은 듯". <em>★ → ★★★★</em></li>
+    <li><b>7. 메쉬 정밀화</b> — Higgsfield `multi_image_to_3d` (정면+측면+45° 3장) 사용. 28K → 60K 정점. <em>★★★ → ★★★★</em></li>
+    <li><b>8. 표정 Blendshapes</b> — MetaHuman 또는 FaceUnity 의 ARKit blendshapes (52개) 추가. <em>★ → ★★★★</em></li>
+  </ul>
+</section>
+
+<!-- F. 로드맵 -->
+<section>
+  <h2><span class="num">F</span>추천 로드맵 — 「오늘 · 이번 주 · 이번 달 · 분기」</h2>
+  <div class="roadmap">
+    <div class="road-card p0">
+      <span class="road-tag">P0 — 이번 주</span>
+      <h4>웹 ★★★ → ★★★★ (Three.js 마이그레이션)</h4>
+      <div class="road-time">3~5일 · 무료</div>
+      <div class="road-desc">model-viewer → <b>Three.js + MeshPhysicalMaterial</b> + PolyHaven HDR + EffectComposer (DoF + 필름 그레인). 동일 GLB 그대로 사용. 비용 0. <em>김민서 + 한승철 협업</em></div>
+    </div>
+    <div class="road-card p1">
+      <span class="road-tag">P1 — 7월</span>
+      <h4>Multi-view 3D (3장 사진)</h4>
+      <div class="road-time">1주 · ~150 크</div>
+      <div class="road-desc">Higgsfield <b>multi_image_to_3d</b> (정면+측면+45°). 메쉬 정밀도 ★★★ → ★★★★. 5장 캐릭터 모두 재생성 + Gaussian Splatting 자체 R&D 시작</div>
+    </div>
+    <div class="road-card p2">
+      <span class="road-tag">P2 — 8월</span>
+      <h4>MetaHuman 외주 영상 1편</h4>
+      <div class="road-time">3~4주 · ₩300~500만</div>
+      <div class="road-desc">「장미지 원장 가상 아바타」 30초 영상. 인스타·중국 SNS·미국 진출 (9월 LA·SF) 마케팅. 영상 영구 자산 (재사용)</div>
+    </div>
+    <div class="road-card p3">
+      <span class="road-tag">P3 — Q4 (10월)</span>
+      <h4>Gaussian Splatting 자체 인프라</h4>
+      <div class="road-time">4~6주 · ~₩200만 (GPU 서버)</div>
+      <div class="road-desc">장미지 원장 + 모델 1명 다각도 촬영 → Gaussian Splatting 「Photo-real 3D」. 평생 자산. 사용자 사진 → 실시간 합성</div>
+    </div>
+  </div>
+</section>
+
+<!-- G. 비용·시간 비교 -->
+<section>
+  <h2><span class="num">G</span>비용·시간 비교 (학원 기준 월 100명 시연)</h2>
+  <table>
+    <thead><tr><th style="width:30%">방법</th><th style="width:18%">초기 셋업</th><th style="width:18%">월 운영비</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>현재 (model-viewer + Higgsfield)</b></td><td>₩0</td><td>~₩4만 (Higgsfield Plus)</td><td>이미 동작 중</td></tr>
+      <tr><td><b>P0 — Three.js + PBR + SSS</b></td><td>~₩0 (자체 개발 5일)</td><td>~₩4만 (동일)</td><td>★★★ → ★★★★</td></tr>
+      <tr><td><b>P1 — Multi-view 3D</b></td><td>~₩0 (Higgsfield 크레딧)</td><td>~₩4만</td><td>메쉬 정밀화</td></tr>
+      <tr><td><b>P2 — MetaHuman 외주 영상</b></td><td>₩300~500만 (영상 1편)</td><td>₩0</td><td>영상 영구 자산</td></tr>
+      <tr><td><b>P3 — Gaussian Splatting</b></td><td>~₩200만 (촬영 + 셋업)</td><td>~₩30만 (GPU 서버)</td><td>장미지 원장 영구 자산</td></tr>
+      <tr><td><b>대안: Unreal Pixel Streaming</b></td><td>₩2000만+ (인력 6개월)</td><td>₩300만+ (AWS g5)</td><td>★★★★★ but 비용 폭탄</td></tr>
+      <tr><td><b>대안: Banuba SDK</b></td><td>₩200만 (통합)</td><td>₩100~300만 (라이선스)</td><td>월 비용 부담</td></tr>
+      <tr><td><b>대안: Unity HDRP 데스크탑 앱</b></td><td>₩500~1000만 (인력)</td><td>~₩0</td><td>유저는 다운로드 + 설치</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- H. 결정 대기 -->
+<section>
+  <h2><span class="num">H</span>대표님 결정 대기 — 6/29 정례 회의 안건</h2>
+  <ul class="flat">
+    <li><b>H-1.</b> P0 (Three.js ★★★★ 마이그레이션) 이번 주 착수 OK? — 자율 진행 가능?</li>
+    <li><b>H-2.</b> P2 MetaHuman 외주 영상 — 9월 LA·SF 출장 전 1편? 예산 ₩300~500만? 외주 업체 검토 시작?</li>
+    <li><b>H-3.</b> P3 Gaussian Splatting 「장미지 원장 영구 자산」 촬영 — 다각도 100장 촬영 일정? (장미지 원장님 일정 협의 필요)</li>
+    <li><b>H-4.</b> Unreal 자체 도입 X 결정 — 채용·인력 부담 큼 (전 직원 합의). 외주만</li>
+    <li><b>H-5.</b> 데스크탑 앱 (Unity HDRP) — 학원 상담실 PC 에 설치하여 「현장 시연」 가능? 우선순위 어디?</li>
+  </ul>
+</section>
+
+<!-- J. Claude Code 친화 + MCP 옵션 (대표님 추가 질문) -->
+<section>
+  <h2><span class="num">J</span>★ 「Claude Code 가 직접 제어 가능 + MCP 연동」 옵션 (대표님 추가 질문)</h2>
+  <div class="info">
+    <b>★ 대표님 인용 (06/24 추가)</b> — "클로드코드와 궁합 잘 맞는 3D 엔진이 있나? 너가 잘 이야기 하면 그대로 모양이 나오는 게 제일 좋다. <b>MCP 로 연동 가능하면 제일 좋겠다.</b> 클로드코드에서 제어 가능한 퀄러티 뛰어난 3D model 구현"
+  </div>
+
+  <h3>J-1. MCP 가능 / Claude Code 친화도 TOP 5</h3>
+  <table>
+    <thead><tr><th style="width:24%">엔진/도구</th><th style="width:12%">MCP</th><th style="width:12%">Claude 친화도</th><th style="width:12%">품질</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr><td><b>★ Higgsfield MCP</b><br><small>이미 보유</small></td><td><span class="score">★★★★★</span></td><td><span class="score">★★★★★</span></td><td><span class="score mid">★★★</span></td><td>이미 사용 중. 사진 → GLB, 이미지 edit, 영상 생성 모두 Claude 1 줄 호출</td></tr>
+      <tr><td><b>★ Blender MCP</b><br><small>오픈소스, 추가 가능</small></td><td><span class="score">★★★★★</span></td><td><span class="score">★★★★★</span></td><td><span class="score">★★★★★</span></td><td>Blender Python API → Claude Desktop 직접 제어. 메쉬 변형·라이트·렌더 자유. <em>github.com/ahujasid/blender-mcp</em></td></tr>
+      <tr><td><b>Three.js + Claude 코드 작성</b><br><small>MCP 없이 코드 직접</small></td><td><span class="score low">★</span></td><td><span class="score">★★★★★</span></td><td><span class="score">★★★★</span></td><td>Claude 가 JS 코드 직접 작성. 즉시 시각화. <b>현재 진행 가능</b></td></tr>
+      <tr><td><b>Replicate API</b><br><small>FLAME/DECA/Splatting</small></td><td><span class="score mid">★★★</span></td><td><span class="score">★★★★</span></td><td><span class="score">★★★★★</span></td><td>Claude 가 HTTP 호출. 학술 모델 1 줄 사용. MCP 직접 X 지만 코드 친화</td></tr>
+      <tr><td><b>Unity MCP</b><br><small>실험적, 일부 있음</small></td><td><span class="score mid">★★★</span></td><td><span class="score mid">★★★</span></td><td><span class="score">★★★★</span></td><td>일부 MCP 서버 존재 (community). 정식 X. 한계 있음</td></tr>
+      <tr><td><b>Unreal MCP</b><br><small>없음 (2026 시점)</small></td><td><span class="score low">★</span></td><td><span class="score low">★</span></td><td><span class="score">★★★★★</span></td><td>MCP 없음. UE Python 가능하나 Claude 통합 X. 외주만 가능</td></tr>
+      <tr><td><b>Spline MCP</b><br><small>없음</small></td><td><span class="score low">★</span></td><td><span class="score mid">★★★</span></td><td><span class="score mid">★★★</span></td><td>노코드 에디터. MCP X. 임베드 만 가능</td></tr>
+    </tbody>
+  </table>
+
+  <h3>J-2. ★ 최적 조합 — Higgsfield + Blender MCP + Three.js</h3>
+  <div class="pick-strip">
+    <b>★ 추천 조합 (Claude Code 친화 + 고품질 + MCP 가능)</b><br>
+    1. <b>Higgsfield MCP</b> (이미 보유) — 사진 → 3D GLB 생성<br>
+    2. <b>Blender MCP</b> (신규 도입) — GLB 후처리 (피부 SSS · 머리카락 · 표정 변형 · 시술 시뮬레이션 자동화)<br>
+    3. <b>Three.js</b> (Claude 코드 작성) — 웹 렌더링 + 인터랙션
+  </div>
+
+  <h3>J-3. Blender MCP 도입 효과 (예상)</h3>
+  <ul class="flat">
+    <li><b>대표님이 「눈썹 더 길게」</b> → Claude 가 Blender MCP 호출 → Blender 가 vertex 직접 이동 → 새 GLB 출력 → Three.js 즉시 표시</li>
+    <li><b>대표님이 「얼굴 어리게 보이게」</b> → Blender 의 facial blend shape (광대뼈 ↓, 볼 ↑, 입꼬리 ↑) → 자동 변형 → 결과 비교</li>
+    <li><b>대표님이 「시술 후 5년」</b> → 표정 주름·잔주름 추가 시뮬레이션 → 자연 노화 vs 시술 후 비교</li>
+    <li><b>대표님이 「쇼츠 영상」</b> → Blender Cycles 렌더 → 30초 영상 자동 생성 → ffmpeg 결합 → 인스타 게시</li>
+  </ul>
+
+  <div class="alert">
+    <b>★ Blender MCP 도입 비용</b> — 무료 (오픈소스). 단점 = 첫 셋업 1~2시간 + 학습. 효과 = Claude Code 가 「말로」 3D 제어 가능. <em>유나·김민서가 함께 가장 강력하게 추천</em>
+  </div>
+</section>
+
+<!-- K. 현재 구현 + 점진적 향상 -->
+<section>
+  <h2><span class="num">K</span>★ 현재 구현 + 「뭘 더하면 더 리얼해진다」 점진적 향상 (대표님 추가 질문)</h2>
+  <div class="info">
+    <b>★ 대표님 인용 (06/24)</b> — "현재 구현중인 게 뭘 더하면 더 리얼해 진다는 방법이 있어도 좋다"
+  </div>
+
+  <h3>K-1. 「오늘 1~3시간 안에 적용 가능」 즉시 향상 ★</h3>
+  <ul class="flat">
+    <li><b>① HDR 환경 교체</b> — model-viewer 의 <code>environment-image="neutral"</code> → <code>environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"</code>. <em>리얼리즘 ★★★ → ★★★★</em>. <b>코드 1 줄</b></li>
+    <li><b>② Tone Mapping</b> — model-viewer <code>tone-mapping="aces"</code> 추가. 영화급 톤 매핑. <em>약간 향상</em></li>
+    <li><b>③ Skybox / 배경 색</b> — <code>skybox-image</code> 추가. 살구톤 배경. <em>약간 향상</em></li>
+    <li><b>④ Shadow 강화</b> — <code>shadow-intensity="2"</code> + <code>shadow-softness="1"</code>. 그림자 부드럽고 진하게. <em>약간 향상</em></li>
+    <li><b>⑤ Higgsfield should_texture 옵션 재호출</b> — 이미 적용 OK ✅</li>
+    <li><b>⑥ 카메라 시점 고정</b> — <code>min-camera-orbit / max-camera-orbit</code> 으로 옆모습·뒤통수 회전 제한. 약점 가리기. <em>UX 강함</em></li>
+  </ul>
+
+  <h3>K-2. 「이번 주 1~3일」 중간 향상 ★★</h3>
+  <ul class="flat">
+    <li><b>① Three.js 마이그레이션</b> — model-viewer 대신 Three.js 직접. <code>MeshPhysicalMaterial</code> + SSS 옵션 (`transmission`, `thickness`, `attenuationColor`). <em>★★★ → ★★★★</em></li>
+    <li><b>② Post-processing (EffectComposer)</b> — Bloom (눈 반사) + DoF (배경 블러) + Film Grain (필름 질감). <em>★★★ → ★★★★</em></li>
+    <li><b>③ Multi-image to 3D</b> — Higgsfield <code>multi_image_to_3d</code> (정면+측면 2장 또는 정면+측면+45° 3장). 메쉬 정밀도 ★★★ → ★★★★</li>
+    <li><b>④ Eyebrow 부분 변형 (slider)</b> — Three.js BlendShape 또는 Vertex Group 으로 「눈썹 영역만」 변형. 슬라이더로 「전→후」 부드러운 전환</li>
+  </ul>
+
+  <h3>K-3. 「이번 달 1~3주」 본격 향상 ★★★</h3>
+  <ul class="flat">
+    <li><b>① Blender MCP 셋업</b> — 위 J-2 의 핵심. Claude Code 가 Blender 직접 제어</li>
+    <li><b>② Gaussian Splatting 자체 R&D</b> — 사진 5~20장 → 「Photo-real 3D」. 장미지 원장 영구 자산. ★★★★★</li>
+    <li><b>③ FLAME / DECA / EMOCA 적용</b> — 학술 표준. 더 정밀한 얼굴 메쉬. SSS / 표정 / Blend Shapes 자유</li>
+    <li><b>④ Stable Diffusion 3 + ControlNet 통합</b> — 2D 단계 시뮬레이션. 「내 얼굴 + 시그니처 눈썹 + 어려진 얼굴」 합성. ★★★★★</li>
+  </ul>
+</section>
+
+<!-- L. 사진 → 3D → 시술 시뮬레이션 워크플로우 -->
+<section>
+  <h2><span class="num">L</span>★ 「사진 찍으면 → 리얼 3D → 시술 후 어리고 이쁘게」 완성 워크플로우</h2>
+  <div class="info">
+    <b>★ 대표님 인용 (06/24)</b> — "사진을 찍으면 그걸 그대로 3D 로 리얼하게 나오고 그걸 우리의 시술을 통하면 어리고 이쁘게 된다는 결과가 나와야 됨"
+  </div>
+
+  <h3>L-1. 워크플로우 5단계 (대표님 비전 그대로 구현)</h3>
+  <table>
+    <thead><tr><th style="width:8%">#</th><th style="width:18%">단계</th><th style="width:24%">도구</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>사진 업로드</b></td><td>웹 페이지 (Face Lab)</td><td>유저가 정면 셀카 1장 (또는 3장 - 정면 + 측면)</td></tr>
+      <tr><td>2</td><td><b>리얼 3D 메쉬 생성</b></td><td>Higgsfield <code>multi_image_to_3d</code> (MCP)</td><td>정밀 GLB (★★★★) · 30~60초</td></tr>
+      <tr><td>3</td><td><b>시술 후 시뮬레이션</b></td><td>Stable Diffusion 3 + ControlNet 또는 Blender MCP 자동화</td><td>「시술 후 얼굴」 = 시그니처 눈썹 + 광대 보정 + 입꼬리 ↑ + 잔주름 ↓</td></tr>
+      <tr><td>4</td><td><b>「어리게 + 이쁘게」 효과</b></td><td>AI 미용 효과 (Higgsfield image edit + 추가 prompt)</td><td>광채·피부 톤 보정 + 잔털 표현 + 눈썹 강조</td></tr>
+      <tr><td>5</td><td><b>비교 결과 보기</b></td><td>Three.js (시술 전/후 슬라이더 + 좌우 비교)</td><td>유저가 「상담 신청」 클릭 → 폼 전송</td></tr>
+    </tbody>
+  </table>
+
+  <h3>L-2. ★ Claude Code 가 워크플로우 전체 자동 호출 (MCP 활용)</h3>
+  <div class="pick-strip">
+    <b>★ 이상적인 MCP 흐름</b><br>
+    1. <b>유저</b>가 사진 업로드 → <b>Claude</b>가 자동으로:<br>
+    2. <code>higgsfield.media_import_url</code> → 사진 등록<br>
+    3. <code>higgsfield.multi_image_to_3d</code> → 리얼 GLB 생성<br>
+    4. <code>blender_mcp.apply_eyebrow_template(GLB, signature="아치형")</code> → 시술 시뮬레이션<br>
+    5. <code>blender_mcp.apply_youth_effect(GLB, strength=0.4)</code> → 어리게 효과<br>
+    6. <code>blender_mcp.render_comparison(before, after)</code> → 비교 이미지 4종 (정면·측면·45°·CC)<br>
+    7. <code>웹</code>에 결과 자동 표시 → 유저는 회전·줌 + 슬라이더로 「전→후」 비교
+  </div>
+
+  <h3>L-3. 즉시 진행 가능 vs 추가 셋업 필요</h3>
+  <ul class="flat">
+    <li><b>즉시 가능 (오늘)</b> — Higgsfield (보유) + Three.js + Higgsfield image edit (시술 시뮬). <em>★★★★ 수준</em></li>
+    <li><b>이번 주</b> — multi_image_to_3d + EffectComposer + 「전/후 슬라이더」 UI. <em>★★★★+ 수준</em></li>
+    <li><b>이번 달</b> — Blender MCP 도입 → 자동화. <em>★★★★★ 수준, Claude 가 말로 제어</em></li>
+    <li><b>분기</b> — Gaussian Splatting 「장미지 원장 영구 자산」 + 자체 FLAME 인프라. <em>끝판왕</em></li>
+  </ul>
+</section>
+
+<!-- I. 4 직원 최종 합의 -->
+<section>
+  <h2><span class="num">I</span>★ 4 직원 최종 합의 (전체 입장)</h2>
+  <div class="pick-strip">
+    <b>★ 합의 사항</b><br>
+    1. <b>웹 ★★★★ = 「Three.js + PBR + SSS + EffectComposer」</b> — 이번 주 즉시 착수 (한승철 + 김민서)<br>
+    2. <b>MetaHuman ★★★★★ = 외주 영상 1편</b> — 8월 제작, 9월 출장 활용 (이서연 외주 협상)<br>
+    3. <b>Gaussian Splatting = 장미지 원장 영구 자산</b> — 10월 R&D 진행 (유나 아트 디렉션 + 김민서 기술)<br>
+    4. <b>Unreal 자체 도입 X</b> — 인력·비용 부담 너무 큼. 외주 영상 1편으로 대체<br>
+    5. <b>현재 5장 시연 캐릭터 그대로 유지</b> — P0 적용 시 자동 업그레이드
+  </div>
+</section>
+
+<!-- 인용 -->
+<div class="quote">
+  ★★★ → ★★★★ 는 「엔진을 바꾸는 게 아니라 셰이더를 바꾸는 것」. ★★★★★ 는 「엔진을 바꾸는 것」. 학원 일상 인터랙션은 ★★★★ 면 충분. ★★★★★ 는 영상 1편만 외주로 끝내자.<br>
+  &nbsp; — 4 직원 공동 합의 (2026-06-24)
+</div>
+
+<footer>
+  「더 리얼하게」 연구 리포트 · ARTbrows · 2026-06-24 · 운영진 임시 게시 · 4 직원 (이서연·유나·김민서·한승철) 공동 작성<br>
+  <a href="index.html">← 메인 포털</a> ·
+  <a href="face-lab/3d/">Face Lab 3D 갤러리 LIVE</a> ·
+  <a href="3D-시뮬레이션-연구리포트-20260624.html">1차 연구 리포트</a> ·
+  <a href="원장님자료-분석리포트-20260624.html">원장님 자료 분석</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 SaaS 마스터 컨트롤 타워 — ARTbrows Platform 본격 기획</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;max-width:1300px;margin:0 auto;padding:0}
+
+  .hero{background:radial-gradient(ellipse at top, #3D2818 0%, #1A0E08 70%, #0B0907 100%);padding:60px 40px 50px;text-align:center}
+  .chip{display:inline-block;background:#FFB78A;color:#0B0907;font-weight:800;font-size:11px;letter-spacing:5px;padding:8px 22px;border-radius:24px;margin-bottom:18px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:42px;color:#fff;line-height:1.18;letter-spacing:-0.5px}
+  h1 em{color:#FFB78A;font-style:normal}
+  .lead{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:18px;color:#F5C7AD;margin-top:14px;line-height:1.7}
+
+  .control-bar{background:linear-gradient(90deg,#3D2818,#FF4D7E);padding:18px 30px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:16px;color:#fff;font-size:13px}
+  .control-bar div{text-align:center}
+  .control-bar .v{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;line-height:1;color:#FFB78A}
+  .control-bar .l{font-size:11px;letter-spacing:1.5px;margin-top:2px;color:#FFE5D0}
+
+  .body{padding:30px 40px 50px}
+  section{margin-bottom:42px}
+  h2.sect{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:3px solid #FFB78A}
+  h2.sect .num{font-family:'Cormorant Garamond',serif;color:#FFB78A;margin-right:14px;font-size:34px}
+
+  /* 3 SaaS 진행률 카드 */
+  .saas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+  @media(max-width:1000px){.saas-grid{grid-template-columns:1fr}}
+  .saas{background:#161617;border-radius:16px;padding:24px 26px;border-top:5px solid var(--c);position:relative}
+  .saas.a{--c:#FFB78A}
+  .saas.b{--c:#FF4D7E}
+  .saas.c{--c:#A8E6B3}
+  .saas .label{font-size:11px;letter-spacing:3px;color:var(--c);font-weight:800}
+  .saas h3{font-family:'Nanum Myeongjo',serif;color:#fff;font-size:22px;font-weight:800;margin:4px 0 8px}
+  .saas .pm{display:inline-block;background:rgba(255,255,255,0.06);color:var(--c);padding:4px 10px;border-radius:12px;font-size:11.5px;font-weight:700;margin-bottom:12px}
+  .saas .desc{font-size:13px;color:#cbc8c1;line-height:1.7;margin-bottom:14px}
+  .saas .progress{background:#0B0907;border-radius:8px;padding:12px 14px;margin-bottom:10px}
+  .saas .progress .bar{height:6px;background:#2a2a2a;border-radius:3px;overflow:hidden;margin-top:6px}
+  .saas .progress .fill{height:100%;background:var(--c);border-radius:3px;transition:width 0.4s}
+  .saas .progress .pct{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--c);font-weight:700}
+  .saas .progress .stage{font-size:11.5px;color:#8a8a84;margin-top:4px}
+  .saas .goal{background:rgba(0,0,0,0.3);border-left:3px solid var(--c);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:12.5px;color:#FAD7C7;line-height:1.7}
+  .saas .goal b{color:var(--c)}
+  .saas a.deep{display:block;text-align:center;background:var(--c);color:#0B0907;font-weight:800;padding:10px;border-radius:8px;text-decoration:none;margin-top:14px;font-size:13px}
+
+  /* 직원 표 */
+  .staffs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+  @media(max-width:1000px){.staffs{grid-template-columns:repeat(2,1fr)}}
+  .staff{background:#161617;border-radius:12px;padding:18px 16px;border-left:4px solid var(--c)}
+  .staff.s1{--c:#FF4D7E} .staff.s2{--c:#E8A99B} .staff.s3{--c:#9FC8FF} .staff.s4{--c:#FFB78A} .staff.s5{--c:#A8E6B3}
+  .staff.s6{--c:#E0C088} .staff.s7{--c:#FAD7C7} .staff.s8{--c:#FFE5D0}
+  .staff .icon{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--c);font-weight:700;line-height:1}
+  .staff .name{font-family:'Nanum Myeongjo',serif;font-weight:800;color:#fff;font-size:15px;margin-top:4px}
+  .staff .role{font-size:10px;color:var(--c);font-weight:700;letter-spacing:1px;margin:4px 0 8px;text-transform:uppercase}
+  .staff .saas-tag{display:inline-block;background:rgba(255,255,255,0.1);color:#FFE5D0;font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700;margin-top:4px}
+  .staff .desc{font-size:11.5px;color:#cbc8c1;line-height:1.65;margin-top:8px}
+
+  /* 운영 패턴 */
+  .pattern{background:#161617;border-radius:12px;padding:22px 26px;border-left:5px solid #FFB78A;margin-bottom:14px}
+  .pattern h3{font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:18px;margin-bottom:8px}
+  .pattern h3 .ic{margin-right:8px}
+  .pattern p{font-size:13px;color:#cbc8c1;line-height:1.8}
+  .pattern p b{color:#FFB78A}
+  .pattern code{background:rgba(255,184,138,0.12);padding:2px 6px;border-radius:4px;color:#FFB78A;font-family:Consolas,monospace;font-size:12px}
+
+  /* 대표님 결정 대기 */
+  .decisions{background:linear-gradient(135deg,#FF4D7E,#E8A99B);border-radius:14px;padding:24px 28px;color:#fff;margin-top:14px}
+  .decisions h3{font-family:'Nanum Myeongjo',serif;font-size:20px;margin-bottom:10px}
+  .decisions ul{list-style:none;padding:0}
+  .decisions li{padding:10px 0;border-top:1px solid rgba(255,255,255,0.15);font-size:13.5px;line-height:1.7}
+  .decisions li:first-child{border-top:0}
+  .decisions li b{display:block;font-size:11px;color:#FFE5D0;letter-spacing:2px;margin-bottom:4px}
+
+  /* 일정 표 */
+  table{width:100%;border-collapse:collapse;background:#161617;border-radius:10px;overflow:hidden;font-size:13px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid #2a2a2a;color:#cbc8c1;vertical-align:top}
+  th{background:#FFB78A;color:#0B0907;font-weight:700;letter-spacing:1px}
+  td.win{color:#A8E6B3;font-weight:700}
+
+  footer{padding:24px 40px;background:#000;color:#8a8a84;text-align:center;font-size:11px}
+  footer a{color:#FFB78A;margin:0 6px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">MASTER CONTROL · 3 SAAS · 2026-06-29 본격 기획 시작</div>
+  <h1>3 SaaS <em>마스터 컨트롤 타워</em></h1>
+  <p class="lead">「기획부터 차근차근」 · 전직원 8명 투입 · 자율 발전 시스템 가동<br>중요한 결정은 대표님 직접 · 그 외는 24/7 스스로 발전</p>
+</div>
+
+<div class="control-bar">
+  <div><div class="v">3</div><div class="l">SAAS 본격 기획</div></div>
+  <div><div class="v">8</div><div class="l">투입 직원 (기존 5 + 신규 3)</div></div>
+  <div><div class="v">7</div><div class="l">PHASE 로드맵 (3개월)</div></div>
+  <div><div class="v">07-21</div><div class="l">★ 베타 오픈 D-DAY</div></div>
+  <div><div class="v">3</div><div class="l">결정 대기 (대표님)</div></div>
+</div>
+
+<div class="body">
+
+<!-- A. 3 SaaS 진행률 -->
+<section>
+  <h2 class="sect"><span class="num">A</span>3 SaaS 진행률 (실시간 컨트롤)</h2>
+  <div class="saas-grid">
+
+    <!-- SaaS A -->
+    <div class="saas a">
+      <div class="label">SAAS A · 홈페이지·강의·학원</div>
+      <h3>학원·강의·홈페이지 운영</h3>
+      <div class="pm">👤 김다은 PM (32세 · 운영 매니저)</div>
+      <p class="desc">원장님 매월 손작업하는 강의 일정 디지털화. 5 강의 카테고리·마스터 작품·회원 3등급·공모전·자동 게시.</p>
+
+      <div class="progress">
+        <div class="pct">35%</div>
+        <div class="stage">기획 + 달력 데모 작동 · 자동 채우기 시범 가능</div>
+        <div class="bar"><div class="fill" style="width:35%"></div></div>
+      </div>
+
+      <div class="goal">
+        <b>🎯 1주 Goal:</b> 원장님 7월 일정 자동 + 인스타·블로그 자동 게시 → 07-07 정식 사용
+      </div>
+
+      <a class="deep" href="강의-일정-내용-상세-20260629.html">→ SaaS A 상세 (강의·내용)</a>
+    </div>
+
+    <!-- SaaS B -->
+    <div class="saas b">
+      <div class="label">SAAS B · 수강생·시술자 광고</div>
+      <h3>광고·마케팅 자동 제작</h3>
+      <div class="pm">👤 박서윤 PM (29세 · 광고 디렉터)</div>
+      <p class="desc">사진 1장 ~ 여러 장 → 멀티 플랫폼 자동 광고. 직접 집행 + 효과 측정 + 자기 패턴 학습 + AEO/GEO.</p>
+
+      <div class="progress">
+        <div class="pct">25%</div>
+        <div class="stage">기획 완료 · API 키 신청 대기</div>
+        <div class="bar"><div class="fill" style="width:25%"></div></div>
+      </div>
+
+      <div class="goal">
+        <b>🎯 1주 Goal:</b> 네이버·Meta·Google API 키 발급 + 광고 엔진 PoC 1편 (사진 → 10 자산)
+      </div>
+
+      <a class="deep" href="ARTbrows-플랫폼-비전-20260629.html#section-a">→ SaaS B 상세 (광고)</a>
+    </div>
+
+    <!-- SaaS C -->
+    <div class="saas c">
+      <div class="label">SAAS C · 시술 시뮬 (Face Lab v7)</div>
+      <h3>펜슬 디지털 트윈</h3>
+      <div class="pm">👤 최예진 PM (31세 · 시술 R&D)</div>
+      <p class="desc">정면+측면 → 원장님 30년 패턴 DB 매칭 → 2D + 3D 출력. Unreal MetaHuman 5종 통합.</p>
+
+      <div class="progress">
+        <div class="pct">30%</div>
+        <div class="stage">기획·5 페르소나 reference · Unreal 다운로드 대기</div>
+        <div class="bar"><div class="fill" style="width:30%"></div></div>
+      </div>
+
+      <div class="goal">
+        <b>🎯 1주 Goal:</b> Unreal 5.8 + 「수아」 MetaHuman + v6.0 PoC 24컷
+      </div>
+
+      <a class="deep" href="Face-Lab-v7-펜슬-디지털트윈-20260629.html">→ SaaS C 상세 (Face Lab v7)</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- B. 8 직원 체제 -->
+<section>
+  <h2 class="sect"><span class="num">B</span>8 직원 체제 (기존 5 + 신규 3 PM 충원)</h2>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:16px;margin:14px 0 8px">기존 5직원 (전체 + 도구 담당)</h3>
+  <div class="staffs">
+    <div class="staff s1">
+      <div class="icon">①</div>
+      <div class="name">이서연</div>
+      <div class="role">기획·마케팅</div>
+      <span class="saas-tag">A·B·C 전 영역</span>
+      <p class="desc">키워드·페르소나·카피·종합 전략 통합. 모든 SaaS 카피 보증.</p>
+    </div>
+    <div class="staff s2">
+      <div class="icon">②</div>
+      <div class="name">유나</div>
+      <div class="role">그래픽·비주얼</div>
+      <span class="saas-tag">A·B·C 브랜드 보증</span>
+      <p class="desc">살구핑크 + 명조 디자인 시스템 보증. 키비주얼·일러스트 상위 작업만 (반복은 Claude Code).</p>
+    </div>
+    <div class="staff s3">
+      <div class="icon">③</div>
+      <div class="name">한승철</div>
+      <div class="role">인프라·개발</div>
+      <span class="saas-tag">A·B·C 백엔드</span>
+      <p class="desc">API 통합·OAuth·DB·자동 게시 인프라 모두. 광고 API 3종 차주 신청.</p>
+    </div>
+    <div class="staff s4">
+      <div class="icon">④</div>
+      <div class="name">김민서</div>
+      <div class="role">시각·UI</div>
+      <span class="saas-tag">A·B·C 모바일 UI</span>
+      <p class="desc">모바일 우선 UX·달력 클릭·사진 업로드·3 클릭 결과 모두.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#FFB78A;font-size:16px;margin:18px 0 8px">신규 3 SaaS PM (2026-06-29 충원)</h3>
+  <div class="staffs">
+    <div class="staff s5">
+      <div class="icon">⑤</div>
+      <div class="name">김다은</div>
+      <div class="role">SaaS A PM</div>
+      <span class="saas-tag">A 책임자</span>
+      <p class="desc">학원 운영 5년 + 모비딕 패턴 6개월. 강의·회원·공모전 모듈 책임.</p>
+    </div>
+    <div class="staff s6">
+      <div class="icon">⑥</div>
+      <div class="name">박서윤</div>
+      <div class="role">SaaS B PM</div>
+      <span class="saas-tag">B 책임자</span>
+      <p class="desc">Meta·네이버 API 4년 + ROAS 광고 디렉터. 광고 엔진·자동 집행 책임.</p>
+    </div>
+    <div class="staff s7">
+      <div class="icon">⑦</div>
+      <div class="name">최예진</div>
+      <div class="role">SaaS C PM</div>
+      <span class="saas-tag">C 책임자</span>
+      <p class="desc">Unreal + MetaHuman 3년 + 반영구 자격증. 펜슬 디지털 트윈 책임.</p>
+    </div>
+    <div class="staff s8">
+      <div class="icon">⑧</div>
+      <div class="name">클로드</div>
+      <div class="role">총괄·자동화</div>
+      <span class="saas-tag">8명 오케스트레이션</span>
+      <p class="desc">전직원 통합·메모리·페이지 영구·24/7 자율 진행·중요 결정 → 대표님.</p>
+    </div>
+  </div>
+</section>
+
+<!-- C. 자율 발전 시스템 -->
+<section>
+  <h2 class="sect"><span class="num">C</span>자율 발전 시스템 (대표님 안 보실 때도 24/7 진화)</h2>
+
+  <div class="pattern">
+    <h3><span class="ic">🎯</span>Goal 패턴 — 모든 작업 측정 가능한 목표 1줄</h3>
+    <p>비-자명 작업 시작 시 <b>「🎯 목표: &lt;측정 가능한 1줄&gt;」</b>, 끝에 <b>「✅ 달성: &lt;측정값&gt;」</b> 또는 <b>「❌ 미달: &lt;사유&gt;」</b>. 도구 매몰 차단·매트릭스 자동 누적·임원진 보고 자동 풍부화.</p>
+  </div>
+
+  <div class="pattern">
+    <h3><span class="ic">🔄</span>Loop 패턴 — 정기 자동 점검·발전</h3>
+    <p>매주 토요일 16:00 = 5직원 + 3 PM 한 주 결과 통합 보고서. 매월 1일 = 월간 KPI 자동. 매시간 광고 ROAS 모니터링 (24/7).</p>
+  </div>
+
+  <div class="pattern">
+    <h3><span class="ic">🛡️</span>하네스 공법 — 기획 → 플랜 → 스케줄 → 개발</h3>
+    <p>모든 개발 결정은 <b>대표님께 먼저 확인</b>. 옵션 비교 → 함께 결정. 결정 대기 = <code>[[pending-decisions]]</code> 메모리 추가. <b>임의로 앞질러 가지 않음.</b></p>
+  </div>
+
+  <div class="pattern">
+    <h3><span class="ic">🧠</span>메모리 시스템 — 영구 보관 + 자동 갱신</h3>
+    <p>모든 결정·인사이트·페르소나·도구는 <code>~/.claude/.../memory/</code> 영구 보관. 작업 완료 시 <b>자동 갱신 4종 세트</b> (PROGRESS·대시보드·_site·운영 가이드) 묻지 않고 진행.</p>
+  </div>
+
+  <div class="pattern">
+    <h3><span class="ic">🤖</span>충원된 AI 도구 (이미 검증)</h3>
+    <p>
+    • Claude Code Max ($100/월) — 메인<br>
+    • Gemini API (50 모델) — 영상·이미지·번역 ★ 검증 완료<br>
+    • OpenAI API (118 모델) — DALL-E·TTS 보조 ★ 검증 완료<br>
+    • Higgsfield Plus — nano_banana_pro·Veo·image_to_3d<br>
+    • Blender MCP + Unreal MCP (차주) — 3D·MetaHuman<br>
+    • Edge headless·ffmpeg·PIL — HTML→PNG·영상 합성
+    </p>
+  </div>
+</section>
+
+<!-- D. 대표님 결정 대기 -->
+<section>
+  <h2 class="sect" style="color:#A8E6B3"><span class="num" style="color:#A8E6B3">D</span>★ 3 중요 결정 모두 확정 ✅ — 차주 즉시 가동 OK</h2>
+  <div class="decisions">
+    <h3>중요 결정 — 1·2 확정 ✅ · 3 대기</h3>
+    <ul>
+      <li>
+        <b>① UNREAL 다운로드 ✅ 진행 중 (37.5%)</b>
+        C:\Program Files\Epic Games\UE_5.8 에 30 GB / 80 GB 다운로드 중. 약 30분~1시간 남음. <span style="background:rgba(168,230,179,0.2);padding:3px 8px;border-radius:6px;font-weight:700">✅ 확정</span>
+      </li>
+      <li>
+        <b>② 광고 직접 집행 = DIY 모델 ✅</b>
+        사용자가 자기 광고 계정(네이버·Meta·Google) OAuth 연동 → ARTbrows는 도구만. 매출 = 월 구독 5~15만원. 광고비는 사용자 직불. 단순·법적 위험 적음·정기 수입. <span style="background:rgba(168,230,179,0.2);padding:3px 8px;border-radius:6px;font-weight:700">✅ 확정</span>
+      </li>
+      <li>
+        <b>③ 「장미지 디지털 분신」 동의 ✅</b>
+        SaaS A의 「24/7 가상 원장님」 모듈 진입. 5종 페르소나 (수아·하영·예린·민지·지우) + <strong>장미지 원장님 1체 추가 = MetaHuman 6종 체제</strong>. 학원 OT·신규 수강생 환영·시술 안내 영상 자동 생성 가능. <span style="background:rgba(168,230,179,0.2);padding:3px 8px;border-radius:6px;font-weight:700">✅ 확정</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- E. 차주 7일 일정 -->
+<section>
+  <h2 class="sect"><span class="num">E</span>차주 (07-01~07-07) 7일 일정 — 3 SaaS 동시 가동</h2>
+  <table>
+    <tr><th>날짜</th><th>SaaS A (김다은)</th><th>SaaS B (박서윤)</th><th>SaaS C (최예진)</th></tr>
+    <tr><td>07-01 (월)</td><td>원장님 6월 패턴 분석 + 규칙 문서</td><td>광고 API 3종 키 발급 신청</td><td>Unreal 5.8 + MCP 셋업</td></tr>
+    <tr><td>07-02 (화)</td><td>달력 UI 모바일 최적화</td><td>광고 엔진 schema + 입력 wireframe</td><td>「수아」 MetaHuman Creator</td></tr>
+    <tr><td>07-03 (수)</td><td>자동 채우기 알고리즘</td><td>Gemini로 사진→카피 PoC</td><td>Blender import + v5 템플릿</td></tr>
+    <tr><td>07-04 (목)</td><td>카카오 알림 + 인스타 게시</td><td>ffmpeg 영상 합성 + 자막</td><td>16컷 자동 렌더 (PolyHaven HDR)</td></tr>
+    <tr><td>07-05 (금)</td><td>원장님 시범 사용</td><td>인스타 자동 게시 (Meta API)</td><td>BEFORE/AFTER 페어 + 8컷</td></tr>
+    <tr><td>07-06 (토)</td><td>피드백 반영</td><td>1편 end-to-end 시연</td><td>v5.8 vs v6.0 비교</td></tr>
+    <tr><td class="win">07-07 (일) ★</td><td class="win">정식 7월 일정 자동</td><td class="win">광고 1편 자동 완성</td><td class="win">v6.0 PoC 24컷 완성</td></tr>
+  </table>
+</section>
+
+</div>
+
+<footer>
+  <p>© ARTbrows Platform 2026 · 3 SaaS 마스터 컨트롤 타워 · 자율 발전 시스템 가동 중</p>
+  <p style="margin-top:6px">
+    <a href="index.html">운영진 포털</a> ·
+    <a href="platform.html">외부 진입</a> ·
+    <a href="강의-일정-내용-상세-20260629.html">SaaS A</a> ·
+    <a href="ARTbrows-플랫폼-비전-20260629.html">SaaS B 상세</a> ·
+    <a href="Face-Lab-v7-펜슬-디지털트윈-20260629.html">SaaS C</a> ·
+    <a href="실행순서-우선순위-20260629.html">실행 순서</a>
+  </p>
+</footer>
+
+</body>
+</html>

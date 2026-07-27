@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>회원 관리 — 장미지 연구소 · ARTbrows Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;font-size:14px;min-height:100vh;padding-bottom:80px}
+
+  .top{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:12px 28px;display:flex;align-items:center;gap:14px;z-index:100}
+  .top a{color:#E0C088;text-decoration:none;font-weight:700;font-size:13px}
+  .top .crumb{color:#5A5A56;font-size:12px}
+  .top .now{color:#E0C088;font-weight:700;font-size:12px}
+
+  .hero{padding:42px 28px 30px;text-align:center;background:radial-gradient(ellipse at top,rgba(224,192,136,0.06),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:10.5px;letter-spacing:4px;padding:6px 16px;border-radius:24px;margin-bottom:12px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:36px;line-height:1.18}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-size:13.5px;color:#CBC8C1;margin-top:8px}
+
+  /* 통계 */
+  .stats{max-width:1280px;margin:24px auto 0;padding:0 28px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  @media(max-width:980px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:#161617;border:1px solid #2A2A2A;border-top:4px solid var(--c);border-radius:12px;padding:18px;text-align:center}
+  .stat.t{--c:#FFB78A}
+  .stat.g1{--c:#8A8A84}
+  .stat.g2{--c:#E0C088}
+  .stat.g3{--c:#FF4D7E}
+  .stat.n{--c:#A8E6B3}
+  .stat .v{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--c);line-height:1}
+  .stat .l{font-size:10px;color:#8A8A84;margin-top:5px;letter-spacing:2px;font-weight:700}
+
+  /* 컨테이너 */
+  .container{max-width:1280px;margin:30px auto;padding:0 28px}
+
+  /* 툴바 */
+  .toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px;padding:14px 18px;background:#161617;border:1px solid #2A2A2A;border-radius:12px}
+  .filters{display:flex;gap:6px;flex-wrap:wrap}
+  .filter-btn{background:transparent;border:1.5px solid #2A2A2A;color:#CBC8C1;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:16px;cursor:pointer;font-weight:700}
+  .filter-btn:hover{border-color:#E0C088;color:#E0C088}
+  .filter-btn.sel{background:#E0C088;border-color:#E0C088;color:#0B0907}
+  .filter-btn .cnt{font-size:10px;opacity:0.6;margin-left:4px}
+  .filter-btn.sel .cnt{opacity:0.8}
+
+  .search-box{display:flex;gap:8px}
+  .search-box input{background:#0B0907;border:1.5px solid #2A2A2A;color:#F5EDE3;font-family:inherit;font-size:13px;padding:8px 14px;border-radius:8px;width:200px;outline:none}
+  .search-box input:focus{border-color:#E0C088}
+
+  .btn{padding:9px 18px;border:none;border-radius:8px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+  .btn.pri{background:#E0C088;color:#0B0907}
+  .btn.gh{background:transparent;color:#E0C088;border:1.5px solid #E0C088}
+
+  /* 회원 카드 그리드 */
+  .members{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+
+  .member{background:#161617;border:1px solid #2A2A2A;border-left:4px solid var(--c);border-radius:12px;padding:18px;cursor:pointer;transition:all 0.2s}
+  .member:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(224,192,136,0.15);border-color:var(--c)}
+  .member.g1{--c:#8A8A84}
+  .member.g2{--c:#E0C088}
+  .member.g3{--c:#FF4D7E}
+  .member-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+  .avatar{width:42px;height:42px;border-radius:50%;background:var(--c);color:#0B0907;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;font-family:'Cormorant Garamond',serif}
+  .grade-badge{font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;letter-spacing:1.5px;background:var(--c);color:#0B0907}
+  .member-name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#F5EDE3;margin-bottom:2px}
+  .member-meta{font-size:11px;color:#8A8A84;margin-bottom:10px}
+  .member-info{font-size:12px;color:#CBC8C1;line-height:1.6;padding-top:10px;border-top:1px solid #2A2A2A}
+  .member-info .row{display:flex;justify-content:space-between;padding:3px 0}
+  .member-info .k{color:#8A8A84;font-size:10.5px;letter-spacing:1px}
+  .member-info .v{color:#E0C088;font-weight:700;font-size:11.5px}
+  .member-tags{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
+  .member-tag{font-size:9.5px;color:#E0C088;background:rgba(224,192,136,0.1);padding:2px 7px;border-radius:6px;font-weight:700;letter-spacing:0.5px}
+  .member-tag.k1{background:rgba(255,236,84,0.15);color:#FFEC54}
+  .member-tag.signed{background:rgba(255,77,126,0.15);color:#FF4D7E}
+
+  /* 모달 (신규 등록 / 상세) */
+  .modal-bg{position:fixed;inset:0;background:rgba(11,9,7,0.92);backdrop-filter:blur(12px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
+  .modal-bg.show{display:flex}
+  .modal{background:#161617;border:1px solid #E0C088;border-radius:16px;max-width:600px;width:100%;max-height:92vh;overflow:auto;padding:28px;position:relative}
+  .modal h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:20px;color:#F5EDE3;margin-bottom:6px}
+  .modal .eyebrow{font-family:'Cormorant Garamond',serif;font-size:11px;color:#E0C088;letter-spacing:3px;font-weight:700;margin-bottom:4px}
+  .modal .close{position:absolute;top:14px;right:14px;background:transparent;border:none;font-size:24px;color:#8A8A84;cursor:pointer}
+
+  .modal label{display:block;font-size:10.5px;font-weight:700;color:#E0C088;letter-spacing:1.5px;margin:14px 0 6px}
+  .modal input, .modal select{width:100%;background:#0B0907;border:1.5px solid #2A2A2A;color:#F5EDE3;font-family:inherit;font-size:13px;padding:9px 12px;border-radius:8px;outline:none}
+  .modal input:focus, .modal select:focus{border-color:#E0C088}
+
+  .mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .mode-tab{background:transparent;border:2px solid #2A2A2A;color:#CBC8C1;font-family:inherit;font-size:13px;padding:14px;border-radius:10px;cursor:pointer;font-weight:700;text-align:center}
+  .mode-tab .em{display:block;font-size:11px;color:#8A8A84;font-weight:500;margin-top:3px}
+  .mode-tab.sel{border-color:#E0C088;background:rgba(224,192,136,0.1);color:#E0C088}
+  .mode-tab.sel .em{color:#CBC8C1}
+
+  .actions{margin-top:20px;display:flex;gap:8px;justify-content:flex-end}
+
+  /* 하단 액션 */
+  .footer-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-top:1px solid #2A2A2A;padding:12px 28px;display:flex;justify-content:space-between;align-items:center;z-index:90}
+  .footer-bar .info{font-size:12.5px;color:#CBC8C1}
+  .footer-bar .info b{color:#E0C088}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a href="/static/lab.html">← 장미지 연구소</a>
+  <span class="crumb">/ SaaS A · 학원·강의 /</span>
+  <span class="now">👥 회원 관리</span>
+</nav>
+
+<div class="hero">
+  <div class="chip">MEMBERS · 3등급 + 가입 2모드 + K1 카톡방</div>
+  <h1>회원 <em>관리</em></h1>
+  <p class="lead">일반 → 정회원 → VIP 단계별 락인 · K1 카톡방 영구 결속</p>
+</div>
+
+<!-- 통계 -->
+<div class="stats">
+  <div class="stat t"><div class="v" id="cntTotal">12</div><div class="l">TOTAL</div></div>
+  <div class="stat g1"><div class="v" id="cntG1">5</div><div class="l">일반</div></div>
+  <div class="stat g2"><div class="v" id="cntG2">5</div><div class="l">정회원</div></div>
+  <div class="stat g3"><div class="v" id="cntG3">2</div><div class="l">VIP</div></div>
+  <div class="stat n"><div class="v" id="cntK1">7</div><div class="l">K1 카톡방</div></div>
+</div>
+
+<div class="container">
+
+  <div class="toolbar">
+    <div class="filters">
+      <button class="filter-btn sel" data-f="all" onclick="setFilter('all')">전체 <span class="cnt">12</span></button>
+      <button class="filter-btn" data-f="g1" onclick="setFilter('g1')">일반 <span class="cnt">5</span></button>
+      <button class="filter-btn" data-f="g2" onclick="setFilter('g2')">정회원 <span class="cnt">5</span></button>
+      <button class="filter-btn" data-f="g3" onclick="setFilter('g3')">VIP <span class="cnt">2</span></button>
+      <button class="filter-btn" data-f="k1" onclick="setFilter('k1')">★ K1 카톡방 <span class="cnt">7</span></button>
+    </div>
+    <div class="search-box">
+      <input id="searchInput" placeholder="이름·번호 검색" oninput="render()">
+      <button class="btn pri" onclick="openRegister()">+ 신규 등록</button>
+    </div>
+  </div>
+
+  <div class="members" id="memberList"></div>
+
+</div>
+
+<!-- 신규 등록 모달 -->
+<div class="modal-bg" id="modalReg" onclick="if(event.target===this)closeModal('modalReg')">
+  <div class="modal">
+    <button class="close" onclick="closeModal('modalReg')">×</button>
+    <div class="eyebrow">REGISTER NEW MEMBER</div>
+    <h3>신규 회원 등록</h3>
+
+    <label>가입 모드 (2가지)</label>
+    <div class="mode-tabs">
+      <button class="mode-tab sel" id="modeRep" onclick="selMode('rep')">
+        대표가입
+        <span class="em">B2B 살롱·강사·지인 초대</span>
+      </button>
+      <button class="mode-tab" id="modeSelf" onclick="selMode('self')">
+        소속가입
+        <span class="em">수강생·시술 손님 자가</span>
+      </button>
+    </div>
+
+    <label>이름</label>
+    <input id="rName" placeholder="홍길동">
+    <label>연락처</label>
+    <input id="rPhone" placeholder="010-0000-0000">
+    <label>등급 (자동 일반회원 시작)</label>
+    <select id="rGrade">
+      <option value="g1">일반회원 (무료 사용)</option>
+      <option value="g2">정회원 (결제 완료)</option>
+      <option value="g3">VIP회원 (평생수강+추천)</option>
+    </select>
+    <label>연결 강의·시술</label>
+    <select id="rClass">
+      <option value="">없음 (일반)</option>
+      <option>14기 이지클래스 (69만원)</option>
+      <option>극사실 소묘수업 12기 (150만원)</option>
+      <option>73기 극사실 눈썹 (200만원)</option>
+      <option>1:1 마스터 (50만원/3h)</option>
+      <option>시술 (단건)</option>
+    </select>
+    <label>K1 카톡방 초대</label>
+    <select id="rK1">
+      <option value="0">아니오 (일반회원)</option>
+      <option value="1" selected>예 (정회원·VIP 자동 초대)</option>
+    </select>
+
+    <div class="actions">
+      <button class="btn gh" onclick="closeModal('modalReg')">취소</button>
+      <button class="btn pri" onclick="registerMember()">✓ 등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="modal-bg" id="modalDet" onclick="if(event.target===this)closeModal('modalDet')">
+  <div class="modal" id="modalDetBody"></div>
+</div>
+
+<div class="footer-bar">
+  <div class="info">표시 중: <b id="shownCnt">12</b>명 · K1 카톡방: <b><a href="https://open.kakao.com/o/gWeAkSzi" target="_blank" style="color:#FFEC54">https://open.kakao.com/o/gWeAkSzi</a></b></div>
+  <div style="font-size:11px;color:#8A8A84">데모 데이터 · 실제 DB 통합은 차주</div>
+</div>
+
+<script>
+// Mock 데이터
+let MEMBERS = [
+  { id:1, name:'김지영', phone:'010-1234-5678', grade:'g3', mode:'rep', class:'73기 극사실 눈썹 (200만원)', k1:true, join:'2025-09-15', tags:['추천인 3명','평생수강','시술 2회'] },
+  { id:2, name:'이수연', phone:'010-2345-6789', grade:'g3', mode:'rep', class:'1:1 마스터 (50만원/3h)', k1:true, join:'2026-01-10', tags:['VIP 전용','다회 시술'] },
+  { id:3, name:'박혜진', phone:'010-3456-7890', grade:'g2', mode:'self', class:'14기 이지클래스 (69만원)', k1:true, join:'2026-04-20', tags:['이지클래스','평생수강'] },
+  { id:4, name:'최서윤', phone:'010-4567-8901', grade:'g2', mode:'self', class:'극사실 소묘수업 12기 (150만원)', k1:true, join:'2026-03-08', tags:['소묘 수강','펜슬 가이드'] },
+  { id:5, name:'정유나', phone:'010-5678-9012', grade:'g2', mode:'rep', class:'14기 이지클래스 (69만원)', k1:true, join:'2026-04-22', tags:['이지클래스','B2B 살롱'] },
+  { id:6, name:'한지민', phone:'010-6789-0123', grade:'g2', mode:'self', class:'73기 극사실 눈썹 (200만원)', k1:true, join:'2026-02-15', tags:['최고 코스'] },
+  { id:7, name:'송미라', phone:'010-7890-1234', grade:'g2', mode:'self', class:'시술 (단건)', k1:false, join:'2026-05-10', tags:['시술'] },
+  { id:8, name:'이민서', phone:'010-8901-2345', grade:'g1', mode:'self', class:'', k1:false, join:'2026-06-01', tags:['상담 대기'] },
+  { id:9, name:'권나영', phone:'010-9012-3456', grade:'g1', mode:'self', class:'', k1:false, join:'2026-06-15', tags:['신규 가입'] },
+  { id:10, name:'유은혜', phone:'010-0123-4567', grade:'g1', mode:'self', class:'', k1:false, join:'2026-06-20', tags:['상담 대기'] },
+  { id:11, name:'장서희', phone:'010-1122-3344', grade:'g1', mode:'rep', class:'', k1:true, join:'2026-06-25', tags:['B2B 살롱 대표'] },
+  { id:12, name:'박다은', phone:'010-2233-4455', grade:'g1', mode:'self', class:'', k1:false, join:'2026-06-28', tags:['상담 대기'] }
+];
+
+const GRADE_NAME = { g1:'일반', g2:'정회원', g3:'VIP' };
+const MODE_NAME = { rep:'대표가입', self:'소속가입' };
+let curFilter = 'all';
+
+function setFilter(f){
+  curFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('sel', b.dataset.f===f));
+  render();
+}
+
+function render(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  let list = MEMBERS.filter(m => {
+    if(q && !(m.name.toLowerCase().includes(q) || m.phone.includes(q))) return false;
+    if(curFilter === 'all') return true;
+    if(curFilter === 'k1') return m.k1;
+    return m.grade === curFilter;
+  });
+  document.getElementById('memberList').innerHTML = list.map(m => `
+    <div class="member ${m.grade}" onclick="openDetail(${m.id})">
+      <div class="member-head">
+        <div class="avatar">${m.name.charAt(0)}</div>
+        <span class="grade-badge">${GRADE_NAME[m.grade]}</span>
+      </div>
+      <div class="member-name">${m.name}</div>
+      <div class="member-meta">${m.phone} · ${MODE_NAME[m.mode]}</div>
+      <div class="member-info">
+        <div class="row"><span class="k">강의·시술</span><span class="v">${m.class || '없음'}</span></div>
+        <div class="row"><span class="k">가입일</span><span class="v">${m.join}</span></div>
+      </div>
+      <div class="member-tags">
+        ${m.k1 ? '<span class="member-tag k1">★ K1 카톡방</span>' : ''}
+        ${m.tags.map(t=>`<span class="member-tag">${t}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  // 통계 갱신
+  document.getElementById('cntTotal').textContent = MEMBERS.length;
+  document.getElementById('cntG1').textContent = MEMBERS.filter(m=>m.grade==='g1').length;
+  document.getElementById('cntG2').textContent = MEMBERS.filter(m=>m.grade==='g2').length;
+  document.getElementById('cntG3').textContent = MEMBERS.filter(m=>m.grade==='g3').length;
+  document.getElementById('cntK1').textContent = MEMBERS.filter(m=>m.k1).length;
+  document.querySelectorAll('.filter-btn .cnt').forEach(c=>{
+    const f = c.parentElement.dataset.f;
+    if(f==='all') c.textContent = MEMBERS.length;
+    else if(f==='k1') c.textContent = MEMBERS.filter(m=>m.k1).length;
+    else c.textContent = MEMBERS.filter(m=>m.grade===f).length;
+  });
+  document.getElementById('shownCnt').textContent = list.length;
+}
+
+function openRegister(){
+  document.getElementById('modalReg').classList.add('show');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('show');
+}
+function selMode(m){
+  document.getElementById('modeRep').classList.toggle('sel', m==='rep');
+  document.getElementById('modeSelf').classList.toggle('sel', m==='self');
+}
+function registerMember(){
+  const name = document.getElementById('rName').value.trim();
+  const phone = document.getElementById('rPhone').value.trim();
+  if(!name || !phone){ alert('이름·연락처 필수'); return; }
+  const grade = document.getElementById('rGrade').value;
+  const cls = document.getElementById('rClass').value;
+  const k1 = document.getElementById('rK1').value === '1';
+  const mode = document.getElementById('modeRep').classList.contains('sel') ? 'rep' : 'self';
+  MEMBERS.push({
+    id: MEMBERS.length+1, name, phone, grade, mode, class: cls, k1,
+    join: new Date().toISOString().slice(0,10),
+    tags: [mode === 'rep' ? '대표 초대' : '자가 가입']
+  });
+  closeModal('modalReg');
+  // 입력 초기화
+  document.getElementById('rName').value = '';
+  document.getElementById('rPhone').value = '';
+  render();
+  // 토스트
+  const t = document.createElement('div');
+  t.innerHTML = `✓ <b>${name}</b> 등록 완료 (${GRADE_NAME[grade]})${k1?' · K1 카톡방 자동 초대':''}`;
+  t.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#E0C088;color:#0B0907;padding:12px 22px;border-radius:24px;font-weight:700;font-size:13px;z-index:400;box-shadow:0 10px 30px rgba(0,0,0,0.3)';
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 3000);
+}
+
+function openDetail(id){
+  const m = MEMBERS.find(x=>x.id===id);
+  if(!m) return;
+  document.getElementById('modalDetBody').innerHTML = `
+    <button class="close" onclick="closeModal('modalDet')">×</button>
+    <div class="eyebrow">MEMBER #${m.id}</div>
+    <h3>${m.name} <span style="font-size:13px;color:#E0C088;margin-left:6px">${GRADE_NAME[m.grade]}</span></h3>
+    <div style="font-size:12px;color:#8A8A84;margin-bottom:14px">${m.phone} · ${MODE_NAME[m.mode]} · ${m.join} 가입</div>
+
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:14px">
+      <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin-bottom:8px">강의·시술</div>
+      <div style="color:${m.class?'#F5EDE3':'#5A5A56'};font-size:13.5px">${m.class || '없음 (상담 대기)'}</div>
+    </div>
+
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:14px">
+      <div style="font-size:10.5px;color:#FFEC54;font-weight:700;letter-spacing:2px;margin-bottom:8px">K1 카톡방</div>
+      <div style="color:${m.k1?'#FFEC54':'#5A5A56'};font-size:13.5px">${m.k1 ? '★ 가입됨 (영구 락인)' : '미가입'}</div>
+    </div>
+
+    <div style="background:#0B0907;padding:14px;border-radius:8px;margin-bottom:14px">
+      <div style="font-size:10.5px;color:#E0C088;font-weight:700;letter-spacing:2px;margin-bottom:8px">태그</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${m.tags.map(t=>`<span class="member-tag">${t}</span>`).join('')}</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn gh" onclick="alert('카톡 메시지 발송 — 다음 단계 통합')">💬 메시지</button>
+      <button class="btn gh" onclick="alert('결제·시술 이력 — 다음 단계 DB')">📋 이력</button>
+      <button class="btn pri" onclick="closeModal('modalDet')">확인</button>
+    </div>
+  `;
+  document.getElementById('modalDet').classList.add('show');
+}
+
+render();
+</script>
+
+</body>
+</html>

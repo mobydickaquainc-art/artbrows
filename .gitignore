@@ -1,0 +1,139 @@
+# ══════════════════════════════════════════════════════════════
+# ARTbrows · .gitignore (2026-07-27 rebuild)
+# 원칙: GitHub 에는 코드만 · 대용량 자산은 대표님이 선릉 서버에 직접 이관
+# ══════════════════════════════════════════════════════════════
+
+# ─── Build & Dependencies ───
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+.netlify/
+*.tsbuildinfo
+next-env.d.ts
+
+# ─── Secrets · API Keys ───
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.local.example
+*.key
+*api*.txt
+*-api-key*
+geminiapi.txt
+openaikey.txt
+.secrets/
+secrets/
+
+# ─── Personal Data (개인정보 · 리드) ───
+content/leads/*.json
+!content/leads/.gitkeep
+content/notification-log/
+
+# ─── Deploy Mirror (외부 터널 카피본 · 자동 생성) ───
+_site/
+
+# ─── Third-party tools with own git ───
+_tools/
+
+# ─── Backup / Corrupted ───
+*.corrupted-backup*
+.git.corrupted-backup-*
+
+# ─── 대용량 자산 · 대표님이 선릉 서버에 직접 카피 예정 ───
+# (Vercel 초기 배포 시 이 폴더들 이미지 404 예상 · 선릉 CDN 연결 후 해결)
+assets/
+_brief/
+_incoming/
+_archive/
+
+# app-next 내 대용량 이미지·영상 (선릉 CDN 이관 대상)
+app-next/public/brand/
+app-next/public/hero-mood/
+app-next/content/cardnews/generated-*/
+app-next/content/uploads/
+
+# 별도 서브프로젝트 (Unreal · v6 · 배포 축소본 등 · 별도 관리)
+ARTbrows-v6-unreal/
+ARTbrowsv6/
+_deploy-briefing/
+_deploy-translate/
+_output/
+_stream/
+_events.jsonl
+.playwright-mcp/
+
+# ─── Media Files (mp4·mov·avi·webm 등) ───
+*.mp4
+*.mov
+*.avi
+*.webm
+*.mkv
+*.wav
+*.mp3
+*.m4a
+
+# ─── 대용량 문서 (교재 슬라이드·소개서) ───
+docs/26artbrows-*.pdf
+docs/*.pptx
+docs/*.ai
+docs/*.psd
+
+# ─── 프로젝트 루트 임시 파일 (underscore prefix) ───
+/_admood.*
+/_bot.*
+/_brief*
+/_c1.*
+/_c2.*
+/_c3.*
+/_c4.*
+/_cut*
+/_removed-*
+/_temp*
+
+# ─── OS / Editor ───
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ─── Netlify · Legacy ───
+.netlify/
+netlify.toml.bak
+
+# ─── Old translation files (기존 유지) ───
+_translations/*_zh.json
+_translations/*_ko.json
+_translations/*_claude.json
+_translations/*_gpt.json
+_translations/*_gemini.json
+!_translations/.gitkeep
+
+# ─── Logs ───
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev.log
+
+# ─── Python (일부 아카데미 스크립트) ───
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# ─── Notes ───
+# 대용량 파일은 대표님이 직접 선릉 서버로 이관 후 cdn.artbrow.co.kr 로 서빙
+# Vercel 은 GitHub 코드만 · 이미지는 선릉 CDN rewrites 로 매핑 (인프라 PRD §4-2)
+
+# 실험용 PDF 아카이브 (100MB 초과 · GitHub 제한 · 선릉 서버 이관 대상)
+docs/_archive-pdf-experiments/

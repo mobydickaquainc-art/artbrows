@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>준비 중 — ARTbrows Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800;900&family=Pretendard:wght@400;500;600;700&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.7;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center}
+  .wrap{max-width:640px}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:11px;letter-spacing:5px;padding:9px 22px;border-radius:24px;margin-bottom:22px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:48px;line-height:1.18;letter-spacing:-1px;margin-bottom:16px}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;color:#CBC8C1;margin-top:6px;margin-bottom:26px}
+  .card{background:#161617;border:1px solid #2A2A2A;border-radius:16px;padding:26px 28px;margin-bottom:22px;text-align:left}
+  .card h3{font-family:'Nanum Myeongjo',serif;font-size:18px;color:#E0C088;margin-bottom:12px}
+  .card p{color:#CBC8C1;font-size:14px;margin-bottom:8px}
+  .card p strong{color:#F5EDE3}
+  .card ul{margin-left:18px;color:#CBC8C1;font-size:13.5px}
+  .card ul li{margin-bottom:6px}
+  .back{display:inline-block;background:transparent;color:#E0C088;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;border:1.5px solid #E0C088}
+  .back:hover{background:#E0C088;color:#0B0907}
+  .badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 10px;border-radius:5px;margin-left:8px;background:#2A2A2A;color:#E0C088;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="chip">COMING SOON · SAAS <span id="saasLabel">B</span></div>
+  <h1><em id="saasTitle">SaaS B</em> · 준비 중</h1>
+  <p class="lead" id="saasSubtitle">사진 1장 → 멀티 자동 광고</p>
+
+  <div class="card">
+    <h3>지금 어디까지 진행 중인가요? <span class="badge" id="phaseBadge">기획</span></h3>
+    <p id="cardBody">이 SaaS 는 기획·와이어프레임 단계까지 완료되었고, 개발 착수 대기 중입니다.</p>
+    <ul id="planList"></ul>
+  </div>
+
+  <div class="card">
+    <h3>먼저 확인 가능한 것</h3>
+    <p>SaaS A (학원·강의·홈페이지) 는 지금 <strong>바로 사용 가능</strong>합니다. 강의 달력 · 마스터 작품집 · 회원 관리 5메뉴 라이브.</p>
+    <p style="margin-top:12px"><a href="/static/lab.html" style="color:#FFB78A;font-weight:700;text-decoration:none">→ SaaS A 대시보드 열기</a></p>
+  </div>
+
+  <a class="back" href="/">← 플랫폼 홈으로</a>
+</div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  const saas = (p.get('saas') || 'B').toUpperCase();
+  const info = {
+    B: {
+      title: 'SaaS B — 수강생·시술자 광고',
+      subtitle: '사진 1장 → 멀티 채널 자동 광고',
+      phase: '기획 완료',
+      body: '와이어프레임·데이터 스키마·API 스펙까지 준비되어 있고, SaaS A 안정화 후 개발 착수 예정입니다.',
+      plans: [
+        '인스타·페북·블로그·유튜브 자동 게시',
+        'ROAS 실시간 측정',
+        '원장님/수강생 각자 광고 패턴 자기 학습',
+        '광고 소재 자동 생성 (Higgsfield + Gemini)',
+      ],
+    },
+    C: {
+      title: 'Face Lab v7 — 펜슬 디지털 트윈',
+      subtitle: '정면+측면 사진 → 원장님 30년 패턴 매칭',
+      phase: 'R&D',
+      body: '30년 시술 패턴 라이브러리 데이터 수집 + Unreal MetaHuman 6체 준비 단계입니다. Blender MCP 3D 파이프라인은 이미 검증되었습니다.',
+      plans: [
+        '정면+측면 사진 → 자동 얼굴 분석',
+        '패턴 라이브러리 매칭 → 최적 눈썹 시안',
+        '2D 시안 + 3D MetaHuman 프리뷰',
+        '시술 전 펜슬 미리 그리기 시뮬',
+      ],
+    },
+  }[saas] || null;
+  if (info) {
+    document.getElementById('saasLabel').textContent = saas;
+    document.getElementById('saasTitle').textContent = info.title;
+    document.getElementById('saasSubtitle').textContent = info.subtitle;
+    document.getElementById('phaseBadge').textContent = info.phase;
+    document.getElementById('cardBody').textContent = info.body;
+    document.getElementById('planList').innerHTML = info.plans.map(x=>`<li>${x}</li>`).join('');
+    document.title = `준비 중 · ${info.title}`;
+  }
+</script>
+</body>
+</html>

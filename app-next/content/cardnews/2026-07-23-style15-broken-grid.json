@@ -1,0 +1,78 @@
+{
+  "id": "2026-07-23-style15-broken-grid",
+  "title": "15 Broken Grid · 룩북 극사실 169",
+  "slug": "2026-07-23-style15-broken-grid",
+  "status": "draft",
+  "createdAt": "2026-07-23T09:15:00.000Z",
+  "updatedAt": "2026-07-23T11:00:00.000Z",
+  "defaultLang": "ko",
+  "aspect": "portrait",
+  "stylePreset": "broken-grid-editorial",
+  "translations": {
+    "ko": {
+      "title": "BROKEN GRID · 원장 검토용 시안",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "detail",
+          "volume": "LOOKBOOK · FW26",
+          "brand": "ARTBROW",
+          "headline": "결이\n남는다.",
+          "subheadline": "극사실눈썹 169 · SINCE THE ORIGINAL",
+          "imageSrc": "/brand/ads/ig-69/02-eyebrow-macro.png",
+          "imageAlt": "매크로 룩북 · 결의 오프셋",
+          "signatureLabel": "LOOKBOOK · N˚07"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-02.png",
+          "imageAlt": "원장 · 오프셋 프로필",
+          "bottomLabel": "손끝의 무게"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "detail",
+          "quote": "결.",
+          "signature": "MIJI JANG",
+          "signatureRole": "· 07"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "treatment",
+          "imageSrc": "/brand/ai-generated/macro/macro-03.png",
+          "imageAlt": "매크로 · 결의 각도",
+          "bottomLabel": "각도의 데이터"
+        },
+        {
+          "kind": "macro-close-up",
+          "category": "treatment",
+          "imageSrc": "/brand/ai-generated/macro/macro-04.png",
+          "imageAlt": "매크로 · 밀도",
+          "quote": "결이\n남는다.",
+          "by": "· MJ",
+          "overlayLabel": "N˚169"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "detail",
+          "eyebrow": "SEONLEUNG · N˚169",
+          "headline": "극사실.\n결만.",
+          "highlight": "결만",
+          "signature": "Miji Jang",
+          "cta": "시술 상담 →",
+          "ctaHref": "/consult",
+          "subline": "· 169"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  }
+}

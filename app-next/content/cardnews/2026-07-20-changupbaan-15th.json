@@ -1,0 +1,102 @@
+{
+  "id": "2026-07-20-changupbaan-15th",
+  "title": "극사실눈썹 단기창업반 · 890만원 (6+6개월 무제한)",
+  "slug": "2026-07-20-changupbaan-15th",
+  "status": "draft",
+  "createdAt": "2026-07-20T15:30:00.000Z",
+  "updatedAt": "2026-07-20T18:20:00.000Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "창업반 15기 모집",
+      "slides": [
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-01.png",
+          "imageAlt": "장미지 원장 · 극사실눈썹 창시자 · 20년 마스터",
+          "bottomLabel": "털 같은 눈썹 · 털 같은 커리어"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "review",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER · 20 YEARS"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/hand-pencil/hand-03.png",
+          "imageAlt": "시술 전 펜슬 설계 · 원장 시그니처",
+          "bottomLabel": "SINCE 1세대 · 장미지눈썹연구소"
+        },
+        {
+          "kind": "atelier-scene",
+          "category": "classroom",
+          "imageSrc": "/brand/ai-generated/atelier/atelier-03.png",
+          "imageAlt": "선릉 아틀리에 · 원장 1:1 지도",
+          "eyebrow": "SEONLEUNG · 원장 1:1 지도",
+          "headline": "손끝의 무게,\n30년 경력.",
+          "bottomColumns": [
+            { "label": "본원",     "value": "선릉·삼성" },
+            { "label": "경력",     "value": "20년+" },
+            { "label": "수강 배출", "value": "900여명" }
+          ]
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "CURRICULUM · 극사실눈썹 단기창업반",
+          "leftTitle": "통합 커리큘럼",
+          "leftItems": [
+            { "num": "01", "text": "이지클래스 × 1회",       "sub": "5주 15h · 반영구 입문 정석" },
+            { "num": "02", "text": "소묘 × 3회",              "sub": "눈썹결의 원리 · 손이 리듬 기억할 때까지" },
+            { "num": "03", "text": "극사실눈썹 × 5회",       "sub": "원장 시연 관찰 + 실습 + 실전 코칭" },
+            { "num": "04", "text": "제거 × 1회",              "sub": "준·전문 과정" },
+            { "num": "05", "text": "창업컨설팅",              "sub": "본부장 + 원장" },
+            { "num": "06", "text": "강사반 지원 자격",         "sub": "수료 후 강사반 진입 가능" }
+          ],
+          "rightHeadline": "단기\n창업반",
+          "rightPrice": "890만원",
+          "rightFootnote": "6개월 과정 + 추가 6개월 무제한 실습 · 베드 무료"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ads/ig-69/03-curriculum.png",
+          "imageAlt": "원장 시술 · 골드 머신 · 소수 정예 마스터클래스",
+          "bottomLabel": "4주 클래스 · 1:1 직접 지도"
+        },
+        {
+          "kind": "signature-style",
+          "category": "founder",
+          "concept": {
+            "title": "BRAND CONCEPT",
+            "formula": ["예술 Art", "기술 Technique", "철학 Philosophy"],
+            "result": "= 극사실눈썹",
+            "caption": "「진짜 머리카락이야 · 진짜 눈썹이야 · 원래 색깔 아니었어?」"
+          },
+          "style": {
+            "title": "SIGNATURE STYLE",
+            "items": [
+              { "label": "HAIR",      "desc": "털 방향 · 결 · 굵기 · 밀도 30년 패턴" },
+              { "label": "TECHNIQUE", "desc": "시술 전 펜슬 설계 · 클레임 거의 0" },
+              { "label": "MASTER",    "desc": "원장 20년+ · 5,000+ 시술" },
+              { "label": "TRUST",     "desc": "특허 3장 · 900여명 수강 배출" }
+            ]
+          }
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ads/ig-69/04-cta-typo.png",
+          "imageAlt": "소수에게만 직접 가르칩니다 · SINCE THE ORIGINAL",
+          "bottomLabel": "장미지 원장 · 12년 연구 · 선릉 아틀리에"
+        }
+      ]
+    },
+    "en": { "title": "", "slides": [] },
+    "zh": { "title": "", "slides": [] }
+  }
+}

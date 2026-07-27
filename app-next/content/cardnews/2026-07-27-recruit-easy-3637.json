@@ -1,0 +1,67 @@
+{
+  "id": "2026-07-27-recruit-easy-3637",
+  "title": "이지 클래스 15기 모집 (3장) (Gemini · 안정)",
+  "slug": "2026-07-27-recruit-easy-3637",
+  "status": "draft",
+  "createdAt": "2026-07-27T02:12:30.631Z",
+  "updatedAt": "2026-07-27T02:12:32.904Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "이지 클래스 15기 모집 (3장)",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "VOL 15",
+          "brand": "ARTBROWS",
+          "headline": "기초부터 완벽하게\n이지 클래스 15기",
+          "subheadline": "초보자를 위한 몰입도 높은 직강",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260724_191617717_02-2026-07-27T02-10-20.jpg",
+          "signatureLabel": "MIJI JANG · 2026",
+          "bottomLabel": "ARTbrows · MIJI JANG"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+          "signature": "Miji Jang",
+          "signatureRole": "극사실눈썹 창시자"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "headline": "소수에게만 허락된\n프리미엄 클래스",
+          "highlight": "이지 클래스 69만",
+          "signature": "ARTbrows",
+          "cta": "수강 상담 신청 →",
+          "ctaHref": "/enroll",
+          "subline": "소수 정예 프라이빗 교육 · 선착순 마감"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ai-generated/client/client-01.png",
+          "bottomLabel": "결의 법칙 1234321 · 20년 노하우",
+          "topLabel": "EASY CLASS"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ai-generated/client/client-02.png",
+          "bottomLabel": "900여 명 수강 배출 · 소수 정예 직강",
+          "topLabel": "ARTbrows"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "aspect": "story"
+}

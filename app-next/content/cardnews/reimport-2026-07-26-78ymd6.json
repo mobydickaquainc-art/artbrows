@@ -1,0 +1,67 @@
+{
+  "id": "reimport-2026-07-26-78ymd6",
+  "title": "[리뉴얼] 기존 카드뉴스 6장 · 2026-07-26",
+  "slug": "reimport-2026-07-26-78ymd6",
+  "status": "draft",
+  "createdAt": "2026-07-26T19:18:23.344Z",
+  "updatedAt": "2026-07-26T19:18:42.953Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "[리뉴얼] 기존 카드뉴스 6장 · 2026-07-26",
+      "slides": [
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-18-23/01-1785093503021.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_01.png",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-18-23/02-1785093503030.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_02.png",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-18-23/03-1785093503038.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_03.png",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-18-23/04-1785093503098.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_04.png",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-18-23/05-1785093503136.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_05.png",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reimport-2026-07-26T19-18-23/06-1785093503237.png",
+          "imageAlt": "KakaoTalk_20260724_210905962_06.png",
+          "bottomLabel": ""
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "stylePreset": "artbrows-real"
+}

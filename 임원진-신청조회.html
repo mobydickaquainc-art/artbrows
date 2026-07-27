@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임원진 신청 조회 (운영진 방) · 2026-06-22 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:24px;line-height:1.55;max-width:1280px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:28px;margin-bottom:6px}
+  h1 em{color:#d4af37;font-style:normal}
+  .sub{color:#8a8a84;font-size:14px;margin-bottom:20px}
+  .demo-banner{background:linear-gradient(135deg,#1a3a1e,#0a1a0c);border:2px solid #a8e6b3;border-radius:12px;padding:14px 20px;margin-bottom:24px;font-size:13.5px;color:#cbc8c1;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+  .demo-banner b{color:#a8e6b3;font-weight:700}
+  .btn-live{background:#a8e6b3;color:#0b0907;padding:8px 18px;border-radius:8px;font-weight:800;text-decoration:none;font-size:13px;letter-spacing:1px}
+
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:24px}
+  .step{background:#161617;border:1px solid #242425;border-radius:10px;padding:12px 10px;text-align:center;position:relative}
+  .step .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#d4af37;line-height:1}
+  .step .t{font-weight:700;font-size:12px;color:#e7e5e1;margin-top:6px}
+  .step .d{font-size:10.5px;color:#9a9a93;margin-top:3px;line-height:1.4}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:#d4af37;font-size:18px;font-weight:700;z-index:2}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+  .kpi{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 12px;text-align:center}
+  .kpi .n{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:32px;color:#d4af37;line-height:1}
+  .kpi .l{font-size:11px;color:#9a9a93;margin-top:5px;letter-spacing:1px}
+
+  .toolbar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#161617;border:1px solid #242425;border-radius:10px 10px 0 0;border-bottom:0;flex-wrap:wrap;gap:14px}
+  .toolbar .left{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .toolbar input[type=text],.toolbar select{background:#0c0c0d;border:1px solid #2a2a2a;border-radius:6px;padding:8px 12px;color:#e7e5e1;font-size:13px;font-family:inherit}
+  .toolbar input[type=text]{width:240px}
+  .toolbar .filter{font-size:11px;color:#9a9a93;letter-spacing:1px;margin-right:4px}
+  .toolbar .right{display:flex;gap:8px}
+  .toolbar .right .btn{background:#1a1a1b;border:1px solid #2a2a2a;color:#cbc8c1;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block}
+  .toolbar .right .btn:hover{border-color:#d4af37;color:#d4af37}
+  .toolbar .right .btn.gold{background:#d4af37;border-color:#d4af37;color:#0b0907;font-weight:700}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;background:#161617;border:1px solid #242425;border-radius:0 0 10px 10px;overflow:hidden;margin-bottom:24px}
+  thead th{background:#1a1a1b;color:#d4af37;font-weight:700;padding:12px 14px;text-align:left;font-size:11.5px;letter-spacing:1.2px;border-bottom:1px solid #2a2a2a}
+  thead th.sticky{position:sticky;left:0;background:#1a1a1b}
+  tbody td{padding:14px;border-top:1px solid #2a2a2a;vertical-align:top;color:#cbc8c1}
+  tbody tr:hover{background:#1a1a1b}
+  tbody tr.new{background:#1a2a1e}
+  tbody td.name{font-weight:800;color:#e7e5e1}
+  tbody td .meta{font-size:11px;color:#8a8a84;margin-top:2px}
+  .badge{display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:10px;letter-spacing:1px;font-weight:700;white-space:nowrap}
+  .b-new{background:#264d2a;color:#a8e6b3}
+  .b-contact{background:#5a3818;color:#f4d4a8}
+  .b-counsel{background:#1a3a5a;color:#9fc8ff}
+  .b-enrolled{background:#d4af37;color:#0b0907}
+  .b-canceled{background:#3a3a3a;color:#aaa}
+  .b-cat{background:#2a2a2a;color:#cbc8c1;font-weight:500}
+
+  .section-title{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#d4af37;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid #2a2a2a}
+  .actions{background:#161617;border:2px solid #d4af37;border-radius:12px;padding:18px 22px;margin-top:20px}
+  .actions h3{font-family:'Nanum Myeongjo',serif;color:#d4af37;font-size:16px;margin-bottom:10px}
+  .actions ul{padding-left:18px;font-size:13px;line-height:1.7;color:#cbc8c1}
+  .actions li::marker{color:#d4af37}
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+</style>
+</head>
+<body>
+
+<h1><em>임원진 신청 조회</em> — 운영진 방 (운영 홈)</h1>
+<p class="sub">인스타 광고 → enroll 폼 → Supabase DB → 임원진 방. 실시간 신청 결과 한눈에 · 정렬·필터·내보내기 가능</p>
+
+<div class="demo-banner">
+  <div>
+    <b>회의 시연 모드</b> — 아래 5건은 <strong>모킹 데이터</strong>. 실제 운영 시작 후엔 라이브 신청자가 자동으로 채워집니다.
+    실 데이터 = <a href="https://eyebrows.staris.cloud/admin/history" target="_blank" style="color:#a8e6b3">eyebrows.staris.cloud/admin/history</a>
+  </div>
+  <a class="btn-live" href="https://eyebrows.staris.cloud/admin/history" target="_blank">→ 실제 라이브 admin</a>
+</div>
+
+<!-- 흐름 -->
+<div class="flow">
+  <div class="step"><div class="n">1</div><div class="t">인스타 광고 클릭</div><div class="d">광고 4종</div></div>
+  <div class="step"><div class="n">2</div><div class="t">enroll 폼 입력</div><div class="d">8 필드</div></div>
+  <div class="step"><div class="n">3</div><div class="t">Supabase 저장</div><div class="d">enrollments</div></div>
+  <div class="step"><div class="n">4</div><div class="t">임원진 방 노출</div><div class="d">이 페이지</div></div>
+  <div class="step"><div class="n">5</div><div class="t">DM 응답·상담</div><div class="d">전환</div></div>
+</div>
+
+<!-- KPI -->
+<div class="kpi-row">
+  <div class="kpi"><div class="n">5</div><div class="l">금일 신규 신청</div></div>
+  <div class="kpi"><div class="n">132</div><div class="l">누적 신청</div></div>
+  <div class="kpi"><div class="n">87</div><div class="l">상담 완료</div></div>
+  <div class="kpi"><div class="n">23</div><div class="l">등록 확정</div></div>
+  <div class="kpi"><div class="n">4.2h</div><div class="l">평균 응답</div></div>
+</div>
+
+<!-- 툴바 + 테이블 -->
+<div class="toolbar">
+  <div class="left">
+    <span class="filter">검색</span><input type="text" placeholder="이름 · 연락처 · 메모 ...">
+    <span class="filter">상태</span><select><option>전체</option><option>신규</option><option>연락중</option><option>상담완료</option><option>등록</option><option>취소</option></select>
+    <span class="filter">유입</span><select><option>전체</option><option>인스타 광고 01</option><option>인스타 광고 02</option><option>인스타 광고 03</option><option>인스타 광고 04</option><option>지인 추천</option><option>유튜브</option></select>
+    <span class="filter">기간</span><select><option>최근 7일</option><option>최근 30일</option><option>전체</option></select>
+  </div>
+  <div class="right">
+    <a class="btn" href="#">↻ 새로고침</a>
+    <a class="btn" href="#">📊 Google Sheet 동기화</a>
+    <a class="btn gold" href="#">⬇ CSV 내보내기</a>
+  </div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th class="sticky" style="width:14%">이름 · 연락처</th>
+      <th style="width:11%">관심 과정</th>
+      <th style="width:11%">희망 시기</th>
+      <th style="width:13%">분류 / 직업</th>
+      <th style="width:15%">유입 경로</th>
+      <th style="width:18%">메모</th>
+      <th style="width:9%">상태</th>
+      <th style="width:9%">접수 시각</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="new">
+      <td class="name">홍길순<div class="meta">010-1234-5678</div></td>
+      <td>정규 (69만원)</td>
+      <td>다음 차수</td>
+      <td><span class="badge b-cat">직장인</span></td>
+      <td>인스타 광고 04 · CTA TYPO</td>
+      <td>주말반 가능한가요? 평일 업무로...</td>
+      <td><span class="badge b-new">신규</span></td>
+      <td>06/22 09:14</td>
+    </tr>
+    <tr>
+      <td class="name">박원장<div class="meta">010-5555-7777</div></td>
+      <td>정규 (69만원)</td>
+      <td>다다음 차수</td>
+      <td><span class="badge b-cat">미용원장</span></td>
+      <td>인스타 광고 02 · EYEBROW MACRO</td>
+      <td>강남 미용실 운영 중. 시그니처 메뉴 추가 검토</td>
+      <td><span class="badge b-contact">연락중</span></td>
+      <td>06/22 06:42</td>
+    </tr>
+    <tr>
+      <td class="name">이수아<div class="meta">010-9999-1234</div></td>
+      <td>정규 (69만원)</td>
+      <td>다음 차수</td>
+      <td><span class="badge b-cat">워킹맘</span></td>
+      <td>인스타 광고 03 · CURRICULUM</td>
+      <td>새벽 시간 활용 가능. 평생 수강 조건 확인 후 등록 결심</td>
+      <td><span class="badge b-counsel">상담완료</span></td>
+      <td>06/21 22:30</td>
+    </tr>
+    <tr>
+      <td class="name">민지영<div class="meta">010-3333-2222</div></td>
+      <td>정규 (69만원)</td>
+      <td>다음 차수</td>
+      <td><span class="badge b-cat">미대생</span></td>
+      <td>인스타 광고 01 · HERO PORTRAIT</td>
+      <td>졸업 직후 시작. 노트북·연습 패드 미리 안내드림</td>
+      <td><span class="badge b-enrolled">등록</span></td>
+      <td>06/20 11:08</td>
+    </tr>
+    <tr>
+      <td class="name">최선영<div class="meta">010-2222-8888</div></td>
+      <td>정규 (69만원)</td>
+      <td>다다음 차수</td>
+      <td><span class="badge b-cat">시니어</span></td>
+      <td>지인 추천</td>
+      <td>딸이 권유. 50대 처음 시작 가능한지 문의</td>
+      <td><span class="badge b-counsel">상담완료</span></td>
+      <td>06/19 17:55</td>
+    </tr>
+    <tr style="opacity:.6">
+      <td class="name">김지우<div class="meta">010-7777-4444</div></td>
+      <td>정규 (69만원)</td>
+      <td>—</td>
+      <td><span class="badge b-cat">직장인</span></td>
+      <td>인스타 광고 04 · CTA TYPO</td>
+      <td>전화 안 받음. 1주일 후 재시도 예정</td>
+      <td><span class="badge b-canceled">취소</span></td>
+      <td>06/18 14:22</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- 유입 분석 -->
+<div class="section-title">유입 경로별 분석 (오늘 신규 5건 기준)</div>
+<table>
+  <thead><tr><th style="width:30%">유입 경로</th><th style="width:15%">신청 수</th><th style="width:15%">상담 전환율</th><th style="width:15%">등록 전환율</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>인스타 광고 04 · CTA TYPO</td><td>2건</td><td>50%</td><td>0%</td><td>CTA 직접 강조 → 높은 호기심·관심</td></tr>
+    <tr><td>인스타 광고 03 · CURRICULUM</td><td>1건</td><td>100%</td><td>100%</td><td>★ 가장 강력한 전환</td></tr>
+    <tr><td>인스타 광고 02 · EYEBROW MACRO</td><td>1건</td><td>0%</td><td>0%</td><td>전문가(원장) 호기심 자극</td></tr>
+    <tr><td>인스타 광고 01 · HERO PORTRAIT</td><td>1건</td><td>100%</td><td>100%</td><td>인물 중심 광고 효과</td></tr>
+    <tr><td>지인 추천 / 기타</td><td>1건</td><td>100%</td><td>0%</td><td>오프라인 채널 + 모녀 시너지</td></tr>
+  </tbody>
+</table>
+
+<!-- 회의 결정 -->
+<div class="actions">
+  <h3>임원진 결정 요청 사항</h3>
+  <ul>
+    <li><b>광고 4종 UTM 분리</b> — 위 표처럼 「광고 ID 별 전환율」 보려면 광고 클릭 URL 에 UTM 파라미터 추가 필요. 5분 작업.</li>
+    <li><b>이 페이지 라이브 배포</b> — 운영진 방으로 영구 사용하려면 Next.js 에 `/admin/inquiry` 신설 + Supabase 조회. 약 1시간.</li>
+    <li><b>Google Sheet 자동 동기화</b> — Supabase → Sheet Webhook + Service Account JSON 필요. 약 30분 + 자격증명.</li>
+    <li><b>알림 자동화</b> — 새 신청 들어오면 카카오톡/이메일/슬랙 자동 알림. Supabase Edge Function 1~2시간.</li>
+    <li><b>운영진 권한 분리</b> — 「조회만」 / 「상담 상태 변경」 / 「전체 관리」 3 단계 권한. 약 1시간.</li>
+  </ul>
+</div>
+
+<footer>
+  임원진 신청 조회 (운영진 방) · ARTbrows · 2026-06-22 10:00 임원진 회의 시연용
+  · 라이브 패턴: eyebrows.staris.cloud (Next.js + Supabase) + 운영진용 임시 터널 (cloudflared)
+  · 모킹 데이터 5건은 시연용. 실제 신청은 라이브 admin/history 에서 확인.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중국어 강의 번역 — ARTbrows 웹앱</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap');
+:root{
+  --apricot:#0B0907;--cream:#161311;--ink:#F5EDE3;--muted:#8A7E72;
+  --coral:#C9A66B;--hotpink:#E0C088;--line:#2A211C;--plum:#1E1A17;--done:#7EAB8E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--apricot);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
+.serif{font-family:'Nanum Myeongjo',serif}
+a{color:inherit;text-decoration:none}
+.top{padding:18px 26px;display:flex;align-items:center;gap:14px}
+.top a{font-weight:800;font-size:17px}
+.top a span{color:var(--coral)}
+.top .sep{color:var(--muted)}
+.top .crumb{color:var(--muted);font-size:13px}
+
+main{flex:1;max-width:1080px;margin:0 auto;padding:24px 22px 60px;width:100%}
+.eyebrow{letter-spacing:.4em;font-size:11px;color:var(--coral);font-weight:800}
+h1.title{font-size:36px;font-weight:400;margin:6px 0 4px}
+h1.title em{font-style:normal;color:var(--hotpink)}
+.lead{color:var(--muted);font-size:14.5px;margin-bottom:22px;max-width:680px}
+
+.card{background:var(--cream);border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 6px 18px rgba(232,169,155,.14)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h3 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#FFD9CF;font-size:12px;font-weight:900}
+
+/* DROPZONE */
+.drop{border:2.5px dashed var(--coral);border-radius:16px;padding:36px 22px;text-align:center;background:#1E1A17;transition:all .15s;cursor:pointer;position:relative}
+.drop.over{background:#161311;border-color:var(--hotpink);transform:scale(1.005)}
+.drop .icon{font-size:36px;margin-bottom:10px}
+.drop .big{font-size:16px;font-weight:800;margin-bottom:4px}
+.drop .small{font-size:12.5px;color:var(--muted)}
+.drop .or{display:inline-block;background:var(--coral);color:#fff;padding:9px 20px;border-radius:999px;font-weight:800;font-size:13px;margin-top:14px;border:none;cursor:pointer;font-family:inherit}
+.drop .or:hover{background:var(--hotpink)}
+.drop input[type=file]{display:none}
+.drop .file-info{margin-top:14px;background:var(--apricot);border-radius:12px;padding:10px 14px;font-size:13px;font-weight:600;display:none}
+.drop.has-file .file-info{display:inline-block}
+
+/* PREVIEW BUTTONS */
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--ink);border:2px solid var(--ink);font-weight:800;padding:11px 22px;border-radius:999px;font-size:14px;cursor:pointer;transition:all .15s;position:relative}
+.btn:hover:not(:disabled){border-color:var(--coral);color:var(--coral);transform:translateY(-1px);box-shadow:0 6px 14px rgba(255,111,132,.25)}
+.btn.primary{background:var(--hotpink);color:#fff;border-color:var(--hotpink);box-shadow:0 4px 12px rgba(255,111,132,.35)}
+.btn.primary:hover:not(:disabled){background:var(--coral);border-color:var(--coral);color:#fff;box-shadow:0 8px 20px rgba(255,111,132,.5)}
+.btn:disabled{opacity:.28;cursor:not-allowed;filter:grayscale(70%);border-style:dashed}
+.btn:disabled:hover{transform:none;box-shadow:none}
+.btn.pulse{animation:btnPulse 1.8s ease-in-out infinite}
+@keyframes btnPulse{0%,100%{box-shadow:0 4px 12px rgba(255,111,132,.35),0 0 0 0 rgba(255,111,132,.55)}50%{box-shadow:0 4px 12px rgba(255,111,132,.35),0 0 0 14px rgba(255,111,132,0)}}
+.btn .dur{background:rgba(255,255,255,.22);padding:2px 8px;border-radius:99px;font-size:11.5px}
+.readyhint{display:none;font-size:12.5px;color:var(--hotpink);font-weight:800;margin-left:6px;letter-spacing:.02em;animation:hintFade .3s ease}
+.readyhint.on{display:inline-flex;align-items:center;gap:6px}
+@keyframes hintFade{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.readyhint::before{content:"👉";font-size:15px}
+.cachehit{display:none;background:linear-gradient(135deg,#2A211C,#1E1811);border:1px solid #6BC79A;border-radius:10px;padding:10px 14px;margin:10px 0 4px;color:#8BE0B4;font-size:13px;font-weight:700;align-items:center;gap:10px}
+.cachehit.on{display:flex}
+.cachehit::before{content:"⚡";font-size:18px}
+
+/* PLAYER + SUB AREA */
+.workbench{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:6px}
+.player-wrap{background:#000;border-radius:16px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#fff8;font-size:13px;position:relative}
+.player-wrap video{width:100%;height:100%;display:block}
+.player-wrap .empty{padding:20px;text-align:center}
+
+.sub-panel{background:var(--cream);border-radius:16px;display:flex;flex-direction:column;min-height:340px;max-height:520px;overflow:hidden;box-shadow:0 6px 18px rgba(232,169,155,.14)}
+.sub-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sub-head .lbl{font-weight:800;font-size:14px}
+.sub-head .chip{font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;background:var(--apricot);color:var(--ink)}
+.sub-head .chip.live{background:#2A211C;color:#E0C088}
+.sub-head .right{margin-left:auto;display:flex;gap:8px}
+.sub-head .mini{background:transparent;border:1px solid var(--line);font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:99px;cursor:pointer;color:var(--muted)}
+.sub-head .mini:hover{color:var(--coral);border-color:var(--coral)}
+
+.sub-list{flex:1;overflow-y:auto;padding:12px 16px;font-size:14px;scroll-behavior:smooth}
+.sub-list::-webkit-scrollbar{width:6px}
+.sub-list::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.sub-list .empty{color:var(--muted);font-size:13px;text-align:center;padding:40px 8px}
+.sub-line{padding:9px 12px;margin:5px 0;border-radius:10px;display:grid;grid-template-columns:62px 1fr;gap:10px;transition:background .15s;cursor:pointer;animation:subFadeIn .35s ease}
+@keyframes subFadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.sub-line:hover{background:var(--apricot)}
+.sub-line.active{background:var(--ink);color:#FFD9CF}
+.sub-line.active .ts{color:var(--coral)}
+.sub-line.active .zh{color:#FFD9CF99}
+.sub-line .ts{font-size:11.5px;font-weight:800;color:var(--coral);padding-top:2px}
+.sub-line .txt{font-size:14px;line-height:1.55;font-weight:600}
+.sub-line .zh{font-size:11.5px;color:var(--muted);margin-top:3px;font-weight:500}
+
+/* STATUS BAR */
+.status{background:#1E1A17;border:1px dashed var(--coral);border-radius:12px;padding:10px 14px;font-size:13px;color:#7d4030;margin-top:10px;display:none}
+.status.on{display:block}
+.status .step{font-weight:800;color:var(--hotpink)}
+
+/* WAITING OVERLAY (모래시계·경과 시간·기다려주세요) */
+.waiting{display:none;background:linear-gradient(135deg,#1E1A17,#0B0907);border:1px solid #A8854E;border-radius:14px;padding:32px 28px;margin-top:14px;text-align:center;position:relative;overflow:hidden}
+.waiting.on{display:block}
+.waiting::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:2px;background:linear-gradient(90deg,transparent,#E0C088,transparent);animation:sweep 2.4s linear infinite}
+@keyframes sweep{to{left:100%}}
+.waiting .hourglass{font-size:64px;line-height:1;display:inline-block;animation:flip 2s ease-in-out infinite;filter:drop-shadow(0 4px 12px rgba(224,192,136,.35))}
+@keyframes flip{0%,45%{transform:rotate(0deg)}55%,100%{transform:rotate(180deg)}}
+.waiting .big{font-family:'Nanum Myeongjo',serif;font-size:26px;font-weight:700;color:#F5EDE3;margin:18px 0 8px;letter-spacing:-.01em}
+.waiting .big em{font-style:normal;color:#E0C088}
+.waiting .elapsed{font-size:44px;font-weight:900;color:#E0C088;font-variant-numeric:tabular-nums;letter-spacing:.03em;margin:6px 0;font-family:'Inter','SF Mono',monospace}
+.waiting .elapsed .unit{font-size:20px;color:#A8854E;margin-left:4px;font-weight:600}
+.waiting .estimate{font-size:13px;color:#A8854E;margin-top:4px;font-weight:500}
+.waiting .estimate b{color:#D6C9B8;font-weight:700}
+.waiting .stage{margin-top:16px;padding-top:14px;border-top:1px solid #2A211C;font-size:13px;color:#C9A66B;font-weight:600;line-height:1.55}
+.waiting .stage .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#E0C088;margin-right:8px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+.waiting .tip{margin-top:12px;font-size:11.5px;color:#7A6B5A;font-weight:500}
+
+/* progress dot */
+.flow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.flow .step{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:700}
+.flow .step .dot{width:24px;height:24px;border-radius:50%;background:#fff;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--muted)}
+.flow .step.active .dot{background:var(--coral);color:#fff;border-color:var(--coral)}
+.flow .step.done .dot{background:var(--done);color:#fff;border-color:var(--done)}
+.flow .arr{color:var(--line);font-weight:800;align-self:center}
+
+footer{background:var(--plum);color:#F6E6DF;text-align:center;padding:22px;font-size:12.5px;margin-top:auto}
+
+@media(max-width:900px){
+  .workbench{grid-template-columns:1fr}
+  h1.title{font-size:28px}
+}
+</style></head>
+<body>
+  <div class="top">
+    <a href="index.html">← ART<span>brows</span> 홈</a>
+    <span class="sep">/</span>
+    <a href="webapp.html" class="crumb">웹앱</a>
+    <span class="sep">/</span>
+    <span class="crumb">중국어 강의 번역</span>
+  </div>
+
+  <main>
+    <div style="background:linear-gradient(135deg,#1E1A17,#0B0907);border:1px solid #A8854E;padding:24px 28px;border-radius:14px;margin-bottom:22px">
+      <div style="letter-spacing:.4em;font-size:10.5px;color:#C9A66B;font-weight:700;text-transform:uppercase;margin-bottom:10px">FOR · 장미지 원장</div>
+      <h2 style="font-family:'Nanum Myeongjo',serif;font-size:24px;font-weight:400;color:#F5EDE3;line-height:1.45;margin:0 0 12px">중국 세미나 영상을 올리시면 <b style="color:#E0C088;font-weight:800">한국어 자막으로 자동 변환</b>해드립니다.</h2>
+      <p style="color:#D6C9B8;font-size:14px;line-height:1.95;margin-bottom:14px">
+        <b style="color:#E0C088;font-size:15px">사용법 (영상만 올려주시면 끝):</b><br>
+        ① 아래 <span style="background:#161311;border:1px solid #C9A66B;padding:2px 10px;border-radius:4px;color:#E0C088;font-weight:700">영상 업로드</span> 영역에 영상을 <b>드래그하거나 클릭해서 선택</b><br>
+        ② <span style="background:#C9A66B;color:#0B0907;padding:2px 12px;border-radius:4px;font-weight:800">★ 미리 번역 (처음 60초만)</span> 또는 <span style="background:#161311;border:1px solid #C9A66B;padding:2px 12px;border-radius:4px;color:#E0C088;font-weight:700">전체 자동 번역</span> 클릭<br>
+        ③ 잠시 기다리시면 영상 + 한국어 자막이 자동 표시됩니다 (그 동안 다른 일 하셔도 OK)
+      </p>
+      <p style="color:#D6C9B8;font-size:13px;line-height:1.85;margin-bottom:14px;background:#221C18;padding:14px 18px;border-radius:8px">
+        <b style="color:#E0C088">먼저 체험만 — 미리 처리해둔 데모:</b> 우측 분홍 <span style="background:#E0C088;color:#0B0907;padding:2px 10px;border-radius:4px;font-weight:700">🎯 실제 데모 로드</span> 클릭 → 즉시 영상 + 47줄 한국어 자막 표시. 어떻게 작동되는지 1분 안에 보실 수 있습니다.
+      </p>
+      <p style="color:#8A7E72;font-size:12px;line-height:1.85;margin:0;border-top:1px solid #2A211C;padding-top:12px">
+        <b style="color:#D6C9B8">처리 시간:</b> 2분 영상 → 약 2분 · 30분 영상 → 약 20분 · 1시간 영상 → 약 40분 · 3시간 영상 → 약 2시간<br>
+        <b style="color:#D6C9B8">긴 영상(수십GB·몇 시간)이 자주 있으시면</b> 다음주 월요일(6/22) 미팅 때 원장님 PC 에 자동 처리 시스템을 설치해드립니다. 그러면 영상을 PC 폴더에 두기만 하시면 끝.<br>
+        <b style="color:#D6C9B8">엔진:</b> 음성 인식 = faster-whisper · 번역 = <b style="color:#E0C088">Google Gemini 2.5 Pro</b> (실패 시 OpenAI GPT-4o 자동 fallback)
+      </p>
+    </div>
+
+    <div class="eyebrow">SEMINAR TRANSLATOR · BETA</div>
+    <h1 class="title serif">중국어 강의 <em>한국어 번역</em></h1>
+    <p class="lead">중국에서 촬영한 세미나 영상을 올리면, 음성을 추출해 한국어 자막으로 변환합니다. 영상 옆 텍스트 패널에 타임스탬프와 함께 자막이 표시됩니다.</p>
+
+    <!-- ★★★ 내 영상 라이브러리 (2026-07-26 대표님 지시 · 한 번 올린 영상은 재사용) -->
+    <div class="card" id="mediaLibrary" style="display:none">
+      <h3><span class="num" style="background:#E0C088;color:#0B0907">📚</span>내 영상 라이브러리 <span id="mediaCount" style="margin-left:auto;font-size:12.5px;font-weight:600;color:var(--muted)"></span></h3>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px">한 번 업로드한 영상은 서버에 저장됩니다. 다시 올리지 않아도 클릭 한 번이면 재생 + 자막이 즉시 표시됩니다.</p>
+      <div id="mediaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px"></div>
+    </div>
+    <style>
+      .media-card{background:#1E1A17;border:1px solid #3a2e26;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .18s;position:relative;display:flex;flex-direction:column}
+      .media-card:hover{border-color:#E0C088;transform:translateY(-3px);box-shadow:0 12px 24px rgba(224,192,136,.18)}
+      .media-thumb{width:100%;aspect-ratio:16/9;background:#0B0907;display:block;object-fit:cover}
+      .media-thumb.empty{background:linear-gradient(135deg,#1E1A17,#0B0907);display:flex;align-items:center;justify-content:center;color:#6B5A48;font-size:32px}
+      .media-meta{padding:10px 12px 12px;color:#D6C9B8;font-size:12px;line-height:1.4;display:flex;flex-direction:column;gap:6px}
+      .media-title{font-weight:800;color:#F5EDE3;font-size:13px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .media-info{color:#8A7B6C;font-size:11px;display:flex;gap:8px;flex-wrap:wrap}
+      .media-info b{color:#C9A66B;font-weight:700}
+      .media-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:700;letter-spacing:.03em}
+      .media-pill.done{background:rgba(107,199,154,.14);color:#8BE0B4;border:1px solid rgba(107,199,154,.35)}
+      .media-pill.wait{background:rgba(224,192,136,.14);color:#E0C088;border:1px solid rgba(224,192,136,.35)}
+      .media-del{position:absolute;top:8px;right:8px;background:rgba(20,15,10,.88);color:#F5EDE3;border:1px solid rgba(224,192,136,.35);border-radius:99px;width:28px;height:28px;font-size:15px;cursor:pointer;opacity:.85;transition:all .15s;line-height:1;z-index:5;font-weight:700}
+      .media-card:hover .media-del{opacity:1;transform:scale(1.05)}
+      .media-del:hover{background:rgba(200,60,60,.95);border-color:rgba(255,120,120,.6);color:#fff}
+    </style>
+
+    <!-- ★ 내 영상 라이브러리 (서버 저장 · 재업로드 X) -->
+    <script>
+    (async function loadMediaLibrary(){
+      const API = (location.hostname==='localhost'||location.hostname==='127.0.0.1')
+        ? `${location.protocol}//${location.hostname}:5099`
+        : 'https://powerseller-taylor-behaviour-purpose.trycloudflare.com';
+      try {
+        const r = await fetch(API + '/api/media/list');
+        if (!r.ok) return;
+        const {items} = await r.json();
+        if (!items || !items.length) return;
+        const sec = document.getElementById('mediaLibrary');
+        const grid = document.getElementById('mediaGrid');
+        const cnt = document.getElementById('mediaCount');
+        cnt.textContent = `${items.length}건 · 서버 저장`;
+        const fmtDur = s => { if(!s) return '—'; const m=Math.floor(s/60), ss=Math.floor(s%60); return `${m}:${String(ss).padStart(2,'0')}`; };
+        const fmtSize = b => b > 1024*1024*1024 ? (b/1024/1024/1024).toFixed(1)+'GB' : (b/1024/1024).toFixed(0)+'MB';
+        const fmtDate = iso => { try { const d = new Date(iso); return `${d.getMonth()+1}/${d.getDate()}`; } catch(e){ return ''; } };
+        grid.innerHTML = items.map(m => {
+          const pill = m.has_subs
+            ? `<span class="media-pill done">⚡ 자막 ${m.sub_count}줄</span>`
+            : `<span class="media-pill wait">⏳ 번역 필요</span>`;
+          const thumb = m.thumb_url
+            ? `<img class="media-thumb" src="${API}${m.thumb_url}" alt="">`
+            : `<div class="media-thumb empty">🎬</div>`;
+          return `
+            <div class="media-card" data-hash="${m.hash}" data-ext="${m.ext}" data-mime="${m.mimetype}" data-filename="${m.filename.replace(/"/g,'&quot;')}">
+              ${thumb}
+              <button class="media-del" title="라이브러리에서 삭제">×</button>
+              <div class="media-meta">
+                <div class="media-title">${m.filename}</div>
+                <div class="media-info"><b>${fmtDur(m.duration)}</b><span>${fmtSize(m.size)}</span><span>${fmtDate(m.created_at)}</span></div>
+                ${pill}
+              </div>
+            </div>`;
+        }).join('');
+        sec.style.display = 'block';
+        // 카드 클릭 = 서버 영상 재생 + (있으면) 자막 즉시 표시
+        grid.querySelectorAll('.media-card').forEach(el => {
+          el.addEventListener('click', async e => {
+            if (e.target.classList.contains('media-del')) return;
+            const hash = el.dataset.hash;
+            const filename = el.dataset.filename;
+            const streamUrl = API + '/api/media/' + hash;
+            // 재생 마운트
+            const pw = document.getElementById('playerWrap');
+            pw.innerHTML = '';
+            const v = document.createElement('video');
+            v.src = streamUrl; v.controls = true; v.style.width = '100%'; v.style.borderRadius = '10px';
+            pw.appendChild(v);
+            // fileInfo 갱신 · currentFile 은 서버 참조 (File 인스턴스 X · 재번역 방지)
+            const fi = document.getElementById('fileInfo');
+            if (fi) fi.textContent = '📚 라이브러리 · ' + filename;
+            window.__libraryHash = hash;
+            // 자막 로드
+            try {
+              const cr = await fetch(API + '/api/cache/' + hash);
+              if (cr.ok) {
+                const cd = await cr.json();
+                if (cd && cd.segments) {
+                  window.__librarySubs = cd.segments;
+                  window.dispatchEvent(new CustomEvent('library-subs-loaded'));
+                }
+              }
+            } catch (err) { console.warn('cache fetch fail', err); }
+            v.play().catch(()=>{});
+          });
+          el.querySelector('.media-del').addEventListener('click', async e => {
+            e.stopPropagation();
+            if (!confirm('라이브러리에서 삭제할까요?')) return;
+            const hash = el.dataset.hash;
+            const dr = await fetch(API + '/api/media/' + hash, { method: 'DELETE' });
+            if (dr.ok) el.remove();
+          });
+        });
+      } catch (e) { console.warn('media library fetch fail', e); }
+    })();
+    </script>
+
+    <script>
+    (async function(){
+      const SB_URL = 'https://ylednqhmuirhdvufovrr.supabase.co';
+      const SB_KEY = 'sb_publishable_iawnWsm9aBnycuTkbh4Exg_hK4nk7SF';
+      try {
+        const r = await fetch(`${SB_URL}/rest/v1/jobs?select=base_name,source,duration,size_bytes,engine,processed_at,source_pc,total_elapsed_s&status=eq.completed&order=processed_at.desc&limit=30`, {
+          headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+        });
+        if (!r.ok) return;
+        const rows = await r.json();
+        if (!rows.length) return;
+        const sec = document.getElementById('processedSection');
+        const list = document.getElementById('processedList');
+        const cnt = document.getElementById('processedCount');
+        cnt.textContent = `${rows.length}건`;
+        const fmtDur = s => { const m=Math.floor(s/60), ss=Math.floor(s%60); return `${m}분 ${ss}초`; };
+        const fmtSize = b => b > 1024*1024*1024 ? (b/1024/1024/1024).toFixed(1)+' GB' : (b/1024/1024).toFixed(0)+' MB';
+        list.innerHTML = rows.map(j => `
+          <a href="#" data-base="${j.base_name}" style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px 16px;background:var(--apricot);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:inherit">
+            <div>
+              <div style="font-weight:800;font-size:14px;color:var(--ink);margin-bottom:4px">${j.source || j.base_name}</div>
+              <div style="font-size:11.5px;color:var(--muted)">${fmtDur(j.duration||0)} · ${fmtSize(j.size_bytes||0)} · ${j.engine||'gpt'} · ${j.source_pc||'?'} PC · ${new Date(j.processed_at).toLocaleString('ko-KR')}</div>
+            </div>
+            <span style="font-size:11px;font-weight:800;color:var(--coral);letter-spacing:.15em;text-transform:uppercase">시청 →</span>
+          </a>
+        `).join('');
+        sec.style.display = 'block';
+        list.querySelectorAll('a').forEach(a => a.addEventListener('click', async e => {
+          e.preventDefault();
+          const base = a.dataset.base;
+          const r2 = await fetch(`${SB_URL}/rest/v1/jobs?select=segments,source&base_name=eq.${encodeURIComponent(base)}`, {
+            headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+          });
+          const data = (await r2.json())[0];
+          if (!data?.segments) { alert('자막 데이터 없음'); return; }
+          // 시청 모드 트리거
+          window.__loadFromSupabase = data;
+          window.dispatchEvent(new Event('sb-load'));
+        }));
+      } catch (e) { console.warn('processed list fetch fail', e); }
+    })();
+    </script>
+
+    <!-- 진행 단계 -->
+    <div class="flow" id="flow">
+      <div class="step done" data-s="upload"><span class="dot">1</span>업로드</div>
+      <span class="arr">→</span>
+      <div class="step" data-s="extract"><span class="dot">2</span>음성 추출</div>
+      <span class="arr">→</span>
+      <div class="step" data-s="stt"><span class="dot">3</span>중국어 STT</div>
+      <span class="arr">→</span>
+      <div class="step" data-s="preview"><span class="dot">4</span>미리 번역</div>
+      <span class="arr">→</span>
+      <div class="step" data-s="full"><span class="dot">5</span>전체 번역</div>
+    </div>
+
+    <!-- 1) 업로드 -->
+    <div class="card">
+      <h3>
+        <span class="num">1</span>영상 업로드
+        <button type="button" id="btnTutorial" style="margin-left:auto;padding:8px 16px;background:linear-gradient(135deg,#E0C088,#B08862);color:#0B0907;border:none;border-radius:99px;font-weight:800;font-size:13px;cursor:pointer;letter-spacing:.02em;box-shadow:0 3px 10px rgba(224,192,136,.25);transition:all .15s">📘 사용 방법 · 3분 안내</button>
+      </h3>
+      <div class="drop" id="drop" role="button" tabindex="0">
+        <input type="file" id="fileInput" accept="video/*">
+        <div class="icon">🎬</div>
+        <div class="big">여기로 영상을 드래그하세요</div>
+        <div class="small">mp4 · mov · avi · mkv · 최대 2GB (PoC 단계)</div>
+        <button type="button" class="or" id="btnPick">📁 또는 클릭해서 선택</button>
+        <div class="file-info" id="fileInfo"></div>
+        <button type="button" id="btnRemoveFile" title="이 파일 취소 · 다른 영상 선택" style="display:none;margin-left:8px;background:rgba(20,15,10,.72);color:#F5EDE3;border:1px solid rgba(255,120,120,.4);border-radius:99px;width:26px;height:26px;font-size:14px;cursor:pointer;line-height:1;font-weight:700;vertical-align:middle;transition:all .15s">×</button>
+      </div>
+
+      <div id="cachehitBox" class="cachehit">
+        <span>이미 번역된 영상입니다 · 재번역 없이 즉시 표시됩니다</span>
+        <button class="btn primary" id="btnCacheLoad" style="margin-left:auto;padding:8px 16px;font-size:12.5px">⚡ 저장된 번역 열기</button>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="btnPreview" disabled>
+          ★ 미리 번역 <span class="dur">처음 60초</span>
+        </button>
+        <span class="readyhint" id="hintPreview">이거 눌러 60초 확인</span>
+        <button class="btn" id="btnFull" disabled>전체 자동 번역</button>
+        <span class="readyhint" id="hintFull">큰 파일 · 이거 눌러 청킹 업로드</span>
+        <label style="display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #3a2e26;border-radius:8px;background:#1a1512;color:#E0C088;font-size:13px;font-weight:600">
+          번역 엔진
+          <select id="engineSelect" style="background:#0f0c0a;color:#E0C088;border:1px solid #3a2e26;border-radius:4px;padding:4px 8px;font-size:13px;cursor:pointer">
+            <option value="openai" selected>OpenAI GPT-4o (기본)</option>
+            <option value="gemini">Google Gemini 2.5 Pro</option>
+          </select>
+        </label>
+        <button class="btn" id="btnClear" disabled>초기화</button>
+        <button class="btn" id="btnDemo" style="margin-left:auto;border-color:var(--hotpink);color:var(--hotpink)">
+          🎯 실제 데모 로드 <span class="dur" style="background:#2A211C;color:#E0C088">중국세미나_번역.mp4</span>
+        </button>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6">
+        <b>자동 흐름:</b> 영상 업로드 → 오디오 추출 → 중국어 음성 인식 → <b>선택한 엔진 (Gemini 또는 OpenAI) 한국어 번역</b> → 결과 즉시 표시. 모든 단계 자동, 수동 입력 0.
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <!-- 2) 작업대 (영상 + 자막) -->
+    <div class="card">
+      <h3><span class="num">2</span>영상 + 한국어 자막</h3>
+
+      <!-- 대기 안내 (진행 중 표시) -->
+      <div class="waiting" id="waitingBox">
+        <div class="hourglass">⏳</div>
+        <div class="big"><em>기다려 주세요</em><br>번역 처리 중입니다</div>
+        <div class="elapsed"><span id="elapsedNum">0</span><span class="unit">초 경과</span></div>
+        <div class="estimate" id="etaLine">예상 완료까지 <b>—</b></div>
+        <div class="stage" id="stageLine"><span class="dot"></span><span id="stageText">준비 중…</span></div>
+        <div class="tip">화면을 닫지 마시고 잠시만 기다려주세요. 다른 창에서 작업하셔도 처리는 계속됩니다.</div>
+      </div>
+
+      <div class="workbench">
+        <div class="player-wrap" id="playerWrap">
+          <div class="empty">영상을 업로드하면 여기에 표시됩니다</div>
+        </div>
+
+        <div class="sub-panel">
+          <div class="sub-head">
+            <span class="lbl">한국어 자막</span>
+            <span class="chip" id="subStatus">대기</span>
+            <div class="right">
+              <button class="mini" id="btnFollow" title="재생 시간에 맞춰 자동 스크롤">자동 스크롤 ON</button>
+              <button class="mini" id="btnCopy">복사</button>
+              <button class="mini" id="btnSrt">SRT 저장</button>
+            </div>
+          </div>
+          <div class="sub-list" id="subList">
+            <div class="empty">미리 번역 또는 전체 번역을 실행하면<br>자막이 여기에 표시됩니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    ARTbrows · 콘텐츠 자동화 웹앱 · 중국어 강의 번역 (Beta)
+  </footer>
+
+  <!-- ★ 사용 방법 · 튜토리얼 모달 (2026-07-26) -->
+  <div id="tutorialModal" style="display:none;position:fixed;inset:0;background:rgba(5,3,2,.82);z-index:9999;overflow-y:auto;padding:40px 20px;backdrop-filter:blur(4px)">
+    <div style="max-width:720px;margin:0 auto;background:linear-gradient(180deg,#1E1A17,#0B0907);border:1px solid #A8854E;border-radius:16px;padding:36px 40px;color:#F5EDE3;position:relative">
+      <button id="btnTutorialClose" style="position:absolute;top:16px;right:16px;background:rgba(0,0,0,.6);color:#F5EDE3;border:1px solid rgba(224,192,136,.35);border-radius:99px;width:32px;height:32px;font-size:18px;cursor:pointer;line-height:1;font-weight:700">×</button>
+      <div style="letter-spacing:.4em;font-size:11px;color:#C9A66B;font-weight:800;margin-bottom:8px">GUIDE · 3분 안내</div>
+      <h2 style="font-family:'Nanum Myeongjo',serif;font-size:28px;font-weight:500;color:#F5EDE3;line-height:1.35;margin:0 0 8px">이 번역 도구, 어떻게 쓰나요?</h2>
+      <p style="color:#8A7B6C;font-size:14px;line-height:1.6;margin:0 0 24px">원장님이 영상만 올리시면 나머지는 자동입니다.<br>파일 크기·상황별로 알아서 최적으로 처리해 드립니다.</p>
+
+      <div style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:24px">
+        <!-- 시나리오 1 -->
+        <div style="padding:20px;background:#14100C;border-left:3px solid #E0C088;border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#E0C088;color:#0B0907;border-radius:99px;font-weight:900;font-size:14px">1</span>
+            <b style="font-size:16px;color:#F5EDE3">이미 올린 영상 다시 보기</b>
+          </div>
+          <p style="margin:0 0 8px;font-size:13.5px;line-height:1.6;color:#D6C9B8">위쪽 <b style="color:#E0C088">「📚 내 영상 라이브러리」</b>에서 카드를 클릭하세요. 재업로드·재번역 없이 <b>즉시 재생</b>됩니다.</p>
+          <p style="margin:0;font-size:12px;color:#8A7B6C">⚡ 자막이 이미 있는 영상은 <b>초록 배지</b> · 클릭 즉시 자막 표시</p>
+        </div>
+
+        <!-- 시나리오 2 -->
+        <div style="padding:20px;background:#14100C;border-left:3px solid #E0C088;border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#E0C088;color:#0B0907;border-radius:99px;font-weight:900;font-size:14px">2</span>
+            <b style="font-size:16px;color:#F5EDE3">새 영상 (500MB 이하)</b>
+          </div>
+          <p style="margin:0 0 8px;font-size:13.5px;line-height:1.6;color:#D6C9B8">파일을 <b style="color:#E0C088">드래그</b>하거나 <b>클릭해서 선택</b>. 자동으로 <b>미리 번역 (첫 60초)</b>이 시작됩니다.</p>
+          <p style="margin:0;font-size:12px;color:#8A7B6C">📤 청킹 업로드 → 🎙️ Whisper → 🌐 OpenAI 번역 → 자막 도착순 실시간</p>
+        </div>
+
+        <!-- 시나리오 3 -->
+        <div style="padding:20px;background:#14100C;border-left:3px solid #C86478;border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#C86478;color:#fff;border-radius:99px;font-weight:900;font-size:14px">3</span>
+            <b style="font-size:16px;color:#F5EDE3">큰 영상 (500MB 이상 · 예: 세미나 12GB)</b>
+          </div>
+          <p style="margin:0 0 8px;font-size:13.5px;line-height:1.6;color:#D6C9B8">「미리 번역」은 잠기고 <b style="color:#C86478">「전체 자동 번역」</b>이 <b>자동 실행</b>됩니다. 청킹 업로드 (20MB 단위)로 안전하게 저장 후 자동 처리.</p>
+          <p style="margin:0;font-size:12px;color:#8A7B6C">⏳ 모래시계 · 예상 시간 · 진행률 실시간 표시 · 다른 창에서 작업하셔도 계속됨</p>
+        </div>
+
+        <!-- 시나리오 4 -->
+        <div style="padding:20px;background:#14100C;border-left:3px solid #E0C088;border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#E0C088;color:#0B0907;border-radius:99px;font-weight:900;font-size:14px">4</span>
+            <b style="font-size:16px;color:#F5EDE3">번역 결과 확인 · 저장</b>
+          </div>
+          <p style="margin:0 0 8px;font-size:13.5px;line-height:1.6;color:#D6C9B8">우측 <b>자막 패널</b>에서 도착순 자막을 실시간 확인. 자막 클릭 = 영상 해당 시점 이동. <b>[SRT 저장]</b> · <b>[복사]</b> 버튼도 있음.</p>
+          <p style="margin:0;font-size:12px;color:#8A7B6C">완료된 영상은 다음에 라이브러리 카드로 등장 · 재번역 없음</p>
+        </div>
+
+        <!-- 시나리오 5 -->
+        <div style="padding:20px;background:#14100C;border-left:3px solid #8A7B6C;border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#8A7B6C;color:#F5EDE3;border-radius:99px;font-weight:900;font-size:14px">5</span>
+            <b style="font-size:16px;color:#F5EDE3">삭제·취소</b>
+          </div>
+          <p style="margin:0;font-size:13.5px;line-height:1.6;color:#D6C9B8">파일 이름 옆 <b>[×]</b> = 이 파일 취소 · 라이브러리 카드 위 <b>[×]</b> = 서버에서 완전 삭제.</p>
+        </div>
+      </div>
+
+      <div style="padding:16px 20px;background:linear-gradient(135deg,#2A211C,#1E1811);border:1px dashed #A8854E;border-radius:10px;font-size:13px;line-height:1.65;color:#D6C9B8">
+        <b style="color:#E0C088">💡 팁</b> · 12GB 세미나 영상은 예상 55분 (업로드 11분 + Whisper 44분) · 처음 자막은 15~30초 뒤 도착. 화면을 닫아도 처리는 계속되며 라이브러리에 자동 저장됩니다.
+      </div>
+
+      <div style="margin-top:24px;text-align:center">
+        <button id="btnTutorialGotIt" style="padding:14px 40px;background:#E0C088;color:#0B0907;border:none;border-radius:99px;font-weight:900;font-size:15px;cursor:pointer;letter-spacing:.03em;box-shadow:0 4px 12px rgba(224,192,136,.3)">알겠습니다 · 시작하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const modal = document.getElementById('tutorialModal');
+    const btnOpen = document.getElementById('btnTutorial');
+    const btnClose = document.getElementById('btnTutorialClose');
+    const btnGot = document.getElementById('btnTutorialGotIt');
+    if (!modal) return;
+    const open = () => { modal.style.display = 'block'; document.body.style.overflow = 'hidden'; };
+    const close = () => { modal.style.display = 'none'; document.body.style.overflow = ''; };
+    btnOpen?.addEventListener('click', open);
+    btnClose?.addEventListener('click', close);
+    btnGot?.addEventListener('click', close);
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.style.display === 'block') close(); });
+    // ★ 첫 방문 시 자동 오픈 (localStorage 로 1회만)
+    try {
+      if (!localStorage.getItem('translate_tutorial_seen')) {
+        setTimeout(()=> { open(); localStorage.setItem('translate_tutorial_seen', '1'); }, 1200);
+      }
+    } catch(e){}
+  })();
+  </script>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const drop = $('drop'), fileInput = $('fileInput'), fileInfo = $('fileInfo');
+  const btnPreview = $('btnPreview'), btnFull = $('btnFull'), btnClear = $('btnClear');
+  const status = $('status'), subList = $('subList'), subStatus = $('subStatus');
+  const playerWrap = $('playerWrap');
+  let videoEl = null, currentFile = null, subs = [], follow = true;
+
+  function setStep(name, state){
+    document.querySelectorAll('#flow .step').forEach(s => {
+      if(s.dataset.s === name) s.classList.add(state);
+    });
+  }
+  function clearSteps(){
+    document.querySelectorAll('#flow .step').forEach(s => s.classList.remove('active','done'));
+    setStep('upload','done');
+  }
+  // ─── 계측 이벤트 (2026-07-26 · 김민서 요구 4 지표) ──────────────
+  const logEvent = (name, data) => {
+    try {
+      fetch(API_BASE + '/api/events/log', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ name, ...data, ua: navigator.userAgent.slice(0,120), t: Date.now() }),
+        keepalive: true
+      }).catch(()=>{});
+    } catch (e) {}
+  };
+
+  // ─── SSE 실시간 번역 (Phase 2 · 2026-07-26) ──────────────
+  let currentSSE = null;
+  async function runStreamingSSE(hash, engine, previewSeconds){
+    if (currentSSE) { try { currentSSE.close(); } catch(e){} currentSSE = null; }
+    startWait(previewSeconds);
+    setStage('📡 스트리밍 연결 중…');
+    subs = [];  // 초기화
+    renderSubs();
+    const url = `${API_BASE}/api/stream_events?hash=${hash}&engine=${encodeURIComponent(engine)}&preview=${previewSeconds||60}`;
+    const es = new EventSource(url);
+    currentSSE = es;
+    const segMap = new Map(); // id → sub row
+    let firstSubTs = null;
+
+    es.addEventListener('stage', ev => {
+      try { const d = JSON.parse(ev.data); setStage(d.message || d.stage); } catch(e){}
+    });
+    es.addEventListener('segment', ev => {
+      try {
+        const s = JSON.parse(ev.data);
+        segMap.set(s.id, s);
+        subs = Array.from(segMap.values()).sort((a,b)=>a.start-b.start)
+                    .map(x => ({ start:x.start, end:x.end, ko: x.ko || '⏳', zh: x.zh }));
+        renderSubs();
+        if (!firstSubTs) { firstSubTs = Date.now(); logEvent('first_sub_arrived', { hash, engine }); }
+      } catch(e){}
+    });
+    es.addEventListener('translated', ev => {
+      try {
+        const t = JSON.parse(ev.data);
+        const s = segMap.get(t.id);
+        if (s) { s.ko = t.ko; }
+        subs = Array.from(segMap.values()).sort((a,b)=>a.start-b.start)
+                    .map(x => ({ start:x.start, end:x.end, ko: x.ko || '⏳', zh: x.zh }));
+        renderSubs();
+      } catch(e){}
+    });
+    es.addEventListener('progress', ev => {
+      try {
+        const p = JSON.parse(ev.data);
+        subStatus.textContent = `${p.done}/${p.total}줄 · ${p.percent}%`;
+      } catch(e){}
+    });
+    es.addEventListener('done', ev => {
+      try {
+        const d = JSON.parse(ev.data);
+        stopWait();
+        subStatus.textContent = `${d.total_segments}개 세그먼트 · ${d.cached ? '⚡ 캐시' : (d.engine||engine).toUpperCase() + ' ' + d.elapsed_s + 's'}`;
+        subStatus.classList.remove('live');
+        setStatus(`✓ <span class="step">번역 완료</span> · ${d.total_segments}줄 · ${d.cached ? '이미 처리된 영상 (재번역 없음)' : (d.engine||engine).toUpperCase() + ' 신규 · ' + d.elapsed_s + '초'}`);
+        logEvent('translation_done', { hash, engine, total: d.total_segments, elapsed: d.elapsed_s, cached: d.cached });
+      } catch(e){}
+      es.close(); currentSSE = null;
+      btnPreview.disabled = false; btnFull.disabled = false;
+    });
+    es.addEventListener('error', ev => {
+      try {
+        const d = ev.data ? JSON.parse(ev.data) : { message: '연결 오류' };
+        stopWait();
+        subStatus.textContent = '실패';
+        subStatus.classList.remove('live');
+        const isFfmpegFail = /ffmpeg|moov|invalid|not.*mp4/i.test(d.message || '');
+        if (isFfmpegFail && currentFile && currentFile.size > 500 * 1024 * 1024) {
+          setStatus(`⚠️ <span class="step">이 대용량 파일은 앞부분만으로 처리가 어렵습니다</span> (mp4 컨테이너 특성).<br>
+            <button id="btnFullInline" style="margin-top:10px;padding:10px 22px;background:var(--hotpink);color:#fff;border:none;border-radius:99px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(255,111,132,.35)">
+              ⚡ 여기 눌러 「전체 자동 번역」 시작 (${fmtSize(currentFile.size)})
+            </button>
+            <span style="display:block;margin-top:6px;font-size:11.5px;color:#8A7B6C">청킹 업로드로 안전 · 완료 시 라이브러리에 자동 저장</span>`);
+          setTimeout(()=>{
+            const inline = document.getElementById('btnFullInline');
+            if (inline) inline.onclick = () => runStreamingTranslate();
+          }, 100);
+          // 「전체 자동 번역」 하단 버튼도 pulse
+          btnFull.disabled = false;
+          btnFull.classList.add('primary','pulse');
+          setTimeout(()=>{ btnFull.classList.remove('pulse'); }, 10000);
+        } else {
+          setStatus(`❌ 처리 실패: ${d.message}<br><span style="font-size:12px">잠시 후 다시 시도해 주세요.</span>`);
+        }
+        logEvent('translation_error', { hash, engine, message: d.message });
+      } catch(e){}
+      es.close(); currentSSE = null;
+      btnPreview.disabled = false; btnFull.disabled = false;
+    });
+  }
+
+  // ─── 대기 오버레이 (모래시계·경과 시간·스테이지) ──────────────
+  const waitingBox = document.getElementById('waitingBox');
+  const elapsedNum = document.getElementById('elapsedNum');
+  const etaLine = document.getElementById('etaLine');
+  const stageText = document.getElementById('stageText');
+  let waitStartMs = 0, waitTimerId = null, waitEtaSeconds = 0;
+  function fmtSec(s){ if(s<60) return `${s}초`; const m=Math.floor(s/60), r=s%60; return `${m}분 ${String(r).padStart(2,'0')}초`; }
+  function startWait(previewSeconds, estimatedOverride){
+    waitStartMs = Date.now();
+    // estimatedOverride 우선 (초 단위 · 정확한 예상시간) · 없으면 preview*1.5 (60초 미리→90초)
+    waitEtaSeconds = estimatedOverride
+      ? Math.max(60, Math.round(estimatedOverride))
+      : (previewSeconds ? Math.max(90, previewSeconds * 1.5) : 0);
+    waitingBox.classList.add('on');
+    stageText.textContent = '📤 영상 업로드 중…';
+    if(waitTimerId) clearInterval(waitTimerId);
+    waitTimerId = setInterval(()=>{
+      const s = Math.floor((Date.now()-waitStartMs)/1000);
+      elapsedNum.textContent = s;
+      subStatus.textContent = `처리 중 ${fmtSec(s)}`;
+      if(waitEtaSeconds > 0){
+        const rem = Math.max(0, waitEtaSeconds - s);
+        etaLine.innerHTML = rem > 0 ? `예상 완료까지 <b>약 ${fmtSec(rem)}</b>` : `예상 시간 초과 · <b>조금만 더 기다려 주세요</b>`;
+      } else {
+        etaLine.innerHTML = `전체 영상 처리 중 · <b>영상 길이의 약 절반</b> 시간 예상`;
+      }
+    }, 1000);
+  }
+  function setStage(text){ stageText.innerHTML = text; }
+  // ★ 진행 중 남은 시간 재계산 (upload 완료 · 처리 진행률 기반)
+  function updateEta(newTotalSec){
+    waitEtaSeconds = Math.max(30, Math.round(newTotalSec));
+    waitStartMs = Date.now();  // elapsed 재시작 (재계산 시점 기준)
+    if (elapsedNum) elapsedNum.textContent = 0;
+  }
+  function stopWait(){
+    if(waitTimerId){ clearInterval(waitTimerId); waitTimerId = null; }
+    waitingBox.classList.remove('on');
+  }
+
+  function setStatus(html){
+    if(!html){ status.classList.remove('on'); status.innerHTML=''; return; }
+    status.classList.add('on'); status.innerHTML = html;
+  }
+  function fmtSize(b){
+    if(b < 1024*1024) return (b/1024).toFixed(0)+' KB';
+    if(b < 1024*1024*1024) return (b/1024/1024).toFixed(1)+' MB';
+    return (b/1024/1024/1024).toFixed(2)+' GB';
+  }
+  function fmtTs(sec){
+    const m = Math.floor(sec/60), s = Math.floor(sec%60);
+    return m.toString().padStart(2,'0')+':'+s.toString().padStart(2,'0');
+  }
+
+  // DRAG & DROP
+  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+  drop.addEventListener('drop', e => {
+    const f = e.dataTransfer.files[0];
+    if(f) handleFile(f);
+  });
+  fileInput.addEventListener('change', e => {
+    const f = e.target.files[0];
+    if(f) handleFile(f);
+  });
+  // 파일 선택 버튼만 input 트리거 (드롭존 자체 클릭은 트리거하지 않음 — 다른 버튼 충돌 방지)
+  $('btnPick').addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
+
+  async function handleFile(f){
+    if(!f.type.startsWith('video/')){ alert('영상 파일만 업로드 가능합니다.'); return; }
+    currentFile = f;
+    window.__libraryHash = null; // 새 파일 · 라이브러리 참조 초기화
+    fileInfo.textContent = '🎥 ' + f.name + ' · ' + fmtSize(f.size);
+    drop.classList.add('has-file');
+    btnClear.disabled = false;
+    // ★ 파일 취소 버튼 노출
+    const btnRemove = document.getElementById('btnRemoveFile');
+    if (btnRemove) btnRemove.style.display = 'inline-block';
+
+    const hintPreview = document.getElementById('hintPreview');
+    const hintFull = document.getElementById('hintFull');
+    // 힌트/pulse 초기화
+    btnPreview.classList.remove('pulse');
+    btnFull.classList.remove('pulse', 'primary');
+    if(hintPreview) hintPreview.classList.remove('on');
+    if(hintFull) hintFull.classList.remove('on');
+
+    // ★ 파일 크기 기준 명확 분기 (2026-07-26 대표님 최종 지시)
+    //   ≤ 500MB : 「미리 번역」 자동 실행 (60초 preview) · 사용자 클릭 없이
+    //   > 500MB : 「미리 번역」 완전 잠금 · 「전체 자동 번역」 자동 실행 (전체 · 청킹 업로드)
+    const LARGE_THRESHOLD = 500 * 1024 * 1024;
+    if (f.size > LARGE_THRESHOLD) {
+      // 대용량 = 「미리 번역」 잠금 · 「전체 자동 번역」 primary + 자동 실행
+      btnPreview.disabled = true;
+      btnFull.disabled = false;
+      btnFull.classList.add('primary', 'pulse');
+      if(hintFull) hintFull.classList.add('on');
+      setTimeout(()=>{ btnFull.classList.remove('pulse'); }, 6000);
+      // ★ 파일 세팅 1.5초 후 자동 실행 (사용자가 UI 인지할 시간)
+      setTimeout(()=> {
+        if (currentFile === f && !btnFull.disabled) {
+          runStreamingTranslate();
+          logEvent('auto_full_start', { size: f.size, source: 'large-auto' });
+        }
+      }, 1500);
+    } else {
+      // 소용량 = 「미리 번역」 pulse + 자동 실행 (기존 handleFile 아래 setTimeout 이 담당)
+      btnPreview.disabled = false;
+      btnFull.disabled = false;
+      btnPreview.classList.add('pulse');
+      if(hintPreview) hintPreview.classList.add('on');
+      setTimeout(()=>{ btnPreview.classList.remove('pulse'); }, 6000);
+    }
+
+    // 캐시 배지 초기화
+    const cbox = document.getElementById('cachehitBox');
+    if(cbox) cbox.classList.remove('on');
+
+    // ★★ 재업로드 방지 (2026-07-26 대표님 지시): 작은 파일(≤500MB) 은 hash → 서버 exists 조회 → 이미 있으면 라이브러리 안내 · 재업로드 X
+    logEvent('upload_start', { size: f.size, filename: f.name });
+    let existingHash = null;
+    if(f.size <= 500 * 1024 * 1024){
+      try {
+        const buf = await f.arrayBuffer();
+        const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+        const hash = Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+        const r = await fetch(API_BASE + '/api/media/exists?hash=' + hash);
+        if (r.ok) {
+          const d = await r.json();
+          if (d.exists) {
+            existingHash = hash;
+            logEvent('upload_dedup', { hash, has_subs: d.has_subs });
+            if (d.has_subs) {
+              // 캐시 배지 · 라이브러리 즉시 열기
+              const cbox = document.getElementById('cachehitBox');
+              const btnCache = document.getElementById('btnCacheLoad');
+              if (cbox) cbox.classList.add('on');
+              if (btnCache) btnCache.onclick = ()=> {
+                document.querySelector(`.media-card[data-hash="${hash}"]`)?.click();
+                document.getElementById('mediaLibrary')?.scrollIntoView({behavior:'smooth', block:'start'});
+              };
+              return; // 재업로드 X · 재번역 X
+            } else {
+              // 서버 파일 있지만 자막 없음 → SSE 자동 실행 (재업로드 없음)
+              window.__libraryHash = hash;
+              const engine = (document.getElementById('engineSelect')?.value) || 'openai';
+              setTimeout(()=> runStreamingSSE(hash, engine, 60), 800);
+              logEvent('sse_start', { hash, engine, source: 'dedup' });
+              return;
+            }
+          }
+        }
+      } catch (err) { console.warn('exists check fail', err); }
+    }
+
+    // 새 파일 → 크기별 자동 처리
+    //   ≤ 500MB : 자동 서버 저장 + SSE
+    //   > 500MB : 자동 실행 안 함 · 사용자가 「미리 번역」 (slice) or 「전체 자동 번역」 (청킹) 선택
+    const AUTO_MAX = 500 * 1024 * 1024;
+    if (f.size > AUTO_MAX) return;  // 대용량은 버튼 클릭 대기
+    setTimeout(async () => {
+      if (currentFile !== f || !btnPreview || btnPreview.disabled) return;
+      try {
+        setStage(`📤 서버 저장 중… (${fmtSize(f.size)})`);
+        startWait(60);
+        const fd = new FormData();
+        fd.append('video', f);
+        const upR = await fetch(API_BASE + '/api/media/upload', { method:'POST', body: fd });
+        if (!upR.ok) throw new Error('업로드 실패 · HTTP ' + upR.status);
+        const upD = await upR.json();
+        window.__libraryHash = upD.hash;
+        logEvent('upload_done', { hash: upD.hash, size: upD.size });
+        // SSE 실시간 번역 시작
+        const engine = (document.getElementById('engineSelect')?.value) || 'openai';
+        runStreamingSSE(upD.hash, engine, 60);
+        logEvent('sse_start', { hash: upD.hash, engine, source: 'new' });
+      } catch (e) {
+        stopWait();
+        setStatus(`❌ 업로드 실패: ${e.message}<br><span style="font-size:12px">네트워크가 불안정하거나 파일이 큽니다. <b>「전체 자동 번역」</b> 버튼을 눌러 청킹 업로드를 시도하세요.</span>`);
+        logEvent('upload_error', { size: f.size, message: e.message });
+      }
+    }, 1200);
+
+    // 플레이어 마운트
+    playerWrap.innerHTML = '';
+    videoEl = document.createElement('video');
+    videoEl.src = URL.createObjectURL(f);
+    videoEl.controls = true;
+    videoEl.preload = 'metadata';
+    playerWrap.appendChild(videoEl);
+    videoEl.addEventListener('timeupdate', onTime);
+
+    clearSteps();
+    setStatus('✓ 영상 준비 완료. <span class="step">미리 번역</span> 버튼으로 처음 60초 번역을 먼저 확인해 보세요.');
+  }
+
+  function onTime(){
+    if(!videoEl || !subs.length) return;
+    const t = videoEl.currentTime;
+    let activeIdx = -1;
+    for(let i=0;i<subs.length;i++){
+      if(t >= subs[i].start && t < subs[i].end){ activeIdx = i; break; }
+    }
+    document.querySelectorAll('.sub-line').forEach((el,i)=>{
+      el.classList.toggle('active', i===activeIdx);
+      if(i===activeIdx && follow){
+        el.scrollIntoView({block:'center', behavior:'smooth'});
+      }
+    });
+  }
+
+  // ★ 라이브러리 카드 클릭 → 자막 자동 표시 이벤트
+  window.addEventListener('library-subs-loaded', () => {
+    const segs = window.__librarySubs;
+    if (!segs || !segs.length) return;
+    subs = segs.map(s => ({ start: s.start, end: s.end, ko: s.ko || '⏳', zh: s.zh }));
+    renderSubs();
+    subStatus.textContent = `${subs.length}개 세그먼트 · ⚡ 라이브러리 즉시 표시`;
+    subStatus.classList.remove('live');
+    setStatus(`✓ <span class="step">라이브러리에서 즉시 로드</span> · ${subs.length}줄 (재업로드 없음)`);
+  });
+
+  function renderSubs(){
+    if(!subs.length){
+      subList.innerHTML = '<div class="empty">자막이 없습니다.</div>';
+      return;
+    }
+    subList.innerHTML = subs.map((s,i)=>`
+      <div class="sub-line" data-i="${i}">
+        <div class="ts">${fmtTs(s.start)}</div>
+        <div>
+          <div class="txt">${s.ko}</div>
+          ${s.zh ? `<div class="zh">${s.zh}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    subList.querySelectorAll('.sub-line').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const i = +el.dataset.i;
+        if(videoEl) videoEl.currentTime = subs[i].start;
+      });
+    });
+  }
+
+  // ─── 빠른 캐시 조회 (작은 파일 · 클라이언트 sha256 → cache_check) ──────────
+  async function quickCacheCheck(file){
+    const buf = await file.arrayBuffer();
+    const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+    const hash = Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    const engineSel = document.getElementById('engineSelect');
+    const engine = (engineSel && engineSel.value) || 'openai';
+    const r = await fetch(API_BASE + '/api/cache_check', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ hash, engine })
+    });
+    if(!r.ok) return;
+    const data = await r.json();
+    if(data && data.cached){
+      const cbox = document.getElementById('cachehitBox');
+      const btnCacheLoad = document.getElementById('btnCacheLoad');
+      if(cbox) cbox.classList.add('on');
+      if(btnCacheLoad){
+        btnCacheLoad.onclick = async ()=>{
+          const gr = await fetch(`${API_BASE}/api/cache/${hash}`);
+          if(!gr.ok){ alert('캐시 조회 실패'); return; }
+          const gd = await gr.json();
+          subs = (gd.segments || []).map(s => ({ start: s.start, end: s.end, ko: s.ko || '⏳', zh: s.zh }));
+          renderSubs();
+          subStatus.textContent = `${subs.length}개 세그먼트 · ⚡ 캐시 즉시 표시`;
+          setStatus(`✓ <span class="step">이미 번역된 영상</span> · ${subs.length}줄 즉시 표시 (재번역 없음)`);
+        };
+      }
+    }
+  }
+
+  // 백엔드 API 주소 — 로컬은 5099, 외부는 Cloudflare Tunnel (2026-07-26 갱신)
+  const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? `${location.protocol}//${location.hostname}:5099`
+    : 'https://powerseller-taylor-behaviour-purpose.trycloudflare.com';
+
+  async function runAutoTranslate(previewSeconds){
+    if(!currentFile){ alert('영상을 먼저 업로드하세요.'); return; }
+    if(!(currentFile instanceof File)){
+      alert('데모 영상은 이미 번역되어 있습니다. 새 영상을 업로드하세요.');
+      return;
+    }
+    btnPreview.disabled = true; btnFull.disabled = true;
+    setStep('extract','active');
+    setStatus(`📡 백엔드 자동 처리 시작 (${previewSeconds ? `처음 ${previewSeconds}초` : '전체'}) · 영상 업로드 중...`);
+    subStatus.textContent = '처리 중 0초';
+    subStatus.classList.add('live');
+    startWait(previewSeconds);  // ★ 모래시계 + 경과 시간 표시 시작
+
+    const engineSel = document.getElementById('engineSelect');
+    const selectedEngine = (engineSel && engineSel.value) || 'openai';
+    const fd = new FormData();
+    fd.append('video', currentFile);
+    fd.append('engine', selectedEngine);
+    if(previewSeconds) fd.append('preview', String(previewSeconds));
+
+    // 진행 단계 안내 (인공 시각화 · 스테이지 텍스트 동기 갱신)
+    const engineLabel = selectedEngine === 'openai' ? 'OpenAI GPT-4o' : 'Google Gemini 2.5 Pro';
+    let t1 = setTimeout(()=>{ setStep('extract','done'); setStep('stt','active');
+      setStage('🎙️ 중국어 음성 인식 (Whisper) 진행 중…');
+      setStatus('🎙️ <span class="step">중국어 음성 인식 (Whisper)</span> · 분량에 따라 30초~10분+ 소요'); }, 2000);
+    let t2 = setTimeout(()=>{ setStep('stt','done'); setStep('preview','active');
+      setStage(`🌐 한국어 번역 (${engineLabel}) 진행 중…`);
+      setStatus(`🌐 <span class="step">한국어 번역 (${engineLabel})</span>`); }, 60000);
+
+    try {
+      const resp = await fetch(API_BASE + '/api/process', { method:'POST', body: fd });
+      clearTimeout(t1); clearTimeout(t2);
+      if(!resp.ok){
+        const err = await resp.json().catch(()=>({error: `HTTP ${resp.status}`}));
+        throw new Error(err.error || 'unknown');
+      }
+      const data = await resp.json();
+      subs = (data.segments || []).map(s => ({ start: s.start, end: s.end, ko: s.ko || '⏳', zh: s.zh }));
+      renderSubs();
+      setStep('extract','done'); setStep('stt','done'); setStep('preview','done');
+      if(!previewSeconds) setStep('full','done');
+      stopWait();  // ★ 모래시계·타이머 정지
+      subStatus.textContent = `${subs.length}개 세그먼트 · ${data.cached ? '캐시 적중' : `${data.engine||'openai'} 신규 번역`}`;
+      subStatus.classList.remove('live');
+      setStatus(
+        `✓ <span class="step">번역 완료</span> · 중국어 → 한국어 ${subs.length}줄 · ` +
+        (data.cached ? '이미 처리된 영상 (재호출 즉시 표시)' : `${(data.engine||'openai').toUpperCase()} 신규 번역 ${data.translate_elapsed||'?'}초`)
+      );
+      btnPreview.disabled = false; btnFull.disabled = false;
+    } catch (e) {
+      clearTimeout(t1); clearTimeout(t2);
+      stopWait();  // ★ 모래시계·타이머 정지
+      subStatus.textContent = '실패';
+      subStatus.classList.remove('live');
+      setStatus(`❌ 처리 실패: ${e.message}<br>
+        <span style="font-size:12px">백엔드 서버(${API_BASE}) 가 실행 중인지 확인:<br>
+        <code>python scripts/server.py</code></span>`);
+      btnPreview.disabled = false; btnFull.disabled = false;
+    }
+  }
+
+  // ★ 「미리 번역」 = 500MB 이하만 · 대용량은 「전체 자동 번역」 강제 (2026-07-26 최종)
+
+  // ★ 청킹 업로드 헬퍼 (20MB 단위 · Cloudflare tunnel POST 제한 이하)
+  async function chunkedUploadFile(file, onProgress){
+    const CHUNK_SIZE = 20 * 1024 * 1024;
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+    const initR = await fetch(API_BASE + '/api/upload_init', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ filename: file.name, size: file.size, total_chunks: totalChunks })
+    });
+    const initD = await initR.json();
+    if (!initD.ok) throw new Error(initD.error || 'upload_init 실패');
+    const uid = initD.upload_id;
+    for (let ci = 0; ci < totalChunks; ci++) {
+      const start = ci * CHUNK_SIZE;
+      const end = Math.min(start + CHUNK_SIZE, file.size);
+      const blob = file.slice(start, end);
+      const cfd = new FormData();
+      cfd.append('chunk', blob, `chunk-${ci}`);
+      cfd.append('chunk_index', String(ci));
+      const cr = await fetch(`${API_BASE}/api/upload_chunk/${uid}`, { method:'POST', body: cfd });
+      if (!cr.ok) throw new Error(`chunk ${ci+1}/${totalChunks} 실패`);
+      if (onProgress) onProgress(ci+1, totalChunks, end, file.size);
+    }
+    const finR = await fetch(`${API_BASE}/api/upload_finalize/${uid}`, { method:'POST' });
+    const finD = await finR.json();
+    if (!finD.ok) throw new Error(finD.error || 'finalize 실패');
+    return { hash: finD.hash, cached: finD.cached, jobId: finD.job_id };
+  }
+  btnPreview.addEventListener('click', async ()=> {
+    const engine = (document.getElementById('engineSelect')?.value) || 'openai';
+    if (window.__libraryHash) {
+      runStreamingSSE(window.__libraryHash, engine, 60);
+      logEvent('sse_start', { hash: window.__libraryHash, engine, source: 'preview-click' });
+      return;
+    }
+    if (!currentFile) { alert('영상을 먼저 업로드하세요.'); return; }
+    if (!(currentFile instanceof File)) { alert('데모 영상은 이미 번역되어 있습니다.'); return; }
+
+    // ★ 대용량은 애초에 btnPreview.disabled=true (handleFile 에서 잠금) → 여기 도달 X
+    //   대표님 지시 (2026-07-26): 「굳이 2번 일 할 필요 없다」 = slice + 전체 = 낭비. 큰 파일은 「전체 자동 번역」 만.
+    if (currentFile.size > 500 * 1024 * 1024) {
+      alert('500MB 이상 대용량 파일은 「전체 자동 번역」 을 이용해주세요.');
+      return;
+    }
+    const uploadSize = currentFile.size;
+    try {
+      startWait(60);
+      setStage(`📤 서버 저장 중 (${fmtSize(uploadSize)}) · 청킹 업로드`);
+      const result = await chunkedUploadFile(currentFile, (done, total, endBytes) => {
+        const pct = Math.round((endBytes / uploadSize) * 100);
+        setStage(`📤 청킹 업로드 · <b style="color:#E0C088">${pct}%</b> · ${done}/${total} 청크 (${fmtSize(endBytes)} / ${fmtSize(uploadSize)})`);
+      });
+      window.__libraryHash = result.hash;
+      logEvent('upload_done', { hash: result.hash, size: uploadSize, cached: result.cached });
+      runStreamingSSE(result.hash, engine, 60);
+      logEvent('sse_start', { hash: result.hash, engine, source: 'preview-chunked' });
+    } catch (e) {
+      stopWait();
+      setStatus(`❌ 업로드 실패: ${e.message}<br><span style="font-size:12px">잠시 후 다시 시도해 주세요.</span>`);
+      logEvent('upload_error', { size: uploadSize, message: e.message });
+    }
+  });
+  btnFull.addEventListener('click', ()=> runStreamingTranslate());
+
+  // ★ 「이 파일 취소」 × 버튼
+  const btnRemoveFile = document.getElementById('btnRemoveFile');
+  if (btnRemoveFile) {
+    btnRemoveFile.addEventListener('click', () => {
+      if (currentSSE) { try { currentSSE.close(); } catch(e){} currentSSE = null; }
+      currentFile = null;
+      window.__libraryHash = null;
+      fileInfo.textContent = '';
+      drop.classList.remove('has-file');
+      btnRemoveFile.style.display = 'none';
+      btnPreview.disabled = true; btnFull.disabled = true; btnClear.disabled = true;
+      btnPreview.classList.remove('pulse');
+      btnFull.classList.remove('pulse','primary');
+      document.getElementById('hintPreview')?.classList.remove('on');
+      document.getElementById('hintFull')?.classList.remove('on');
+      document.getElementById('cachehitBox')?.classList.remove('on');
+      // 플레이어·자막 초기화
+      const pw = document.getElementById('playerWrap');
+      if (pw) pw.innerHTML = '<div class="empty">영상을 업로드하면 여기에 표시됩니다</div>';
+      subs = []; renderSubs();
+      subStatus.textContent = '대기';
+      subStatus.classList.remove('live');
+      stopWait();
+      setStatus('');
+      // input file value 초기화 (같은 파일 재선택 가능)
+      const fi = document.getElementById('fileInput');
+      if (fi) fi.value = '';
+      logEvent('file_removed', {});
+    });
+  }
+
+  // ============================================================
+  // 스트리밍 번역: 업로드 → job_id → 폴링 → 1분 버퍼 쌓이면 자동 재생
+  // ============================================================
+  // 클라이언트 SHA-256 — 업로드 전에 캐시 적중 여부 확인용
+  async function sha256OfFile(file, onProgress){
+    // 진행률 표시를 위한 청크 reader (subtle.digest 는 incremental 미지원 → 한 번에 ArrayBuffer 합쳐서 호출)
+    // 단, ArrayBuffer 메모리 부담을 줄이려고 청크로 읽지만 결국 합침. 4GB 이상은 보수적으로 그냥 업로드 후 서버측 hash 사용.
+    if(file.size > 4 * 1024 * 1024 * 1024){
+      return null; // 너무 큰 파일은 클라이언트 hash 건너뜀
+    }
+    const buf = await file.arrayBuffer();
+    if(onProgress) onProgress(100);
+    const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function loadCachedAndShow(hash, meta){
+    const gr = await fetch(`${API_BASE}/api/cache/${hash}`);
+    const gd = await gr.json();
+    if(!gd.ok || !gd.segments) throw new Error('cache fetch fail');
+    subs = gd.segments.map(s => ({ start: s.start, end: s.end, ko: s.ko || '⏳', zh: s.zh }));
+    renderSubs();
+    ['upload','extract','stt','preview','full'].forEach(s => setStep(s,'done'));
+    stopWait();  // ★ 모래시계 즉시 정지
+    const dateStr = (gd.created_at||'').replace('T',' ').slice(0,19);
+    subStatus.textContent = `${subs.length}자막 · 캐시 적중`;
+    subStatus.classList.remove('live');
+    setStatus(`✓ <span class="step">캐시 적중 — 업로드 건너뜀</span> · 이전 처리(${dateStr}) 결과 즉시 표시 · ${subs.length}자막`);
+    btnPreview.disabled = false; btnFull.disabled = false;
+  }
+
+  async function runStreamingTranslate(){
+    if(!currentFile || !(currentFile instanceof File)){
+      alert('영상을 먼저 업로드하세요.');
+      return;
+    }
+    btnPreview.disabled = true; btnFull.disabled = true;
+
+    // 영상을 로컬에서 즉시 재생 가능하도록 video.src 설정 (이미 handleFile 에서 됨)
+    if(videoEl){ videoEl.pause(); videoEl.currentTime = 0; }
+
+    // ★★ 모래시계 + 예상 시간 (실측 튜닝)
+    //   업로드: 0.05초/MB (약 20MB/s · quick tunnel · 12GB → 11분)
+    //   처리:   0.2초/MB  (Whisper medium int8 · 12GB → 44분)
+    //   합계: 12GB → 약 55분 · 캐시 적중 시 즉시
+    const sizeMB = currentFile.size / (1024*1024);
+    const uploadSec  = Math.round(sizeMB * 0.05);
+    const processSec = Math.round(sizeMB * 0.2);
+    const estimatedSec = Math.max(60, uploadSec + processSec);
+    startWait(0, estimatedSec);
+    setStage('🔎 SHA-256 캐시 조회 중…');
+
+    // ============= 0) 캐시 사전 체크 (업로드 0바이트로 끝) =============
+    setStep('extract','active');
+    subStatus.textContent = 'SHA-256 계산 중...';
+    subStatus.classList.add('live');
+    setStatus('🔎 SHA-256 계산 중 · 이전에 번역한 영상이면 업로드 없이 즉시 표시...');
+    try {
+      const hash = await sha256OfFile(currentFile);
+      if(hash){
+        const cr = await fetch(API_BASE + '/api/cache_check', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ hash })
+        });
+        const cd = await cr.json();
+        if(cd.ok && cd.cached){
+          await loadCachedAndShow(hash, cd);
+          return; // 업로드 안 함
+        }
+      }
+    } catch (e) {
+      console.warn('cache pre-check failed, falling back to upload', e);
+    }
+
+    setStatus('📡 신규 영상 · 업로드 시작 (1분 버퍼 후 영상 자동 재생)');
+    subStatus.textContent = '업로드 중...';
+
+    const fd = new FormData();
+    fd.append('video', currentFile);
+
+    let jobId = null;
+    const SIZE_MB = currentFile.size / 1024 / 1024;
+    const USE_CHUNKED = SIZE_MB > 200;  // 200MB 초과 시 청크 업로드
+
+    try {
+      if (USE_CHUNKED) {
+        // ============= 청크 업로드 (50MB 단위) =============
+        const CHUNK_SIZE = 50 * 1024 * 1024;
+        const totalChunks = Math.ceil(currentFile.size / CHUNK_SIZE);
+        setStatus(`📦 큰 영상 (${SIZE_MB.toFixed(0)}MB) · 청크 업로드 시작 (${totalChunks} 청크 × 50MB)`);
+
+        // init
+        const initR = await fetch(API_BASE + '/api/upload_init', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ filename: currentFile.name, size: currentFile.size, total_chunks: totalChunks })
+        });
+        const initD = await initR.json();
+        if(!initD.ok) throw new Error(initD.error || 'upload_init 실패');
+        const uid = initD.upload_id;
+
+        // 각 청크 순차 전송
+        for (let ci = 0; ci < totalChunks; ci++) {
+          const start = ci * CHUNK_SIZE;
+          const end = Math.min(start + CHUNK_SIZE, currentFile.size);
+          const blob = currentFile.slice(start, end);
+          const cfd = new FormData();
+          cfd.append('chunk', blob, `chunk-${ci}`);
+          cfd.append('chunk_index', String(ci));
+          const cr = await fetch(`${API_BASE}/api/upload_chunk/${uid}`, { method:'POST', body: cfd });
+          if(!cr.ok) throw new Error(`chunk ${ci+1}/${totalChunks} 업로드 실패`);
+          const pct = Math.round(((ci+1) / totalChunks) * 100);
+          setStatus(`📦 업로드 중 · <b style="color:var(--gold-light)">${pct}%</b> · ${ci+1}/${totalChunks} 청크 (${(end/1024/1024).toFixed(0)}MB / ${SIZE_MB.toFixed(0)}MB)`);
+          setStage(`📦 청킹 업로드 · <b style="color:#E0C088">${pct}%</b> · ${ci+1}/${totalChunks} 청크`);
+        }
+
+        // finalize → 처리 자동 시작 (또는 SHA-256 캐시 적중 시 즉시 결과 반환)
+        setStatus('🔎 영상 SHA-256 확인 중 · 이전에 번역된 영상인지 캐시 조회...');
+        setStage('🔎 서버 SHA-256 확인 중…');
+        const finR = await fetch(`${API_BASE}/api/upload_finalize/${uid}`, { method:'POST' });
+        const finD = await finR.json();
+        if(!finD.ok) throw new Error(finD.error || 'finalize 실패');
+        jobId = finD.job_id;
+        if (finD.cached) {
+          setStep('extract','done'); setStep('stt','done'); setStep('preview','done'); setStep('full','done');
+          stopWait();
+          setStatus(`✓ <span class="step">캐시 적중</span> — 이전 번역 결과 재사용 · STT/번역 건너뜀 (${finD.total_segments||'?'}자막). 영상은 _stream/ 아카이브에 보관 중.`);
+        } else {
+          setStep('extract','done'); setStep('stt','active');
+          // ★ 업로드 완료 · 처리만 남음 · ETA 재계산 (upload 초 제외)
+          updateEta(processSec);
+          setStage('🎙️ 업로드 완료 · Whisper 처리 시작…');
+          setStatus('🎙️ <span class="step">업로드 완료 · 자동 처리 시작</span> · 1분 분량 쌓이는 대로 영상 자동 재생');
+        }
+      } else {
+        // ============= 직접 업로드 (작은 영상) =============
+        setStage(`📤 업로드 중 (${SIZE_MB.toFixed(0)}MB)`);
+        const r = await fetch(API_BASE + '/api/start_translate', { method:'POST', body: fd });
+        const d = await r.json();
+        if(!d.ok) throw new Error(d.error || 'start failed');
+        jobId = d.job_id;
+        if (d.cached) {
+          setStep('extract','done'); setStep('stt','done'); setStep('preview','done'); setStep('full','done');
+          stopWait();
+          setStatus(`✓ <span class="step">캐시 적중</span> — 이전 번역 결과 재사용 · STT/번역 건너뜀 (${d.total_segments||'?'}자막)`);
+        } else {
+          setStep('extract','done'); setStep('stt','active');
+          setStage('🎙️ 업로드 완료 · Whisper 처리 시작…');
+          setStatus('🎙️ <span class="step">자동 처리 시작</span> · 1분 분량 쌓이는 대로 영상이 자동 재생됩니다');
+        }
+      }
+    } catch (e) {
+      stopWait();
+      setStatus(`❌ 시작 실패: ${e.message}`);
+      btnPreview.disabled = false; btnFull.disabled = false;
+      return;
+    }
+
+    // 폴링 + 자동 재생 로직
+    let since = 0;
+    let autoPlayed = false;
+    subs = [];
+
+    const poll = async () => {
+      try {
+        const r = await fetch(`${API_BASE}/api/job_progress/${jobId}?since=${since}`);
+        const d = await r.json();
+        if(!d.ok) throw new Error(d.error);
+
+        if(d.new_segments && d.new_segments.length){
+          d.new_segments.forEach(s => subs.push({ start: s.start, end: s.end, ko: s.ko || '⏳', zh: s.zh }));
+          since = d.total_segments;
+          renderSubs();
+        }
+
+        const lastEnd = subs.length ? subs[subs.length-1].end : 0;
+        subStatus.textContent = `${d.message || ''} · ${subs.length}줄 · 버퍼 ${Math.round(lastEnd)}초`;
+
+        setStatus(
+          `📦 처리 중 · <b style="color:var(--gold-light)">${d.progress}%</b> · ${d.chunks_done}/${d.chunks_total} 청크 · ` +
+          `현재 자막 ${subs.length}줄 (${Math.round(lastEnd)}초 분량)` +
+          (autoPlayed ? ' · <span style="color:var(--done)">▶ 영상 재생 중</span>' : '')
+        );
+        setStage(`🎙️ 처리 중 · ${d.progress}% · ${d.chunks_done}/${d.chunks_total} 청크 · 자막 ${subs.length}줄`);
+
+        // 1분 이상 자막 누적 + 영상 metadata 로드 + 아직 자동 재생 안 함 → 재생 시작
+        if(!autoPlayed && lastEnd >= 60 && videoEl && videoEl.readyState >= 1){
+          videoEl.play().catch(()=>{});
+          autoPlayed = true;
+        }
+
+        // 영상 재생 중에 buffer 부족하면 일시정지 (60초 여유 확보)
+        if(autoPlayed && videoEl && !videoEl.paused){
+          const ahead = lastEnd - videoEl.currentTime;
+          if(ahead < 15 && d.status !== 'done'){
+            videoEl.pause();
+            setStatus(`⏸ 자막 버퍼 부족 (${Math.round(ahead)}초 남음) · 더 채우면 자동 재개`);
+          } else if(videoEl.paused && ahead > 60){
+            videoEl.play().catch(()=>{});
+          }
+        }
+
+        if(d.status === 'done'){
+          setStep('stt','done'); setStep('preview','done'); setStep('full','done');
+          stopWait();
+          setStatus(`✓ <span class="step">번역 완료</span> · 총 ${subs.length}줄 · 영상 끝까지 매끄럽게 시청 가능`);
+          subStatus.classList.remove('live');
+          btnPreview.disabled = false; btnFull.disabled = false;
+          if(!autoPlayed && videoEl) videoEl.play().catch(()=>{});
+          return;
+        }
+        if(d.status === 'error'){
+          stopWait();
+          setStatus(`❌ 처리 실패: ${d.message}`);
+          btnPreview.disabled = false; btnFull.disabled = false;
+          return;
+        }
+        setTimeout(poll, 3000);
+      } catch (e) {
+        stopWait();
+        setStatus(`❌ 폴링 실패: ${e.message}`);
+        btnPreview.disabled = false; btnFull.disabled = false;
+      }
+    };
+    poll();
+  }
+
+  // Supabase 자동 처리된 영상 로드 (목록에서 클릭)
+  window.addEventListener('sb-load', () => {
+    const d = window.__loadFromSupabase;
+    if (!d) return;
+    // 영상이 로컬에만 있을 수 있어 일단 자막만 로드 + 영상 placeholder 변경
+    subs = (d.segments || []).map(s => ({ start: s.start, end: s.end, ko: s.ko || s.ko_gpt || '', zh: s.zh }));
+    renderSubs();
+    subStatus.textContent = `${subs.length}개 세그먼트 · ${d.source || 'remote'}`;
+    setStatus(`✓ <span class="step">자동 처리 결과 로드 완료</span> · ${subs.length}줄. ` +
+      `<br><span style="font-size:12px;color:#888">영상 파일은 처리한 PC 의 _processed 폴더에 있습니다. 시청 영상 파일을 이 페이지에 드래그하시면 자막과 함께 재생됩니다.</span>`);
+    // 자동 스크롤
+    document.querySelector('.workbench')?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // 실제 데모 로드 (faster-whisper STT + Claude 번역 결과 자동 로드)
+  $('btnDemo').addEventListener('click', async ()=>{
+    setStatus('📦 데모 영상 + 한국어 번역 JSON 로드 중...');
+    try {
+      // 1) 영상 로드
+      const videoUrl = 'assets/중국세미나_번역.mp4';
+      playerWrap.innerHTML = '';
+      videoEl = document.createElement('video');
+      videoEl.src = videoUrl;
+      videoEl.controls = true;
+      videoEl.preload = 'metadata';
+      playerWrap.appendChild(videoEl);
+      videoEl.addEventListener('timeupdate', onTime);
+      currentFile = { name: '중국세미나_번역.mp4' };
+      fileInfo.textContent = '🎥 중국세미나_번역.mp4 · 21 MB · 2분 36초 · 1280×720';
+      drop.classList.add('has-file');
+      btnPreview.disabled = false; btnFull.disabled = false; btnClear.disabled = false;
+
+      // 2) JSON 로드
+      const resp = await fetch('_translations/중국세미나_ko.json');
+      if(!resp.ok) throw new Error('JSON 로드 실패 ' + resp.status);
+      const data = await resp.json();
+      subs = data.segments.map(s => ({
+        start: s.start, end: s.end, ko: s.ko, zh: s.zh
+      }));
+      renderSubs();
+
+      // 3) 진행 단계 모두 완료 표시
+      ['upload','extract','stt','preview','full'].forEach(s => setStep(s,'done'));
+      subStatus.textContent = `${subs.length}개 세그먼트 · 한국어 번역 완료`;
+      subStatus.classList.remove('live');
+      setStatus(
+        `✓ <span class="step">실제 데모 로드 완료</span> · 영상 재생 시 우측 텍스트 패널에 한국어 자막이 자동 스크롤됩니다.<br>` +
+        `<span style="color:#888;font-size:12px">실 처리: faster-whisper(medium) STT 125.9초 → Claude 한국어 번역 47 세그먼트 · 골상별 눈썹 디자인 강의</span>`
+      );
+    } catch (e) {
+      setStatus('❌ 데모 로드 실패: ' + e.message + '<br><span style="font-size:12px">파일 경로 확인: assets/중국세미나_번역.mp4 / _translations/중국세미나_ko.json</span>');
+    }
+  });
+
+  btnClear.addEventListener('click', ()=>{
+    currentFile = null; subs = []; fileInput.value='';
+    drop.classList.remove('has-file'); fileInfo.textContent='';
+    btnPreview.disabled = true; btnFull.disabled = true; btnClear.disabled = true;
+    playerWrap.innerHTML = '<div class="empty">영상을 업로드하면 여기에 표시됩니다</div>';
+    videoEl = null;
+    renderSubs();
+    subStatus.textContent='대기'; subStatus.classList.remove('live');
+    setStatus(''); document.querySelectorAll('#flow .step').forEach(s=>s.classList.remove('active','done'));
+  });
+
+  // 자동 스크롤 토글
+  $('btnFollow').addEventListener('click', e=>{
+    follow = !follow;
+    e.target.textContent = follow ? '자동 스크롤 ON' : '자동 스크롤 OFF';
+  });
+  $('btnCopy').addEventListener('click', ()=>{
+    if(!subs.length){ alert('복사할 자막이 없습니다.'); return; }
+    const txt = subs.map(s => `[${fmtTs(s.start)}] ${s.ko}`).join('\n');
+    navigator.clipboard.writeText(txt).then(()=>alert('한국어 자막을 클립보드에 복사했습니다.'));
+  });
+  $('btnSrt').addEventListener('click', ()=>{
+    if(!subs.length){ alert('저장할 자막이 없습니다.'); return; }
+    const pad = n => n.toString().padStart(2,'0');
+    const toSrtTs = sec => {
+      const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=Math.floor(sec%60), ms=Math.round((sec%1)*1000);
+      return `${pad(h)}:${pad(m)}:${pad(s)},${ms.toString().padStart(3,'0')}`;
+    };
+    const srt = subs.map((s,i)=>`${i+1}\n${toSrtTs(s.start)} --> ${toSrtTs(s.end)}\n${s.ko}\n`).join('\n');
+    const blob = new Blob([srt], {type:'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (currentFile?.name?.replace(/\.[^.]+$/,'')||'translated')+'_ko.srt';
+    a.click();
+  });
+})();
+</script>
+</body></html>

@@ -1,0 +1,69 @@
+{
+  "id": "2026-07-24-founder-real-somyo3day",
+  "title": "★ 원장 정본 · 극사실소묘 3일 집중수업 (8월 18~20일 · 6장)",
+  "slug": "2026-07-24-founder-real-somyo3day",
+  "status": "draft",
+  "createdAt": "2026-07-24T21:09:00.000Z",
+  "updatedAt": "2026-07-26T19:14:44.272Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "원장 정본 · 극사실소묘 3일 집중수업",
+      "slides": [
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260724_210905962_02-2026-07-26T18-58-42.png",
+          "imageAlt": "카버 · 모델 얼굴 매크로 · 「같은 손 같은 시간인데 누군가는 인생이 바뀔 기술을 얻습니다」 + 「극사실소묘 3일 집중수업 8월18일~20일」 + CTA 010-3239-5453",
+          "bottomLabel": "",
+          "cornerBadge": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/reference-cards-2026-07-24/02-founder-lecture.png",
+          "imageAlt": "원장 강의 · 「ARTBROWS 극사실눈썹의 시작 · 소묘기초수업 · 8월 18일~20일 3일집중」",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "classroom",
+          "imageSrc": "/brand/reference-cards-2026-07-24/03-question1-why.png",
+          "imageAlt": "수강생 폰 촬영 · QUESTION 1 · 왜 극사실눈썹인가요? · 소비자는 그린 눈썹을 원하지 않아요. 진짜 같은 눈썹을 원하죠. 그래야 고가의 시술이 가능합니다. 나의 몸값을 올리는 가장 좋은 방법! 바로 극사실눈썹입니다.",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/reference-cards-2026-07-24/04-question2-sketch.png",
+          "imageAlt": "소묘 작품 · QUESTION 2 · 소묘수업을 꼭 들어야 하나요? · 20년간 눈썹을 연구하면서 얻은 노하우는 바로 소묘! 원리를 이해해야 제대로 된 눈썹을 그릴수 있습니다. 기초가 튼튼해야 높이 올라갈수 있다는 사실!! 꼭 기억하세요.",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "classroom",
+          "imageSrc": "/brand/reference-cards-2026-07-24/05-question3-who.png",
+          "imageAlt": "원장 지도 · QUESTION 3 · 수업강의는 누가하나요? · 극사실눈썹 창시자, 장미지 대표원장이 이론이 아닌 20년의 현장과 6년의 강의로 검증된 커리큘럼으로 다른 누구도 아닌 본인이 직접 가르칩니다.",
+          "bottomLabel": ""
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "treatment",
+          "imageSrc": "/brand/reference-cards-2026-07-24/06-question4-how.png",
+          "imageAlt": "시술 손 · QUESTION 4 · 수업은 어떻게 진행되나요? · 3일 동안 집중 수업으로 진행됩니다. 눈썹의 원리를 이해하면서 실제 소묘를 통해 완벽히 이해하는 과정을 경험하면서 3일차에는 본인만의 작품까지!",
+          "bottomLabel": ""
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "aspect": "portrait",
+  "stylePreset": "artbrows-real"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "2026-07-20-easy-class-15th",
+  "title": "이지 클래스 15기 · 5주 69만원",
+  "slug": "2026-07-20-easy-class-15th",
+  "status": "draft",
+  "createdAt": "2026-07-20T15:35:00.000Z",
+  "updatedAt": "2026-07-20T18:22:00.000Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "이지 클래스 15기",
+      "slides": [
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/client/client-01.png",
+          "imageAlt": "이지 클래스 · 수강생 웰컴 · 프리미엄 입문",
+          "bottomLabel": "장미지 원장의 단 하나의 아틀리에"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "이지 클래스는\n극사실눈썹이 아닙니다.\n하지만 그 세계를 여는 문입니다.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS FOUNDER"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/macro/macro-04.png",
+          "imageAlt": "극사실눈썹 매크로 · 사람과 똑같은 결",
+          "bottomLabel": "SINCE 1세대 · 장미지눈썹연구소"
+        },
+        {
+          "kind": "macro-close-up",
+          "category": "detail",
+          "imageSrc": "/brand/ai-generated/hand-pencil/hand-01.png",
+          "imageAlt": "여성 눈썹 시술 결과 · 자연 결",
+          "overlayLabel": "REAL RESULT",
+          "quote": "머신 잡는 법부터\n반 끼우는 법까지.\n5주면 손이 안다.",
+          "by": "장미지 · 20년+ 경력"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "TUITION · 이지 클래스 15기",
+          "leftTitle": "무엇을 얻는가",
+          "leftItems": [
+            { "num": "◆", "text": "기초 훈련",  "sub": "머신·반·자세 완벽 마스터" },
+            { "num": "◇", "text": "감각 확인",  "sub": "이 세계와 나 · 5주로 안다" },
+            { "num": "◈", "text": "다음 단계",   "sub": "창업반 660 · 재수강 990 · 강사반" }
+          ],
+          "rightHeadline": "5주\n입문",
+          "rightPrice": "69만원",
+          "rightFootnote": "미대·미술 경험자 우대"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "detail",
+          "imageSrc": "/brand/ads/ig-69/04-cta-typo.png",
+          "imageAlt": "소수에게만 직접 가르칩니다 · SINCE THE ORIGINAL",
+          "bottomLabel": "장미지 원장 · 12년 연구 · 선릉 아틀리에"
+        }
+      ]
+    },
+    "en": { "title": "", "slides": [] },
+    "zh": { "title": "", "slides": [] }
+  }
+}

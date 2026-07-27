@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>얼굴 비율 미학 + 눈썹 디자인 진단 — 신규 메뉴 기획 · 2026-06-22 · ARTbrows</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Pretendard','Noto Sans KR',sans-serif;background:#0f0f10;color:#e7e5e1;padding:30px 24px 60px;line-height:1.65;max-width:1240px;margin:0 auto}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:34px;margin-bottom:8px;letter-spacing:-1px}
+  h1 em{color:#d4af37;font-style:normal}
+  .lead{color:#bdb9b1;font-size:15px;margin-bottom:6px;line-height:1.75}
+  .lead b{color:#d4af37}
+  .lead em{color:#a8e6b3;font-style:normal;font-weight:700}
+  .meta-bar{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 18px;margin:18px 0 28px;font-size:13px;display:flex;flex-wrap:wrap;gap:18px;color:#bdb9b1}
+  .meta-bar b{color:#d4af37;margin-right:6px}
+
+  section{margin-bottom:32px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+  h2 .num{color:#d4af37;margin-right:8px;font-family:'Cormorant Garamond',serif;font-size:28px;vertical-align:-2px}
+
+  /* 흐름 */
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+  .step{background:#161617;border:1px solid #242425;border-radius:10px;padding:14px 12px;text-align:center;position:relative;font-size:12.5px}
+  .step .n{font-family:'Cormorant Garamond',serif;font-size:32px;color:#d4af37;line-height:1;font-weight:700}
+  .step .t{font-weight:700;color:#e7e5e1;margin-top:8px;font-size:13px}
+  .step .d{color:#9a9a93;margin-top:4px;line-height:1.5}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:#d4af37;font-size:20px;font-weight:700;z-index:2}
+
+  /* 기능 카드 */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .feat{background:#161617;border:1px solid #242425;border-radius:10px;padding:16px 18px}
+  .feat .ic{font-family:'Cormorant Garamond',serif;font-size:24px;color:#d4af37;font-weight:700;line-height:1;margin-bottom:6px}
+  .feat .t{font-weight:800;color:#e7e5e1;font-size:14px;margin-bottom:6px}
+  .feat .d{font-size:12.5px;color:#9a9a93;line-height:1.6}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;background:#161617;border:1px solid #242425;border-radius:10px;overflow:hidden}
+  th,td{border-top:1px solid #2a2a2a;padding:11px 14px;text-align:left;vertical-align:top}
+  thead th{background:#1a1a1b;color:#d4af37;font-weight:700;border-top:0;font-size:12px;letter-spacing:1px}
+  tbody td b{color:#e7e5e1}
+  tbody tr:hover{background:#1a1a1b}
+  .badge{display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:10px;letter-spacing:1px;font-weight:700;white-space:nowrap}
+  .b-free{background:#264d2a;color:#a8e6b3}
+  .b-paid{background:#d4af37;color:#0b0907}
+  .b-warn{background:#5a2828;color:#f4b4b4}
+  .b-tech{background:#1a3a5a;color:#9fc8ff}
+
+  /* 경고 */
+  .warn{background:#2a1818;border:2px solid #5a2828;border-radius:12px;padding:18px 22px;margin-bottom:28px}
+  .warn h3{font-family:'Nanum Myeongjo',serif;color:#ff8a8a;font-size:18px;margin-bottom:12px}
+  .warn ul{padding-left:18px;font-size:13.5px;line-height:1.85;color:#f4c4c0}
+  .warn li b{color:#ffb0a8}
+
+  /* 가격 */
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+  .price{background:#161617;border:1px solid #242425;border-radius:12px;padding:24px 22px;text-align:center}
+  .price.gold{border-color:#d4af37;background:linear-gradient(135deg,#2a2014,#0f0a05)}
+  .price h3{font-family:'Nanum Myeongjo',serif;font-size:18px;color:#e7e5e1;margin-bottom:6px}
+  .price.gold h3{color:#ffd87a}
+  .price .p{font-family:'Cormorant Garamond',serif;font-size:42px;color:#d4af37;font-weight:700;line-height:1;margin:8px 0 12px}
+  .price ul{list-style:none;font-size:12.5px;color:#cbc8c1;text-align:left;line-height:1.85}
+  .price li::before{content:"✓ ";color:#a8e6b3}
+
+  footer{margin-top:30px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:11px;text-align:center}
+  a{color:#d4af37}
+
+  @media (max-width:880px){.flow{grid-template-columns:repeat(2,1fr)}.step:not(:last-child)::after{display:none}.pricing{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1><em>Face Lab</em> — 얼굴 종합 미학·성형 시뮬레이션 툴 (대폭 확장)</h1>
+<p class="lead">
+  ARTbrows 통합 플랫폼 신규 메뉴 (06/22 대표님 결정 · 확장).<br>
+  <em>「내 얼굴은 어떻게 하면 어려 보이고, 어떻게 하면 이쁜가?」</em> — 눈썹 진단을 넘어 <b>얼굴 종합 미학 + 어림 보임 시뮬레이션 + 이상적 라인 변환 + 부분별 성형 가이드 + 실사 3D 얼굴 재구성</b> 까지 한 메뉴에 통합.<br>
+  <em style="color:#ff8a8a">★ 단계적 출시 — Phase 1 안전한 눈썹 진단부터 → Phase 2 종합 미학 → Phase 3 3D 시뮬레이션 (법적 검토 단계마다 필수)</em>
+</p>
+
+<div class="meta-bar">
+  <div><b>메뉴 위치</b>eyebrows.staris.cloud/face-lab (예정)</div>
+  <div><b>개발 트랙</b>학원·쇼핑몰과 별도 R 라운드</div>
+  <div><b>예상 출시</b>R3 (3~4주, PoC 1주)</div>
+  <div><b>책임</b>한승철 CTO + 기획자 (7/1 출근 후)</div>
+</div>
+
+<!-- 5단계 흐름 -->
+<section>
+  <h2><span class="num">01</span>유저 흐름 — 5 단계</h2>
+  <div class="flow">
+    <div class="step"><div class="n">1</div><div class="t">사진 업로드</div><div class="d">정면 셀카 · 카메라 직캐 / 갤러리</div></div>
+    <div class="step"><div class="n">2</div><div class="t">얼굴 랜드마크 분석</div><div class="d">MediaPipe 468 점 · 즉시 (1~2초)</div></div>
+    <div class="step"><div class="n">3</div><div class="t">비율 점수 + 진단 카드</div><div class="d">황금비 · 얼굴 형태 · 추천 눈썹 8 형 中</div></div>
+    <div class="step"><div class="n">4</div><div class="t">시뮬레이션 (선택)</div><div class="d">가상 얼굴에 권장 라인 적용 (사진 OK · 사용자 본인 얼굴 NO)</div></div>
+    <div class="step"><div class="n">5</div><div class="t">상담 신청 → DB</div><div class="d">「장미지 원장 직접 상담」 → enroll 폼 연동</div></div>
+  </div>
+</section>
+
+<!-- 기능 -->
+<section>
+  <h2><span class="num">02</span>핵심 기능 6 종</h2>
+  <div class="features">
+    <div class="feat"><div class="ic">01</div><div class="t">황금비 점수</div><div class="d">얼굴 가로·세로 비율 + 삼등분 + 좌우 대칭 점수 (0~100)</div></div>
+    <div class="feat"><div class="ic">02</div><div class="t">얼굴 형태 진단</div><div class="d">계란형·둥근형·각진형·하트형·긴형 등 6 종 자동 분류</div></div>
+    <div class="feat"><div class="ic">03</div><div class="t">추천 눈썹 라인</div><div class="d">표준 8 형 (직선·아치·각진·살짝 처진 등) 中 얼굴 형태 매칭 최적 권장</div></div>
+    <div class="feat"><div class="ic">04</div><div class="t">장미지 원장 시그니처 가이드</div><div class="d">「극사실눈썹」 라인 적용 시 효과 시각화 (가상 모델 기준)</div></div>
+    <div class="feat"><div class="ic">05</div><div class="t">결과 카드 공유</div><div class="d">PNG 다운로드 + 인스타·카카오톡 공유 (브랜드 노출 자연 확산)</div></div>
+    <div class="feat"><div class="ic">06</div><div class="t">상담 신청 직결</div><div class="d">「내 얼굴 분석 결과 + 시술 견적 받기」 → enroll 폼 자동 채워짐 (lead 정보 전달)</div></div>
+  </div>
+</section>
+
+<!-- 기술 스택 -->
+<section>
+  <h2><span class="num">03</span>기술 스택</h2>
+  <table>
+    <thead><tr><th style="width:24%">레이어</th><th style="width:32%">기술</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>얼굴 분석 (프론트)</b></td><td><span class="badge b-tech">MediaPipe Face Mesh</span> (브라우저)</td><td>468 랜드마크 · 무료 · 사진 서버 안 보냄 (개인정보 보호)</td></tr>
+      <tr><td><b>비율 계산</b></td><td><span class="badge b-tech">TypeScript 함수</span></td><td>황금비·삼등분·대칭 점수 자체 알고리즘</td></tr>
+      <tr><td><b>추천 눈썹 매칭</b></td><td><span class="badge b-tech">규칙 기반</span> + 추후 ML</td><td>1차는 얼굴 형태 ↔ 눈썹 8 형 매핑 표</td></tr>
+      <tr><td><b>시뮬레이션 (가상)</b></td><td>Higgsfield Soul + 사전 생성 가상 모델 풀</td><td>실제 본인 얼굴 합성 X (CLAUDE.md §4 / 광고법 준수)</td></tr>
+      <tr><td><b>결과 카드 PNG</b></td><td>Canvas API + 자체 디자인 시스템</td><td>인스타 1080×1350 살구톤 카드</td></tr>
+      <tr><td><b>DB·lead</b></td><td>Supabase <code>face_analyses</code> 테이블 + enroll 자동 연동</td><td>익명 분석 통계만 저장 · 사진 미저장</td></tr>
+      <tr><td><b>호스팅</b></td><td>Next.js · eyebrows.staris.cloud/face-lab</td><td>학원 메인과 단일 도메인</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 경고 -->
+<div class="warn">
+  <h3>⚠️ 법적·윤리적 주의 (반드시 준수)</h3>
+  <ul>
+    <li><b>의료법 위반 금지</b> — 「진단」 「치료」 「수술 권유」 표현 절대 X. 「미용 디자인 가이드」 한정. 「상담은 전문가와」 면책 문구 항상 노출.</li>
+    <li><b>개인정보 보호</b> — 업로드 사진은 <b>브라우저 안에서만</b> 분석 (서버 전송 X). 익명 통계만 Supabase 저장. 「사진은 즉시 삭제」 명시.</li>
+    <li><b>광고법 (표시·과장)</b> — 「100% 정확」 「성형 효과」 같은 표현 X. 「예측 알고리즘 결과」 명시.</li>
+    <li><b>실제 본인 얼굴 AI 합성 X</b> — CLAUDE.md §4 룰 + 광고법. 시뮬레이션은 「가상 모델」 풀 활용.</li>
+    <li><b>미성년자 보호</b> — 만 14세 미만 사용 차단 + 보호자 동의 절차.</li>
+  </ul>
+</div>
+
+<!-- 수익 모델 -->
+<section>
+  <h2><span class="num">04</span>수익 모델 — 3 단계</h2>
+  <div class="pricing">
+    <div class="price">
+      <h3>무료 진단</h3>
+      <div class="p">FREE</div>
+      <ul>
+        <li>황금비 점수</li>
+        <li>얼굴 형태 진단</li>
+        <li>추천 눈썹 라인 (기본 8 형)</li>
+        <li>결과 카드 PNG</li>
+        <li><b style="color:#a8e6b3">→ 상담 신청 자연 유도 (Lead Magnet)</b></li>
+      </ul>
+      <span class="badge b-free" style="margin-top:14px;display:inline-block">★ 인스타 광고용</span>
+    </div>
+    <div class="price gold">
+      <h3>프리미엄 진단</h3>
+      <div class="p">9,900원</div>
+      <ul>
+        <li>무료 진단 전체 +</li>
+        <li>장미지 원장 시그니처 라인 매칭</li>
+        <li>가상 모델 시뮬레이션 (3컷)</li>
+        <li>1:1 상담 예약 우선권</li>
+        <li>수강 등록 시 9,900원 차감</li>
+      </ul>
+      <span class="badge b-paid" style="margin-top:14px;display:inline-block">★ 추천 가격대</span>
+    </div>
+    <div class="price">
+      <h3>마스터 진단</h3>
+      <div class="p">29,900원</div>
+      <ul>
+        <li>프리미엄 +</li>
+        <li>장미지 원장 직접 영상 피드백 (5분)</li>
+        <li>맞춤 시술 가이드 PDF</li>
+        <li>K1 카톡방 1개월 사전 입장권</li>
+      </ul>
+      <span class="badge b-paid" style="margin-top:14px;display:inline-block">고관여 전환용</span>
+    </div>
+  </div>
+</section>
+
+<!-- 개발 일정 -->
+<section>
+  <h2><span class="num">05</span>개발 일정 — R3 (3~4주)</h2>
+  <table>
+    <thead><tr><th style="width:18%">주차</th><th style="width:24%">기능</th><th>담당</th></tr></thead>
+    <tbody>
+      <tr><td><b>Week 1 (PoC)</b></td><td>MediaPipe 통합 + 황금비 점수 계산 + UI 1차</td><td>한승철 CTO (시작은 7/1 출근 전 단독)</td></tr>
+      <tr><td><b>Week 2</b></td><td>얼굴 형태 분류 + 추천 눈썹 8형 매핑 표 + 결과 카드 디자인</td><td>한승철 + 유나 (디자인) + 기획자 (7/1 출근 후)</td></tr>
+      <tr><td><b>Week 3</b></td><td>가상 모델 시뮬레이션 + Supabase 연동 + enroll 자동 채움</td><td>한승철 + 클로드 (가상 모델 풀 생성)</td></tr>
+      <tr><td><b>Week 4</b></td><td>프리미엄 결제 (토스/카카오) + 테스트 + LIVE 오픈</td><td>한승철 + 기획자</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ★ Phase 2·3 대폭 확장 -->
+<section>
+  <h2><span class="num">04-X</span>★ Phase 2·3 — 종합 얼굴 미학·성형 시뮬레이션 (06/22 확장)</h2>
+  <p class="lead" style="margin-bottom:18px">06/22 대표님 결정 — <em>얼굴에 대한 모든 미학·성형 시뮬레이션 통합 툴</em>. Phase 1 (눈썹 진단) 출시 후 단계적 확장.</p>
+
+  <div class="features" style="margin-bottom:20px">
+    <div class="feat" style="border-color:#9fc8ff"><div class="ic" style="color:#9fc8ff">P2-1</div><div class="t">실사급 3D 얼굴 재구성</div><div class="d">2D 셀카 → 실제와 거의 똑같은 3D 메시. 360° 회전 가능. 기술: FLAME / DECA / EMOCA / Higgsfield generate_3d</div></div>
+    <div class="feat" style="border-color:#9fc8ff"><div class="ic" style="color:#9fc8ff">P2-2</div><div class="t">「어리게 보이기」 시뮬레이션</div><div class="d">동일 인물의 -5/-10/-15세 모습 미리보기. 피부·라인·볼륨 분석 + 안티에이징 가이드 (성형 권유 X)</div></div>
+    <div class="feat" style="border-color:#9fc8ff"><div class="ic" style="color:#9fc8ff">P2-3</div><div class="t">「이쁘게 보이기」 미적 분석</div><div class="d">황금비 + 페이스 라인 + 표정 분석 → 8가지 미적 캐릭터 (지적·발랄·우아·강인 등) 中 가장 가까운 매칭 + 메이크업·표정 가이드</div></div>
+    <div class="feat" style="border-color:#9fc8ff"><div class="ic" style="color:#9fc8ff">P2-4</div><div class="t">부분별 성형 시뮬레이션</div><div class="d">코·턱·눈·이마·광대 등 부분별 「변화 정도」 슬라이더 → 실시간 미리보기. <b style="color:#ff8a8a">「가이드」 한정 · 의료 진단 표현 X</b></div></div>
+    <div class="feat" style="border-color:#9fc8ff"><div class="ic" style="color:#9fc8ff">P2-5</div><div class="t">전체 얼굴 미학 코칭</div><div class="d">눈썹·메이크업·헤어·옷차림 종합 추천. 「장미지 원장 직강 + 협력 클리닉 연계」 (R4~)</div></div>
+    <div class="feat" style="border-color:#9fc8ff"><div class="ic" style="color:#9fc8ff">P2-6</div><div class="t">3D 가상 캐릭터 (실사급)</div><div class="d">자기 얼굴 안 쓰고도 가상 캐릭터로 시뮬레이션 가능 (CLAUDE.md §4 준수)</div></div>
+  </div>
+
+  <h3 style="font-family:'Nanum Myeongjo',serif;color:#9fc8ff;font-size:18px;margin:18px 0 10px">기술 스택 — Phase 2·3 추가</h3>
+  <table>
+    <thead><tr><th style="width:24%">기능</th><th style="width:32%">기술</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>실사 3D 얼굴 재구성</b></td><td><span class="badge b-tech">FLAME · DECA · EMOCA</span> 또는 <span class="badge b-tech">Higgsfield generate_3d</span></td><td>2D → 3D GLB 메시 · 사용자 본인 vs 가상 분리</td></tr>
+      <tr><td><b>나이 변환</b></td><td><span class="badge b-tech">SAM</span> (Style-based Age Manipulation) · <span class="badge b-tech">Latent Diffusion + age token</span></td><td>「엔터테인먼트」 명시</td></tr>
+      <tr><td><b>미적 캐릭터 분류</b></td><td><span class="badge b-tech">CLIP + 자체 임베딩 매칭</span></td><td>8가지 캐릭터 자체 라벨링</td></tr>
+      <tr><td><b>성형 시뮬레이션</b></td><td><span class="badge b-tech">DragDiffusion</span> · <span class="badge b-tech">InstantStyle</span> · <span class="badge b-tech">3D Gaussian Splatting</span></td><td>★ 의료법·광고법 가장 민감</td></tr>
+      <tr><td><b>3D 가상 캐릭터 풀</b></td><td><span class="badge b-tech">Higgsfield Soul + generate_3d</span></td><td>실사급 모델 30~50개 사전 생성</td></tr>
+      <tr><td><b>실시간 렌더링</b></td><td><span class="badge b-tech">Three.js</span> + WebGL</td><td>브라우저에서 3D 회전·줌</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 추가 경고 -->
+<div class="warn" style="border-color:#ff8a8a">
+  <h3>⚠️ Phase 2·3 추가 법적 위험 (Phase 1 룰 + 강화)</h3>
+  <ul>
+    <li><b>의료법 위반 → 최대 5년 이하 징역</b> — 「성형 권유」 「수술 효과」 「의료 행위 묘사」 절대 X. <em>「엔터테인먼트·미적 가이드 한정」</em> 명시 의무.</li>
+    <li><b>외모 차별·미적 강요 비판</b> — 「어리게」 「이쁘게」 표현 시 <b>「개인의 선호 · 다양성 존중」</b> 문구 항상 노출.</li>
+    <li><b>미성년자 보호 강화</b> — 「성형 시뮬레이션」 부분은 만 19세 이상 본인 인증 필수.</li>
+    <li><b>가상 캐릭터 풀 활용 우선</b> — 본인 얼굴 변환 보다 가상 캐릭터 시뮬레이션 우선 (CLAUDE.md §4).</li>
+    <li><b>본인 얼굴 변환 시 동의 절차</b> — 모든 변환 결과는 「예측 모델 결과 · 실제 효과 보장 안 함」 면책.</li>
+    <li><b>변호사 검토 단계별 필수</b> — Phase 2 진입 전 + Phase 3 진입 전 각각.</li>
+    <li><b>협력 의료 기관 연계 시</b> — 광고법상 「병원 추천」 표시 의무.</li>
+  </ul>
+</div>
+
+<!-- 단계별 출시 일정 -->
+<section>
+  <h2><span class="num">05-X</span>★ 단계별 출시 일정 (Phase 1 → 2 → 3)</h2>
+  <table>
+    <thead><tr><th style="width:14%">Phase</th><th style="width:18%">기간</th><th style="width:24%">기능</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><b>Phase 1</b></td><td>R3 (3~4주 · 7월 중)</td><td>눈썹 진단 + 결과 카드 + lead 연동</td><td>가장 안전 · 의료법 위험 낮음 · 빠른 출시</td></tr>
+      <tr><td><b>Phase 2-A</b></td><td>R4 (2주)</td><td>실사 3D 얼굴 재구성 (가상 캐릭터 풀 한정)</td><td>본인 얼굴 변환 X · 시뮬레이션만</td></tr>
+      <tr><td><b>Phase 2-B</b></td><td>R4-2 (2주)</td><td>「어림 보이기」 + 「이쁘게 보이기」 시뮬레이션 (가상)</td><td>변호사 1차 검토 필수</td></tr>
+      <tr><td><b>Phase 3</b></td><td>R5 (3~4주)</td><td>부분별 성형 시뮬레이션 + 전체 미학 코칭</td><td>변호사 최종 검토 + 의료법 컨설팅 + 보험</td></tr>
+      <tr><td><b>Phase 4 (장기)</b></td><td>R6+</td><td>협력 의료 기관 연계 + B2B 라이선스 (병원에 도구 제공)</td><td>별도 사업 모델 검토</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 마케팅 활용 -->
+<section>
+  <h2><span class="num">06</span>마케팅 활용 — 인스타·레드노트 동시</h2>
+  <table>
+    <thead><tr><th style="width:24%">채널</th><th>활용 방식</th></tr></thead>
+    <tbody>
+      <tr><td><b>인스타 광고 5번째</b></td><td>「내 얼굴 점수는?」 후크 + face-lab 링크 → 무료 진단 → enroll 전환</td></tr>
+      <tr><td><b>인스타 릴스</b></td><td>결과 카드 공유 인플루언서 협찬 → 자연 확산</td></tr>
+      <tr><td><b>샤오홍슈 (레드노트)</b></td><td>「韩国 极致写实 创始人」 분석 도구 → 美国华人 도달 (LA 출장 2026-09 대비)</td></tr>
+      <tr><td><b>K1 카톡방</b></td><td>수강생에게 「내 얼굴 점수 인증」 챌린지 → 후기 활용</td></tr>
+      <tr><td><b>유튜브 쇼츠</b></td><td>STORY 시리즈 끝에 「당신의 점수는? face-lab 에서 확인 →」 CTA</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 회의 결정 요청 -->
+<section>
+  <h2><span class="num">07</span>회의·임원진 결정 요청 사항</h2>
+  <table>
+    <thead><tr><th style="width:32%">결정 항목</th><th>옵션</th></tr></thead>
+    <tbody>
+      <tr><td><b>메뉴 이름</b></td><td>① Face Lab / ② 얼굴 미학 / ③ Brow Match / ④ 내 눈썹 진단 / ⑤ 기타</td></tr>
+      <tr><td><b>1차 출시 범위</b></td><td>무료 진단만 (Week 2 빠른 PoC) / 무료+프리미엄 (Week 4 정식)</td></tr>
+      <tr><td><b>장미지 원장 영상 피드백</b></td><td>마스터 진단 포함할지 / 별도 옵션으로 분리</td></tr>
+      <tr><td><b>가격</b></td><td>9,900원 / 19,900원 / 4,900원 (저가 진입)</td></tr>
+      <tr><td><b>가상 모델 풀</b></td><td>10개 / 20개 / 30개 (얼굴 형태별 5가지 × 변형)</td></tr>
+      <tr><td><b>샤오홍슈 동시 진출</b></td><td>1차 한국만 / 한·중 동시 (영문·중문 다국어)</td></tr>
+      <tr><td><b>법적 검토</b></td><td>의료법·광고법·개인정보보호법 변호사 사전 검토 필수 (Phase 2 진입 전 1차, Phase 3 진입 전 2차)</td></tr>
+      <tr><td><b>★ Phase 2·3 진입 시점</b></td><td>Phase 1 LIVE 후 KPI (월 1만 진단 등) 달성 후 / 또는 즉시 병행 개발</td></tr>
+      <tr><td><b>★ 가상 캐릭터 풀 규모</b></td><td>30개 (얼굴 형태 6 × 변형 5) / 50개 / 100개 (B2B 라이선스 대비)</td></tr>
+      <tr><td><b>★ 의료 기관 연계</b></td><td>Phase 4 별도 사업 · 협력 병원 모집 시점 결정</td></tr>
+      <tr><td><b>★ 「성형」 표현</b></td><td>플랫폼 내 「성형」 단어 사용 / 「미적 시뮬레이션」으로 우회</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  얼굴 비율 미학 + 눈썹 디자인 진단 · ARTbrows 신규 메뉴 기획 · 2026-06-22 · 운영진 임시 게시
+  · 통합 플랫폼 컨셉의 별도 트랙 · R3 라운드 출시 예정
+  · <a href="index.html">← 메인 포털</a>
+  · <a href="회의자료-20260622-통합.html">회의 자료 통합</a>
+</footer>
+
+</body>
+</html>

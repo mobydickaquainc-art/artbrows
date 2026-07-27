@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>수강 안내 자동 — 6장 캐러셀 · 장미지 연구소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&family=Caveat:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.65;font-size:14px;min-height:100vh;padding-bottom:80px}
+
+  .top{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:12px 24px;display:flex;align-items:center;gap:14px;z-index:100}
+  .top a{color:#E0C088;text-decoration:none;font-weight:700;font-size:13px}
+  .top .crumb{color:#5A5A56;font-size:12px}
+  .top .now{color:#FFB78A;font-weight:700;font-size:12px}
+
+  .hero{background:linear-gradient(180deg,#FAD7C7,#F5C7AD);padding:30px;text-align:center}
+  .chip{display:inline-block;background:#3D2818;color:#FFB78A;font-weight:700;font-size:10.5px;letter-spacing:3px;padding:6px 16px;border-radius:20px;margin-bottom:10px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:28px;color:#3D2818;line-height:1.25}
+  h1 em{color:#FF4D7E;font-style:normal}
+  .lead{font-size:13px;color:#5D4636;margin-top:6px}
+
+  .toolbar{max-width:1400px;margin:18px auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .toolbar .left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .toolbar .label{font-size:11px;color:#8B6452;font-weight:700;letter-spacing:1.5px}
+  .style-chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip-btn{background:#fff;border:1.5px solid #FAD7C7;color:#5D4636;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:16px;cursor:pointer;font-weight:700}
+  .chip-btn:hover{border-color:#FF4D7E;color:#FF4D7E}
+  .chip-btn.sel{background:#FF4D7E;border-color:#FF4D7E;color:#fff}
+  .toolbar .right{display:flex;gap:8px}
+  .btn{padding:9px 18px;border:none;border-radius:8px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+  .btn.pri{background:#FF4D7E;color:#fff}
+  .btn.gh{background:#fff;color:#3D2818;border:1.5px solid #FAD7C7}
+  .btn.dk{background:#3D2818;color:#FFB78A}
+
+  /* 6장 캐러셀 */
+  .carousel{max-width:1400px;margin:24px auto;padding:0 24px}
+  .carousel-track{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:980px){.carousel-track{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){.carousel-track{grid-template-columns:1fr}}
+
+  .slide{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(232,169,155,0.15);position:relative;transition:all 0.2s}
+  .slide:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(232,169,155,0.28)}
+  .slide-num{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.5);color:#fff;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:10px;z-index:2;letter-spacing:1px}
+
+  /* 인스타 4:5 */
+  .slide-preview{aspect-ratio:4/5;padding:16px;display:flex;flex-direction:column;justify-content:center;text-align:center;position:relative;overflow:hidden}
+  .slide-preview.has-img{justify-content:flex-start;gap:4px}
+  .slide-preview .slide-cta{flex-shrink:0}
+  .slide-preview .slide-brand{flex-shrink:0}
+  .slide-preview .slide-headline{flex-shrink:1;min-height:0;overflow:hidden}
+  .slide-preview .slide-body{flex-shrink:1;min-height:0;overflow:hidden}
+  .slide-eyebrow{font-size:9.5px;letter-spacing:2.5px;font-weight:700;margin-bottom:5px;opacity:0.7;text-transform:uppercase}
+  .slide-headline{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:17px;line-height:1.25;margin-bottom:6px}
+  .slide-body{font-size:11px;line-height:1.5;margin:0 2px}
+  .slide-body b{font-weight:700}
+  .slide-cta{margin-top:12px;font-size:11px;font-weight:700;padding:8px 14px;border-radius:8px;display:inline-block}
+  /* 브랜드 로고 — 원장님 완성본 필기체(Caveat Bold) 로 모든 스타일 통일. 스타일별 폰트 override 금지 (색은 배경 대비 위해 스타일별 지정 가능) */
+  /* flex 흐름 안에 두고 margin-top:auto 로 카드 하단으로 밀어냄 → CTA 와 겹치지 않음 */
+  .slide-brand{margin-top:auto;padding-top:16px;text-align:center;font-family:'Caveat',cursive;font-weight:700;font-size:24px;letter-spacing:1px;line-height:1}
+
+  /* 스타일별 (body data-style 토글) */
+  body[data-style="cream"] .slide-preview{background:linear-gradient(180deg,#FAF6F0,#FAD7C7);color:#3D2818}
+  body[data-style="cream"] .slide-headline em{color:#FF4D7E;font-style:normal}
+  body[data-style="cream"] .slide-cta{background:#FF4D7E;color:#fff}
+  body[data-style="cream"] .slide-brand{color:#FF4D7E}
+
+  body[data-style="dark"] .slide-preview{background:#0B0907;color:#F5EDE3}
+  body[data-style="dark"] .slide-headline{color:#E0C088}
+  body[data-style="dark"] .slide-headline em{color:#FFB78A;font-style:normal}
+  body[data-style="dark"] .slide-body{color:#CBC8C1}
+  body[data-style="dark"] .slide-cta{background:#E0C088;color:#0B0907}
+  body[data-style="dark"] .slide-brand{color:#E0C088}
+
+  body[data-style="kbeauty"] .slide-preview{background:linear-gradient(180deg,#FFF0F5,#F0E6FF);color:#5D3F7A}
+  body[data-style="kbeauty"] .slide-headline{color:#A875D9}
+  body[data-style="kbeauty"] .slide-headline em{color:#FF6699;font-style:normal}
+  body[data-style="kbeauty"] .slide-cta{background:linear-gradient(135deg,#FF8AA8,#D89AFF);color:#fff}
+  body[data-style="kbeauty"] .slide-brand{color:#A875D9}
+
+  body[data-style="editorial"] .slide-preview{background:#fff;color:#000;border:1px solid #000}
+  body[data-style="editorial"] .slide-headline{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:30px}
+  body[data-style="editorial"] .slide-headline em{color:#FF0050;font-style:normal}
+  body[data-style="editorial"] .slide-cta{background:#000;color:#fff;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+  body[data-style="editorial"] .slide-brand{color:#000}
+
+  body[data-style="hand"] .slide-preview{background:#F5EDE0;color:#5C4A36}
+  body[data-style="hand"] .slide-headline{font-family:'Caveat',cursive;color:#8B5A3C;font-size:30px}
+  body[data-style="hand"] .slide-headline em{color:#C7855A;font-style:normal}
+  body[data-style="hand"] .slide-body{font-family:'Caveat',cursive;font-size:15px}
+  body[data-style="hand"] .slide-cta{background:#8B5A3C;color:#F5EDE0;font-family:'Caveat',cursive;font-size:14px}
+  body[data-style="hand"] .slide-brand{color:#8B5A3C}
+
+  body[data-style="y2k"] .slide-preview{background:linear-gradient(135deg,#1A0033,#330044);color:#FFE5FF}
+  body[data-style="y2k"] .slide-headline{background:linear-gradient(90deg,#FF00FF,#00FFFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900}
+  body[data-style="y2k"] .slide-body{color:#FFE5FF}
+  body[data-style="y2k"] .slide-cta{background:linear-gradient(135deg,#FF00FF,#00FFFF);color:#1A0033}
+  body[data-style="y2k"] .slide-brand{color:#FF00FF}
+
+  /* eyebrows — 원장님 완성본 캘린더 톤 (크림 배경 · Pretendard sans · 검정 굵은 헤드라인 · 브랜드는 Caveat 필기체) */
+  body[data-style="eyebrows"] .slide-preview{background:#F5EED8;color:#2A2A2A;font-family:'Pretendard','Noto Sans KR',sans-serif}
+  body[data-style="eyebrows"] .slide-eyebrow{color:#8B6452;font-weight:600;letter-spacing:2px}
+  body[data-style="eyebrows"] .slide-headline{font-family:'Pretendard','Noto Sans KR',sans-serif;font-weight:900;color:#1F1F1F;letter-spacing:-1.5px;font-size:32px;line-height:1.1}
+  body[data-style="eyebrows"] .slide-headline em{color:#F09FBB;font-style:normal;font-weight:900}
+  body[data-style="eyebrows"] .slide-body{font-family:'Pretendard','Noto Sans KR',sans-serif;color:#2A2A2A;font-weight:400}
+  body[data-style="eyebrows"] .slide-cta{background:#1F1F1F;color:#F5EED8;font-family:'Pretendard','Noto Sans KR',sans-serif;font-weight:800;letter-spacing:0.5px}
+  body[data-style="eyebrows"] .slide-brand{color:#2A2A2A}
+
+  .slide-meta{padding:10px 14px;background:#FAF6F0;border-top:1px solid #F0D6CC;font-size:11px;color:#5D4636;display:flex;justify-content:space-between;align-items:center}
+  .slide-meta .role{font-weight:700;color:#3D2818}
+  .slide-actions{padding:6px 10px;display:flex;gap:5px;background:#FAF6F0}
+  .slide-actions button{flex:1;padding:6px;border:none;border-radius:5px;font-family:inherit;font-size:10.5px;font-weight:700;cursor:pointer;background:#fff;color:#3D2818}
+  .slide-actions button.pri{background:#FF4D7E;color:#fff}
+
+  .footer-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid #F0D6CC;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;z-index:90}
+  .footer-bar .info{font-size:12.5px;color:#5D4636}
+  .footer-bar .info b{color:#FF4D7E}
+</style>
+</head>
+<body data-style="cream">
+
+<nav class="top">
+  <a href="/static/lab.html">← 장미지 연구소</a>
+  <span class="crumb">/ SaaS A · 학원·강의 /</span>
+  <span class="now">📝 수강 안내 (6장 캐러셀)</span>
+</nav>
+
+<div class="hero">
+  <div class="chip">ENROLLMENT CAROUSEL · 6장 기본 · 인스타 4:5</div>
+  <h1>수강 안내를 <em>6장 캐러셀</em>로 자동</h1>
+  <p class="lead">스타일 선택 → 6장 자동 생성 → 인스타 캐러셀 그대로 게시</p>
+</div>
+
+<!-- 도구 바 -->
+<div class="toolbar">
+  <div class="left">
+    <button class="btn" style="background:linear-gradient(135deg,#FFD966,#FF8DA1);color:#3D2818;font-weight:800;border:2px solid #3D2818;box-shadow:0 4px 14px rgba(255,141,161,0.4);font-size:14px;padding:10px 20px" onclick="autoGenerate()">✨ 자동 생성</button>
+    <button class="btn" style="background:linear-gradient(135deg,#A8E6B3,#7FB3FF);color:#3D2818;font-weight:800;border:2px solid #3D2818;font-size:13.5px;padding:10px 18px;margin-left:6px" onclick="recommendNewStyle()">🔮 새 스타일 추천</button>
+    <span class="label" style="margin-left:8px">🎨 스타일</span>
+    <div class="style-chips" id="styleChips">
+      <button class="chip-btn sel" data-s="cream">크림 살구</button>
+      <button class="chip-btn" data-s="eyebrows">아트브로우 (달력톤)</button>
+      <button class="chip-btn" data-s="dark">Luxury Dark</button>
+      <button class="chip-btn" data-s="kbeauty">K-Beauty</button>
+      <button class="chip-btn" data-s="editorial">Editorial</button>
+      <button class="chip-btn" data-s="hand">손글씨</button>
+      <button class="chip-btn" data-s="y2k">Y2K Pop</button>
+    </div>
+  </div>
+  <div class="right">
+    <button class="btn dk" onclick="cycleVariant()">✏️ 카피: <span id="vName">기본</span></button>
+    <button class="btn dk" onclick="cycleImageSrc()">🖼️ 이미지: <span id="imgName">원장님 자료</span></button>
+    <button class="btn dk" onclick="openLibraryModal()" style="background:#FFF3E8;border-color:#E8B872">📁 라이브러리 <span id="libCount" style="color:#B8730A;font-weight:900">0</span></button>
+    <button class="btn dk" onclick="openUploadModal()" style="background:#E8F5E8;border-color:#7FB37F">📤 업로드</button>
+    <button class="btn dk" onclick="openAIGenModal()" style="background:linear-gradient(135deg,#F5E6FF,#FFE0F0);border-color:#A875D9">✨ AI 새로</button>
+    <button class="btn gh" onclick="downloadAllPngZip()">📸 6장 PNG 묶음</button>
+    <button class="btn pri" onclick="openPreviewAndPublish()">📤 미리보기 → 인스타 게시</button>
+  </div>
+</div>
+
+<!-- 옵션 설명 -->
+<div style="max-width:1400px;margin:-8px auto 18px;padding:0 24px;display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:#8B6452">
+  <div>🎨 <b style="color:#3D2818">스타일</b> = 전체 톤 (6종)</div>
+  <div>✏️ <b style="color:#3D2818">카피</b> = 기본·거의 그대로·완전 새롭게</div>
+  <div>🖼️ <b style="color:#3D2818">이미지</b> = 원장님 자료·AI 새로·혼합·텍스트만</div>
+</div>
+
+<!-- 6장 캐러셀 -->
+<div class="carousel">
+  <div class="carousel-track" id="track"></div>
+</div>
+
+<div class="footer-bar">
+  <div class="info"><b>6장</b> 자동 생성 · <b id="curStyle">크림 살구</b> 스타일 · <b id="curVariant">기본</b> 카피</div>
+  <div style="font-size:11px;color:#8B6452">기존 인스타 6장 톤 · 어제 공유 콘텐츠 기반</div>
+</div>
+
+<script>
+// 6장 콘텐츠 (어제 공유된 「학원 모집」 톤 기반 · 변형 3종)
+const SLIDES = {
+  default: [
+    { role:'표지', eyebrow:'14TH ENROLLMENT', head:'14기 이지클래스<br><em>모집 시작</em>', body:'장미지 원장 직강<br>2026년 9월 개강', cta:'카카오 채널로 신청' },
+    { role:'공감', eyebrow:'WHY HERE', head:'반영구 하고 싶은데<br>어디서 <em>제대로</em> 배우지?', body:'학원은 많은데 「펜슬 가이드」를<br>직접 가르치는 곳은 거의 없어요.', cta:'우리는 다릅니다 →' },
+    { role:'답', eyebrow:'OUR ANSWER', head:'30년 노하우 +<br><em>펜슬 가이드</em>', body:'장미지 원장이<br>30년간 그어 본 라인을<br>1:1로 직접 전수합니다.', cta:'더 알아보기 →' },
+    { role:'차별', eyebrow:'WHY DIFFERENT', head:'시술 전 펜슬로<br><em>미리 그려봅니다</em>', body:'클레임 거의 0.<br>손님 동의 받고 시술 = 분쟁 없음.<br>이게 「극사실」의 진짜 뿌리.', cta:'마스터 작품 보기 →' },
+    { role:'혜택', eyebrow:'PRIVILEGE', head:'69만원<br><em>평생수강</em>', body:'한 번 등록 → 평생 무한 재수강.<br>K1 카톡방 평생 락인.<br>업데이트 강의 무료 추가.', cta:'69만원 자세히 →' },
+    { role:'CTA', eyebrow:'NEXT STEP', head:'오늘 <em>카카오 한 마디</em>면<br>시작입니다', body:'1탭 상담 신청 → 1:1 답변.<br>9월 1일 개강 · 정원 12명.<br>먼저 신청하신 분 우선 배정.', cta:'카카오 채널 → 14기' }
+  ],
+  slight: [
+    { role:'표지', eyebrow:'14TH CLASS', head:'14기 이지클래스<br><em>지금 모집</em>', body:'장미지 원장 직강<br>9월 1일 개강', cta:'1탭 카카오 신청' },
+    { role:'공감', eyebrow:'CONCERN', head:'반영구 학원<br><em>어디</em> 가야 할까', body:'펜슬 가이드 가르치는 학원은<br>찾기가 정말 어려워요.', cta:'우리는 다릅니다 →' },
+    { role:'답', eyebrow:'SOLUTION', head:'30년 + <em>펜슬</em>', body:'원장님이 30년 그어 본<br>그 라인을 1:1로<br>직접 가르쳐 드립니다.', cta:'커리큘럼 보기 →' },
+    { role:'차별', eyebrow:'OUR EDGE', head:'시술 전 <em>펜슬 시뮬</em>', body:'클레임 거의 0.<br>손님 결과 미리 동의.<br>「극사실」의 진짜 뿌리.', cta:'작품 보기 →' },
+    { role:'혜택', eyebrow:'VALUE', head:'69만원<br><em>평생</em> 다 함께', body:'평생 무한 재수강 + K1 카톡방.<br>업데이트 무료 추가.', cta:'혜택 자세히 →' },
+    { role:'CTA', eyebrow:'GO', head:'카톡 <em>한 줄</em>이면 시작', body:'9/1 개강 · 12명 정원.<br>먼저 신청 = 우선 배정.', cta:'14기 신청 →' }
+  ],
+  new: [
+    { role:'표지', eyebrow:'EPISODE 14', head:'당신의 손으로<br><em>인생을 바꿀</em> 14기', body:'9월 1일 · 12명 정원<br>장미지 원장 직강', cta:'스토리 시작 →' },
+    { role:'공감', eyebrow:'STORY', head:'저도 그랬어요<br><em>막막했어요</em>', body:'「반영구 배우고 싶다」<br>어디서 시작해야 할지<br>1시간 검색만 했죠.', cta:'그래서 ARTbrows →' },
+    { role:'답', eyebrow:'TURNING POINT', head:'펜슬 한 번<br><em>그어보면 알아요</em>', body:'30년 라인의 무게.<br>처음 그어본 순간<br>모든 게 달라졌어요.', cta:'직접 해보세요 →' },
+    { role:'차별', eyebrow:'OUR PROMISE', head:'클레임 <em>거의 0</em>', body:'시술 전 펜슬로 결과를 그려요.<br>손님이 보고 동의하면 시작.<br>그래서 「극사실」입니다.', cta:'증명 보기 →' },
+    { role:'혜택', eyebrow:'FOREVER', head:'69만원 한 번<br><em>평생 동반자</em>', body:'평생 재수강 · K1 카톡방.<br>업데이트 무료 영원히.<br>한 번이면 충분합니다.', cta:'평생 동반 →' },
+    { role:'CTA', eyebrow:'YOUR MOVE', head:'오늘 카톡 <em>한 마디</em>', body:'12명 · 선착순.<br>9월 1일 함께 시작해요.', cta:'카카오 → 14기' }
+  ],
+  trendy: [
+    { role:'표지', eyebrow:'#아트브로우 #14기', head:'14기 모집<br>✨ <em>인생 눈썹</em> 시작', body:'장미지 원장 직강 ✏️<br>9월 1일 OPEN', cta:'카톡 → 14기 GO' },
+    { role:'공감', eyebrow:'#반영구학원 #고민', head:'👀 학원 어디가<br><em>진짜</em>일까?', body:'펜슬 가르치는 곳<br>거의 없어요... 😢', cta:'우리는 다름 →' },
+    { role:'답', eyebrow:'#원장직강', head:'30년 + ✏️<br><em>펜슬 가이드</em>', body:'30년 그어 본 라인 🎨<br>1:1 직접 전수.', cta:'커리큘럼 보기' },
+    { role:'차별', eyebrow:'#클레임0', head:'💯 시술 전<br><em>펜슬 시뮬</em>', body:'그려보고 동의 받고 시작.<br>「극사실」의 진짜 뿌리 ✨', cta:'작품 보기 →' },
+    { role:'혜택', eyebrow:'#평생수강', head:'69만원<br>= <em>평생 동반자</em> ♾️', body:'평생 무한 재수강 ✅<br>K1 카톡방 평생 락인 🔒', cta:'69만원 자세히' },
+    { role:'CTA', eyebrow:'#마감임박', head:'12명 · <em>선착순</em><br>📩 카톡 한 줄', body:'9월 1일 OPEN 🎉<br>먼저 신청 = 우선 배정', cta:'카톡 채널 → 14기' }
+  ],
+  ai: [
+    { role:'표지', eyebrow:'AI ENROLLMENT · 14TH', head:'당신의 손끝에<br><em>새 시대</em>가 시작됩니다', body:'30년 노하우, 디지털로 만나는 첫 수업.<br>장미지 원장 직강 · 9월 1일 OPEN', cta:'AI 큐레이션 → 시작' },
+    { role:'공감', eyebrow:'WHY THIS MATTERS', head:'1만 시간이 만든<br><em>한 줄의 차이</em>', body:'기술은 가르치는 곳이 많아요.<br>하지만 「감각」을 전수하는 곳은 거의 없죠.', cta:'우리가 다른 이유 →' },
+    { role:'답', eyebrow:'OUR PHILOSOPHY', head:'손이 먼저 알고,<br><em>이론은 따라옵니다</em>', body:'30년간 그어 본 곡선.<br>장미지 원장이 직접 1:1 전수합니다.', cta:'커리큘럼 전체 보기' },
+    { role:'차별', eyebrow:'OUR ANSWER', head:'시술 전 펜슬,<br><em>설계 먼저</em>', body:'손님과 함께 그려보고 동의.<br>「극사실」의 진짜 의미입니다.', cta:'실제 사례 →' },
+    { role:'혜택', eyebrow:'OUR PROMISE', head:'69만원, <em>평생 함께</em>', body:'평생 재수강 · K1 카톡방 영구 락인.<br>업데이트 강의 무료 추가.', cta:'평생 혜택 보기' },
+    { role:'CTA', eyebrow:'YOUR FIRST STEP', head:'카톡 한 줄로<br><em>오늘</em> 시작합니다', body:'9월 1일 · 12명 정원 · 선착순.<br>먼저 신청 = 우선 배정.', cta:'카카오 → 14기' }
+  ]
+};
+
+const VARIANT_NAMES = {
+  default:'기본 (기존 그대로)',
+  slight:'거의 그대로',
+  new:'완전 새롭게 (감성)',
+  trendy:'요즘 트렌디 (#해시·이모지)',
+  ai:'AI 자동 (큐레이션 톤)'
+};
+let curVariant = 'default';
+
+// 이미지 소스 모드
+const IMG_MODES = {
+  studio: { name:'원장님 자료', label:'원장님 자료 (실제 사진·일러스트)', bg:'linear-gradient(135deg,#3D2818,#5D4636)', icon:'📷', cap:'원장님 인스타·작품집' },
+  ai:     { name:'AI 새로',    label:'AI 새로 제작 (Gemini Pro · 힉스필드)', bg:'linear-gradient(135deg,#A875D9,#FF4D7E)', icon:'🤖', cap:'AI 신규 생성' },
+  mix:    { name:'혼합',       label:'혼합 (원장님 자료 + AI 보강)',          bg:'linear-gradient(135deg,#5D4636,#A875D9)', icon:'🎨', cap:'원장님 + AI 혼합' },
+  text:   { name:'텍스트만',    label:'텍스트만 (이미지 없음)',                 bg:'transparent', icon:'', cap:'' }
+};
+let curImg = 'studio';
+
+let overrides = JSON.parse(localStorage.getItem('artbrows-enrollment-overrides') || '{}');
+function saveOverrides(){ localStorage.setItem('artbrows-enrollment-overrides', JSON.stringify(overrides)); }
+function getSlide(i){
+  const base = SLIDES[curVariant][i];
+  const o = overrides[i] || {};
+  return { ...base, ...o };
+}
+function isEdited(i){ return !!overrides[i]; }
+
+function render(){
+  const slides = SLIDES[curVariant];
+  const mode = IMG_MODES[curImg];
+  document.getElementById('track').innerHTML = slides.map((_,i)=>{
+    const s = getSlide(i);
+    const edited = isEdited(i);
+    const realImg = s.imgUrl;  // override에 imgUrl 있으면 실제 사진 표시
+    return `
+    <div class="slide">
+      <div class="slide-num">${i+1}/6${edited ? ' · ✏️' : ''}${realImg ? ' · 🖼️' : ''}</div>
+      <div class="slide-preview${(realImg || curImg !== 'text') ? ' has-img' : ''}" data-idx="${i}">
+        ${realImg ? `
+        <div style="height:32%;overflow:hidden;margin:-16px -16px 8px;flex-shrink:0">
+          <img src="${escHtml(realImg)}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${escHtml(s.role)} 이미지">
+        </div>` :
+        (curImg !== 'text' ? `
+        <div style="height:32%;background:${mode.bg};display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.85);font-size:11px;font-weight:700;letter-spacing:1px;text-align:center;padding:8px;margin:-16px -16px 8px;flex-shrink:0">
+          <div>
+            <div style="font-size:28px;margin-bottom:4px">${mode.icon}</div>
+            <div style="opacity:0.85">${s.role} 이미지</div>
+            <div style="font-size:9px;opacity:0.6;margin-top:2px">${mode.cap}</div>
+          </div>
+        </div>` : '')}
+        <div class="slide-eyebrow">${s.eyebrow}</div>
+        <div class="slide-headline">${s.head}</div>
+        <div class="slide-body">${s.body}</div>
+        <div class="slide-cta">${s.cta}</div>
+        <div class="slide-brand">ARTbrows</div>
+      </div>
+      <div class="slide-meta"><span class="role">${s.role}${edited ? ' <span style="color:#FF4D7E">· 편집됨</span>' : ''}</span><span>장 ${i+1}</span></div>
+      <div class="slide-actions">
+        <button onclick="downloadSlidePNG(${i})">📸 1장 PNG</button>
+        <button class="pri" onclick="openEditModal(${i})">✏️ 편집</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// === 편집 모달 + PNG 다운로드 + 인스타 게시 가이드 ===
+
+function escHtml(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showToast(msg, bg){
+  const t = document.createElement('div');
+  t.innerHTML = msg;
+  t.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:${bg||'#A8E6B3'};color:#3D2818;padding:12px 22px;border-radius:24px;font-weight:700;font-size:13px;z-index:500;box-shadow:0 10px 30px rgba(0,0,0,0.3)`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2200);
+}
+
+function openEditModal(idx){
+  closeEditModal();
+  const s = getSlide(idx);
+  const modal = document.createElement('div');
+  modal.id = 'editModal';
+  modal.innerHTML = `
+    <div style="position:fixed;inset:0;background:rgba(11,9,7,0.6);z-index:400;display:flex;justify-content:flex-end;animation:fadeIn 0.15s">
+      <div style="background:#fff;width:min(480px,100%);height:100%;overflow:auto;box-shadow:-8px 0 32px rgba(0,0,0,0.3);display:flex;flex-direction:column">
+        <div style="padding:20px 22px;border-bottom:1px solid #F0D6CC;display:flex;justify-content:space-between;align-items:start;background:linear-gradient(135deg,#FAF6F0,#FAD7C7)">
+          <div>
+            <div style="font-size:10.5px;color:#FF4D7E;font-weight:700;letter-spacing:3px">EDIT · SLIDE ${idx+1}/6</div>
+            <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:19px;color:#3D2818;margin-top:3px">✏️ ${escHtml(s.role)} 편집</div>
+          </div>
+          <button onclick="closeEditModal()" style="background:transparent;border:none;font-size:26px;color:#8B6452;cursor:pointer;line-height:1">×</button>
+        </div>
+        <div style="padding:22px;flex:1;font-size:13px;color:#3D2818">
+          <div style="margin-bottom:20px;padding:14px;border:1.5px dashed #F0D6CC;border-radius:10px;background:#FAF6F0">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:8px">🖼️ 표지 이미지 <span style="font-weight:400;color:#A0928A">(카드 상단 40% 영역)</span></div>
+            <div id="edit-img-preview" style="width:100%;height:110px;background:#fff;border:1px solid #F0D6CC;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#A0928A;font-size:11.5px;text-align:center;margin-bottom:10px">
+              ${s.imgUrl ? `<img src="${escHtml(s.imgUrl)}" style="width:100%;height:100%;object-fit:cover;display:block" alt="현재 이미지">` : '📷 이미지 없음 · 플레이스홀더 표시 중'}
+            </div>
+            <input type="hidden" id="edit-imgurl" value="${escHtml(s.imgUrl || '')}">
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" onclick="document.getElementById('edit-imgfile').click()" style="flex:1;min-width:120px;padding:9px 12px;background:#FF4D7E;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer">📤 파일 업로드</button>
+              <button type="button" onclick="openLibraryPicker(${idx})" style="flex:1;min-width:120px;padding:9px 12px;background:#fff;border:1.5px solid #F0D6CC;color:#8B6452;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer">📚 라이브러리</button>
+              <button type="button" onclick="clearSlideImage()" style="padding:9px 12px;background:#fff;border:1.5px solid #F0D6CC;color:#8B6452;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer">🗑</button>
+            </div>
+            <input type="file" id="edit-imgfile" accept="image/png,image/jpeg,image/jpg,image/webp" style="display:none" onchange="handleImageUpload(event, ${idx})">
+            <div id="edit-img-status" style="margin-top:6px;font-size:10.5px;color:#A0928A"></div>
+          </div>
+          <label style="display:block;margin-bottom:16px">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:5px">📌 라벨 (역할)</div>
+            <input id="edit-role" value="${escHtml(s.role)}" style="width:100%;padding:9px 12px;border:1.5px solid #F0D6CC;border-radius:8px;font-size:13.5px;font-family:inherit">
+          </label>
+          <label style="display:block;margin-bottom:16px">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:5px">🏷️ 아이브로우 (상단 소제목)</div>
+            <input id="edit-eyebrow" value="${escHtml(s.eyebrow)}" style="width:100%;padding:9px 12px;border:1.5px solid #F0D6CC;border-radius:8px;font-size:13.5px;font-family:inherit">
+          </label>
+          <label style="display:block;margin-bottom:16px">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:5px">🎯 헤드라인 <span style="font-weight:400;color:#A0928A">· HTML 지원</span></div>
+            <div style="font-size:10.5px;color:#A0928A;margin-bottom:4px"><code>&lt;br&gt;</code> 줄바꿈 · <code>&lt;em&gt;강조&lt;/em&gt;</code> 색 강조</div>
+            <textarea id="edit-head" style="width:100%;min-height:70px;padding:9px 12px;border:1.5px solid #F0D6CC;border-radius:8px;font-size:13.5px;font-family:inherit;line-height:1.5;resize:vertical">${escHtml(s.head)}</textarea>
+          </label>
+          <label style="display:block;margin-bottom:16px">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:5px">📝 본문 <span style="font-weight:400;color:#A0928A">· HTML 지원</span></div>
+            <textarea id="edit-body" style="width:100%;min-height:90px;padding:9px 12px;border:1.5px solid #F0D6CC;border-radius:8px;font-size:13.5px;font-family:inherit;line-height:1.5;resize:vertical">${escHtml(s.body)}</textarea>
+          </label>
+          <label style="display:block;margin-bottom:8px">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:5px">🚀 CTA (하단 버튼)</div>
+            <input id="edit-cta" value="${escHtml(s.cta)}" style="width:100%;padding:9px 12px;border:1.5px solid #F0D6CC;border-radius:8px;font-size:13.5px;font-family:inherit">
+          </label>
+          <div style="margin-top:22px;padding:12px 14px;background:#FAF6F0;border-left:3px solid #FF4D7E;border-radius:6px;font-size:11.5px;color:#8B6452;line-height:1.6">
+            💡 저장 즉시 카드 미리보기에 반영됩니다. localStorage에 자동 저장 — 자동 생성 다시 눌러도 편집한 카피가 유지돼요.
+          </div>
+        </div>
+        <div style="padding:14px 22px;border-top:1px solid #F0D6CC;display:flex;gap:8px;justify-content:space-between;background:#FAF6F0">
+          <button onclick="resetSlideEdit(${idx})" style="padding:9px 14px;background:#fff;border:1.5px solid #F0D6CC;color:#8B6452;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer">↺ 원래대로</button>
+          <div style="display:flex;gap:8px">
+            <button onclick="closeEditModal()" style="padding:9px 16px;background:#fff;border:1.5px solid #F0D6CC;color:#5D4636;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">취소</button>
+            <button onclick="saveSlideEdit(${idx})" style="padding:9px 22px;background:#FF4D7E;color:#fff;border:none;border-radius:8px;font-weight:800;font-size:13.5px;cursor:pointer">✓ 저장</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  setTimeout(()=>{ const el = document.getElementById('edit-head'); if(el) el.focus(); }, 100);
+}
+
+function closeEditModal(){ const m = document.getElementById('editModal'); if(m) m.remove(); }
+
+function saveSlideEdit(idx){
+  const imgUrl = document.getElementById('edit-imgurl').value.trim();
+  overrides[idx] = {
+    role:    document.getElementById('edit-role').value,
+    eyebrow: document.getElementById('edit-eyebrow').value,
+    head:    document.getElementById('edit-head').value,
+    body:    document.getElementById('edit-body').value,
+    cta:     document.getElementById('edit-cta').value,
+    ...(imgUrl ? { imgUrl } : {}),
+  };
+  saveOverrides();
+  render();
+  closeEditModal();
+  showToast(`✓ 장 ${idx+1} 저장${imgUrl ? ' · 🖼 이미지 포함' : ''}`, '#A8E6B3');
+}
+
+// === 이미지 업로드 (POST /api/enrollment/upload) ===
+async function handleImageUpload(event, idx){
+  const file = event.target.files[0];
+  if(!file) return;
+  const status = document.getElementById('edit-img-status');
+  status.textContent = `⏳ 업로드 중 · ${file.name} (${(file.size/1024).toFixed(1)}KB)`;
+  status.style.color = '#FFB78A';
+
+  const fd = new FormData();
+  fd.append('files', file);
+  fd.append('course', '이지');
+  fd.append('role', '표지');
+  fd.append('memo', `enrollment slide ${idx+1} · ${(new Date()).toISOString().slice(0,10)}`);
+
+  try {
+    const r = await fetch('/api/enrollment/upload', { method:'POST', body: fd });
+    if(!r.ok){
+      const err = await r.text();
+      status.textContent = `❌ 업로드 실패: ${r.status} · ${err.slice(0,80)}`;
+      status.style.color = '#FF4D7E';
+      return;
+    }
+    const data = await r.json();
+    if(!data.ok || !data.items || !data.items[0]){
+      status.textContent = `❌ 응답 이상: ${JSON.stringify(data).slice(0,120)}`;
+      status.style.color = '#FF4D7E';
+      return;
+    }
+    const url = data.items[0].url;
+    document.getElementById('edit-imgurl').value = url;
+    document.getElementById('edit-img-preview').innerHTML =
+      `<img src="${escHtml(url)}" style="width:100%;height:100%;object-fit:cover;display:block" alt="새 이미지">`;
+    status.textContent = `✅ 업로드 완료 · 저장 눌러야 카드 반영`;
+    status.style.color = '#5BAE8A';
+  } catch(e) {
+    status.textContent = `❌ 네트워크 오류: ${e.message}`;
+    status.style.color = '#FF4D7E';
+  }
+}
+
+function clearSlideImage(){
+  document.getElementById('edit-imgurl').value = '';
+  document.getElementById('edit-img-preview').innerHTML =
+    '📷 이미지 없음 · 플레이스홀더 표시 중';
+  const status = document.getElementById('edit-img-status');
+  status.textContent = '🗑 이미지 제거됨 · 저장 눌러야 반영';
+  status.style.color = '#8B6452';
+}
+
+// === 라이브러리 피커 (GET /api/enrollment/library) ===
+async function openLibraryPicker(idx){
+  const status = document.getElementById('edit-img-status');
+  status.textContent = '⏳ 라이브러리 불러오는 중...';
+  status.style.color = '#FFB78A';
+  try {
+    const r = await fetch('/api/enrollment/library?limit=60');
+    const data = await r.json();
+    if(!data.items || !data.items.length){
+      status.textContent = '📭 라이브러리 비어있음 · 파일 업로드부터';
+      status.style.color = '#8B6452';
+      return;
+    }
+    _renderLibraryPicker(data.items);
+    status.textContent = `📚 ${data.items.length}개 로드 · 사진 클릭하면 선택`;
+    status.style.color = '#5BAE8A';
+  } catch(e) {
+    status.textContent = `❌ 로드 실패: ${e.message}`;
+    status.style.color = '#FF4D7E';
+  }
+}
+
+function _renderLibraryPicker(items){
+  const existing = document.getElementById('libPickerModal');
+  if(existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.id = 'libPickerModal';
+  modal.innerHTML = `
+    <div style="position:fixed;inset:0;background:rgba(11,9,7,0.75);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.remove()">
+      <div style="background:#fff;width:min(760px,100%);max-height:90vh;overflow:auto;border-radius:16px;padding:22px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div style="font-weight:800;color:#3D2818;font-size:16px">📚 이미지 라이브러리 (${items.length}개)</div>
+          <button onclick="document.getElementById('libPickerModal').remove()" style="background:transparent;border:none;font-size:24px;color:#8B6452;cursor:pointer">×</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
+          ${items.map(it => `
+            <div onclick="pickFromLibrary('${escHtml(it.url)}')" style="cursor:pointer;border:2px solid #F0D6CC;border-radius:8px;overflow:hidden;transition:border-color 0.15s" onmouseover="this.style.borderColor='#FF4D7E'" onmouseout="this.style.borderColor='#F0D6CC'">
+              <div style="width:100%;aspect-ratio:1;background:#FAF6F0;overflow:hidden">
+                <img src="${escHtml(it.url)}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" alt="">
+              </div>
+              <div style="padding:6px 8px;font-size:10.5px;color:#8B6452">
+                ${escHtml(it.role || '-')} · ${escHtml(it.source || 'upload')}<br>
+                <span style="opacity:0.6">${escHtml(it.original_name || it.filename).slice(0,20)}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function pickFromLibrary(url){
+  document.getElementById('edit-imgurl').value = url;
+  document.getElementById('edit-img-preview').innerHTML =
+    `<img src="${escHtml(url)}" style="width:100%;height:100%;object-fit:cover;display:block" alt="선택한 이미지">`;
+  const status = document.getElementById('edit-img-status');
+  status.textContent = '✅ 라이브러리에서 선택됨 · 저장 눌러야 반영';
+  status.style.color = '#5BAE8A';
+  const picker = document.getElementById('libPickerModal');
+  if(picker) picker.remove();
+}
+
+function resetSlideEdit(idx){
+  if(!confirm(`장 ${idx+1} 편집을 원래 카피로 되돌립니다.\n계속할까요?`)) return;
+  delete overrides[idx];
+  saveOverrides();
+  render();
+  closeEditModal();
+  showToast(`↺ 장 ${idx+1} 원래대로`, '#F5C7AD');
+}
+
+function resetAllOverrides(){
+  const cnt = Object.keys(overrides).length;
+  if(cnt === 0){ showToast('편집한 슬라이드 없음', '#F0D6CC'); return; }
+  if(!confirm(`편집한 ${cnt}장을 모두 원래 카피로 되돌립니다.\n계속할까요?`)) return;
+  overrides = {};
+  saveOverrides();
+  render();
+  showToast(`↺ ${cnt}장 원래대로`, '#F5C7AD');
+}
+
+// === PNG 다운로드 (개별 + zip 6장) ===
+
+async function _capturePreview(idx){
+  const el = document.querySelectorAll('.slide-preview')[idx];
+  if(!el) throw new Error(`slide ${idx} not found`);
+  return await html2canvas(el, {
+    scale: 2,
+    backgroundColor: null,
+    logging: false,
+    useCORS: true,
+  });
+}
+
+async function downloadSlidePNG(idx){
+  try {
+    showToast(`📸 장 ${idx+1} 캡처 중...`, '#FFB78A');
+    const canvas = await _capturePreview(idx);
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `enrollment-slide-${String(idx+1).padStart(2,'0')}.png`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+      showToast(`✓ 장 ${idx+1} 다운로드`, '#A8E6B3');
+    }, 'image/png');
+  } catch(e) {
+    showToast(`❌ 캡처 실패: ${e.message}`, '#FFAAAA');
+  }
+}
+
+async function downloadAllPngZip(){
+  const previews = document.querySelectorAll('.slide-preview');
+  if(previews.length !== 6){ showToast('❌ 슬라이드 6장 확인 필요', '#FFAAAA'); return; }
+  try {
+    showToast('📸 6장 캡처 중... (약 5초)', '#FFB78A');
+    const zip = new JSZip();
+    for(let i=0; i<6; i++){
+      const canvas = await _capturePreview(i);
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      const arrayBuf = await blob.arrayBuffer();
+      zip.file(`enrollment-slide-${String(i+1).padStart(2,'0')}.png`, arrayBuf);
+    }
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    const ts = new Date().toISOString().slice(0,10).replace(/-/g,'');
+    a.href = url;
+    a.download = `artbrows-enrollment-6-${ts}.zip`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    showToast('✓ 6장 zip 다운로드 완료', '#A8E6B3');
+  } catch(e) {
+    showToast(`❌ zip 실패: ${e.message}`, '#FFAAAA');
+  }
+}
+
+// === 미리보기 → OK → 인스타 게시 흐름 ===
+
+function openPreviewAndPublish(){
+  closePreviewModal();
+  const slides = SLIDES[curVariant];
+  const editedCnt = Object.keys(overrides).length;
+  const modal = document.createElement('div');
+  modal.id = 'previewModal';
+  const mode = IMG_MODES[curImg];
+  const previewCards = slides.map((_,i)=>{
+    const s = getSlide(i);
+    const edited = isEdited(i);
+    const realImg = s.imgUrl;  // 편집 화면과 동일: override 이미지 우선
+    return `
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.12);position:relative">
+        <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;z-index:3">${i+1}/6${edited ? ' · ✏️' : ''}${realImg ? ' · 🖼️' : ''}</div>
+        <div class="slide-preview${(realImg || curImg !== 'text') ? ' has-img' : ''}" data-preview-idx="${i}" style="aspect-ratio:4/5;padding:22px;text-align:center">
+          ${realImg ? `
+          <div style="position:absolute;top:0;left:0;right:0;height:40%;overflow:hidden">
+            <img src="${escHtml(realImg)}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${escHtml(s.role)} 이미지">
+          </div>
+          <div style="height:38%"></div>` :
+          (curImg !== 'text' ? `
+          <div style="position:absolute;top:0;left:0;right:0;height:40%;background:${mode.bg};display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.85);font-size:11px;font-weight:700;letter-spacing:1px;text-align:center;padding:8px">
+            <div>
+              <div style="font-size:28px;margin-bottom:4px">${mode.icon}</div>
+              <div style="opacity:0.85">${s.role} 이미지</div>
+              <div style="font-size:9px;opacity:0.6;margin-top:2px">${mode.cap}</div>
+            </div>
+          </div>
+          <div style="height:38%"></div>` : '')}
+          <div class="slide-eyebrow">${s.eyebrow}</div>
+          <div class="slide-headline">${s.head}</div>
+          <div class="slide-body">${s.body}</div>
+          <div class="slide-cta">${s.cta}</div>
+          <div class="slide-brand">ARTbrows</div>
+        </div>
+      </div>`;
+  }).join('');
+  modal.innerHTML = `
+    <div style="position:fixed;inset:0;background:rgba(11,9,7,0.9);backdrop-filter:blur(6px);z-index:400;display:flex;flex-direction:column;padding:20px">
+      <div style="max-width:1000px;margin:0 auto;width:100%;flex:1;display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden">
+        <div style="padding:18px 24px;border-bottom:1px solid #F0D6CC;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#FAF6F0,#FAD7C7);flex-shrink:0">
+          <div>
+            <div style="font-size:10.5px;color:#FF4D7E;font-weight:700;letter-spacing:3px">FINAL PREVIEW · 인스타 게시 직전</div>
+            <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:20px;color:#3D2818;margin-top:3px">👀 최종 6장 확인</div>
+          </div>
+          <button onclick="closePreviewModal()" style="background:transparent;border:none;font-size:26px;color:#8B6452;cursor:pointer">×</button>
+        </div>
+        <div style="padding:22px 24px;background:#FAF6F0;border-bottom:1px solid #F0D6CC;font-size:12.5px;color:#5D4636">
+          <b style="color:#FF4D7E">${STYLE_NAME[document.body.dataset.style]||'크림 살구'}</b> 스타일 ·
+          <b>${VARIANT_NAMES[curVariant]||curVariant}</b> 카피 ·
+          <b>${IMG_MODES[curImg].name}</b> 이미지
+          ${editedCnt > 0 ? ` · <span style="color:#FF4D7E;font-weight:700">✏️ ${editedCnt}장 편집됨</span>` : ''}
+        </div>
+        <div style="flex:1;overflow:auto;padding:24px;background:#FAF6F0">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">${previewCards}</div>
+        </div>
+        <div style="padding:16px 24px;border-top:1px solid #F0D6CC;display:flex;gap:10px;justify-content:space-between;align-items:center;background:#fff;flex-shrink:0;flex-wrap:wrap">
+          <div style="font-size:12px;color:#8B6452">문제 있으면 <b style="color:#3D2818">닫고 편집 계속</b>, OK면 <b style="color:#FF4D7E">6장 zip 다운로드</b></div>
+          <div style="display:flex;gap:8px">
+            <button onclick="closePreviewModal()" style="padding:10px 16px;background:#fff;border:1.5px solid #F0D6CC;color:#5D4636;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">← 닫고 편집</button>
+            <button onclick="confirmAndPublish()" style="padding:10px 22px;background:linear-gradient(135deg,#FF4D7E,#FFB78A);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 4px 14px rgba(255,77,126,0.35)">✓ OK · 인스타로 게시하기 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closePreviewModal(){ const m = document.getElementById('previewModal'); if(m) m.remove(); }
+
+async function confirmAndPublish(){
+  closePreviewModal();
+  await downloadAllPngZip();
+  setTimeout(openInstagramGuide, 800);
+}
+
+function openInstagramGuide(){
+  const modal = document.createElement('div');
+  modal.innerHTML = `
+    <div id="igGuideModal" style="position:fixed;inset:0;background:rgba(11,9,7,0.75);backdrop-filter:blur(6px);z-index:410;display:flex;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.remove()">
+      <div style="background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:90vh;overflow:auto;font-family:Pretendard,sans-serif;box-shadow:0 30px 80px rgba(0,0,0,0.5)">
+        <div style="padding:22px 26px;border-bottom:1px solid #F0D6CC;display:flex;justify-content:space-between;align-items:start;background:linear-gradient(135deg,#FAF6F0,#FAD7C7)">
+          <div>
+            <div style="font-size:10.5px;color:#FF4D7E;font-weight:700;letter-spacing:3px">INSTAGRAM PUBLISH</div>
+            <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:20px;color:#3D2818;margin-top:4px">📤 인스타 캐러셀 게시 (5분)</div>
+          </div>
+          <button onclick="document.getElementById('igGuideModal').remove()" style="background:none;border:none;font-size:24px;color:#8B6452;cursor:pointer">×</button>
+        </div>
+        <div style="padding:22px 26px">
+          <div style="font-size:12.5px;color:#5D4636;margin-bottom:14px;padding:10px 14px;background:#FAF6F0;border-radius:8px;border-left:3px solid #A8E6B3">
+            ✅ <b>6장 zip 다운로드 완료</b> — 방금 다운로드 폴더에 <code>artbrows-enrollment-6-XXXXX.zip</code> 저장됨
+          </div>
+          <ol style="padding-left:22px;font-size:13.5px;color:#3D2818;line-height:1.9">
+            <li>💻 zip 압축 풀기 → PNG 6장 확인 (<b>01→06 순서</b>)</li>
+            <li>📱 6장을 스마트폰으로 전송
+              <div style="font-size:11.5px;color:#8B6452;margin-top:2px">방법: 카카오톡 「나에게 보내기」 · 에어드롭 · 구글 포토</div>
+            </li>
+            <li>📸 인스타 앱 → 하단 <b>+</b> → <b>게시물</b> → 갤러리에서 <b>여러 항목 선택</b> 활성화</li>
+            <li>01 → 02 → 03 → 04 → 05 → 06 <b>순서대로 탭</b> → <b>다음</b></li>
+            <li>필터/편집 (건너뛰기 가능) → <b>다음</b></li>
+            <li>캡션 붙여넣기 (아래 자동 생성 캡션) → <b>공유</b> 🎉</li>
+          </ol>
+          <div style="margin-top:18px">
+            <div style="font-weight:700;color:#8B6452;font-size:11.5px;letter-spacing:1px;margin-bottom:6px">📋 캡션 (탭하면 자동 복사)</div>
+            <div id="igCaption" onclick="copyIgCaption()" style="padding:12px 14px;background:#FAF6F0;border:1.5px dashed #FAD7C7;border-radius:8px;font-size:12.5px;color:#3D2818;line-height:1.7;cursor:pointer;font-family:Pretendard,sans-serif;white-space:pre-wrap"></div>
+          </div>
+          <div style="margin-top:18px;padding:14px;background:#FAF6F0;border-left:3px solid #FF4D7E;border-radius:6px;font-size:11.5px;color:#5D4636;line-height:1.65">
+            <b style="color:#3D2818">💡 Phase 2 (3개월 후 자동화):</b><br>
+            Meta 비즈니스 계정 인증 → 인스타 API 통합 → 「📤 자동 게시」 1클릭. 대표님 사업 규모 확장 시 백엔드에 통합 예정.
+          </div>
+        </div>
+        <div style="padding:14px 26px;border-top:1px solid #F0D6CC;background:#FAF6F0;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <button onclick="copyIgCaption()" style="padding:9px 16px;background:#fff;border:1.5px solid #FAD7C7;color:#5D4636;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer">📋 캡션 복사</button>
+          <div style="display:flex;gap:8px">
+            <button onclick="downloadAllPngZip()" style="padding:9px 16px;background:#fff;border:1.5px solid #FAD7C7;color:#5D4636;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer">📸 zip 다시 받기</button>
+            <button onclick="document.getElementById('igGuideModal').remove()" style="padding:9px 22px;background:#FF4D7E;color:#fff;border:none;border-radius:8px;font-weight:800;font-size:13.5px;cursor:pointer">✓ 완료</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  document.getElementById('igCaption').textContent = buildIgCaption();
+}
+
+function buildIgCaption(){
+  const s0 = getSlide(0);
+  return `${s0.head.replace(/<[^>]+>/g, ' ').replace(/\s+/g,' ').trim()}
+
+극사실 눈썹 창시자 장미지 원장 직강
+30년 노하우 · 펜슬 가이드 1:1 전수
+
+🗓️ 9월 1일 개강 · 12명 정원
+💰 69만원 평생수강 · K1 카톡방 락인
+📩 카카오 채널로 1탭 상담
+
+프로필 링크 → 카카오 채널
+
+#ARTbrows #아트브로우 #장미지원장 #극사실눈썹 #반영구학원 #14기이지클래스 #펜슬가이드 #원장직강 #평생수강 #서울반영구`;
+}
+
+function copyIgCaption(){
+  const text = buildIgCaption();
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast('✓ 캡션 복사됨 · 인스타에 붙여넣기', '#A8E6B3');
+  }, ()=>{
+    showToast('❌ 복사 실패 · 캡션 박스 직접 선택', '#FFAAAA');
+  });
+}
+
+// === 모비딕 자동 모드 패턴 — 단계별 진행 + 매 장 확인 ===
+const STYLE_NAME = {cream:'크림 살구',eyebrows:'아트브로우 (달력톤)',dark:'Luxury Dark',kbeauty:'K-Beauty',editorial:'Editorial',hand:'손글씨',y2k:'Y2K Pop'};
+const STYLE_KEYS = Object.keys(STYLE_NAME);
+const VARIANT_KEYS = ['default','slight','new','trendy','ai'];
+const IMG_KEYS = ['studio','ai','mix'];
+const ROLE_NAMES = ['표지','공감','답','차별','혜택','CTA'];
+
+let autoStep = 0;
+let autoChoices = []; // 각 장의 [style, variant, img]
+const pick = a => a[Math.floor(Math.random()*a.length)];
+
+function autoGenerate(){
+  // 한 세트 추천 (스타일은 6장 동일 유지 = 캐러셀 일관성)
+  const s = pick(STYLE_KEYS), v = pick(VARIANT_KEYS), m = pick(IMG_KEYS);
+  applyChoice(s, v, m);
+  autoStep = 0;
+  autoChoices = Array(6).fill([s, v, m]);
+  openAutoModal();
+  startStep(0);
+}
+
+function applyChoice(s, v, m){
+  document.body.dataset.style = s;
+  document.querySelectorAll('#styleChips .chip-btn').forEach(b=>b.classList.toggle('sel', b.dataset.s===s));
+  document.getElementById('curStyle').textContent = STYLE_NAME[s];
+  curVariant = v;
+  document.getElementById('vName').textContent = VARIANT_NAMES[v];
+  document.getElementById('curVariant').textContent = VARIANT_NAMES[v];
+  curImg = m;
+  document.getElementById('imgName').textContent = IMG_MODES[m].name;
+  render();
+}
+
+function openAutoModal(){
+  if(document.getElementById('autoModal')) return;
+  const m = document.createElement('div');
+  m.id = 'autoModal';
+  m.innerHTML = `
+    <div style="position:fixed;inset:0;background:rgba(11,9,7,0.85);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px">
+      <div style="background:#fff;border-radius:18px;max-width:760px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,0.5);font-family:Pretendard,sans-serif;position:relative;z-index:1">
+        <!-- 헤더 -->
+        <div style="padding:18px 24px;border-bottom:1px solid #F0D6CC;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:10.5px;color:#FF4D7E;font-weight:700;letter-spacing:3px;margin-bottom:3px">AI AUTO MODE</div>
+            <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#3D2818">✨ 6장 캐러셀 자동 제작</div>
+          </div>
+          <button onclick="closeAutoModal()" style="background:transparent;border:none;font-size:24px;color:#8B6452;cursor:pointer">×</button>
+        </div>
+        <!-- 진행 표시 -->
+        <div style="padding:18px 24px;background:#FAF6F0">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#8B6452;font-weight:700;margin-bottom:6px">
+            <span id="autoStepTxt">장 1/6 · 표지</span>
+            <span id="autoStatTxt">제작 중...</span>
+          </div>
+          <div style="height:6px;background:#F0D6CC;border-radius:4px;overflow:hidden">
+            <div id="autoBar" style="height:100%;background:linear-gradient(90deg,#FFB78A,#FF4D7E);border-radius:4px;width:0%;transition:width 0.5s"></div>
+          </div>
+          <div id="autoStepList" style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"></div>
+        </div>
+        <!-- 미리보기 영역 -->
+        <div id="autoPreview" style="padding:24px;background:#fff;text-align:center;min-height:200px"></div>
+        <!-- 액션 버튼 -->
+        <div id="autoActions" style="padding:14px 24px;border-top:1px solid #F0D6CC;display:flex;gap:8px;justify-content:flex-end;background:#FAF6F0"></div>
+        <!-- 옵션 변경 -->
+        <div style="padding:12px 24px;background:#fff;border-top:1px solid #F0D6CC;font-size:12px;color:#8B6452">
+          <b style="color:#3D2818">현재 선택:</b>
+          <span id="autoCurStyle" style="color:#FF4D7E;font-weight:700">${STYLE_NAME[document.body.dataset.style]||'크림 살구'}</span> ·
+          <span id="autoCurCopy" style="color:#FF4D7E;font-weight:700">${VARIANT_NAMES[curVariant]}</span> ·
+          <span id="autoCurImg" style="color:#FF4D7E;font-weight:700">${IMG_MODES[curImg].name}</span>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+}
+
+function closeAutoModal(){
+  const m = document.getElementById('autoModal');
+  if(m) m.remove();
+  autoStep = 0;
+}
+
+function startStep(i){
+  autoStep = i;
+  const s = autoChoices[i][0], v = autoChoices[i][1], m = autoChoices[i][2];
+  document.getElementById('autoStepTxt').textContent = `장 ${i+1}/6 · ${ROLE_NAMES[i]}`;
+  document.getElementById('autoStatTxt').textContent = '제작 중...';
+  document.getElementById('autoBar').style.width = `${(i/6)*100}%`;
+  renderStepList(i);
+  document.getElementById('autoPreview').innerHTML = `
+    <div style="font-size:14px;color:#5D4636;padding:30px">
+      <div style="font-size:32px;margin-bottom:10px">⏳</div>
+      <div><b>${ROLE_NAMES[i]}</b> 장 만드는 중...</div>
+      <div style="font-size:11px;color:#8B6452;margin-top:8px">스타일: ${STYLE_NAME[s]} · 카피: ${VARIANT_NAMES[v]} · 이미지: ${IMG_MODES[m].name}</div>
+    </div>
+  `;
+  document.getElementById('autoActions').innerHTML = '';
+  // 1.2초 후 완성
+  setTimeout(()=>showStepResult(i), 1200);
+}
+
+function renderStepList(cur){
+  document.getElementById('autoStepList').innerHTML = ROLE_NAMES.map((r,i)=>{
+    const bg = i<cur ? '#A8E6B3' : (i===cur ? '#FFB78A' : '#F0D6CC');
+    const ic = i<cur ? '✓' : (i===cur ? '•' : '·');
+    const c  = i<cur ? '#3D2818' : (i===cur ? '#3D2818' : '#A89A88');
+    return `<span style="background:${bg};color:${c};padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700">${ic} ${r}</span>`;
+  }).join('');
+}
+
+// 역할별 이미지 자동 디자인 (각 장마다 다른 컬러·아이콘·키워드)
+const ROLE_IMG = [
+  { bg:'linear-gradient(135deg,#FFD4B8,#FF8DA1)', icon:'14', kw:'EZ-CLASS', sub:'14기 모집' },
+  { bg:'linear-gradient(135deg,#8A8A84,#5A5A56)', icon:'?',  kw:'고민',     sub:'반영구 학원' },
+  { bg:'linear-gradient(135deg,#3D2818,#5D4636)', icon:'✏', kw:'30YR',    sub:'펜슬 노하우' },
+  { bg:'linear-gradient(135deg,#FF4D7E,#A875D9)', icon:'★', kw:'SIM',     sub:'시술 전 시뮬' },
+  { bg:'linear-gradient(135deg,#E0C088,#FFD966)', icon:'∞', kw:'69만',    sub:'평생수강' },
+  { bg:'linear-gradient(135deg,#A8E6B3,#7FB3FF)', icon:'→', kw:'KAKAO',   sub:'카톡 시작' }
+];
+
+function showStepResult(i){
+  const slide = SLIDES[curVariant][i];
+  const styleVal = document.body.dataset.style;
+  const img = ROLE_IMG[i];
+  document.getElementById('autoStatTxt').textContent = i<5 ? `✓ ${i+1}/6 완성 · 1.5초 후 다음 장 자동...` : `✓ 6/6 완성!`;
+  document.getElementById('autoBar').style.width = `${((i+1)/6)*100}%`;
+  document.getElementById('autoPreview').innerHTML = `
+    <div style="display:flex;gap:18px;align-items:center;justify-content:center">
+      <div style="flex:0 0 200px">
+        <div data-style="${styleVal}" style="aspect-ratio:4/5;background:${getPreviewBg(styleVal)};border-radius:10px;display:flex;flex-direction:column;text-align:center;color:${getPreviewColor(styleVal)};font-size:9px;position:relative;overflow:hidden">
+          <!-- 자동 이미지 영역 (35%) -->
+          <div style="height:38%;background:${img.bg};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3)">
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:36px;line-height:1">${img.icon}</div>
+            <div style="font-size:8.5px;letter-spacing:2.5px;font-weight:800;margin-top:2px">${img.kw}</div>
+            <div style="font-size:7px;opacity:0.85;margin-top:1px">${img.sub}</div>
+          </div>
+          <!-- 텍스트 영역 -->
+          <div style="flex:1;padding:10px 12px;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:7.5px;letter-spacing:1px;opacity:0.6">${slide.eyebrow}</div>
+            <div style="font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:13px;margin:4px 0;line-height:1.25">${slide.head}</div>
+            <div style="font-size:8px;line-height:1.4;opacity:0.85">${slide.body.replace(/<br>/g,' ').slice(0,55)}...</div>
+            <div style="margin-top:5px;font-size:7.5px;font-weight:700;color:#FF4D7E">${slide.cta}</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:left;flex:1;max-width:300px">
+        <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#3D2818;margin-bottom:6px">${i+1}장 · ${ROLE_NAMES[i]} 완성</div>
+        <div style="display:inline-block;background:${img.bg};color:#fff;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:700;margin-bottom:8px">${img.icon} ${img.kw} · ${img.sub}</div>
+        <div style="font-size:13px;color:#5D4636;line-height:1.65"><b>${slide.head.replace(/<[^>]+>/g,'').replace(/<br>/g,' ')}</b></div>
+        <div style="font-size:11.5px;color:#8B6452;margin-top:8px">${slide.body.replace(/<br>/g,' ')}</div>
+      </div>
+    </div>
+  `;
+  // === 진짜 자동: 1.5초 후 다음 장으로 ===
+  if (i < 5) {
+    document.getElementById('autoActions').innerHTML = `
+      <span style="font-size:11.5px;color:#8B6452;flex:1;align-self:center">⏳ 다음 장 자동 진행 중...</span>
+      <button onclick="closeAutoModal()" style="padding:9px 16px;background:#fff;border:1.5px solid #FAD7C7;color:#5D4636;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">✕ 중단</button>
+    `;
+    setTimeout(() => { if(document.getElementById('autoModal')) startStep(i+1); }, 1500);
+  } else {
+    // 마지막 = 「마무리」만
+    document.getElementById('autoActions').innerHTML = `
+      <span style="font-size:12px;color:#3D2818;font-weight:700;flex:1;align-self:center">✨ 6장 캐러셀 모두 완성!</span>
+      <button onclick="restartAuto()" style="padding:9px 16px;background:#fff;border:1.5px solid #FAD7C7;color:#5D4636;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">↻ 다시 자동</button>
+      <button onclick="finishAuto()" style="padding:9px 22px;background:#A8E6B3;color:#3D2818;border:none;border-radius:8px;font-weight:800;font-size:13.5px;cursor:pointer">✓ 완료 · 메인으로</button>
+    `;
+  }
+}
+
+function restartAuto(){
+  closeAutoModal();
+  setTimeout(autoGenerate, 200);
+}
+
+function getPreviewBg(s){
+  return {cream:'linear-gradient(180deg,#FAF6F0,#FAD7C7)',dark:'#0B0907',kbeauty:'linear-gradient(180deg,#FFF0F5,#F0E6FF)',editorial:'#fff',hand:'#F5EDE0',y2k:'linear-gradient(135deg,#1A0033,#330044)'}[s] || '#fff';
+}
+function getPreviewColor(s){
+  return {cream:'#3D2818',dark:'#F5EDE3',kbeauty:'#5D3F7A',editorial:'#000',hand:'#5C4A36',y2k:'#FFE5FF'}[s] || '#3D2818';
+}
+
+function continueStep(){
+  if(autoStep < 5) startStep(autoStep + 1);
+}
+function redoStep(){
+  // 같은 장만 다른 옵션으로 재시도
+  const s = pick(STYLE_KEYS.filter(x=>x!==autoChoices[autoStep][0])); // 다른 스타일
+  const v = pick(VARIANT_KEYS);
+  applyChoice(s, v, autoChoices[autoStep][2]);
+  autoChoices = autoChoices.map((c,i)=>i>=autoStep ? [s,v,c[2]] : c);
+  document.getElementById('autoCurStyle').textContent = STYLE_NAME[s];
+  document.getElementById('autoCurCopy').textContent = VARIANT_NAMES[v];
+  startStep(autoStep);
+}
+function changeStep(){
+  closeAutoModal();
+  alert('상단 칩에서 옵션 직접 변경 후 다시 ✨ 자동 생성 클릭');
+}
+// === 🔮 새 스타일 추천 (트렌드 분석 기반) ===
+const TREND_STYLES = [
+  { key:'mint',     name:'Neo Mint',         tag:'2026 K-Beauty 새 트렌드',         desc:'민트·라임 그라데이션 · 클린 뷰티 · 봄·여름 시즌 강력',
+    bg:'linear-gradient(180deg,#E0FFE5,#C5FFD8)', col:'#2D5C3F', acc:'#00B574', brand:'#00B574', font:"'Nanum Myeongjo',serif" },
+  { key:'sepia',    name:'Vintage Sepia',    tag:'레트로 회복 · 30대 향수 코어',     desc:'세피아·오크 톤 · 빈티지 매거진 톤 · 「오래된 진정성」',
+    bg:'linear-gradient(180deg,#F5E6D3,#D9B88A)', col:'#3D2818', acc:'#8B4513', brand:'#5C3317', font:"'Cormorant Garamond',serif" },
+  { key:'glass',    name:'Glass Morphism',   tag:'모바일 UI 2026 · 프리미엄',       desc:'반투명·블러 · 미니멀 · 애플 톤 · 차세대 럭셔리',
+    bg:'linear-gradient(135deg,rgba(200,220,255,0.6),rgba(255,200,230,0.4)),#F5F8FF', col:'#1A2238', acc:'#5B7DB1', brand:'#1A2238', font:"'Pretendard',sans-serif" },
+  { key:'sunset',   name:'Pastel Sunset',    tag:'2026 봄·여름 인스타 코어',         desc:'살구·라벤더·복숭아 그라데이션 · 신부·웨딩 시즌',
+    bg:'linear-gradient(135deg,#FFD4B8,#FFB8D4,#D4B8FF)', col:'#5D2F4A', acc:'#FF6B9D', brand:'#FF6B9D', font:"'Nanum Myeongjo',serif" },
+  { key:'cherry',   name:'Cherry Red',       tag:'발렌타인·기념 시즌 톤',           desc:'체리 레드 + 크림 · 강렬·따뜻 · 럭셔리 부티크 톤',
+    bg:'linear-gradient(180deg,#FFF5F5,#FFE0E0)', col:'#8B0000', acc:'#DC143C', brand:'#8B0000', font:"'Nanum Myeongjo',serif" },
+  { key:'matcha',   name:'Matcha Earth',     tag:'웰니스·자연주의 트렌드',          desc:'말차·테라코타·우드 · 「오가닉 럭셔리」 · 30대 여성',
+    bg:'linear-gradient(180deg,#E8E5D3,#C5B898)', col:'#3D3520', acc:'#7A8F4E', brand:'#5C6A2E', font:"'Cormorant Garamond',serif" },
+  { key:'midnight', name:'Midnight Velvet',  tag:'야간 럭셔리·이벤트 톤',           desc:'네이비·금색 · 우아·정중 · 야간 갤러리·VIP 행사 톤',
+    bg:'linear-gradient(180deg,#0F1B3D,#1A2A5C)', col:'#F5E6C8', acc:'#FFD700', brand:'#FFD700', font:"'Cormorant Garamond',serif" }
+];
+let recPool = [...TREND_STYLES];
+
+function recommendNewStyle(){
+  if(recPool.length === 0) recPool = [...TREND_STYLES];
+  // 모달 진행 표시
+  const m = document.createElement('div');
+  m.id = 'recModal';
+  m.innerHTML = `
+    <div style="position:fixed;inset:0;background:rgba(11,9,7,0.85);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px">
+      <div style="background:#fff;border-radius:18px;max-width:560px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.5);font-family:Pretendard,sans-serif;overflow:hidden;position:relative;z-index:1">
+        <div style="padding:18px 24px;border-bottom:1px solid #F0D6CC;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:10.5px;color:#7FB3FF;font-weight:700;letter-spacing:3px;margin-bottom:3px">TREND ANALYSIS</div>
+            <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:18px;color:#3D2818">🔮 새 스타일 추천</div>
+          </div>
+          <button onclick="document.getElementById('recModal').remove()" style="background:transparent;border:none;font-size:24px;color:#8B6452;cursor:pointer">×</button>
+        </div>
+        <div id="recBody" style="padding:30px 24px;text-align:center;min-height:220px">
+          <div style="font-size:36px;margin-bottom:14px">🔮</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:16px;color:#3D2818;margin-bottom:8px">2026-06 트렌드 분석 중...</div>
+          <div style="font-size:11.5px;color:#8B6452;line-height:1.7">
+            · 인스타 #극사실아트눈썹 · 1.2K 게시물 스캔<br>
+            · 중국 小红书 #超写实艺术眉 · 트렌드 컬러 추출<br>
+            · Vogue / Allure / Cosmopolitan 2026 봄·여름 트렌드
+          </div>
+        </div>
+        <div id="recActions" style="padding:14px 24px;border-top:1px solid #F0D6CC;display:flex;gap:8px;justify-content:flex-end;background:#FAF6F0"></div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+  setTimeout(showRecommendation, 1500);
+}
+
+function showRecommendation(){
+  const idx = Math.floor(Math.random()*recPool.length);
+  const t = recPool.splice(idx, 1)[0];
+  document.getElementById('recBody').innerHTML = `
+    <div style="text-align:left;padding:0 6px">
+      <div style="font-size:10.5px;color:#7FB3FF;font-weight:700;letter-spacing:2px;margin-bottom:4px">TREND DETECTED · 추천</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:24px;color:#3D2818;margin-bottom:6px">${t.name}</div>
+      <span style="display:inline-block;background:#FFE5D0;color:#3D2818;font-size:11px;font-weight:700;padding:4px 10px;border-radius:10px;margin-bottom:12px">${t.tag}</span>
+      <p style="font-size:13.5px;color:#5D4636;line-height:1.7;margin-bottom:16px">${t.desc}</p>
+      <!-- 미리보기 -->
+      <div style="background:${t.bg};color:${t.col};border-radius:12px;padding:24px 20px;text-align:center;font-family:${t.font};margin-bottom:6px">
+        <div style="font-size:10px;letter-spacing:2px;opacity:0.7;margin-bottom:6px">@artbrows_academy</div>
+        <div style="font-weight:900;font-size:24px;line-height:1.25;margin-bottom:8px">14기 이지클래스<br><span style="color:${t.acc}">모집 시작</span></div>
+        <div style="font-size:12px;margin-bottom:10px">장미지 원장 직강 · 9월 1일 OPEN</div>
+        <div style="display:inline-block;background:${t.acc};color:#fff;font-size:11px;font-weight:700;padding:7px 16px;border-radius:8px">카카오 채널로 신청</div>
+        <div style="margin-top:14px;font-weight:800;font-size:15px;color:${t.brand}">ARTbrows</div>
+      </div>
+      <p style="font-size:10.5px;color:#A89A88;text-align:center">↑ 표지 1장 미리보기 · 6장 모두 이 톤으로 적용 가능</p>
+    </div>
+  `;
+  document.getElementById('recActions').innerHTML = `
+    <button onclick="recommendNewStyle();" style="padding:9px 16px;background:#fff;border:1.5px solid #FAD7C7;color:#5D4636;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">↻ 다른 스타일</button>
+    <button onclick="applyNewStyle('${t.key}',${JSON.stringify(t).replace(/"/g,'&quot;')})" style="padding:9px 22px;background:linear-gradient(135deg,#A8E6B3,#7FB3FF);color:#3D2818;border:none;border-radius:8px;font-weight:800;font-size:13.5px;cursor:pointer">✓ 적용해보기</button>
+  `;
+  // 액션 버튼에서 JSON 인코딩 문제 회피 — window에 임시 저장
+  window._lastRec = t;
+  document.getElementById('recActions').querySelector('button:last-child').onclick = function(){ applyNewStyle(t.key, t); };
+}
+
+function applyNewStyle(key, t){
+  // 동적으로 CSS 추가
+  if(!document.getElementById('dyn-style-'+key)){
+    const st = document.createElement('style');
+    st.id = 'dyn-style-'+key;
+    st.textContent = `
+      body[data-style="${key}"] .slide-preview{background:${t.bg};color:${t.col};font-family:${t.font}}
+      body[data-style="${key}"] .slide-headline{color:${t.col}}
+      body[data-style="${key}"] .slide-headline em{color:${t.acc};font-style:normal}
+      body[data-style="${key}"] .slide-cta{background:${t.acc};color:#fff}
+      body[data-style="${key}"] .slide-brand{color:${t.brand}}
+      body[data-style="${key}"] .slide-body{color:${t.col};opacity:0.85}
+    `;
+    document.head.appendChild(st);
+  }
+  // 동적으로 스타일 칩 추가 (이미 있으면 skip)
+  const chips = document.getElementById('styleChips');
+  if(!chips.querySelector(`[data-s="${key}"]`)){
+    const btn = document.createElement('button');
+    btn.className = 'chip-btn';
+    btn.dataset.s = key;
+    btn.style.background = 'linear-gradient(135deg,#A8E6B3,#7FB3FF)';
+    btn.style.color = '#3D2818';
+    btn.style.borderColor = '#7FB3FF';
+    btn.innerHTML = `🔮 ${t.name}`;
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#styleChips .chip-btn').forEach(x=>x.classList.remove('sel'));
+      btn.classList.add('sel');
+      document.body.dataset.style = key;
+      document.getElementById('curStyle').textContent = t.name;
+    });
+    chips.appendChild(btn);
+  }
+  // STYLE_NAME에도 등록 (자동 생성 풀에 포함)
+  STYLE_NAME[key] = t.name;
+  if(!STYLE_KEYS.includes(key)) STYLE_KEYS.push(key);
+
+  // 즉시 적용
+  document.querySelectorAll('#styleChips .chip-btn').forEach(x=>x.classList.remove('sel'));
+  chips.querySelector(`[data-s="${key}"]`).classList.add('sel');
+  document.body.dataset.style = key;
+  document.getElementById('curStyle').textContent = t.name;
+
+  // 모달 닫고 토스트
+  document.getElementById('recModal').remove();
+  const toast = document.createElement('div');
+  toast.innerHTML = `🔮 <b>${t.name}</b> 스타일 추가됨 · 상단 칩에서 언제든 선택 가능`;
+  toast.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#7FB3FF;color:#fff;padding:12px 22px;border-radius:24px;font-weight:700;font-size:13px;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,0.3)';
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3000);
+}
+
+function finishAuto(){
+  closeAutoModal();
+  const toast = document.createElement('div');
+  toast.innerHTML = `✨ 6장 완성! <span style="opacity:0.8">📸 PNG 저장 또는 📤 인스타 게시 가능</span>`;
+  toast.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#A8E6B3;color:#3D2818;padding:12px 22px;border-radius:24px;font-weight:700;font-size:13px;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,0.3)';
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3000);
+}
+
+function cycleImageSrc(){
+  const order = ['studio','ai','mix','text'];
+  const i = order.indexOf(curImg);
+  curImg = order[(i+1) % order.length];
+  document.getElementById('imgName').textContent = IMG_MODES[curImg].name;
+  render();
+}
+
+function cycleVariant(){
+  const order = ['default','slight','new','trendy','ai'];
+  const i = order.indexOf(curVariant);
+  curVariant = order[(i+1) % order.length];
+  document.getElementById('vName').textContent = VARIANT_NAMES[curVariant];
+  document.getElementById('curVariant').textContent = VARIANT_NAMES[curVariant];
+  render();
+}
+
+// 스타일 변경
+document.querySelectorAll('#styleChips .chip-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#styleChips .chip-btn').forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+    const s=b.dataset.s;
+    document.body.dataset.style=s;
+    document.getElementById('curStyle').textContent=b.textContent;
+  });
+});
+
+render();
+
+// ═══════════════════════════════════════════════════
+// ⓐ 라이브러리 API 통합 (upload / library / generate-ai)
+// ═══════════════════════════════════════════════════
+
+const ENROLL_API = '/api/enrollment';
+const COURSE_OPTS    = ['공통','이지','소묘','눈썹','세트','종합','상담'];
+const BODY_PART_OPTS = ['공통','눈썹','아이라인','SMP','얼굴클로즈'];
+const TONE_OPTS      = ['밝은배경','어두운배경','얼굴클로즈','손','도구'];
+const ROLE_OPTS      = ['공통','표지','공감','답','프로세스','CTA'];
+
+async function refreshLibCount(){
+  try {
+    const r = await fetch(`${ENROLL_API}/library?limit=1`);
+    const d = await r.json();
+    document.getElementById('libCount').textContent = d.total || 0;
+  } catch(e){}
+}
+refreshLibCount();
+
+function _tagSelect(id, opts, def=''){
+  return `<select id="${id}" style="padding:8px 12px;border:1.5px solid #F0D6CC;border-radius:8px;background:#fff;color:#3D2818;font-size:13px;font-family:inherit">
+    <option value="">-- 선택 --</option>
+    ${opts.map(o=>`<option value="${o}" ${o===def?'selected':''}>${o}</option>`).join('')}
+  </select>`;
+}
+
+function _modalShell(id, title, bodyHTML, footerHTML){
+  document.getElementById(id)?.remove();
+  const m = document.createElement('div');
+  m.id = id;
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(11,9,7,0.75);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px';
+  m.onclick = e => { if(e.target===m) m.remove(); };
+  m.innerHTML = `<div style="background:#FFFBF5;border-radius:16px;max-width:720px;width:100%;max-height:90vh;overflow:auto;padding:26px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.35)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="font-family:'Nanum Myeongjo',serif;color:#3D2818;font-size:22px;font-weight:900;margin:0">${title}</h3>
+      <button onclick="document.getElementById('${id}').remove()" style="background:none;border:none;font-size:26px;color:#8B6452;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div>${bodyHTML}</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid #F0D6CC">${footerHTML}</div>
+  </div>`;
+  document.body.appendChild(m);
+  return m;
+}
+
+// ─── 업로드 모달 ───
+function openUploadModal(){
+  const body = `
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">강의</span>${_tagSelect('u_course', COURSE_OPTS, '공통')}</label>
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">시술 부위</span>${_tagSelect('u_body_part', BODY_PART_OPTS)}</label>
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">톤</span>${_tagSelect('u_tone', TONE_OPTS)}</label>
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">슬라이드 용도</span>${_tagSelect('u_role', ROLE_OPTS)}</label>
+      </div>
+      <div id="dropZone" style="border:2.5px dashed #E8B872;border-radius:12px;padding:32px;text-align:center;background:#FFF9F0;cursor:pointer" onclick="document.getElementById('u_files').click()">
+        <div style="font-size:48px">📁</div>
+        <div style="font-size:15px;color:#5D4636;font-weight:700;margin-top:8px">파일을 드래그하거나 클릭</div>
+        <div style="font-size:12px;color:#8B6452;margin-top:4px">여러 장 동시 업로드 · 최대 15MB/장 · PNG·JPG·WEBP</div>
+        <input type="file" id="u_files" multiple accept="image/png,image/jpeg,image/webp,image/gif" style="display:none">
+        <div id="u_preview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;justify-content:center"></div>
+      </div>
+      <div id="u_status" style="font-size:13px;color:#8B6452;text-align:center;min-height:18px"></div>
+    </div>`;
+  const footer = `
+    <button onclick="document.getElementById('uploadModal').remove()" style="padding:10px 18px;background:#fff;border:1.5px solid #F0D6CC;color:#5D4636;border-radius:8px;font-weight:700;cursor:pointer">취소</button>
+    <button onclick="doUpload()" style="padding:10px 24px;background:linear-gradient(135deg,#7FB37F,#5C9C5C);color:#fff;border:none;border-radius:8px;font-weight:900;cursor:pointer">📤 업로드</button>`;
+  const m = _modalShell('uploadModal', '📤 이미지 업로드', body, footer);
+  const inp = m.querySelector('#u_files');
+  const zone = m.querySelector('#dropZone');
+  const prev = m.querySelector('#u_preview');
+  const showPreview = files => {
+    prev.innerHTML = '';
+    [...files].slice(0,12).forEach(f=>{
+      const url = URL.createObjectURL(f);
+      prev.innerHTML += `<img src="${url}" style="width:64px;height:64px;object-fit:cover;border-radius:6px;border:1.5px solid #F0D6CC">`;
+    });
+  };
+  inp.onchange = () => showPreview(inp.files);
+  zone.ondragover = e => { e.preventDefault(); zone.style.background='#FFE8D0'; };
+  zone.ondragleave = () => zone.style.background='#FFF9F0';
+  zone.ondrop = e => {
+    e.preventDefault(); zone.style.background='#FFF9F0';
+    const dt = new DataTransfer();
+    [...e.dataTransfer.files].forEach(f => dt.items.add(f));
+    inp.files = dt.files;
+    showPreview(inp.files);
+  };
+}
+
+async function doUpload(){
+  const inp = document.getElementById('u_files');
+  const status = document.getElementById('u_status');
+  if(!inp.files.length){ status.textContent = '❌ 파일을 선택해주세요'; status.style.color='#c00'; return; }
+  const fd = new FormData();
+  [...inp.files].forEach(f => fd.append('files', f));
+  ['course','body_part','tone','role'].forEach(k => fd.append(k, document.getElementById('u_'+k).value));
+  status.textContent = `⏳ 업로드 중… (${inp.files.length}장)`;
+  status.style.color = '#8B6452';
+  try {
+    const r = await fetch(`${ENROLL_API}/upload`, { method:'POST', body: fd });
+    const d = await r.json();
+    if(!r.ok || !d.ok){ throw new Error(d.detail || 'unknown'); }
+    status.textContent = `✅ ${d.count}장 업로드 완료`;
+    status.style.color = '#5C9C5C';
+    refreshLibCount();
+    setTimeout(()=>document.getElementById('uploadModal').remove(), 1200);
+  } catch(e){
+    status.textContent = '❌ 업로드 실패: ' + e.message;
+    status.style.color = '#c00';
+  }
+}
+
+// ─── 라이브러리 모달 ───
+async function openLibraryModal(){
+  const body = `
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:12px;color:#8B6452;font-weight:700">필터:</span>
+        ${_tagSelect('f_course', COURSE_OPTS)}
+        ${_tagSelect('f_role', ROLE_OPTS)}
+        <select id="f_source" style="padding:8px 12px;border:1.5px solid #F0D6CC;border-radius:8px;background:#fff;color:#3D2818;font-size:13px">
+          <option value="">전체 소스</option>
+          <option value="upload">📤 업로드</option>
+          <option value="ai">✨ AI 생성</option>
+          <option value="master">🎨 마스터</option>
+        </select>
+        <button onclick="loadLibrary()" style="padding:8px 16px;background:#FF4D7E;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12.5px">🔍 조회</button>
+      </div>
+      <div id="libGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-height:52vh;overflow-y:auto;padding:4px">
+        <div style="grid-column:1/-1;text-align:center;color:#8B6452;padding:40px 0">불러오는 중…</div>
+      </div>
+      <div id="libStatus" style="font-size:12px;color:#8B6452;text-align:center"></div>
+    </div>`;
+  const footer = `<button onclick="document.getElementById('libraryModal').remove()" style="padding:10px 24px;background:#FF4D7E;color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer">닫기</button>`;
+  _modalShell('libraryModal', '📁 이미지 라이브러리', body, footer);
+  loadLibrary();
+}
+
+async function loadLibrary(){
+  const grid = document.getElementById('libGrid');
+  const status = document.getElementById('libStatus');
+  const qs = new URLSearchParams();
+  ['course','role','source'].forEach(k => {
+    const v = document.getElementById('f_'+k).value;
+    if(v) qs.append(k, v);
+  });
+  qs.append('limit','60');
+  try {
+    const r = await fetch(`${ENROLL_API}/library?${qs}`);
+    const d = await r.json();
+    if(!d.items?.length){
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#8B6452;padding:40px 0">📷 아직 없음 · 「📤 업로드」 또는 「✨ AI 새로」로 추가</div>';
+      status.textContent = `총 0장`;
+      return;
+    }
+    grid.innerHTML = d.items.map(it => {
+      const src = it.source==='ai' ? '✨' : it.source==='master' ? '🎨' : '📤';
+      const tags = [it.course, it.role].filter(Boolean).join('·');
+      return `<div style="border:1.5px solid #F0D6CC;border-radius:8px;overflow:hidden;background:#fff;position:relative">
+        <img src="${it.url}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer" onclick="pickLibImage('${it.url}')">
+        <div style="padding:6px 8px;font-size:11px;color:#5D4636;display:flex;justify-content:space-between;align-items:center;gap:4px">
+          <span>${src} ${tags||'-'}</span>
+          <button onclick="deleteLibImage(${it.id})" style="background:none;border:none;color:#c00;cursor:pointer;font-size:14px;padding:0">🗑</button>
+        </div>
+      </div>`;
+    }).join('');
+    status.textContent = `총 ${d.total}장 표시`;
+  } catch(e){
+    grid.innerHTML = `<div style="grid-column:1/-1;color:#c00">불러오기 실패: ${e.message}</div>`;
+  }
+}
+
+function pickLibImage(url){
+  // 6장 캐러셀 이미지로 지정 → localStorage 저장 + 재렌더
+  // 지금 편집 중인 슬라이드에 반영 (없으면 모든 슬라이드에 후보 적용)
+  showToast('🖼️ 라이브러리에서 선택 · 슬라이드 편집 모달에서 [원장님 자료] 시 자동 반영', '#E8B872');
+}
+
+async function deleteLibImage(id){
+  if(!confirm('이 이미지 삭제?')) return;
+  try {
+    const r = await fetch(`${ENROLL_API}/library/${id}`, { method:'DELETE' });
+    if(!r.ok) throw new Error('실패');
+    loadLibrary();
+    refreshLibCount();
+  } catch(e){
+    alert('삭제 실패: ' + e.message);
+  }
+}
+
+// ─── AI 새로 생성 모달 ───
+function openAIGenModal(){
+  const defaultPrompt = 'Luxury editorial portrait of Korean woman with hyperreal microblading eyebrows, warm rim light, brown hair, black tank top, cubic earring, dark background, close-up, cinematic';
+  const body = `
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">강의</span>${_tagSelect('a_course', COURSE_OPTS, '공통')}</label>
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">용도</span>${_tagSelect('a_role', ROLE_OPTS, '표지')}</label>
+        <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;color:#8B6452;font-weight:700">톤</span>${_tagSelect('a_tone', TONE_OPTS, '어두운배경')}</label>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:12px;color:#8B6452;font-weight:700">프롬프트 (영문 권장)</span>
+        <textarea id="a_prompt" rows="5" style="padding:10px 14px;border:1.5px solid #F0D6CC;border-radius:8px;background:#fff;color:#3D2818;font-size:13px;font-family:inherit;resize:vertical">${defaultPrompt}</textarea>
+      </label>
+      <div style="font-size:12px;color:#8B6452;background:#FFF9F0;padding:10px 14px;border-radius:8px;border-left:3px solid #E8B872">
+        모델: <b>Google Imagen 4 Fast</b> · 종횡비 3:4 (인스타 세로) · 약 6초/장 소요
+      </div>
+      <div id="a_status" style="font-size:13px;color:#8B6452;text-align:center;min-height:18px"></div>
+      <div id="a_result" style="display:none;text-align:center">
+        <img id="a_img" style="max-width:280px;border-radius:8px;border:1.5px solid #F0D6CC">
+      </div>
+    </div>`;
+  const footer = `
+    <button onclick="document.getElementById('aiGenModal').remove()" style="padding:10px 18px;background:#fff;border:1.5px solid #F0D6CC;color:#5D4636;border-radius:8px;font-weight:700;cursor:pointer">닫기</button>
+    <button onclick="doAIGen()" id="a_gen_btn" style="padding:10px 24px;background:linear-gradient(135deg,#A875D9,#FF4D7E);color:#fff;border:none;border-radius:8px;font-weight:900;cursor:pointer">✨ 생성</button>`;
+  _modalShell('aiGenModal', '✨ AI 이미지 새로 생성', body, footer);
+}
+
+async function doAIGen(){
+  const status = document.getElementById('a_status');
+  const btn = document.getElementById('a_gen_btn');
+  const prompt = document.getElementById('a_prompt').value.trim();
+  if(!prompt){ status.textContent = '❌ 프롬프트를 입력해주세요'; status.style.color='#c00'; return; }
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  status.textContent = '⏳ Imagen 4 생성 중 (약 6초)…';
+  status.style.color = '#8B6452';
+  const body = {
+    prompt,
+    course: document.getElementById('a_course').value,
+    role:   document.getElementById('a_role').value,
+    tone:   document.getElementById('a_tone').value,
+  };
+  try {
+    const r = await fetch(`${ENROLL_API}/generate-ai`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body),
+    });
+    const d = await r.json();
+    if(!d.ok || !d.url){
+      throw new Error(d.error || d.note || 'AI 응답 불량');
+    }
+    status.textContent = `✅ 저장 완료 · id=${d.id} · ${(d.file_size/1024).toFixed(0)}KB`;
+    status.style.color = '#5C9C5C';
+    document.getElementById('a_img').src = d.url;
+    document.getElementById('a_result').style.display = 'block';
+    refreshLibCount();
+  } catch(e){
+    status.textContent = '❌ 실패: ' + e.message;
+    status.style.color = '#c00';
+  } finally {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+}
+
+function showToast(msg, color='#3D2818'){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:${color};color:#fff;padding:12px 20px;border-radius:8px;z-index:1000;font-weight:700;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,0.2)`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2200);
+}
+</script>
+
+</body>
+</html>

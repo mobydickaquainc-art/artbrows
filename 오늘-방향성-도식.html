@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 방향성 — 2026-06-15</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap');
+:root{
+  --apricot:#FBEAE2;--cream:#FFFBF5;--ink:#2A1D1A;--muted:#9A6A5E;
+  --coral:#FF7A66;--hotpink:#FF6F84;--gold:#E8B872;--line:#F0D6CC;--plum:#5A3A4A;
+  --c1:#FF6F84;--c2:#FF9F66;--c3:#E8B872;--c4:#5BAE8A;--c5:#6E8FD6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--apricot);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.65;min-height:100vh;padding:30px 18px}
+.serif{font-family:'Nanum Myeongjo',serif}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HEADER */
+.top{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.top a{color:var(--ink);text-decoration:none;font-weight:800;font-size:16px}
+.top a span{color:var(--coral)}
+.top .sep{color:var(--muted)}
+.eyebrow{letter-spacing:.4em;font-size:11px;color:var(--coral);font-weight:800;text-align:center}
+h1.title{text-align:center;font-size:42px;font-weight:400;margin:10px 0 8px}
+.subtitle{text-align:center;color:var(--muted);font-size:14px;margin-bottom:34px}
+.subtitle b{color:var(--ink)}
+
+/* PURPOSE BLOCK */
+.purpose{background:var(--ink);color:#FFE6DD;border-radius:20px;padding:24px 28px;text-align:center;margin-bottom:14px;box-shadow:0 10px 30px rgba(42,29,26,.18)}
+.purpose .lbl{font-size:11px;letter-spacing:.4em;color:var(--coral);font-weight:800;margin-bottom:6px}
+.purpose .big{font-size:22px;font-weight:800}
+.purpose .big span{color:var(--coral)}
+.arrow{text-align:center;font-size:28px;color:var(--coral);font-weight:800;margin:6px 0}
+
+/* GOAL BLOCK */
+.goal{background:var(--cream);border:2px dashed var(--coral);border-radius:18px;padding:18px 26px;text-align:center;margin-bottom:30px}
+.goal .lbl{font-size:11px;letter-spacing:.4em;color:var(--hotpink);font-weight:800;margin-bottom:4px}
+.goal .txt{font-size:17px;font-weight:700}
+.goal .txt b{color:var(--hotpink)}
+
+/* AXES GRID */
+.axes-head{text-align:center;margin:28px 0 18px}
+.axes-head .e{letter-spacing:.4em;font-size:11px;color:var(--coral);font-weight:800}
+.axes-head h2{font-size:26px;font-weight:400;margin-top:6px}
+.axes-head h2 b{color:var(--hotpink);font-weight:800}
+
+.axes{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+.axis{background:var(--cream);border-radius:18px;padding:18px 16px;box-shadow:0 6px 18px rgba(232,169,155,.16);border-top:5px solid var(--c1);position:relative;display:flex;flex-direction:column}
+.axis:nth-child(1){border-top-color:var(--c1)}
+.axis:nth-child(2){border-top-color:var(--c2)}
+.axis:nth-child(3){border-top-color:var(--c3)}
+.axis:nth-child(4){border-top-color:var(--c4)}
+.axis:nth-child(5){border-top-color:var(--c5)}
+.axis .num{position:absolute;top:-14px;left:14px;background:#fff;border:2px solid var(--ink);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+.axis h3{font-size:15.5px;font-weight:800;margin:8px 0 6px;line-height:1.35}
+.axis .one{font-size:12px;color:var(--muted);margin-bottom:10px;min-height:32px}
+.axis ul{list-style:none;font-size:12.5px}
+.axis li{position:relative;padding-left:12px;margin:4px 0;color:#4a3530}
+.axis li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--coral)}
+.axis .chip{display:inline-block;background:var(--apricot);color:var(--ink);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:999px;margin-top:auto}
+
+/* CHANNEL MAP */
+.channel{background:var(--cream);border-radius:18px;padding:22px;margin-bottom:24px;box-shadow:0 6px 18px rgba(232,169,155,.14)}
+.channel h3{font-size:18px;font-weight:800;margin-bottom:14px;text-align:center}
+.channel h3 span{color:var(--coral)}
+.ch-row{display:grid;grid-template-columns:140px 1fr 1fr 1fr;gap:10px;align-items:center;padding:10px 8px;border-bottom:1px solid var(--line);font-size:13px}
+.ch-row.head{font-weight:800;background:var(--apricot);border-radius:10px;border-bottom:none;margin-bottom:6px}
+.ch-row .ch{font-weight:800}
+.ch-row .ch .flag{display:inline-block;background:var(--ink);color:#FFD9CF;font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-right:6px}
+.ch-row .ch .flag.cn{background:#C8102E;color:#fff}
+.ch-row .ch .flag.us{background:#0A3161;color:#fff}
+.ch-row .ch .flag.kr{background:var(--hotpink);color:#fff}
+
+/* PENDING */
+.pending{background:linear-gradient(135deg,#FFF1ED,#FBEAE2);border:1px dashed var(--hotpink);border-radius:18px;padding:22px 26px;margin-bottom:24px}
+.pending h3{font-size:16px;font-weight:800;color:var(--hotpink);margin-bottom:12px}
+.pending ul{list-style:none}
+.pending li{position:relative;padding-left:22px;margin:6px 0;font-size:13.5px;font-weight:600}
+.pending li::before{content:"?";position:absolute;left:0;top:-1px;width:18px;height:18px;border-radius:50%;background:var(--hotpink);color:#fff;text-align:center;font-size:12px;font-weight:900;line-height:18px}
+
+/* TIMELINE */
+.timeline{background:var(--cream);border-radius:18px;padding:22px;margin-bottom:24px;box-shadow:0 6px 18px rgba(232,169,155,.14)}
+.timeline h3{font-size:18px;font-weight:800;margin-bottom:18px;text-align:center}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tl-step{position:relative;padding:14px 12px;background:var(--apricot);border-radius:12px;font-size:12.5px}
+.tl-step .when{display:block;font-weight:800;color:var(--coral);font-size:11.5px;margin-bottom:4px;letter-spacing:.1em}
+.tl-step b{font-weight:800;display:block;margin-bottom:4px}
+
+footer{text-align:center;padding:24px;color:var(--muted);font-size:12.5px}
+footer a{color:var(--hotpink);font-weight:800;text-decoration:none}
+
+@media(max-width:900px){
+  .axes{grid-template-columns:repeat(2,1fr)}
+  .ch-row{grid-template-columns:1fr;gap:4px;border-bottom:1px solid var(--line);padding:10px 6px}
+  .ch-row.head{display:none}
+  .tl{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .axes{grid-template-columns:1fr}
+  h1.title{font-size:30px}
+  .purpose .big{font-size:18px}
+}
+</style></head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a href="index.html">← ART<span>brows</span> 홈</a>
+    <span class="sep">/</span>
+    <span style="color:var(--muted);font-size:13px">오늘의 방향성</span>
+  </div>
+
+  <div class="eyebrow">TODAY'S STRATEGIC MAP</div>
+  <h1 class="title serif">오늘의 방향성</h1>
+  <p class="subtitle">2026-06-15 · 대표님 + 클로드 코드 정리 · <b>5축 전략</b></p>
+
+  <!-- 큰 목적 -->
+  <div class="purpose">
+    <div class="lbl">큰 목적</div>
+    <div class="big">한국 최고 <span>ARTbrows</span> 브랜드 → <span>글로벌</span> 확장</div>
+  </div>
+  <div class="arrow">▼</div>
+
+  <!-- 1차 목표 -->
+  <div class="goal">
+    <div class="lbl">1차 목표</div>
+    <div class="txt">인스타그램 → <b>프리미엄 소수정예 수강생 모집</b> (한·중·미 동시)</div>
+  </div>
+
+  <!-- 5축 -->
+  <div class="axes-head">
+    <div class="e">CORE AXES</div>
+    <h2 class="serif">오늘 결정한 <b>5축 전략</b></h2>
+  </div>
+
+  <div class="axes">
+
+    <div class="axis">
+      <div class="num">1</div>
+      <h3>일일 자동 포스팅</h3>
+      <div class="one">인스타·위챗에 매일 자동 발행되는 콘텐츠 파이프라인</div>
+      <ul>
+        <li>인스타 그리드·릴스</li>
+        <li>위챗 모멘트·공식계정</li>
+        <li>스케줄러 + AI 카피·이미지 자동 생성</li>
+        <li>웹앱 (기존 로드맵 연결)</li>
+      </ul>
+      <span class="chip" style="background:#FFE0E5;color:#C5365C">신규 결정</span>
+    </div>
+
+    <div class="axis">
+      <div class="num">2</div>
+      <h3>다채널 AI 자동 응답</h3>
+      <div class="one">광고 보고 들어온 문의를 24시간 1차 자동 응대 → 상담 신청 유도</div>
+      <ul>
+        <li>인스타 DM (한·영)</li>
+        <li>카카오 채널 (한)</li>
+        <li>위챗 챗봇 (중)</li>
+        <li>AI 전화 CS (모비딕 음성 에이전트 활용)</li>
+      </ul>
+      <span class="chip" style="background:#FFEDDC;color:#A85F1F">신규 결정</span>
+    </div>
+
+    <div class="axis">
+      <div class="num">3</div>
+      <h3>중국 진출 — 위챗</h3>
+      <div class="one">중화권 수강생 모집 / 위챗 광고 + 공식계정</div>
+      <ul>
+        <li>위챗 광고 (Moments Ads)</li>
+        <li>공식계정 운영</li>
+        <li>중문 콘텐츠 톤 정립</li>
+        <li>한국 시술 투어 패키지 연결 가능</li>
+      </ul>
+      <span class="chip" style="background:#FFF1DC;color:#946215">기획 단계</span>
+    </div>
+
+    <div class="axis">
+      <div class="num">4</div>
+      <h3>미국 진출 — LA</h3>
+      <div class="one">9월초 LA 시장조사 출장 → 영문 채널·미주 한인·아시안 아티스트 공략</div>
+      <ul>
+        <li><b>2026-09 초 LA 시장조사 방문</b></li>
+        <li>주별 PMU 라이선스 규제 사전조사</li>
+        <li>현지 파트너 살롱·아카데미 미팅</li>
+        <li>영문 랜딩·인스타 광고 준비</li>
+      </ul>
+      <span class="chip" style="background:#E2F3EC;color:#2F8C68">출장 확정</span>
+    </div>
+
+    <div class="axis">
+      <div class="num">5</div>
+      <h3>자동화 웹앱</h3>
+      <div class="one">위 1·2축을 운영하는 통합 운영 툴 — 기존 큰 로드맵</div>
+      <ul>
+        <li>블로그·인스타 콘텐츠 자동 생성</li>
+        <li>다국어(한·중·영) 멀티 채널 발행</li>
+        <li>AI 직원(이서연·유나) 통합 운영</li>
+        <li>대시보드 · 자동 보고</li>
+      </ul>
+      <span class="chip" style="background:#DEE7F8;color:#3358A8">기존 큰 그림</span>
+    </div>
+
+  </div>
+
+  <!-- 비주얼 톤 -->
+  <div class="purpose" style="background:linear-gradient(135deg,#2A1D1A,#5A3A4A);margin:0 0 24px;text-align:left;padding:24px 28px">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="flex:0 0 auto">
+        <div class="lbl">VISUAL TONE</div>
+        <div class="big" style="font-size:26px;line-height:1.3">전체 비주얼 = <span>리얼 극사실</span></div>
+      </div>
+      <div style="flex:1;min-width:240px;font-size:13.5px;color:#FFE6DD;line-height:1.7;padding-left:14px;border-left:2px solid var(--coral)">
+        <b style="color:var(--coral)">극사실눈썹 창시자</b>의 브랜드답게, 모든 채널의 이미지·영상은
+        일러스트·만화체 금지 → <b>사진급 극사실 톤</b>으로 통일.<br>
+        Higgsfield · Nano Banana Pro · Veo 3.1 사용 시 프롬프트 기본값: <b>photoreal / hyper-realistic / editorial</b>.
+      </div>
+    </div>
+  </div>
+
+  <!-- 채널 매트릭스 -->
+  <div class="channel">
+    <h3>채널별 운영 매트릭스 — <span>1·2축이 작동하는 그림</span></h3>
+    <div class="ch-row head"><div>채널</div><div>일일 자동 포스팅</div><div>AI 자동 응답</div><div>광고</div></div>
+    <div class="ch-row"><div class="ch"><span class="flag kr">KR</span>인스타 (한)</div><div>피드·릴스·스토리</div><div>DM 한국어 봇</div><div>Meta Ads</div></div>
+    <div class="ch-row"><div class="ch"><span class="flag kr">KR</span>카카오 채널</div><div>주 2~3회</div><div>카카오 챗봇</div><div>비즈보드(선택)</div></div>
+    <div class="ch-row"><div class="ch"><span class="flag cn">CN</span>위챗</div><div>모멘트·공식계정 매일</div><div>위챗 챗봇(중문)</div><div>Moments Ads</div></div>
+    <div class="ch-row"><div class="ch"><span class="flag us">US</span>인스타 (영)</div><div>피드·릴스·스토리</div><div>DM 영문 봇</div><div>Meta Ads(US)</div></div>
+    <div class="ch-row"><div class="ch"><span class="flag kr">KR</span>전화 인바운드</div><div>—</div><div>AI 음성 CS 에이전트</div><div>—</div></div>
+  </div>
+
+  <!-- 결정 대기 -->
+  <div class="pending">
+    <h3>결정 대기 (대표님 확정 필요)</h3>
+    <ul>
+      <li>위챗 공식계정 운영 주체 — 본사 직접 vs 중국 현지 파트너</li>
+      <li>LA 출장 일정 구체 (9월 며칠~며칠) · 동행 · 방문 후보 살롱/아카데미 리스트</li>
+      <li>AI 자동 응답 페르소나 — 이서연 통합 vs 채널별 분리</li>
+      <li>중문·영문 콘텐츠 톤 매뉴얼 — 한국 톤 그대로 vs 시장별 재가공</li>
+      <li>일일 자동 포스팅 시작 시점 — 한국 먼저 vs 한·중·미 동시</li>
+      <li>danzi 오늘 회의 내용 — ARTbrows 와 분리(현재 상태) vs 통합 로그</li>
+    </ul>
+  </div>
+
+  <!-- 타임라인 -->
+  <div class="timeline">
+    <h3>대략적 시간선 (잠정 — 확정 아님)</h3>
+    <div class="tl">
+      <div class="tl-step"><span class="when">6월~7월</span><b>한국 자동 포스팅 + DM 봇 1차</b>인스타 한국 자동화 먼저 작동</div>
+      <div class="tl-step"><span class="when">7월~8월</span><b>중문·영문 준비</b>위챗 공식계정 신청, 영문 랜딩</div>
+      <div class="tl-step"><span class="when">9월 초</span><b>LA 시장조사 출장</b>현지 파트너·라이선스 확인</div>
+      <div class="tl-step"><span class="when">10월~</span><b>한·중·미 동시 운영</b>웹앱으로 통합 운영</div>
+    </div>
+  </div>
+
+  <footer>
+    ARTbrows · 오늘의 방향성 · 2026-06-15<br>
+    <a href="index.html">홈으로</a> · <a href="ARTbrows-업무보고-대시보드.html">업무 대시보드</a> · <a href="회의록.html">회의록</a>
+  </footer>
+
+</div>
+</body></html>

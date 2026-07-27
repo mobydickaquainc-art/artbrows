@@ -1,0 +1,368 @@
+{
+  "id": "2026-07-21-founder-methodology-9530",
+  "title": "미술 기반 극사실 방법론 소개 (7장)",
+  "slug": "2026-07-21-founder-methodology-9530",
+  "status": "draft",
+  "createdAt": "2026-07-21T10:22:23.951Z",
+  "updatedAt": "2026-07-21T10:22:24.044Z",
+  "defaultLang": "ko",
+  "translations": {
+    "ko": {
+      "title": "미술 기반 극사실 방법론 소개 (7장)",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "VOL 15",
+          "brand": "ARTBROWS",
+          "headline": "미술적 접근의 \n극사실 눈썹",
+          "subheadline": "",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_03-2026-07-21T10-20-55.jpg",
+          "signatureLabel": "MIJI JANG · 2026",
+          "bottomLabel": "MIJI JANG · 2026"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "고객이 원하는 것은 \n그린 눈썹이 아니라 \n털 같은 눈썹이다",
+          "signature": "Miji Jang",
+          "signatureRole": "극사실눈썹 창시자"
+        },
+        {
+          "kind": "case-study-detail",
+          "category": "founder",
+          "eyebrow": "드로잉 연습",
+          "leftTitle": "미술 기반 교육",
+          "leftItems": [
+            "1. 엄격한 기초",
+            "2. 스마트폰 활용",
+            "3. 단체 연습",
+            "4. 자연광 활용",
+            "5. 얼굴 골격 분석"
+          ],
+          "rightHeadline": "진짜 머리카락이야",
+          "rightPrice": "패키지 199만",
+          "rightFootnote": "선릉/삼성 본원"
+        },
+        {
+          "kind": "macro-close-up",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_04-2026-07-21T10-20-56.jpg",
+          "overlayLabel": "HYPER REAL",
+          "quote": "결의 법칙 1234321",
+          "by": "ARTbrows"
+        },
+        {
+          "kind": "atelier-scene",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/8-_--2026-07-21T10-20-56.jpg",
+          "eyebrow": "아카데미 현장",
+          "headline": "소수에게만 직접 가르칩니다",
+          "bottomColumns": {
+            "본원": "선릉·삼성",
+            "경력": "20년+",
+            "수강생": "900여명"
+          }
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/uploads/KakaoTalk_20260715_184049391_01-2026-07-21T10-20-56.jpg",
+          "bottomLabel": "극사실 눈썹",
+          "topLabel": "프라이빗 교육"
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "headline": "미술학적 접근의 \n프리미엄 눈썹 교육",
+          "highlight": "프라이빗 클래스",
+          "signature": "ARTbrows",
+          "cta": "교육 상담 신청 →",
+          "ctaHref": "/enroll",
+          "subline": "지금 시작하세요"
+        }
+      ]
+    },
+    "en": {
+      "title": "",
+      "slides": []
+    },
+    "zh": {
+      "title": "",
+      "slides": []
+    }
+  },
+  "autoVariants": [
+    {
+      "index": 0,
+      "skeleton": {
+        "kind": "magazine-cover",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "magazine-cover",
+            "category": "founder",
+            "volume": "VOL 15",
+            "brand": "ARTBROWS",
+            "headline": "미술적 접근의 \n극사실 눈썹",
+            "subheadline": "",
+            "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_03-2026-07-21T10-20-55.jpg",
+            "signatureLabel": "MIJI JANG · 2026",
+            "bottomLabel": "MIJI JANG · 2026"
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "magazine-cover",
+            "category": "founder",
+            "volume": "ISSUE 2026.07",
+            "brand": "ARTBROWS",
+            "headline": "미술 기반 극사실 방법론 소개 (7장)",
+            "subheadline": "",
+            "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_03-2026-07-21T10-20-55.jpg",
+            "signatureLabel": "MIJI JANG · 2026"
+          }
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "skeleton": {
+        "kind": "pullquote-editorial",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "pullquote-editorial",
+            "category": "founder",
+            "quote": "고객이 원하는 것은 \n그린 눈썹이 아니라 \n털 같은 눈썹이다",
+            "signature": "Miji Jang",
+            "signatureRole": "극사실눈썹 창시자"
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "pullquote-editorial",
+            "category": "founder",
+            "quote": "고객이 원하는 것은\n그린 눈썹이 아니라\n털 같은 눈썹이다.",
+            "signature": "Miji Jang",
+            "signatureRole": "ARTBROWS FOUNDER · 20 YEARS"
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "skeleton": {
+        "kind": "case-study-detail",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "case-study-detail",
+            "category": "founder",
+            "eyebrow": "드로잉 연습",
+            "leftTitle": "미술 기반 교육",
+            "leftItems": [
+              "1. 엄격한 기초",
+              "2. 스마트폰 활용",
+              "3. 단체 연습",
+              "4. 자연광 활용",
+              "5. 얼굴 골격 분석"
+            ],
+            "rightHeadline": "진짜 머리카락이야",
+            "rightPrice": "패키지 199만",
+            "rightFootnote": "선릉/삼성 본원"
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "case-study-detail",
+            "category": "founder",
+            "eyebrow": "CURRICULUM · 미술 기반 극사실 방법론 소개 (7장)",
+            "leftTitle": "통합 커리큘럼",
+            "leftItems": [
+              {
+                "num": "01",
+                "text": "이지클래스 × 1회",
+                "sub": "5주 15h · 반영구 입문 정석"
+              },
+              {
+                "num": "02",
+                "text": "소묘 × 3회",
+                "sub": "눈썹결의 원리"
+              },
+              {
+                "num": "03",
+                "text": "극사실눈썹 × 5회",
+                "sub": "원장 시연 관찰 + 실습"
+              }
+            ],
+            "rightHeadline": "미술 기반 극사실 방법론 소개 (7장)",
+            "rightPrice": "890만원",
+            "rightFootnote": "6개월 + 추가 6개월 무제한 실습"
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "skeleton": {
+        "kind": "macro-close-up",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "macro-close-up",
+            "category": "founder",
+            "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_04-2026-07-21T10-20-56.jpg",
+            "overlayLabel": "HYPER REAL",
+            "quote": "결의 법칙 1234321",
+            "by": "ARTbrows"
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "macro-close-up",
+            "category": "founder",
+            "imageSrc": "/brand/uploads/KakaoTalk_20260715_183618396_04-2026-07-21T10-20-56.jpg",
+            "overlayLabel": "HYPER REAL",
+            "quote": "결이 살아있는 눈썹",
+            "by": "Miji Jang"
+          }
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "skeleton": {
+        "kind": "atelier-scene",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "atelier-scene",
+            "category": "founder",
+            "imageSrc": "/brand/uploads/8-_--2026-07-21T10-20-56.jpg",
+            "eyebrow": "아카데미 현장",
+            "headline": "소수에게만 직접 가르칩니다",
+            "bottomColumns": {
+              "본원": "선릉·삼성",
+              "경력": "20년+",
+              "수강생": "900여명"
+            }
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "atelier-scene",
+            "category": "founder",
+            "imageSrc": "/brand/uploads/8-_--2026-07-21T10-20-56.jpg",
+            "eyebrow": "SEONLEUNG · 원장 1:1 지도",
+            "headline": "손끝의 무게,\n30년 경력.",
+            "bottomColumns": [
+              {
+                "label": "본원",
+                "value": "선릉·삼성"
+              },
+              {
+                "label": "경력",
+                "value": "20년+"
+              },
+              {
+                "label": "수강 배출",
+                "value": "900여명"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "skeleton": {
+        "kind": "hero-portrait",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "hero-portrait",
+            "category": "founder",
+            "imageSrc": "/brand/uploads/KakaoTalk_20260715_184049391_01-2026-07-21T10-20-56.jpg",
+            "bottomLabel": "극사실 눈썹",
+            "topLabel": "프라이빗 교육"
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "hero-portrait",
+            "category": "founder",
+            "imageSrc": "/brand/uploads/KakaoTalk_20260715_184049391_01-2026-07-21T10-20-56.jpg",
+            "bottomLabel": "털 같은 눈썹"
+          }
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "skeleton": {
+        "kind": "cta-editorial",
+        "category": "founder",
+        "rationale": "Gemini·OpenAI 동시 생성 · 미술 기반 극사실 방법론 소개 (7장)"
+      },
+      "variants": [
+        {
+          "source": "openai",
+          "slide": {
+            "kind": "cta-editorial",
+            "category": "founder",
+            "headline": "미술학적 접근의 \n프리미엄 눈썹 교육",
+            "highlight": "프라이빗 클래스",
+            "signature": "ARTbrows",
+            "cta": "교육 상담 신청 →",
+            "ctaHref": "/enroll",
+            "subline": "지금 시작하세요"
+          }
+        },
+        {
+          "source": "hardcoded",
+          "slide": {
+            "kind": "cta-editorial",
+            "category": "founder",
+            "headline": "지금, 원장님과\n소수 정예로 시작하세요.",
+            "highlight": "소수 정예",
+            "signature": "Miji Jang",
+            "cta": "교육 상담 신청 →",
+            "ctaHref": "/enroll",
+            "subline": "선릉 본원 · 1:1 코칭"
+          }
+        }
+      ]
+    }
+  ]
+}

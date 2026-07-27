@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Face Lab v7 「펜슬 디지털 트윈」 — ARTbrows 진짜 상품</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.7;max-width:1200px;margin:0 auto}
+
+  /* Hero */
+  .hero{background:linear-gradient(180deg,#FAD7C7 0%,#F5C7AD 60%,#E8A99B 100%);padding:60px 40px 50px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;background:radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, transparent 60%);pointer-events:none}
+  .hero .chip{position:relative;display:inline-block;background:#3D2818;color:#FFB78A;font-weight:700;font-size:11.5px;letter-spacing:4px;padding:9px 22px;border-radius:24px;margin-bottom:18px}
+  .hero h1{position:relative;font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:48px;color:#3D2818;line-height:1.18;margin-bottom:14px}
+  .hero h1 em{color:#FF4D7E;font-style:normal;background:linear-gradient(180deg,transparent 65%,rgba(255,77,126,0.18) 65%);padding:0 6px}
+  .hero .lead{position:relative;font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:19px;color:#5D4636;max-width:760px;margin:0 auto;line-height:1.7}
+
+  /* TL;DR */
+  .tldr{background:#fff;border:3px solid #FF4D7E;border-radius:18px;padding:28px 32px;margin:36px 40px 24px;box-shadow:0 16px 50px rgba(255,77,126,0.15);position:relative}
+  .tldr::before{content:'★';position:absolute;top:-20px;left:30px;background:#FF4D7E;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .tldr h2{font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:24px;margin-bottom:14px}
+  .tldr p{font-size:16.5px;color:#3D2818;font-family:'Nanum Myeongjo',serif;font-weight:700;line-height:1.75}
+  .tldr p em{color:#FF4D7E;font-style:normal}
+
+  .body{padding:30px 40px}
+  section{margin-bottom:40px}
+  h2{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:26px;color:#3D2818;margin-bottom:16px;padding-bottom:10px;border-bottom:3px solid #FF4D7E}
+  h2 .num{font-family:'Cormorant Garamond',serif;color:#FF4D7E;margin-right:12px;font-size:32px}
+  h3{font-family:'Nanum Myeongjo',serif;color:#FF4D7E;font-size:19px;margin:18px 0 10px}
+
+  /* Insight grid */
+  .insight-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+  @media(max-width:900px){.insight-grid{grid-template-columns:1fr 1fr}}
+  .ins{background:#fff;border-radius:12px;padding:18px;text-align:center;box-shadow:0 4px 14px rgba(232,169,155,0.18);border-top:4px solid #FF4D7E}
+  .ins .num-big{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:#FF4D7E;line-height:1}
+  .ins .lbl{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:14px;color:#3D2818;margin-top:6px}
+  .ins .desc{font-size:12px;color:#8B6452;margin-top:4px;line-height:1.55}
+
+  /* PoC image */
+  .poc-wrap{background:#fff;border-radius:14px;padding:14px;box-shadow:0 14px 40px rgba(232,169,155,0.25);margin:18px 0}
+  .poc-wrap img{width:100%;border-radius:10px;display:block}
+  .poc-cap{font-size:13px;color:#8B6452;text-align:center;margin-top:10px;font-style:italic}
+
+  /* Flow */
+  .flow{display:flex;align-items:center;gap:6px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+  .flow .step{background:#fff;border:2px solid #FAD7C7;border-radius:12px;padding:14px 16px;flex:1;min-width:160px;text-align:center}
+  .flow .step .step-num{font-family:'Cormorant Garamond',serif;font-size:28px;color:#FF4D7E;font-weight:700;line-height:1}
+  .flow .step .step-title{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:14px;color:#3D2818;margin-top:4px}
+  .flow .step .step-desc{font-size:11.5px;color:#8B6452;margin-top:4px;line-height:1.5}
+  .flow .arrow{font-size:22px;color:#FF4D7E;font-weight:700}
+
+  /* Pricing */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+  @media(max-width:900px){.price-grid{grid-template-columns:1fr}}
+  .price-card{background:#fff;border-radius:14px;padding:24px;border-top:5px solid var(--c);box-shadow:0 6px 18px rgba(232,169,155,0.15);position:relative}
+  .price-card.free{--c:#A8E6B3}
+  .price-card.signup{--c:#FFB78A}
+  .price-card.consult{--c:#FF4D7E}
+  .price-card.signup::after{content:'★ 권장';position:absolute;top:-12px;right:18px;background:#FFB78A;color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px}
+  .price-card h3{color:var(--c);font-family:'Nanum Myeongjo',serif;font-size:20px;margin-bottom:8px}
+  .price-card .price{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:#3D2818;line-height:1}
+  .price-card .price-sub{font-size:12px;color:#8B6452;margin-top:2px}
+  .price-card .feat{margin:14px 0 0;padding:0;list-style:none;font-size:13px}
+  .price-card .feat li{padding:6px 0;color:#5D4636;border-bottom:1px dashed #F0D6CC}
+  .price-card .feat li:last-child{border-bottom:0}
+  .price-card .feat li::before{content:'✓ ';color:var(--c);font-weight:700}
+
+  /* Timeline */
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(232,169,155,0.12)}
+  th,td{padding:12px 14px;text-align:left;font-size:13.5px;border-bottom:1px solid #F0D6CC}
+  th{background:#FAD7C7;color:#3D2818;font-weight:700;font-size:12px;letter-spacing:1px}
+  td.win{color:#5BAE8A;font-weight:700}
+
+  /* CTA */
+  .cta{background:linear-gradient(135deg,#3D2818,#5D4636);color:#FAD7C7;border-radius:18px;padding:36px 32px;text-align:center;margin-top:30px}
+  .cta h2{color:#FFB78A;border:none;font-size:28px;padding:0}
+  .cta p{font-size:15px;margin:14px 0 22px;color:#F5C7AD}
+  .cta .btn{display:inline-block;background:#FF4D7E;color:#fff;font-weight:700;font-size:16px;padding:14px 32px;border-radius:30px;text-decoration:none;box-shadow:0 8px 24px rgba(255,77,126,0.4)}
+
+  footer{margin-top:36px;padding:24px 40px;background:#3D2818;color:#FAD7C7;text-align:center;font-size:12px}
+  footer a{color:#FFB78A}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="chip">FACE LAB v7 · 진짜 상품 · D-Day 06/29</div>
+  <h1>원장님 펜슬을<br><em>모바일로 미리 받으세요</em></h1>
+  <p class="lead">시술실 가시기 전에 — ARTbrows 30년 노하우의<br>「펜슬 가이드」를 휴대폰으로 먼저 받아보세요</p>
+</div>
+
+<div class="tldr">
+  <h2>왜 「펜슬」인가</h2>
+  <p>ARTbrows는 시술 전 <em>원장님이 직접 펜슬로 미리 그려드립니다</em>.<br>
+  결과가 거의 똑같이 나오기 때문에 <em>클레임 거의 없고 만족도 압도적</em>.<br>
+  다른 곳에선 거의 안 합니다 — 이게 「극사실」의 진짜 뿌리입니다.<br>
+  <strong>Face Lab v7은 그 펜슬을 모바일로 옮긴 도구입니다.</strong></p>
+</div>
+
+<!-- ★★★ 상품 스펙 3대 핵심 (회의 중 원장님 합의) -->
+<div style="background:#3D2818;color:#FAD7C7;border-radius:18px;padding:28px 32px;margin:24px 40px;box-shadow:0 14px 40px rgba(61,40,24,0.2)">
+  <h2 style="color:#FFB78A;border:none;font-size:22px;padding:0;margin-bottom:18px;font-family:'Nanum Myeongjo',serif">★★★ 상품 스펙 3대 핵심 (회의 합의)</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+    <div style="background:rgba(255,184,138,0.12);border-radius:12px;padding:18px;border-top:4px solid #FFB78A">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:#FFB78A;font-weight:700;line-height:1">①</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#FFB78A;margin-top:4px">입력 — 정면 + 측면</div>
+      <p style="font-size:13px;color:#FAD7C7;margin-top:8px;line-height:1.7">단일 정면 셀카 X. <strong>정면 + 측면 사진 2장</strong> 업로드 → 더 정밀한 얼굴 분석. 측면이 있어야 눈썹 입체감·아치 곡률·뼈 구조 반영 가능.</p>
+    </div>
+    <div style="background:rgba(255,77,126,0.12);border-radius:12px;padding:18px;border-top:4px solid #FF4D7E">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:#FF4D7E;font-weight:700;line-height:1">②</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#FF4D7E;margin-top:4px">처리 — 원장님 패턴 DB ★</div>
+      <p style="font-size:13px;color:#FAD7C7;margin-top:8px;line-height:1.7"><strong>장미지 원장님의 30년 시술 패턴을 우리가 저장</strong>. 사용자 얼굴 → 패턴 라이브러리 매칭 → 원장님이 그렸을 그 모습. ARTbrows의 핵심 IP.</p>
+    </div>
+    <div style="background:rgba(168,230,179,0.12);border-radius:12px;padding:18px;border-top:4px solid #A8E6B3">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:#A8E6B3;font-weight:700;line-height:1">③</div>
+      <div style="font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:16px;color:#A8E6B3;margin-top:4px">출력 — 2D + 3D 둘 다</div>
+      <p style="font-size:13px;color:#FAD7C7;margin-top:8px;line-height:1.7"><strong>2D 펜슬 가이드 PNG</strong> (인스타 공유) + <strong>3D 인터랙티브 모델</strong> (360° 회전 model-viewer). 사용자 취향에 따라 둘 다 가능.</p>
+    </div>
+  </div>
+</div>
+
+<div class="body">
+
+<!-- A. 핵심 인사이트 -->
+<section>
+  <h2><span class="num">A</span>핵심 인사이트 4 (원장님 직접 발언)</h2>
+  <div class="insight-grid">
+    <div class="ins"><div class="num-big">01</div><div class="lbl">시술 전 펜슬 가이드</div><div class="desc">시술 결과랑 거의 똑같이 미리 그려준다</div></div>
+    <div class="ins"><div class="num-big">02</div><div class="lbl">클레임 거의 0</div><div class="desc">손님 결과 동의 후 시술 → 분쟁 없음</div></div>
+    <div class="ins"><div class="num-big">03</div><div class="lbl">업계 차별점</div><div class="desc">다른 곳에선 거의 하지 않는다</div></div>
+    <div class="ins"><div class="num-big">04</div><div class="lbl">「극사실」의 뿌리</div><div class="desc">이런 식 교육 = 펜슬 정확성 = 극사실</div></div>
+  </div>
+</section>
+
+<!-- B. PoC -->
+<section>
+  <h2><span class="num">B</span>★ PoC — 원장님 펜슬 가이드 (실사 톤)</h2>
+  <div class="poc-wrap">
+    <img src="face-lab/demo/v7-pencil-guide.png" alt="ARTbrows 시술 전 펜슬 가이드 PoC">
+    <p class="poc-cap">↑ nano_banana_pro 1.5크 · Vogue Korea editorial 톤 · 「시술 결과가 거의 똑같이 나오기 직전」 펜슬 가이드 미리보기</p>
+  </div>
+</section>
+
+<!-- C. 상품 흐름 -->
+<section>
+  <h2><span class="num">C</span>상품 흐름 (사용자 5단계)</h2>
+  <div class="flow">
+    <div class="step"><div class="step-num">1</div><div class="step-title">정면 + 측면 사진 ★</div><div class="step-desc">셀카 2장 (정면·측면) · 10초</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-num">2</div><div class="step-title">얼굴 3D 분석</div><div class="step-desc">MediaPipe + 측면 = 입체 reconstruction</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-num">3</div><div class="step-title">원장님 패턴 DB 매칭 ★</div><div class="step-desc">장미지 원장 30년 시술 패턴 라이브러리</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-num">4</div><div class="step-title">2D + 3D 결과 ★</div><div class="step-desc">PNG 가이드 + 360° 회전 model</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-num">5</div><div class="step-title">상담 신청</div><div class="step-desc">카카오 채널 자동 연결</div></div>
+  </div>
+</section>
+
+<!-- D. 가격 -->
+<section>
+  <h2><span class="num">D</span>가격 정책 (상품 3 티어)</h2>
+  <div class="price-grid">
+    <div class="price-card free">
+      <h3>무료 미리보기</h3>
+      <div class="price">0원</div>
+      <div class="price-sub">계정 없이 1회</div>
+      <ul class="feat">
+        <li>사진 1장 분석</li>
+        <li>240 케이스 매트릭스 매칭</li>
+        <li>워터마크 「체험용」 박힘</li>
+        <li>저장 불가 · 즉시 결과 보기</li>
+      </ul>
+    </div>
+    <div class="price-card signup">
+      <h3>무료 계정 가입</h3>
+      <div class="price">0원</div>
+      <div class="price-sub">카카오 SSO 5초</div>
+      <ul class="feat">
+        <li>월 3회 무료 시뮬</li>
+        <li>최대 4 무드 환경 비교</li>
+        <li>결과 PNG 다운 가능</li>
+        <li>카톡으로 결과 공유 1탭</li>
+        <li>상담 신청 1탭 (가장 가까운 지점)</li>
+      </ul>
+    </div>
+    <div class="price-card consult">
+      <h3>상담 + 시뮬 풀</h3>
+      <div class="price">19,000원</div>
+      <div class="price-sub">상담 예약금 (시술 시 차감)</div>
+      <ul class="feat">
+        <li>월 무제한 시뮬</li>
+        <li>원장님 직접 펜슬 시뮬 매칭</li>
+        <li>3D MetaHuman 영화급 결과</li>
+        <li>대면 상담 30분 (오프라인)</li>
+        <li>시술 결정 시 예약금 100% 차감</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- E. 차별점 표 -->
+<section>
+  <h2><span class="num">E</span>경쟁 대비 차별점</h2>
+  <table>
+    <tr><th>항목</th><th>일반 살롱</th><th>유미코리아</th><th>ARTbrows Face Lab v7</th></tr>
+    <tr><td>시술 전 모습 미리보기</td><td>X 또는 손그림</td><td>참고 사진</td><td class="win">★ 원장님 펜슬 가이드 디지털 트윈</td></tr>
+    <tr><td>모바일 사전 시뮬</td><td>X</td><td>X 또는 단순 AI 합성</td><td class="win">★ MediaPipe + MetaHuman 영화급</td></tr>
+    <tr><td>30년 노하우 반영</td><td>없음</td><td>없음</td><td class="win">★ 240 케이스 매트릭스 + 원장님 패턴</td></tr>
+    <tr><td>클레임 사전 예방</td><td>약함</td><td>중간</td><td class="win">★ 시술 동의 명확 + 워터마크 가드</td></tr>
+    <tr><td>가격</td><td>대면만 가능</td><td>대면만 가능</td><td class="win">★ 무료 시뮬 + 상담 예약금만 19,000원</td></tr>
+  </table>
+</section>
+
+<!-- F. 개발 일정 -->
+<section>
+  <h2><span class="num">F</span>개발 일정 (3주 MVP)</h2>
+  <table>
+    <tr><th>주차</th><th>작업</th><th>담당</th><th>산출</th></tr>
+    <tr><td>W1 (06-30~07-06)</td><td>v6 MetaHuman 5종 + 펜슬 라인 overlay 알고리즘</td><td>김민서·클로드</td><td>5 페르소나 + 펜슬 라인 reference</td></tr>
+    <tr><td>W2 (07-07~07-13)</td><td>사용자 사진 업로드 → MediaPipe 분석 → 매칭 → 결과 PNG</td><td>한승철</td><td>실사용 가능 MVP</td></tr>
+    <tr><td>W3 (07-14~07-20)</td><td>카카오 SSO + 상담 신청 + 결제 (Toss 19,000원)</td><td>한승철</td><td>상품 완성 + 베타 출시</td></tr>
+    <tr><td class="win">07-21 (월)</td><td class="win">★ 베타 오픈 + 인스타 announce</td><td class="win">전직원</td><td class="win">실제 사용자 받기 시작</td></tr>
+  </table>
+</section>
+
+<!-- G. KPI -->
+<section>
+  <h2><span class="num">G</span>KPI (3개월 측정)</h2>
+  <div class="insight-grid">
+    <div class="ins"><div class="num-big" style="color:#5BAE8A">1만+</div><div class="lbl">무료 시뮬 사용자</div><div class="desc">3개월 누적 (인스타 트래픽)</div></div>
+    <div class="ins"><div class="num-big" style="color:#FFB78A">15%</div><div class="lbl">상담 전환율</div><div class="desc">유료 결제 1,500+ 명 목표</div></div>
+    <div class="ins"><div class="num-big" style="color:#FF4D7E">5,000만원</div><div class="lbl">예약금 수익</div><div class="desc">시뮬 → 결제 19,000원 × 2,500명</div></div>
+    <div class="ins"><div class="num-big" style="color:#A84658">90%</div><div class="lbl">시술 만족도</div><div class="desc">펜슬 가이드 일치도 측정</div></div>
+  </div>
+</section>
+
+</div>
+
+<div class="cta">
+  <h2>지금 베타 신청하기</h2>
+  <p>07-21 베타 오픈 — 첫 100명 무료 풀 시뮬 + 상담 무료</p>
+  <a class="btn" href="https://open.kakao.com/o/gWeAkSzi">카카오 채널로 베타 신청 →</a>
+</div>
+
+<footer>
+  <p>© ARTbrows 2026 · Face Lab v7 「펜슬 디지털 트윈」 · 진짜 상품 기획안</p>
+  <p style="margin-top:6px"><a href="index.html">← 메인 포털</a> · <a href="MetaHuman-활용가이드-20260629.html">MetaHuman 가이드</a> · <a href="face-lab/3d/v5-human.html">v5.8 결정타</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>개발 일지 — 장미지 연구소 · ARTbrows Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.65;font-size:14px;min-height:100vh}
+
+  .top{position:sticky;top:0;background:rgba(11,9,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #2A2A2A;padding:12px 28px;display:flex;align-items:center;gap:14px;z-index:100}
+  .top a{color:#E0C088;text-decoration:none;font-weight:700;font-size:13px}
+  .top .crumb{color:#5A5A56;font-size:12px}
+  .top .now{color:#E0C088;font-weight:700;font-size:12px}
+
+  .hero{padding:50px 28px 30px;text-align:center;background:radial-gradient(ellipse at top,rgba(224,192,136,0.06),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:10.5px;letter-spacing:4px;padding:7px 18px;border-radius:24px;margin-bottom:14px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:40px;line-height:1.18}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:19px;color:#CBC8C1;margin-top:10px}
+
+  .stats{max-width:1100px;margin:24px auto 0;padding:0 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:640px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:#161617;border:1px solid #2A2A2A;border-top:4px solid var(--c);border-radius:12px;padding:16px;text-align:center}
+  .stat.s1{--c:#FFB78A}
+  .stat.s2{--c:#E0C088}
+  .stat.s3{--c:#A8E6B3}
+  .stat.s4{--c:#7FB3FF}
+  .stat .v{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--c);line-height:1}
+  .stat .l{font-size:10px;color:#8A8A84;margin-top:5px;letter-spacing:2px;font-weight:700}
+
+  .container{max-width:920px;margin:36px auto 60px;padding:0 28px}
+
+  /* 타임라인 */
+  .timeline{position:relative;padding-left:36px}
+  .timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#E0C088,#2A2A2A)}
+
+  .entry{position:relative;margin-bottom:24px;background:#161617;border:1px solid #2A2A2A;border-radius:14px;padding:20px 22px;transition:all 0.2s}
+  .entry:hover{border-color:#E0C088;transform:translateX(2px)}
+  .entry::before{content:'';position:absolute;left:-31px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--dot,#E0C088);border:3px solid #0B0907;box-shadow:0 0 0 2px var(--dot,#E0C088)}
+  .entry.major{--dot:#FF4D7E}
+  .entry.feat{--dot:#E0C088}
+  .entry.fix{--dot:#A8E6B3}
+  .entry.deploy{--dot:#7FB3FF}
+
+  .entry-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+  .entry-date{font-family:'Cormorant Garamond',serif;font-size:14px;color:#E0C088;font-weight:700;letter-spacing:1px}
+  .entry-time{font-size:11px;color:#8A8A84;margin-left:4px}
+  .entry-tags{display:flex;gap:5px;flex-wrap:wrap}
+  .entry-tag{font-size:9.5px;background:rgba(224,192,136,0.1);color:#E0C088;padding:3px 8px;border-radius:6px;font-weight:700;letter-spacing:1px}
+  .entry-tag.major{background:rgba(255,77,126,0.15);color:#FF4D7E}
+  .entry-tag.feat{background:rgba(224,192,136,0.15);color:#E0C088}
+  .entry-tag.fix{background:rgba(168,230,179,0.15);color:#A8E6B3}
+  .entry-tag.deploy{background:rgba(127,179,255,0.15);color:#7FB3FF}
+
+  .entry h3{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:17px;color:#F5EDE3;margin-bottom:8px;line-height:1.35}
+  .entry h3 em{color:#E0C088;font-style:normal}
+
+  .entry .desc{font-size:13px;color:#CBC8C1;line-height:1.7;margin-bottom:12px}
+
+  .entry .items{list-style:none;margin:10px 0;padding:0}
+  .entry .items li{font-size:12.5px;color:#CBC8C1;padding:5px 0 5px 18px;position:relative;line-height:1.55}
+  .entry .items li::before{content:'▸';position:absolute;left:0;color:#E0C088;font-weight:700}
+  .entry .items li b{color:#F5EDE3}
+
+  .entry .links{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .entry .link{font-size:11.5px;color:#E0C088;background:rgba(224,192,136,0.08);padding:5px 11px;border-radius:6px;text-decoration:none;border:1px solid rgba(224,192,136,0.2);font-weight:700;letter-spacing:0.5px}
+  .entry .link:hover{background:rgba(224,192,136,0.15);border-color:#E0C088}
+
+  /* 결정 대기 박스 */
+  .pending{background:rgba(255,77,126,0.05);border:1px dashed #FF4D7E;border-radius:8px;padding:12px 14px;margin-top:10px}
+  .pending .ptitle{font-size:10px;color:#FF4D7E;font-weight:800;letter-spacing:2px;margin-bottom:6px}
+  .pending ul{list-style:none;padding:0}
+  .pending li{font-size:12px;color:#CBC8C1;padding:3px 0 3px 16px;position:relative}
+  .pending li::before{content:'?';position:absolute;left:0;color:#FF4D7E;font-weight:700}
+
+  footer{margin-top:50px;padding:24px;background:#080706;color:#8A8A84;text-align:center;font-size:11px;border-top:1px solid #2A2A2A}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a href="/static/lab.html">← 장미지 연구소</a>
+  <span class="crumb">/ 운영 / </span>
+  <span class="now">📔 개발 일지</span>
+</nav>
+
+<div class="hero">
+  <div class="chip">DEVELOPMENT JOURNAL · 작업 기록</div>
+  <h1>개발 <em>일지</em></h1>
+  <p class="lead">매 작업 기록 · 결정 추적 · 진척 가시화</p>
+</div>
+
+<div class="stats">
+  <div class="stat s1"><div class="v" id="cntTotal">5</div><div class="l">SaaS A LIVE</div></div>
+  <div class="stat s2"><div class="v">42<span style="font-size:14px">%</span></div><div class="l">전체 진척</div></div>
+  <div class="stat s3"><div class="v">7</div><div class="l">오늘 작업</div></div>
+  <div class="stat s4"><div class="v">19<span style="font-size:14px">/20</span></div><div class="l">테스트 PASS</div></div>
+</div>
+
+<div class="container">
+
+  <div class="timeline" id="timeline"></div>
+
+</div>
+
+<footer>
+  © 장미지 연구소 · ARTbrows Platform · 개발 일지 v1.0
+</footer>
+
+<script>
+const LOG = [
+  { date:'2026-06-30', time:'23:00', type:'major', tags:['마무리 회의','8 직원 발언'],
+    title:'🌙 8 직원 마무리 회의 — <em>오늘 수고했고 내일 Polish</em>',
+    desc:'대표님 「전직원 이야기 안 보임」 피드백 → 페르소나별 솔직 한 마디씩 + 내일 우선순위 투표.',
+    items:[
+      '<b>이서연</b> 🎯 — 만든 거만 보고 진짜 사용 안 함. 내일 카톡 시범 보내자.',
+      '<b>유나</b> 🎨 — 6 스타일 다 만들었지만 베스트 1개 정하고 싶음. K-Beauty 신부 시즌 강력.',
+      '<b>한승철</b> 💻 — 5개 페이지 다 mock. 「화려한 빈 시스템」. SQLite 1개라도 통합 필요.',
+      '<b>김민서</b> 📊 — lab.html 통계도 mock. 「오늘 신청 3명」 실시간 위젯.',
+      '<b>김다은</b> 📚 — SaaS A 5/5 자랑스러움. 단 공모전·PNG·인스타 작동 X. Polish 필요.',
+      '<b>박서윤</b> 📢 — 14기 광고 안 돌리면 회원 0. 광고 카피 자동 시작 제안.',
+      '<b>최예진</b> 🧪 — Face Lab 어려움. C 카드 SOON 비주얼만이라도 다듬자.',
+      '<b>클로드</b> ☁️ — 큰 마일스톤. 다들 박수. 👏'
+    ],
+    pending: {
+      title:'내일 최우선 투표',
+      items:['🔧 Polish 작업 (3표) ⭐ 1위', '💾 DB 통합 (2표)', '📢 SaaS B 광고 (1표)', '📤 인스타 실 게시 (1표)', '🧪 C 비주얼 (1표)']
+    }
+  },
+  { date:'2026-06-30', time:'저녁', type:'major', tags:['SaaS A 완성','마일스톤'],
+    title:'SaaS A · 학원·강의·홈페이지 = <em>5/5 LIVE</em> 완성',
+    desc:'5개 메뉴 모두 라이브 · ARTbrows Platform 첫 SaaS 100% 완성.',
+    items:[
+      '<b>📅 강의 일정 달력</b> — 6 스타일 즉시 변경 · AI 자동 채우기 · PNG 인스타 4:5 저장',
+      '<b>📝 수강 안내 6장 캐러셀</b> — 스타일 6 × 카피 5 × 이미지 4 · 진짜 자동 모드 · 🔮 트렌드 추천',
+      '<b>📚 마스터 작품집</b> — 원장님 6 작품 (★서명 3) + 5 강의 카테고리 + 모달 상세',
+      '<b>👥 회원 관리</b> — 3 등급 + 가입 2 모드 + K1 카톡방 + 검색·필터·등록',
+      '<b>🏆 공모전</b> — 진행 2 + 우승작 6 (출처 결정 대기)'
+    ],
+    links:[
+      {label:'📅 강의 일정', href:'/static/calendar.html'},
+      {label:'📝 수강 안내', href:'/static/enrollment.html'},
+      {label:'📚 마스터 작품집', href:'/static/master-works.html'},
+      {label:'👥 회원 관리', href:'/static/members.html'},
+      {label:'🏆 공모전', href:'/static/contest.html'}
+    ],
+    pending: {
+      title:'결정 대기',
+      items:['🏆 공모전 = 삭제 / 이벤트 / 갤러리 / 유지', 'PNG 저장 진짜 작동 시점', '인스타 게시 API 통합 여부', '회원 DB SQLite 통합 시점', '다음 SaaS = B 광고 / C Face Lab']
+    }
+  },
+
+  { date:'2026-06-30', time:'17:30', type:'deploy', tags:['도메인','SSL'],
+    title:'고정 도메인 <em>lab.staris.cloud</em> 확보',
+    desc:'Cloudflare Quick Tunnel (매번 URL 바뀜) → Vercel + 가비아 staris.cloud 고정 도메인.',
+    items:[
+      '가비아 DNS · CNAME <b>lab</b> → cname.vercel-dns.com',
+      '가비아 DNS · TXT <b>_vercel</b> → vc-domain-verify=lab.staris.cloud,c909eb2c262e290cf084',
+      'Vercel 자동 SSL 발급 (1~2분)',
+      'sosodamda.staris.cloud 가족 · 동일 패턴',
+      '카톡 즐겨찾기·인스타 프로필 등록 가능'
+    ],
+    links:[{label:'장미지 연구소', href:'/static/lab.html'}]
+  },
+
+  { date:'2026-06-30', time:'16:00', type:'feat', tags:['자동 모드','UX'],
+    title:'「✨ 자동 생성」 = <em>진짜 자동</em> + 이미지 포함',
+    desc:'단계별 확인 모드 폐기. 사용자 클릭 없이 6장 1.5초마다 자동 진행.',
+    items:[
+      '6장 캐러셀 = 1.2초 제작 + 1.5초 자동 다음 장 = 총 ~11초',
+      '각 장 = 역할별 자동 이미지 (살구 표지 · 다크 답 · 골드 혜택 · 초록 CTA)',
+      '사용자 = 「✕ 중단」만 가능',
+      '6장 끝 = 「↻ 다시 자동」 / 「✓ 완료 메인으로」'
+    ],
+    links:[{label:'📝 수강 안내', href:'/static/enrollment.html'}]
+  },
+
+  { date:'2026-06-30', time:'15:00', type:'feat', tags:['트렌드','AI'],
+    title:'「🔮 새 스타일 추천」 = <em>트렌드 분석 기반</em>',
+    desc:'마음에 드는 스타일 없을 때 = 한 클릭으로 새 스타일 1개 추천.',
+    items:[
+      '7 트렌드 풀: Neo Mint · Vintage Sepia · Glass Morphism · Pastel Sunset · Cherry Red · Matcha Earth · Midnight Velvet',
+      '추천 모달 (1.5초 분석 시뮬) → 1장 미리보기 + 「↻ 다른 스타일」 / 「✓ 적용해보기」',
+      '적용 시 상단 칩에 자동 추가 + 즉시 6장 캐러셀 적용'
+    ]
+  },
+
+  { date:'2026-06-30', time:'13:00', type:'feat', tags:['상세페이지 패턴','메뉴 구조'],
+    title:'장미지 연구소 = <em>부모 플랫폼</em> 구조 정립',
+    desc:'그때그때 HTML 만들기 X. 모비딕 base.html 패턴 응용 → 메뉴 안에서 한 메뉴씩.',
+    items:[
+      '상단 nav (로고 + 운영진 포털)',
+      '3 SaaS 카드 (A·B·C) + 메뉴 활성/SOON 분리',
+      '대시보드 → 메뉴 → 상세 흐름',
+      '카드 스타일 갤러리 6종 + 자동 적용'
+    ],
+    links:[{label:'장미지 연구소 메인', href:'/static/lab.html'}]
+  },
+
+  { date:'2026-06-30', time:'11:00', type:'fix', tags:['테스트','품질'],
+    title:'Playwright 자동 테스트 = <em>19/20 PASS</em>',
+    desc:'장미지 연구소 + 수강 안내 + 자동 모드 + 트렌드 추천 모든 흐름 검증.',
+    items:[
+      '메인 진입 OK · 6장 캐러셀 렌더 OK',
+      '스타일 6종 즉시 변경 OK · 카피 5종 순환 OK · 이미지 4종 순환 OK',
+      '자동 생성 모달 + 6장 끝까지 자동 진행 OK',
+      '새 스타일 추천 모달 + 트렌드 분석 + 적용 OK',
+      '1건 = Playwright actionability 트릭 (실제 사용 정상)'
+    ]
+  },
+
+  { date:'2026-06-30', time:'10:00', type:'feat', tags:['콘텐츠','일관성'],
+    title:'AI 직원 8명 회의 + 다음 단계 결정',
+    desc:'SaaS A 5/5 LIVE 후 다음 방향 = 페르소나 회의 후 「g 안전 path」 = 공모전 끝내고 SaaS A 완성.',
+    items:[
+      '이서연 (마케팅) — 인스타 실 게시 우선',
+      '유나 (디자인) — PNG 진짜 저장 우선',
+      '한승철 (개발) — DB 통합 우선',
+      '김민서 (운영) — 「오늘 할 일」 위젯',
+      '김다은 (PM A) — 공모전 끝내고 SaaS A 완성 ⭐ 채택',
+      '박서윤 (PM B) — SaaS B 광고 매출 직결',
+      '최예진 (PM C) — Face Lab 데모 비주얼',
+      '클로드 (총괄) — 술 깬 후 결정 추천 → 대표님 「g」 선택'
+    ]
+  }
+];
+
+document.getElementById('timeline').innerHTML = LOG.map(e => `
+  <div class="entry ${e.type}">
+    <div class="entry-head">
+      <div>
+        <span class="entry-date">${e.date}</span>
+        <span class="entry-time">${e.time}</span>
+      </div>
+      <div class="entry-tags">
+        ${e.tags.map(t => `<span class="entry-tag ${e.type}">${t}</span>`).join('')}
+      </div>
+    </div>
+    <h3>${e.title}</h3>
+    <p class="desc">${e.desc}</p>
+    ${e.items ? `<ul class="items">${e.items.map(i => `<li>${i}</li>`).join('')}</ul>` : ''}
+    ${e.links ? `<div class="links">${e.links.map(l => `<a class="link" href="${l.href}">${l.label} →</a>`).join('')}</div>` : ''}
+    ${e.pending ? `<div class="pending"><div class="ptitle">⚠️ ${e.pending.title}</div><ul>${e.pending.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` : ''}
+  </div>
+`).join('');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강의 스케줄 자동 — 원장님 달력 UI 데모 v1.0</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@100;200;300;400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Prata&family=Noto+Sans+KR:wght@100;300;400;700;900&family=Great+Vibes&family=Sacramento&family=Caveat:wght@700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:#FAF6F0;color:#3D2818;line-height:1.65;max-width:1100px;margin:0 auto;padding:24px}
+
+  .hero{background:linear-gradient(180deg,#FAD7C7,#F5C7AD);border-radius:16px;padding:28px 30px;margin-bottom:24px;text-align:center}
+  .chip{display:inline-block;background:#3D2818;color:#FFB78A;font-weight:700;font-size:10.5px;letter-spacing:3px;padding:6px 16px;border-radius:20px;margin-bottom:12px}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:30px;color:#3D2818;line-height:1.25}
+  h1 em{color:#FF4D7E;font-style:normal}
+  .lead{font-size:14px;color:#5D4636;margin-top:8px}
+
+  /* 컨트롤 바 */
+  .ctrl{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:12px;padding:14px 20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(232,169,155,0.15)}
+  .month-nav{display:flex;align-items:center;gap:12px}
+  .month-nav button{background:#FF4D7E;color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:16px;font-weight:700;cursor:pointer}
+  .month-nav button:hover{background:#3D2818}
+  .month-label{font-family:'Nanum Myeongjo',serif;font-size:22px;font-weight:800;color:#3D2818;min-width:130px;text-align:center}
+  .ctrl-actions{display:flex;gap:8px}
+  .ctrl-actions button{background:#FFB78A;color:#3D2818;border:none;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .ctrl-actions button:hover{background:#FF4D7E;color:#fff}
+
+  /* 달력 그리드 */
+  .cal{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 28px rgba(232,169,155,0.18);overflow:hidden}
+  .week-header{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px}
+  .week-header div{text-align:center;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:13px;color:#3D2818;padding:8px 0;background:#FAD7C7;border-radius:8px}
+  .week-header div.sun{color:#FF4D7E;background:#FFE5D0}
+  .week-header div.sat{color:#9FC8FF;background:#E9F0FA}
+
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .day{aspect-ratio:1/1.15;background:#FAF6F0;border-radius:10px;padding:10px;cursor:pointer;transition:all 0.18s;position:relative;display:flex;flex-direction:column;min-height:120px}
+  .day:hover{background:#FFE5D0;transform:scale(1.03);box-shadow:0 6px 16px rgba(255,184,138,0.3);z-index:1}
+  .day.empty{background:transparent;cursor:default}
+  .day.today{background:linear-gradient(135deg,#FFE5D0,#FAD7C7);border:2px solid #FF4D7E}
+  .day.sun .num{color:#FF4D7E}
+  .day.sat .num{color:#9FC8FF}
+  .day .num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#3D2818;line-height:1}
+  .day .events{margin-top:8px;display:flex;flex-direction:column;gap:4px;overflow:hidden;flex:1}
+  .day .event{background:#FF4D7E;color:#fff;font-size:13px;font-weight:800;padding:5px 8px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:26px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+  .day .event.beginner{background:#FFB78A;color:#3D2818}
+  .day .event.advanced{background:#3D2818}
+  .day .event.master{background:#FF4D7E}
+  .day .event.consult{background:#A8E6B3;color:#3D2818}
+  .day .event.custom{background:#FFD8A8;color:#3D2818;border:1.5px dashed #FF8A00}
+  .day .event.holiday{background:transparent;color:#B8A99A;font-weight:600;padding:2px 0;text-align:center;font-style:italic}
+
+  /* 반복 그룹 배경 이어짐 — 셀 padding(8) + gap(6) = 14px 을 margin 음수로 상쇄 */
+  .day{overflow:visible}
+  .day .events{overflow:visible}
+  .day .event.grp-start{border-top-right-radius:0;border-bottom-right-radius:0;margin-right:-16px;padding-right:22px;position:relative;z-index:2}
+  .day .event.grp-mid{border-radius:0;margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;text-align:center;position:relative;z-index:1}
+  .day .event.grp-end{border-top-left-radius:0;border-bottom-left-radius:0;margin-left:-16px;padding-left:22px;position:relative;z-index:1}
+  .day .more-cnt{font-size:10px;color:#8B6452;text-align:center;margin-top:2px}
+
+  /* 모달 */
+  .modal-bg{position:fixed;inset:0;background:rgba(61,40,24,0.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-bg.show{display:flex}
+  .modal{background:#fff;border-radius:20px;padding:28px 30px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.25)}
+  .modal h2{font-family:'Nanum Myeongjo',serif;font-size:24px;color:#3D2818;margin-bottom:6px}
+  .modal h2 em{color:#FF4D7E;font-style:normal}
+  .modal .modal-sub{font-size:13px;color:#8B6452;margin-bottom:18px}
+  .modal label{display:block;font-size:14px;color:#3D2818;font-weight:800;margin:16px 0 8px;letter-spacing:1px}
+  .modal input, .modal select, .modal textarea{width:100%;padding:14px 16px;border:1.5px solid #FAD7C7;border-radius:10px;font-family:inherit;font-size:16px;color:#3D2818;background:#FAF6F0;outline:none}
+  .modal input:focus, .modal select:focus, .modal textarea:focus{border-color:#FF4D7E;background:#fff}
+  .modal .time-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .modal .actions{display:flex;gap:10px;margin-top:26px}
+  .modal .btn{flex:1;padding:18px;border:none;border-radius:12px;font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;letter-spacing:1px}
+  .modal .btn.save{background:#FF4D7E;color:#fff}
+  .modal .btn.save:hover{background:#3D2818}
+  .modal .btn.cancel{background:#FAD7C7;color:#3D2818}
+  .modal .btn.delete{background:#fff;color:#FF4D7E;border:1.5px solid #FF4D7E}
+
+  .modal .list{margin-top:14px;background:#FAF6F0;border-radius:10px;padding:12px;max-height:200px;overflow-y:auto}
+  .modal .list-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff;border-radius:10px;margin-bottom:8px;border-left:5px solid var(--c);font-size:15px;transition:all 0.15s}
+  .modal .list-item.editable{cursor:pointer}
+  .modal .list-item.editable:hover{background:#FFF5EE;box-shadow:0 4px 12px rgba(255,77,126,0.15);transform:translateX(2px)}
+  .modal .list-item:last-child{margin-bottom:0}
+  .modal .list-item.beginner{--c:#FFB78A}
+  .modal .list-item.advanced{--c:#3D2818}
+  .modal .list-item.master{--c:#FF4D7E}
+  .modal .list-item.consult{--c:#A8E6B3}
+  .modal .list-item.custom{--c:#FF8A00}
+  .modal .list-item .name{font-weight:800;color:#3D2818;font-size:16px;line-height:1.4}
+  .modal .list-item .time{font-size:13px;color:#8B6452;margin-top:4px;font-weight:600}
+  .modal .list-item .del-btn{background:transparent;border:none;color:#FF4D7E;cursor:pointer;font-size:22px;font-weight:800;padding:4px 8px}
+  .modal .list-item .grp-badge{display:inline-block;margin-left:8px;background:#FFE5D0;color:#8B4513;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:8px;vertical-align:middle;letter-spacing:0.5px}
+  .modal .list-item .price-badge{display:inline-block;margin-left:6px;background:#FFF0F5;color:#C71585;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:8px;vertical-align:middle;letter-spacing:0.5px}
+  .modal .list-item .instructor-badge{display:inline-block;margin-left:6px;background:#E8F5E8;color:#2F7A2F;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:8px;vertical-align:middle;letter-spacing:0.5px}
+
+  /* ① 반복 모드 토글 */
+  .mode-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;background:#FAF6F0;padding:5px;border-radius:12px;margin-top:14px}
+  .mode-tab{padding:10px 8px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:#8B6452;border-radius:8px;cursor:pointer;transition:all 0.15s}
+  .mode-tab.active{background:#fff;color:#FF4D7E;box-shadow:0 2px 6px rgba(255,77,126,0.18)}
+  .mode-tab:hover:not(.active){color:#3D2818}
+  .mode-opts{background:#FFF5EE;border-radius:10px;padding:12px 14px 4px;margin-top:10px}
+  .mode-opts label:first-child{margin-top:0}
+  .range-row{display:flex;align-items:center;gap:10px}
+  .range-row input[type=number]{width:80px;flex:none}
+  .range-hint{font-size:12px;color:#8B6452}
+  .date-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .date-row label{margin-top:0;font-size:11px}
+  .date-row input[type=date]{width:100%;padding:11px 13px;border:1.5px solid #FAD7C7;border-radius:10px;font-family:inherit;font-size:13.5px;color:#3D2818;background:#fff;outline:none}
+  .date-row input[type=date]:focus{border-color:#FF4D7E}
+  .dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+  .dow-chip{position:relative;cursor:pointer}
+  .dow-chip input{position:absolute;opacity:0;pointer-events:none}
+  .dow-chip span{display:block;text-align:center;padding:10px 0;background:#fff;border:1.5px solid #FAD7C7;border-radius:8px;font-size:13px;font-weight:700;color:#8B6452;transition:all 0.15s}
+  .dow-chip input:checked + span{background:#FF4D7E;color:#fff;border-color:#FF4D7E}
+  .dow-chip:hover span{border-color:#FF4D7E}
+
+  /* 범례 */
+  .legend{display:flex;flex-wrap:wrap;gap:10px;background:#fff;border-radius:12px;padding:14px 18px;margin-top:14px;justify-content:center;font-size:12px;color:#5D4636}
+  .legend-item{display:flex;align-items:center;gap:6px}
+  .legend-item .dot{width:14px;height:14px;border-radius:4px}
+
+  /* 통계 */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+  @media(max-width:600px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:#fff;border-radius:12px;padding:14px 16px;text-align:center;box-shadow:0 4px 12px rgba(232,169,155,0.12);border-top:3px solid var(--c)}
+  .stat.s1{--c:#FF4D7E}
+  .stat.s2{--c:#FFB78A}
+  .stat.s3{--c:#A8E6B3}
+  .stat.s4{--c:#9FC8FF}
+  .stat .v{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--c);line-height:1}
+  .stat .l{font-size:11px;color:#8B6452;margin-top:2px}
+
+  footer{margin-top:24px;text-align:center;font-size:11px;color:#8B6452}
+  footer a{color:#FF4D7E}
+</style>
+</head>
+<body>
+
+<div style="background:#0B0907;padding:12px 24px;display:flex;align-items:center;gap:14px;margin:-24px -24px 16px;border-bottom:1px solid #2A2A2A">
+  <a href="/static/lab.html" style="color:#E0C088;text-decoration:none;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;font-family:Pretendard,sans-serif">
+    <span style="font-size:18px">←</span> 장미지 연구소
+  </a>
+  <span style="color:#5A5A56;font-size:12px;font-family:Pretendard,sans-serif">/ SaaS A · 학원·강의 / <strong style="color:#FFB78A">강의 일정 달력</strong></span>
+</div>
+
+<div class="hero">
+  <div class="chip">CLASS SCHEDULE · v1.0 DEMO · 원장님 직접 사용</div>
+  <h1>원장님 <em>강의 달력</em> · 클릭만 하시면 끝</h1>
+  <p class="lead">날짜 누르시면 일정이 추가됩니다. 매달 일일이 만드실 필요 없어요.</p>
+</div>
+
+<!-- 컨트롤 -->
+<div class="ctrl">
+  <div class="month-nav">
+    <button onclick="prevMonth()">‹</button>
+    <div class="month-label" id="monthLabel">2026 년 7 월</div>
+    <button onclick="nextMonth()">›</button>
+  </div>
+  <div class="ctrl-actions" style="position:relative">
+    <span id="sync-badge" title="서버 DB 에 저장되어 다른 기기에서도 조회 가능" style="display:none;background:#D4F5D4;color:#2F7A2F;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:1px;margin-right:4px;align-self:center">☁ 서버 연결됨</span>
+    <button onclick="location.href='/static/calendar-usage-guide.html'" style="background:#fff;color:#3D2818;border:1.5px solid #FF4D7E">? 사용법</button>
+    <button onclick="toggleStyleMenu()" style="background:#3D2818;color:#FFB78A">🎨 스타일 <span id="styleName">크림 살구</span> ▾</button>
+    <button onclick="exportPng()">📸 사진 저장</button>
+    <button onclick="publishToSNS()">📤 게시하기</button>
+
+    <!-- 스타일 드롭다운 -->
+    <div id="styleMenu" style="display:none;position:absolute;top:100%;right:0;margin-top:8px;background:#fff;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,0.25);padding:14px;min-width:300px;z-index:50">
+      <div style="font-size:11px;color:#8B6452;font-weight:700;letter-spacing:2px;margin-bottom:10px">2026-06 트렌드 6 스타일</div>
+      <div id="styleOptions" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button class="style-opt sel" data-s="cream" onclick="setStyle('cream')" style="background:linear-gradient(135deg,#FAF6F0,#FAD7C7);color:#3D2818;border:2px solid #FF4D7E;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:left">크림 살구<br><span style="font-size:10px;font-weight:400;opacity:0.7">기존 · 친근</span></button>
+        <button class="style-opt" data-s="dark" onclick="setStyle('dark')" style="background:#0B0907;color:#E0C088;border:2px solid transparent;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:left">Luxury Dark<br><span style="font-size:10px;font-weight:400;opacity:0.7">럭셔리</span></button>
+        <button class="style-opt" data-s="kbeauty" onclick="setStyle('kbeauty')" style="background:linear-gradient(135deg,#FFF0F5,#F0E6FF);color:#A875D9;border:2px solid transparent;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:left">K-Beauty<br><span style="font-size:10px;font-weight:400;opacity:0.7">파스텔 · 신부</span></button>
+        <button class="style-opt" data-s="editorial" onclick="setStyle('editorial')" style="background:#fff;color:#000;border:2px solid #000;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:left">Editorial<br><span style="font-size:10px;font-weight:400;opacity:0.7">Vogue · 미니멀</span></button>
+        <button class="style-opt" data-s="hand" onclick="setStyle('hand')" style="background:#F5EDE0;color:#8B5A3C;border:2px solid transparent;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:left">손글씨<br><span style="font-size:10px;font-weight:400;opacity:0.7">베이지 · 따뜻</span></button>
+        <button class="style-opt" data-s="y2k" onclick="setStyle('y2k')" style="background:linear-gradient(135deg,#1A0033,#330044);color:#00FFFF;border:2px solid transparent;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:left">Y2K Pop<br><span style="font-size:10px;font-weight:400;opacity:0.7">네온 · 중국</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* === 6 스타일 즉시 적용 === */
+body[data-style="dark"]{background:#0B0907;color:#F5EDE3}
+body[data-style="dark"] .hero{background:linear-gradient(180deg,#1A0E08,#0B0907);color:#E0C088}
+body[data-style="dark"] .hero h1,body[data-style="dark"] .hero h1 em{color:#E0C088}
+body[data-style="dark"] .hero .lead{color:#CBC8C1}
+body[data-style="dark"] .ctrl{background:#161617}
+body[data-style="dark"] .month-label{color:#E0C088}
+body[data-style="dark"] .cal{background:#161617;box-shadow:none;border:1px solid #2A2A2A}
+body[data-style="dark"] .week-header div{background:#0B0907;color:#E0C088}
+body[data-style="dark"] .day{background:#0B0907;color:#F5EDE3}
+body[data-style="dark"] .day .num{color:#F5EDE3}
+body[data-style="dark"] .legend{background:#161617;color:#CBC8C1}
+body[data-style="dark"] .stat{background:#161617;color:#F5EDE3}
+body[data-style="dark"] .stat .l{color:#CBC8C1}
+
+body[data-style="kbeauty"]{background:linear-gradient(180deg,#FFF0F5,#F0E6FF)}
+body[data-style="kbeauty"] .hero{background:linear-gradient(135deg,#FFB6D9,#D6B6FF);color:#5D3F7A}
+body[data-style="kbeauty"] .hero h1 em{color:#A875D9}
+body[data-style="kbeauty"] .cal{background:#fff}
+body[data-style="kbeauty"] .week-header div{background:#FFE0EB;color:#A875D9}
+body[data-style="kbeauty"] .day .event.master{background:linear-gradient(135deg,#FF8AA8,#D89AFF)}
+
+body[data-style="editorial"]{background:#fff;color:#000;font-family:'Bebas Neue','Pretendard',sans-serif}
+body[data-style="editorial"] .hero{background:#000;color:#fff}
+body[data-style="editorial"] .hero h1{font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
+body[data-style="editorial"] .hero h1 em{color:#FF0050}
+body[data-style="editorial"] .cal{background:#fff;border:2px solid #000;box-shadow:none}
+body[data-style="editorial"] .week-header div{background:#000;color:#fff;font-family:'Bebas Neue',sans-serif}
+body[data-style="editorial"] .day{background:#fff;border:1px solid #000;border-radius:0}
+body[data-style="editorial"] .day .event.master{background:#FF0050}
+body[data-style="editorial"] .day .event.beginner{background:#000;color:#fff}
+
+body[data-style="hand"]{background:#F5EDE0;color:#5C4A36;font-family:'Caveat','Pretendard',cursive}
+body[data-style="hand"] .hero{background:linear-gradient(180deg,#E8D8C0,#F5EDE0);color:#5C4A36}
+body[data-style="hand"] .hero h1{font-family:'Caveat',cursive;color:#8B5A3C}
+body[data-style="hand"] .hero h1 em{color:#C7855A}
+body[data-style="hand"] .cal{background:#FFFCF5;border:2px dashed #C8B89C;box-shadow:none}
+body[data-style="hand"] .week-header div{background:#E8D8C0;color:#5C4A36;font-family:'Caveat',cursive}
+body[data-style="hand"] .day{background:#FFFCF5;border:1px dashed #C8B89C}
+body[data-style="hand"] .day .event{font-family:'Caveat',cursive}
+
+body[data-style="y2k"]{background:linear-gradient(135deg,#1A0033,#330044);color:#FFE5FF}
+body[data-style="y2k"] .hero{background:linear-gradient(135deg,#FF00FF20,#00FFFF20);color:#FFE5FF}
+body[data-style="y2k"] .hero h1{background:linear-gradient(90deg,#FF00FF,#00FFFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+body[data-style="y2k"] .cal{background:rgba(0,255,255,0.04);border:1px solid #00FFFF;box-shadow:0 0 40px rgba(255,0,255,0.2)}
+body[data-style="y2k"] .week-header div{background:rgba(255,0,255,0.2);color:#FF00FF;border:1px solid #FF00FF}
+body[data-style="y2k"] .day{background:rgba(0,255,255,0.05);border:1px solid #00FFFF40;color:#FFE5FF}
+body[data-style="y2k"] .day .num{color:#FFE5FF}
+body[data-style="y2k"] .day .event.master{background:linear-gradient(135deg,#FF00FF,#FF0080)}
+
+.style-opt.sel{outline:2px solid #FF4D7E !important}
+
+/* 외부 클릭 시 드롭다운 닫기 위한 backdrop */
+.style-backdrop{position:fixed;inset:0;z-index:40;background:transparent}
+</style>
+
+<script>
+function toggleStyleMenu(){
+  const m=document.getElementById('styleMenu');
+  m.style.display=m.style.display==='none'?'block':'none';
+}
+function setStyle(s){
+  document.body.dataset.style=s;
+  document.querySelectorAll('.style-opt').forEach(b=>{
+    b.classList.toggle('sel',b.dataset.s===s);
+  });
+  const names={cream:'크림 살구',dark:'Luxury Dark',kbeauty:'K-Beauty',editorial:'Editorial',hand:'손글씨',y2k:'Y2K Pop'};
+  document.getElementById('styleName').textContent=names[s];
+  localStorage.setItem('artbrows-style',s);
+  document.getElementById('styleMenu').style.display='none';
+}
+// 저장된 스타일 복원
+const saved=localStorage.getItem('artbrows-style');
+if(saved){setStyle(saved);}
+// 외부 클릭 닫기
+document.addEventListener('click',e=>{
+  const m=document.getElementById('styleMenu');
+  if(m && m.style.display==='block' && !e.target.closest('.ctrl-actions')){m.style.display='none';}
+});
+</script>
+
+<!-- 달력 -->
+<div class="cal">
+  <div class="week-header">
+    <div class="sun">일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div class="sat">토</div>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- 범례 (동적 생성) -->
+<div class="legend" id="legend"></div>
+
+<!-- 통계 -->
+<div class="stats">
+  <div class="stat s1"><div class="v" id="stat-classes">12</div><div class="l">이번 달 수업 수</div></div>
+  <div class="stat s2"><div class="v" id="stat-students">36명</div><div class="l">예상 수강생</div></div>
+  <div class="stat s3"><div class="v" id="stat-revenue">2,484만</div><div class="l">예상 수익</div></div>
+  <div class="stat s4"><div class="v" id="stat-time">42시간</div><div class="l">총 강의 시간</div></div>
+</div>
+
+<!-- 모달 -->
+<div class="modal-bg" id="modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <h2><em id="modal-date">7월 1일</em> 일정</h2>
+    <p class="modal-sub">새 일정 추가 또는 기존 일정 관리</p>
+
+    <div id="event-list" class="list"></div>
+
+    <!-- ① 반복 모드 토글 -->
+    <div class="mode-tabs">
+      <button type="button" class="mode-tab active" data-mode="single" onclick="setMode('single')">하루</button>
+      <button type="button" class="mode-tab" data-mode="range" onclick="setMode('range')">기간</button>
+      <button type="button" class="mode-tab" data-mode="weekly" onclick="setMode('weekly')">요일 반복</button>
+    </div>
+
+    <!-- 기간 옵션 (시작~종료일) -->
+    <div id="range-opts" class="mode-opts" style="display:none">
+      <div class="date-row">
+        <div>
+          <label>시작일</label>
+          <input type="date" id="ev-range-start">
+        </div>
+        <div>
+          <label>종료일</label>
+          <input type="date" id="ev-range-end">
+        </div>
+      </div>
+      <p class="range-hint" id="range-hint" style="margin-top:6px">시작일부터 종료일까지 <b id="range-cnt">-</b>일치 일정이 자동으로 채워집니다.</p>
+    </div>
+
+    <!-- 요일 반복 옵션 (시작~종료일 사이 요일) -->
+    <div id="weekly-opts" class="mode-opts" style="display:none">
+      <label>반복 요일 (여러 개 선택 가능)</label>
+      <div class="dow-row">
+        <label class="dow-chip"><input type="checkbox" value="1"><span>월</span></label>
+        <label class="dow-chip"><input type="checkbox" value="2" checked><span>화</span></label>
+        <label class="dow-chip"><input type="checkbox" value="3" checked><span>수</span></label>
+        <label class="dow-chip"><input type="checkbox" value="4" checked><span>목</span></label>
+        <label class="dow-chip"><input type="checkbox" value="5"><span>금</span></label>
+        <label class="dow-chip"><input type="checkbox" value="6"><span>토</span></label>
+        <label class="dow-chip"><input type="checkbox" value="0"><span>일</span></label>
+      </div>
+      <div class="date-row">
+        <div>
+          <label>시작일</label>
+          <input type="date" id="ev-weekly-start">
+        </div>
+        <div>
+          <label>종료일</label>
+          <input type="date" id="ev-weekly-end">
+        </div>
+      </div>
+      <p class="range-hint" id="weekly-hint" style="margin-top:6px">기간 안의 선택 요일마다 자동으로 채워집니다 · <b id="weekly-cnt">-</b>개</p>
+    </div>
+
+    <!-- ② 수업 종류 (커스텀 특강 추가) -->
+    <label style="display:flex;justify-content:space-between;align-items:center">
+      <span>수업 종류</span>
+      <button type="button" onclick="openTypesManager()" style="background:#FF4D7E;color:#fff;border:none;font-size:12.5px;font-weight:800;cursor:pointer;padding:6px 12px;border-radius:16px;letter-spacing:0.3px;box-shadow:0 2px 6px rgba(255,77,126,0.35)" title="이름·시간·가격 직접 편집">⚙ 종류 관리 · 편집</button>
+    </label>
+    <select id="ev-type" onchange="onTypeChanged()"></select>
+
+    <!-- ② 자유 일정 제목 (커스텀 선택 시 표시) -->
+    <div id="custom-name-wrap" style="display:none">
+      <label>특강 제목</label>
+      <input type="text" id="ev-name" placeholder="예: 김희애 회원 1:1 특강, 신규 컬러 워크샵">
+    </div>
+
+    <div class="time-row">
+      <div>
+        <label>시작 시간</label>
+        <input type="time" id="ev-start" value="10:00">
+      </div>
+      <div>
+        <label>종료 시간</label>
+        <input type="time" id="ev-end" value="13:00">
+      </div>
+    </div>
+
+    <label style="display:flex;justify-content:space-between;align-items:center">
+      <span>이번 일정만 다른 요금 <span style="color:#8B6452;font-weight:400;font-size:11px">(선택 · 비워두면 기본 요금)</span></span>
+      <button type="button" onclick="useDefaultPrice()" style="background:transparent;border:none;color:#8B6452;font-size:11px;font-weight:700;cursor:pointer">↺ 기본으로</button>
+    </label>
+    <div style="position:relative">
+      <input type="number" id="ev-price" placeholder="예: 1500000" step="1000" min="0" style="padding-right:32px">
+      <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#8B6452;font-size:12.5px;pointer-events:none">원</span>
+    </div>
+
+    <label>강사 (선택 · 수석 졸업생 위임 시 이름)</label>
+    <input type="text" id="ev-instructor" placeholder="비워두면 원장님 직강 · 예: 김수석, 박수석">
+
+    <label>참고 메모 (선택)</label>
+    <input type="text" id="ev-memo" placeholder="예: 김희애 회원 1:1">
+
+    <!-- 실시간 미리보기 -->
+    <div id="preview-section" style="margin-top:16px;padding:12px 14px;background:#FFF5EE;border-radius:12px;border:1.5px dashed #FFB78A">
+      <div style="font-size:11px;font-weight:700;color:#8B4513;letter-spacing:2px;margin-bottom:8px">👁 미리보기</div>
+      <div id="preview-card"></div>
+      <div id="preview-summary" style="font-size:11.5px;color:#8B6452;margin-top:8px"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn cancel" id="btn-cancel" onclick="closeModal()">닫기</button>
+      <button class="btn save" id="btn-save" onclick="addEvent()">+ 일정 추가</button>
+    </div>
+    <div id="edit-hint" style="display:none;font-size:11.5px;color:#FF4D7E;margin-top:8px;text-align:center">✎ 편집 중 · 저장하면 기존 일정이 갱신됩니다</div>
+  </div>
+</div>
+
+<!-- 수업 종류 관리 모달 -->
+<div class="modal-bg" id="types-modal" onclick="if(event.target===this) closeTypesManager()">
+  <div class="modal" style="max-width:640px">
+    <h2>수업 종류 <em>관리</em></h2>
+    <p class="modal-sub">이름·시간·수강료를 직접 편집하시면 달력과 통계에 즉시 반영됩니다.</p>
+
+    <div id="types-list" style="margin-top:14px"></div>
+
+    <button type="button" onclick="addType()" style="width:100%;padding:12px;background:#FFE5D0;color:#8B4513;border:1.5px dashed #FF8A00;border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:10px">＋ 새 수업 종류 추가</button>
+
+    <div class="actions">
+      <button class="btn cancel" onclick="closeTypesManager()">취소</button>
+      <button class="btn save" onclick="saveTypesManager()">저장</button>
+    </div>
+    <p style="font-size:11.5px;color:#8B6452;margin-top:12px;text-align:center">💡 팁 — 기본 5종(초급·중급·마스터·상담·특강)은 이름과 시간·가격만 바꾸실 수 있습니다.<br>새로 추가한 종류만 완전히 삭제 가능합니다.</p>
+  </div>
+</div>
+
+<style>
+  #types-list .trow{background:#FAF6F0;border-radius:10px;padding:12px;margin-bottom:8px;border-left:5px solid var(--c,#FF4D7E)}
+  #types-list .trow.builtin{border-left-color:var(--c,#8B6452)}
+  #types-list .trow.new{border-left-color:#FF8A00;background:#FFF5EE}
+  #types-list .trow-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  #types-list .tag{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px;letter-spacing:0.5px}
+  #types-list .tag.b{background:#3D2818;color:#FFB78A}
+  #types-list .tag.n{background:#FF8A00;color:#fff}
+  #types-list .del-t{background:transparent;border:none;color:#FF4D7E;font-size:14px;font-weight:700;cursor:pointer}
+  #types-list .del-t[disabled]{color:#C2A9A0;cursor:not-allowed}
+  #types-list .fields{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px}
+  #types-list .fields input{padding:8px 10px;border:1.5px solid #FAD7C7;border-radius:8px;font-family:inherit;font-size:12.5px;color:#3D2818;background:#fff;outline:none;width:100%}
+  #types-list .fields input:focus{border-color:#FF4D7E}
+  #types-list .fields .lbl{font-size:10px;color:#8B6452;font-weight:700;letter-spacing:0.5px;margin-bottom:3px;display:block}
+  #types-list .fields > div{min-width:0}
+  @media(max-width:600px){#types-list .fields{grid-template-columns:1fr 1fr}}
+</style>
+
+<footer>
+  <p>© ARTbrows 2026 · 강의 스케줄 자동 데모 v1.0 (원장님 즉시 사용 가능) · localStorage 저장</p>
+  <p style="margin-top:6px"><a href="실행순서-우선순위-20260629.html">← 실행 순서</a> · <a href="platform.html">외부 진입</a> · <a href="index.html">운영진 포털</a></p>
+</footer>
+
+<script>
+// 수업 종류 — localStorage 저장, 원장님이 직접 편집·추가·삭제 가능
+// 원장님 실제 강의 3종 (2026-07-06 대표님 확정)
+// - 이지클래스 (초급): 99만원, 3시간, 일요일만 · 69→99만원 인상 후 홍보 부재로 이번달 0명 (이전 6-10명)
+// - 극사실 소묘: 66만원, 3일 연강, 11:00-18:00, 그림만 그림, 한달 1회 · 눈썹의 사전 커리큘럼
+// - 극사실 눈썹: 169만원, 11:00-18:00, 실습 가능 → 그래서 비쌈, 한달 1회 · 소묘 이후 진행
+const DEFAULT_TYPES = {
+  beginner: {name:'이지클래스',      price:990000,  hours:3, defaultStart:'10:00', defaultEnd:'13:00', color:'#FFB78A',
+             note:'초급 · 일요일만 · 3시간 · 파트너 계약 체결 · 파트너만 강의 (원장님 직강 아님)'},
+  drawing:  {name:'극사실 소묘',     price:660000,  hours:7, defaultStart:'11:00', defaultEnd:'18:00', color:'#3D2818',
+             note:'3일 연강 · 한달 1회 · 그림만 그림 · 눈썹 사전 커리큘럼'},
+  master:   {name:'★ 극사실 눈썹',   price:1690000, hours:7, defaultStart:'11:00', defaultEnd:'18:00', color:'#FF4D7E',
+             note:'한달 1회 · 실습 가능(그래서 비쌈) · 소묘 이후 진행'},
+  combo:    {name:'★★ 소묘+눈썹 세트', price:2350000, hours:7, defaultStart:'11:00', defaultEnd:'18:00', color:'#C71585',
+             note:'원장님 대표 상품 · 소묘+눈썹 엮음 · 66만+169만 = 235만원'},
+  fullpack: {name:'★★★ 종합 패키지',   price:6600000, hours:7, defaultStart:'11:00', defaultEnd:'18:00', color:'#8B008B',
+             note:'이지클래스 1 + 소묘 1 + 극사실 3 + 제거수업 + 레이저 = 660만원'},
+  consult:  {name:'상담',           price:19000,   hours:1, defaultStart:'10:00', defaultEnd:'11:00', color:'#A8E6B3',
+             note:''},
+  holiday:  {name:'휴무',           price:0,       hours:0, defaultStart:'00:00', defaultEnd:'23:59', color:'#E8E0D5',
+             note:''},
+  custom:   {name:'✎ 커스텀 특강',  price:0,       hours:2, defaultStart:'10:00', defaultEnd:'12:00', color:'#FFD8A8',
+             note:''}
+};
+const BUILTIN_IDS = ['beginner','drawing','master','combo','fullpack','consult','holiday','custom'];
+
+let TYPES = (function loadTypes(){
+  try {
+    const raw = localStorage.getItem('artbrows-types');
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_TYPES));
+    const parsed = JSON.parse(raw);
+    // 기본 5종 누락되면 채워 넣음 (예: 신규 배포로 새 built-in 추가된 경우)
+    BUILTIN_IDS.forEach(id => { if (!parsed[id]) parsed[id] = DEFAULT_TYPES[id]; });
+    return parsed;
+  } catch { return JSON.parse(JSON.stringify(DEFAULT_TYPES)); }
+})();
+
+function saveTypes(){
+  localStorage.setItem('artbrows-types', JSON.stringify(TYPES));
+}
+
+// 삭제된 종류 참조 시에도 안전
+function getType(id){
+  return TYPES[id] || {name:'(삭제된 종류)', price:0, hours:0, color:'#C2A9A0'};
+}
+
+function pickEventLabel(ev){
+  // 사용자 입력 라벨(title/name)이 있으면 우선 — PNG 렌더는 이걸 표시
+  if (ev.title) return ev.title;
+  if (ev.name)  return ev.name;
+  return getType(ev.type).name;
+}
+
+// 이벤트 요금 — override 있으면 우선
+function eventPrice(ev){
+  return (ev.overridePrice != null) ? ev.overridePrice : (getType(ev.type).price || 0);
+}
+function formatPrice(p){
+  if (p >= 10000) return (p/10000).toLocaleString(undefined,{maximumFractionDigits:1}) + '만원';
+  return p.toLocaleString() + '원';
+}
+
+// 인접 셀에 같은 그룹 이벤트가 있는지
+function groupPosition(y, mo, d, ev){
+  if (!ev.groupId) return '';
+  const dow = new Date(y, mo-1, d).getDay();
+  const prev = new Date(y, mo-1, d - 1);
+  const next = new Date(y, mo-1, d + 1);
+  const prevKey = `${prev.getFullYear()}-${prev.getMonth()+1}-${prev.getDate()}`;
+  const nextKey = `${next.getFullYear()}-${next.getMonth()+1}-${next.getDate()}`;
+  const hasPrev = (events[prevKey] || []).some(e => e.groupId === ev.groupId) && dow > 0;
+  const hasNext = (events[nextKey] || []).some(e => e.groupId === ev.groupId) && dow < 6;
+  if (hasPrev && hasNext) return 'grp-mid';
+  if (hasPrev) return 'grp-end';
+  if (hasNext) return 'grp-start';
+  return '';
+}
+
+function renderTypeOptions(){
+  const sel = document.getElementById('ev-type');
+  const prev = sel.value;
+  sel.innerHTML = '';
+  Object.entries(TYPES).forEach(([id, t]) => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    const priceLabel = t.price > 0 ? ` · ${t.price >= 10000 ? (t.price/10000).toFixed(0)+'만원' : t.price.toLocaleString()+'원'}` : '';
+    const hint = id === 'custom' ? ' (제목 직접 입력)' : `${priceLabel ? ' ('+t.hours+'시간'+priceLabel+')' : ''}`;
+    opt.textContent = t.name + hint;
+    sel.appendChild(opt);
+  });
+  if (prev && TYPES[prev]) sel.value = prev; else sel.value = 'master';
+}
+
+let currentMode = 'single';
+function setMode(m){
+  currentMode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=>b.classList.toggle('active', b.dataset.mode===m));
+  document.getElementById('range-opts').style.display = m==='range' ? 'block' : 'none';
+  document.getElementById('weekly-opts').style.display = m==='weekly' ? 'block' : 'none';
+  // 시작·종료일 기본값 자동 채우기 (clicked day 기준)
+  if (m === 'range' || m === 'weekly') seedDateInputs(m);
+  updateRangeCount();
+}
+
+function isoDate(y, mo, d){
+  return `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function seedDateInputs(m){
+  const startIso = isoDate(curYear, curMonth, selectedDate);
+  if (m === 'range') {
+    const s = document.getElementById('ev-range-start');
+    const e = document.getElementById('ev-range-end');
+    if (!s.value) s.value = startIso;
+    if (!e.value || new Date(e.value) < new Date(startIso)) {
+      const endDate = new Date(curYear, curMonth-1, selectedDate + 2);
+      e.value = isoDate(endDate.getFullYear(), endDate.getMonth()+1, endDate.getDate());
+    }
+  } else if (m === 'weekly') {
+    const s = document.getElementById('ev-weekly-start');
+    const e = document.getElementById('ev-weekly-end');
+    if (!s.value) s.value = startIso;
+    if (!e.value || new Date(e.value) < new Date(startIso)) {
+      const endDate = new Date(curYear, curMonth-1, selectedDate);
+      endDate.setDate(endDate.getDate() + 27); // 기본 4주
+      e.value = isoDate(endDate.getFullYear(), endDate.getMonth()+1, endDate.getDate());
+    }
+  }
+}
+
+function updateRangeCount(){
+  if (currentMode === 'range') {
+    const s = document.getElementById('ev-range-start').value;
+    const e = document.getElementById('ev-range-end').value;
+    const el = document.getElementById('range-cnt');
+    if (s && e) {
+      const diff = Math.floor((new Date(e) - new Date(s)) / 86400000) + 1;
+      el.textContent = diff > 0 ? diff : '0';
+    } else el.textContent = '-';
+  } else if (currentMode === 'weekly') {
+    const s = document.getElementById('ev-weekly-start').value;
+    const e = document.getElementById('ev-weekly-end').value;
+    const dows = Array.from(document.querySelectorAll('#weekly-opts input[type=checkbox]:checked')).map(c=>parseInt(c.value));
+    const el = document.getElementById('weekly-cnt');
+    if (s && e && dows.length) {
+      let cnt = 0;
+      const dt = new Date(s); const end = new Date(e);
+      while (dt <= end) {
+        if (dows.includes(dt.getDay())) cnt++;
+        dt.setDate(dt.getDate() + 1);
+      }
+      el.textContent = cnt;
+    } else el.textContent = '-';
+  }
+}
+function toggleCustomName(){
+  const t = document.getElementById('ev-type').value;
+  document.getElementById('custom-name-wrap').style.display = t==='custom' ? 'block' : 'none';
+}
+function onTypeChanged(){
+  toggleCustomName();
+  const t = TYPES[document.getElementById('ev-type').value];
+  if (t) {
+    if (t.defaultStart) document.getElementById('ev-start').value = t.defaultStart;
+    if (t.defaultEnd)   document.getElementById('ev-end').value   = t.defaultEnd;
+    const priceInput = document.getElementById('ev-price');
+    if (priceInput) {
+      priceInput.value = '';
+      priceInput.placeholder = `기본 ${(t.price||0).toLocaleString()}원 (다른 값 입력 시 이 일정만 적용)`;
+    }
+  }
+  refreshPreview();
+}
+function useDefaultPrice(){
+  document.getElementById('ev-price').value = '';
+  refreshPreview();
+}
+
+// ============ 편집 상태 ============
+let editingCtx = null;  // { key, idx, isGroup, groupId, originalEvs }
+
+function startEditEvent(listIdx){
+  const items = window._eventListItems || [];
+  const item = items[listIdx];
+  if (!item) return;
+  const ev = item.ev;
+  // 폼 채우기
+  document.getElementById('ev-type').value = ev.type;
+  toggleCustomName();
+  document.getElementById('ev-name').value = ev.name || '';
+  document.getElementById('ev-start').value = ev.start;
+  document.getElementById('ev-end').value = ev.end;
+  document.getElementById('ev-memo').value = ev.memo || '';
+  document.getElementById('ev-instructor').value = ev.instructor || '';
+  document.getElementById('ev-price').value = ev.overridePrice != null ? ev.overridePrice : '';
+  // 기간·요일반복 은 편집 시 「하루」로 설정 (그룹 전체를 새로 만드는 대신 하루 단위)
+  setMode('single');
+  // 편집 컨텍스트
+  editingCtx = {
+    key: item.key, idx: item.idx, isGroup: item.isGroup,
+    groupId: ev.groupId, originalEvs: item.groupEvs,
+  };
+  // 버튼 텍스트 · 취소 버튼 노출
+  document.getElementById('btn-save').textContent = item.isGroup ? '✓ 그룹 전체 저장' : '✓ 저장';
+  document.getElementById('btn-save').onclick = () => saveEditEvent();
+  document.getElementById('btn-cancel').textContent = '✕ 편집 취소';
+  document.getElementById('btn-cancel').onclick = () => cancelEdit();
+  document.getElementById('edit-hint').style.display = 'block';
+  document.getElementById('edit-hint').textContent = item.isGroup
+    ? `✎ 그룹 편집 중 (${item.groupEvs.length}개 일정 모두 갱신)`
+    : '✎ 편집 중 · 저장하면 이 일정이 갱신됩니다';
+  refreshPreview();
+  // 폼 영역으로 스크롤
+  document.querySelector('.modal .actions').scrollIntoView({block:'nearest', behavior:'smooth'});
+}
+
+function cancelEdit(){
+  editingCtx = null;
+  document.getElementById('btn-save').textContent = '+ 일정 추가';
+  document.getElementById('btn-save').onclick = () => addEvent();
+  document.getElementById('btn-cancel').textContent = '닫기';
+  document.getElementById('btn-cancel').onclick = () => closeModal();
+  document.getElementById('edit-hint').style.display = 'none';
+  // 폼 리셋
+  document.getElementById('ev-name').value = '';
+  document.getElementById('ev-memo').value = '';
+  document.getElementById('ev-instructor').value = '';
+  document.getElementById('ev-price').value = '';
+  onTypeChanged();
+  refreshPreview();
+}
+
+function saveEditEvent(){
+  if (!editingCtx) return;
+  const type = document.getElementById('ev-type').value;
+  const name = document.getElementById('ev-name').value.trim();
+  if (type === 'custom' && !name) { alert('커스텀 특강 제목을 입력해 주세요.'); return; }
+  const priceRaw = document.getElementById('ev-price').value.trim();
+  const overridePrice = priceRaw === '' ? null : (parseInt(priceRaw) || 0);
+  const patch = {
+    type,
+    start: document.getElementById('ev-start').value,
+    end: document.getElementById('ev-end').value,
+    memo: document.getElementById('ev-memo').value,
+    instructor: document.getElementById('ev-instructor').value.trim(),
+    name: type === 'custom' ? name : '',
+    overridePrice,
+  };
+  // 그룹이면 모든 원본 이벤트 갱신 · 단독이면 그 이벤트만
+  editingCtx.originalEvs.forEach(({key, idx, ev}) => {
+    Object.assign(ev, patch);
+    // 서버 sync — 각 이벤트 개별 PATCH 대신 delete + create (API PATCH 없이 대응)
+    if (SERVER_OK.flag && ev._id) {
+      syncDeleteEvent(ev);
+      delete ev._id;
+      syncPushEvent(ev, key);
+    }
+  });
+  localStorage.setItem('artbrows-classes', JSON.stringify(events));
+  cancelEdit();
+  render();
+  renderEventList();
+  alert('일정이 갱신되었어요.');
+}
+
+// ============ 실시간 미리보기 ============
+function refreshPreview(){
+  const card = document.getElementById('preview-card');
+  const summary = document.getElementById('preview-summary');
+  if (!card) return;
+  const typeId = document.getElementById('ev-type').value;
+  const t = getType(typeId);
+  const start = document.getElementById('ev-start').value;
+  const end = document.getElementById('ev-end').value;
+  const memo = document.getElementById('ev-memo').value;
+  const instructor = document.getElementById('ev-instructor').value.trim();
+  const priceRaw = document.getElementById('ev-price').value.trim();
+  const overridePrice = priceRaw === '' ? null : (parseInt(priceRaw) || 0);
+  const customName = document.getElementById('ev-name').value.trim();
+  const label = typeId === 'custom' && customName ? customName : t.name;
+  const effectivePrice = overridePrice != null ? overridePrice : t.price;
+  const builtin = BUILTIN_IDS.includes(typeId);
+  const bg = t.color || '#FFD8A8';
+  const fg = (typeId==='advanced' || typeId==='master') ? '#fff' : '#3D2818';
+  card.innerHTML = `
+    <div style="background:${bg};color:${fg};font-weight:700;font-size:13px;padding:8px 12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+      <span>${label}${memo ? ' · '+memo : ''}${instructor ? ' 👤'+instructor : ''}</span>
+      <span style="font-size:11.5px;opacity:0.9;font-weight:600">${start} ~ ${end}</span>
+    </div>
+  `;
+  let cnt = 1;
+  if (currentMode === 'range') {
+    const s = document.getElementById('ev-range-start').value;
+    const e = document.getElementById('ev-range-end').value;
+    if (s && e) {
+      cnt = Math.max(0, Math.floor((new Date(e)-new Date(s))/86400000) + 1);
+    }
+  } else if (currentMode === 'weekly') {
+    const s = document.getElementById('ev-weekly-start').value;
+    const e = document.getElementById('ev-weekly-end').value;
+    const dows = Array.from(document.querySelectorAll('#weekly-opts input[type=checkbox]:checked')).map(c=>parseInt(c.value));
+    if (s && e && dows.length) {
+      cnt = 0;
+      const dt = new Date(s), end2 = new Date(e);
+      while (dt <= end2) { if (dows.includes(dt.getDay())) cnt++; dt.setDate(dt.getDate()+1); }
+    }
+  }
+  const priceLabel = effectivePrice > 0 ? formatPrice(effectivePrice) : '무료';
+  const total = effectivePrice * cnt;
+  summary.innerHTML = `
+    <b>${cnt}개</b> 일정 · 회당 <b>${priceLabel}</b>
+    ${cnt > 1 ? ` · 합계 <b style="color:#C71585">${formatPrice(total)}</b>` : ''}
+    ${editingCtx ? ' <span style="color:#FF4D7E;font-weight:700">· 편집 모드 (기간·요일 반복 미적용, 하루만 갱신)</span>' : ''}
+  `;
+}
+
+// 폼 input change 시 자동 갱신
+document.addEventListener('input', e => {
+  if (e.target.closest('.modal')) refreshPreview();
+});
+
+let curYear = 2026, curMonth = 7;
+let events = JSON.parse(localStorage.getItem('artbrows-classes') || '{}');
+let selectedDate = null;
+
+// ============ 서버 sync 레이어 (다기기 동기화 MVP) ============
+// 원장님 데이터가 이 PC 브라우저에만 저장되던 문제 해결:
+// - 서버 연결되면 SQLite 로 저장 → 폰·다른 PC에서도 조회 가능
+// - 서버 실패 시 localStorage 그대로 (기존 동작 유지)
+const SERVER_OK = { flag: false };
+const eventIdMap = {};  // 브라우저 events[key][idx] → 서버 event.id
+
+async function apiFetch(path, opts = {}) {
+  try {
+    const res = await fetch(path, { ...opts, headers: {'Content-Type':'application/json', ...(opts.headers||{})} });
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    return await res.json();
+  } catch (e) {
+    SERVER_OK.flag = false;
+    return null;
+  }
+}
+
+async function syncPullTypes(){
+  const data = await apiFetch('/api/calendar/types');
+  if (!data) return false;
+  SERVER_OK.flag = true;
+  if (data.types && data.types.length) {
+    const map = {};
+    data.types.forEach(t => { map[t.id] = t; });
+    TYPES = map;
+    saveTypes();
+  }
+  return true;
+}
+
+async function syncPullEvents(){
+  const data = await apiFetch('/api/calendar/events');
+  if (!data) return false;
+  SERVER_OK.flag = true;
+  const grouped = {};
+  data.events.forEach(ev => {
+    const key = ev.yearMonthDay;
+    (grouped[key] = grouped[key] || []).push({
+      _id: ev.id,
+      type: ev.type,
+      start: ev.start,
+      end: ev.end,
+      name: ev.name,
+      memo: ev.memo,
+      instructor: ev.instructor || '',
+      overridePrice: ev.overridePrice,
+      groupId: ev.groupId,
+      groupLabel: ev.groupLabel,
+      groupSize: ev.groupSize,
+    });
+  });
+  events = grouped;
+  localStorage.setItem('artbrows-classes', JSON.stringify(events));
+  return true;
+}
+
+async function syncPushEvent(ev, dateKey){
+  // dateKey = 'YYYY-M-D' — 서버는 표준화
+  const [y,m,d] = dateKey.split('-');
+  const body = [{
+    date: `${y}-${m}-${d}`,
+    type: ev.type,
+    start: ev.start,
+    end: ev.end,
+    name: ev.name || '',
+    memo: ev.memo || '',
+    overridePrice: ev.overridePrice,
+    groupId: ev.groupId,
+    groupLabel: ev.groupLabel,
+    groupSize: ev.groupSize,
+  }];
+  const res = await apiFetch('/api/calendar/events', {method:'POST', body: JSON.stringify(body)});
+  if (res && res.ids && res.ids[0]) ev._id = res.ids[0];
+}
+
+async function syncPushTypes(){
+  if (!SERVER_OK.flag) return;
+  const payload = Object.entries(TYPES).map(([id, t], i) => ({
+    id, name: t.name, price: t.price, hours: t.hours,
+    defaultStart: t.defaultStart, defaultEnd: t.defaultEnd, color: t.color,
+    isBuiltin: BUILTIN_IDS.includes(id), sortOrder: i,
+  }));
+  await apiFetch('/api/calendar/types', {method:'PUT', body: JSON.stringify(payload)});
+}
+
+async function syncDeleteEvent(ev){
+  if (!SERVER_OK.flag || !ev._id) return;
+  await apiFetch(`/api/calendar/events/${ev._id}`, {method:'DELETE'});
+}
+
+async function syncDeleteGroup(groupId){
+  if (!SERVER_OK.flag || !groupId) return;
+  await apiFetch(`/api/calendar/events?group_id=${encodeURIComponent(groupId)}`, {method:'DELETE'});
+}
+
+// 첫 접속 마이그레이션: 서버에 데이터 없고 로컬에 있으면 로컬 → 서버 업로드
+async function migrateLocalToServer(){
+  if (!SERVER_OK.flag) return;
+  const localEvs = JSON.parse(localStorage.getItem('artbrows-classes-backup-pre-sync') || 'null');
+  if (localEvs !== null) return;  // 이미 마이그레이션 완료
+  const serverEvs = await apiFetch('/api/calendar/events');
+  if (!serverEvs) return;
+  const serverEmpty = serverEvs.events.length === 0;
+  const localHasData = Object.values(events).some(day => day.length > 0);
+  if (serverEmpty && localHasData) {
+    const bulk = [];
+    Object.entries(events).forEach(([key, day]) => {
+      const [y,m,d] = key.split('-');
+      day.forEach(ev => {
+        bulk.push({
+          date: `${y}-${m}-${d}`, type: ev.type, start: ev.start, end: ev.end,
+          name: ev.name || '', memo: ev.memo || '', instructor: ev.instructor || '', overridePrice: ev.overridePrice,
+          groupId: ev.groupId, groupLabel: ev.groupLabel, groupSize: ev.groupSize,
+        });
+      });
+    });
+    if (bulk.length) {
+      const res = await apiFetch('/api/calendar/events', {method:'POST', body: JSON.stringify(bulk)});
+      if (res) {
+        localStorage.setItem('artbrows-classes-backup-pre-sync', JSON.stringify(events));
+        console.log(`[sync] ${bulk.length}개 로컬 이벤트를 서버로 업로드 완료.`);
+      }
+    }
+  }
+}
+
+// 앱 부팅 시 sync 시도 (서버 살아있으면 서버 데이터로 render, 안 되면 로컬 유지)
+async function bootSync(){
+  const t = await syncPullTypes();
+  if (t) await migrateLocalToServer();
+  if (SERVER_OK.flag) {
+    await syncPullEvents();
+    renderTypeOptions();
+    render();
+    const badge = document.getElementById('sync-badge');
+    if (badge) badge.style.display = 'inline-block';
+  }
+}
+bootSync();
+
+function renderLegend(){
+  const el = document.getElementById('legend');
+  if (!el) return;
+  el.innerHTML = Object.entries(TYPES).map(([id, t]) => {
+    const border = id === 'custom' || !BUILTIN_IDS.includes(id) ? ';border:1.5px dashed #FF8A00' : '';
+    return `<div class="legend-item"><div class="dot" style="background:${t.color}${border}"></div>${t.name}</div>`;
+  }).join('');
+}
+
+function render() {
+  renderLegend();
+  document.getElementById('monthLabel').textContent = `${curYear} 년 ${curMonth} 월`;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const first = new Date(curYear, curMonth-1, 1);
+  const lastDay = new Date(curYear, curMonth, 0).getDate();
+  const startDay = first.getDay();
+  for (let i = 0; i < startDay; i++) {
+    const e = document.createElement('div'); e.className = 'day empty';
+    grid.appendChild(e);
+  }
+  for (let d = 1; d <= lastDay; d++) {
+    const cell = document.createElement('div');
+    const dow = new Date(curYear, curMonth-1, d).getDay();
+    cell.className = 'day' + (dow===0?' sun':dow===6?' sat':'');
+    const key = `${curYear}-${curMonth}-${d}`;
+    if (events[key] && events[key].length > 0) {
+      let inner = `<div class="num">${d}</div><div class="events">`;
+      const evs = events[key].slice(0, 2);
+      evs.forEach(ev => {
+        const t = getType(ev.type);
+        const label = pickEventLabel(ev);
+        const builtin = BUILTIN_IDS.includes(ev.type);
+        const grpPos = groupPosition(curYear, curMonth, d, ev);
+        // 라벨 위치: 개별=항상 표시 / 2일 그룹=시작 / 3일+ 그룹=중간
+        let showLabel = label;
+        if (ev.groupId) {
+          if (grpPos === 'grp-start') {
+            const nxt = new Date(curYear, curMonth-1, d+1);
+            const nxtKey = `${nxt.getFullYear()}-${nxt.getMonth()+1}-${nxt.getDate()}`;
+            const nxtEv = (events[nxtKey] || []).find(e => e.groupId === ev.groupId);
+            const nxtPos = nxtEv ? groupPosition(nxt.getFullYear(), nxt.getMonth()+1, nxt.getDate(), nxtEv) : '';
+            if (nxtPos !== 'grp-end') showLabel = '';  // 3일+ 시작은 이름 숨김
+          } else if (grpPos === 'grp-end') {
+            showLabel = '';
+          }
+          // grp-mid는 라벨 유지 (3일+ 중간)
+        }
+        const styleAttr = builtin ? '' : ` style="background:${t.color};color:#3D2818"`;
+        inner += `<div class="event ${ev.type} ${grpPos}"${styleAttr}>${showLabel}</div>`;
+      });
+      if (events[key].length > 2) inner += `<div class="more-cnt">+${events[key].length-2}건</div>`;
+      inner += '</div>';
+      cell.innerHTML = inner;
+    } else {
+      cell.innerHTML = `<div class="num">${d}</div>`;
+    }
+    cell.onclick = () => openModal(d);
+    grid.appendChild(cell);
+  }
+  updateStats();
+}
+
+function openModal(d) {
+  selectedDate = d;
+  document.getElementById('modal-date').textContent = `${curMonth}월 ${d}일`;
+  // 새 세션마다 date 인풋 리셋 → seedDateInputs 가 clicked day 기준으로 채우게
+  ['ev-range-start','ev-range-end','ev-weekly-start','ev-weekly-end'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  setMode('single');
+  renderTypeOptions();
+  toggleCustomName();
+  onTypeChanged();
+  renderEventList();
+  document.getElementById('modal').classList.add('show');
+}
+
+// date 인풋과 요일 체크박스에 change 리스너 (실시간 갯수)
+document.addEventListener('change', (e) => {
+  if (['ev-range-start','ev-range-end','ev-weekly-start','ev-weekly-end'].includes(e.target.id)) updateRangeCount();
+  if (e.target.matches('#weekly-opts input[type=checkbox]')) updateRangeCount();
+});
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+// 오늘 셀에서 그룹 통합 렌더용 헬퍼 — 같은 groupId 이벤트를 한 카드로 묶고, 그룹 첫날짜만 노출
+function groupedForDay(key){
+  const day = events[key] || [];
+  const seenGroups = new Set();
+  const result = [];
+  day.forEach((ev, i) => {
+    if (ev.groupId) {
+      if (seenGroups.has(ev.groupId)) return;
+      seenGroups.add(ev.groupId);
+      // 그룹 전체 이벤트 취합
+      const groupEvs = [];
+      Object.entries(events).forEach(([k, arr]) => arr.forEach((e, idx) => {
+        if (e.groupId === ev.groupId) groupEvs.push({key: k, idx, ev: e});
+      }));
+      // 날짜순 정렬
+      groupEvs.sort((a, b) => {
+        const [ay, am, ad] = a.key.split('-').map(Number);
+        const [by, bm, bd] = b.key.split('-').map(Number);
+        return new Date(ay, am-1, ad) - new Date(by, bm-1, bd);
+      });
+      result.push({groupEvs, key, idx: i, ev, isGroup: true});
+    } else {
+      result.push({groupEvs: [{key, idx: i, ev}], key, idx: i, ev, isGroup: false});
+    }
+  });
+  return result;
+}
+
+function fmtDateShort(key){
+  const [y, m, d] = key.split('-').map(Number);
+  return `${m}/${d}`;
+}
+
+function renderEventList() {
+  const key = `${curYear}-${curMonth}-${selectedDate}`;
+  const list = document.getElementById('event-list');
+  if (!events[key] || events[key].length === 0) {
+    list.innerHTML = '<p style="color:#8B6452;font-size:13px;text-align:center;padding:14px">아직 일정 없음<br><span style="font-size:11px;opacity:0.7">(추가할 정보를 아래에서 입력하세요)</span></p>';
+    return;
+  }
+  const items = groupedForDay(key);
+  list.innerHTML = items.map((it, listIdx) => {
+    const {ev, isGroup, groupEvs} = it;
+    const t = getType(ev.type);
+    const label = pickEventLabel(ev);
+    const builtin = BUILTIN_IDS.includes(ev.type);
+    const styleAttr = builtin ? '' : ` style="--c:${t.color}"`;
+    // 그룹 통합 날짜 라벨
+    let dateLabel = '';
+    if (isGroup && groupEvs.length > 1) {
+      const firstK = groupEvs[0].key;
+      const lastK = groupEvs[groupEvs.length-1].key;
+      dateLabel = `<span class="grp-badge" title="${groupEvs.length}일 그룹">📅 ${fmtDateShort(firstK)} ~ ${fmtDateShort(lastK)} · ${groupEvs.length}일</span>`;
+    }
+    const priceBadge = (ev.overridePrice != null && ev.overridePrice !== (t.price||0))
+      ? `<span class="price-badge" title="이 일정만 다른 요금 · 기본 ${formatPrice(t.price||0)}">💰 ${formatPrice(ev.overridePrice)}</span>` : '';
+    const instructorBadge = ev.instructor ? `<span class="instructor-badge" title="파트너 강사">👤 ${ev.instructor}</span>` : '';
+    return `
+    <div class="list-item ${ev.type} editable"${styleAttr} onclick="startEditEvent(${listIdx})" title="클릭하면 편집">
+      <div style="flex:1;min-width:0">
+        <div class="name">${label}${ev.memo? ' · '+ev.memo:''}${dateLabel}${priceBadge}${instructorBadge}</div>
+        <div class="time">${ev.start} ~ ${ev.end}</div>
+      </div>
+      <button class="del-btn" onclick="event.stopPropagation(); delEvent(${it.idx})" title="${isGroup?'그룹/단독 선택 가능':'삭제'}">×</button>
+    </div>`;
+  }).join('');
+  // 편집 후 렌더링되면 편집 상태에 맞게 폼 갱신하지 않음 (편집 진행 중이면 유지)
+  window._eventListItems = items;
+}
+
+function addEvent() {
+  const type = document.getElementById('ev-type').value;
+  const name = document.getElementById('ev-name').value.trim();
+  if (type === 'custom' && !name) {
+    alert('커스텀 특강 제목을 입력해 주세요. (예: 김희애 회원 1:1 특강)');
+    document.getElementById('ev-name').focus();
+    return;
+  }
+  const priceRaw = document.getElementById('ev-price').value.trim();
+  const overridePrice = priceRaw === '' ? null : (parseInt(priceRaw) || 0);
+  const base = {
+    type,
+    start: document.getElementById('ev-start').value,
+    end: document.getElementById('ev-end').value,
+    memo: document.getElementById('ev-memo').value,
+    name: type === 'custom' ? name : '',
+    instructor: document.getElementById('ev-instructor').value.trim(),
+    overridePrice
+  };
+
+  const targetDates = [];
+
+  if (currentMode === 'single') {
+    targetDates.push({y: curYear, m: curMonth, d: selectedDate});
+  } else if (currentMode === 'range') {
+    const sVal = document.getElementById('ev-range-start').value;
+    const eVal = document.getElementById('ev-range-end').value;
+    if (!sVal || !eVal) { alert('시작일과 종료일을 모두 선택해 주세요.'); return; }
+    const s = new Date(sVal), e = new Date(eVal);
+    if (e < s) { alert('종료일이 시작일보다 빠릅니다. 다시 확인해 주세요.'); return; }
+    const dt = new Date(s);
+    while (dt <= e) {
+      targetDates.push({y: dt.getFullYear(), m: dt.getMonth()+1, d: dt.getDate()});
+      dt.setDate(dt.getDate() + 1);
+    }
+  } else if (currentMode === 'weekly') {
+    const dows = Array.from(document.querySelectorAll('#weekly-opts input[type=checkbox]:checked')).map(c=>parseInt(c.value));
+    if (dows.length === 0) { alert('반복 요일을 최소 1개 선택해 주세요.'); return; }
+    const sVal = document.getElementById('ev-weekly-start').value;
+    const eVal = document.getElementById('ev-weekly-end').value;
+    if (!sVal || !eVal) { alert('시작일과 종료일을 모두 선택해 주세요.'); return; }
+    const s = new Date(sVal), e = new Date(eVal);
+    if (e < s) { alert('종료일이 시작일보다 빠릅니다. 다시 확인해 주세요.'); return; }
+    const dt = new Date(s);
+    while (dt <= e) {
+      if (dows.includes(dt.getDay())) targetDates.push({y: dt.getFullYear(), m: dt.getMonth()+1, d: dt.getDate()});
+      dt.setDate(dt.getDate() + 1);
+    }
+  }
+
+  // 중복 제거
+  const seen = new Set();
+  const unique = targetDates.filter(t => {
+    const k = `${t.y}-${t.m}-${t.d}`;
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  });
+
+  // 반복 그룹이면 groupId 부여 (단일은 groupId 없음)
+  let groupId = null, groupLabel = null;
+  if (unique.length > 1) {
+    groupId = 'g_' + Date.now().toString(36) + '_' + Math.floor(Math.random()*1e6).toString(36);
+    if (currentMode === 'weekly') {
+      const dowNames = ['일','월','화','수','목','금','토'];
+      const dows = Array.from(document.querySelectorAll('#weekly-opts input[type=checkbox]:checked')).map(c=>parseInt(c.value));
+      groupLabel = `매주 ${dows.map(d=>dowNames[d]).join('·')} × ${unique.length}회`;
+    } else if (currentMode === 'range') {
+      groupLabel = `${unique.length}일 연속`;
+    }
+  }
+
+  const inserted = [];
+  unique.forEach(t => {
+    const k = `${t.y}-${t.m}-${t.d}`;
+    if (!events[k]) events[k] = [];
+    const newEv = {...base, groupId, groupLabel, groupSize: unique.length};
+    events[k].push(newEv);
+    inserted.push({key: k, ev: newEv});
+  });
+
+  localStorage.setItem('artbrows-classes', JSON.stringify(events));
+
+  // 서버 sync (실패해도 로컬 저장은 이미 됐으니 UX 영향 없음)
+  if (SERVER_OK.flag && inserted.length) {
+    const bulk = inserted.map(({key, ev}) => {
+      const [y,m,d] = key.split('-');
+      return {
+        date: `${y}-${m}-${d}`, type: ev.type, start: ev.start, end: ev.end,
+        name: ev.name || '', memo: ev.memo || '', instructor: ev.instructor || '', overridePrice: ev.overridePrice,
+        groupId: ev.groupId, groupLabel: ev.groupLabel, groupSize: ev.groupSize,
+      };
+    });
+    apiFetch('/api/calendar/events', {method:'POST', body: JSON.stringify(bulk)}).then(res => {
+      if (res && res.ids) inserted.forEach((it, i) => { it.ev._id = res.ids[i]; });
+    });
+  }
+  document.getElementById('ev-memo').value = '';
+  document.getElementById('ev-name').value = '';
+  document.getElementById('ev-price').value = '';
+  document.getElementById('ev-instructor').value = '';
+  render();
+  renderEventList();
+  if (unique.length > 1) alert(`${unique.length}개 일정이 추가되었어요. (${groupLabel})`);
+}
+
+function delEvent(i) {
+  const key = `${curYear}-${curMonth}-${selectedDate}`;
+  const ev = events[key][i];
+
+  // 반복 그룹이면 물어봄
+  if (ev && ev.groupId) {
+    const label = ev.groupLabel || '반복 규칙';
+    const choice = prompt(
+      `이 일정은 「${label}」 그룹의 일부입니다.\n\n` +
+      `1 = 이 하루만 지우기\n` +
+      `2 = 반복 규칙 전체 지우기 (${ev.groupSize}개 모두)\n` +
+      `취소 = 아무것도 안 지움\n\n` +
+      `번호 입력:`, '1'
+    );
+    if (choice === null) return;
+    if (choice.trim() === '2') {
+      const gid = ev.groupId;
+      let removed = 0;
+      Object.keys(events).forEach(k => {
+        const before = events[k].length;
+        events[k] = events[k].filter(e => e.groupId !== gid);
+        removed += before - events[k].length;
+        if (events[k].length === 0) delete events[k];
+      });
+      localStorage.setItem('artbrows-classes', JSON.stringify(events));
+      syncDeleteGroup(gid);  // 서버에도 그룹 통째 삭제
+      render();
+      renderEventList();
+      alert(`「${label}」 그룹 ${removed}개를 모두 지웠어요.`);
+      return;
+    }
+    // choice === '1' or 기타 → 이 하루만
+  }
+
+  const removed = events[key].splice(i, 1)[0];
+  if (events[key].length === 0) delete events[key];
+  localStorage.setItem('artbrows-classes', JSON.stringify(events));
+  syncDeleteEvent(removed);  // 서버에도 삭제
+  render();
+  renderEventList();
+}
+
+function prevMonth() {
+  if (curMonth === 1) { curMonth = 12; curYear--; } else curMonth--;
+  render();
+}
+function nextMonth() {
+  if (curMonth === 12) { curMonth = 1; curYear++; } else curMonth++;
+  render();
+}
+
+window._debugExportPng = () => exportPng(true);
+async function exportPng(previewOnly = false) {
+  // html2canvas CDN 동적 로딩
+  if (typeof html2canvas === 'undefined') {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+      s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  const months = ['','1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
+  // 인스타 세로 캐러셀 1080×1350+ · 벤치마크 「@artbrows_academy 8월 수업 일정 안내」 스타일
+  const wrap = document.createElement('div');
+  const wrapPos = previewOnly ? 'position:relative;top:0;left:0;margin:0 auto' : 'position:fixed;top:-9999px;left:-9999px';
+  wrap.style.cssText = `${wrapPos};width:1080px;background:#F5EED8;padding:60px 40px 40px;font-family:Pretendard,sans-serif`;
+
+  // 상단 헤더 (벤치마크 매칭: 굵은 산세리프 Black · 명조 아님)
+  const header = `
+    <div style="text-align:center;margin-bottom:26px">
+      <div style="font-family:'Pretendard',sans-serif;font-size:22px;color:#5D4636;letter-spacing:1px;margin-bottom:14px;font-weight:500">@artbrows_academy</div>
+      <div style="font-family:'Pretendard','Noto Sans KR',sans-serif;font-weight:900;font-size:112px;color:#1F1F1F;line-height:1.02;letter-spacing:-4px">${months[curMonth].replace('월','')}월 수업 일정 안내</div>
+    </div>
+  `;
+
+  // 원장님 완성본(2026-07-16) 매칭 — 흰 배경 · 얇은 회색 격자 · 수직 구분선 없음
+  const NUM_FONT = `'Pretendard','Noto Sans KR',sans-serif`;
+  let table = `<div style="background:#FFFFFF;border:1px solid #E5E0D5;margin:0 20px">`;
+
+  // 요일 헤더 (베이지 배경 · 얇은 세로 구분선)
+  const dowNames = ['일','월','화','수','목','금','토'];
+  table += `<div style="display:grid;grid-template-columns:repeat(7,1fr);background:#F0E8DC;border-bottom:1px solid #E5E0D5">`;
+  dowNames.forEach((n, i) => {
+    table += `<div style="text-align:center;padding:22px 0;color:#2A2A2A;font-family:${NUM_FONT};font-weight:500;font-size:26px;border-right:${i===6?'0':'1px solid #E5E0D5'}">${n}</div>`;
+  });
+  table += `</div>`;
+
+  // 주별 반복
+  const first = new Date(curYear, curMonth-1, 1);
+  const lastDay = new Date(curYear, curMonth, 0).getDate();
+  const startDay = first.getDay();
+  const weeksNeeded = Math.ceil((startDay + lastDay) / 7);
+
+  let d = 1;
+  for (let w = 0; w < weeksNeeded; w++) {
+    const isLastWeek = w === weeksNeeded - 1;
+    table += `<div style="display:grid;grid-template-columns:repeat(7,1fr);border-bottom:${isLastWeek?'0':'1px solid #EAE5D8'};min-height:190px">`;
+
+    for (let col = 0; col < 7; col++) {
+      if ((w === 0 && col < startDay) || d > lastDay) {
+        table += `<div></div>`;
+        continue;
+      }
+
+      const dow = new Date(curYear, curMonth-1, d).getDay();
+      const key = `${curYear}-${curMonth}-${d}`;
+      const evs = events[key] || [];
+
+      // 이벤트 분류
+      const groupEv = evs.find(e => e.groupId);
+      const primaryEv = evs.find(e => !e.groupId && e.type !== 'holiday');
+
+      // 원장님 완성본 색 규칙
+      //  - 그룹 pill: 검정 숫자 감싸는 pill 조각 (master/combo/fullpack=핑크 · 그 외=베이지)
+      //  - 개별 이벤트: 원 배지 (beginner=핑크 · consult=그린 · custom·기타=베이지 · 라벨에 OT=파랑)
+      //  - 이벤트 없음: 일=핑크원 · 토=베이지원 · 평일=원 없음(검정 숫자)
+      const PINK = '#F09FBB';
+      const PINK_SOFT = '#F5B7C6';
+      const BEIGE = '#D5C4A8';
+      const BLUE = '#6BB6E8';
+      const GREEN = '#A8D8B3';
+
+      let dateBadge = '';
+      if (groupEv) {
+        // pill 조각이 숫자를 감싼다 · 셀 사이 이어짐 (grid gap:0 + width 100% + margin 조정)
+        const grpPos = groupPosition(curYear, curMonth, d, groupEv);
+        const isMaster = groupEv.type === 'master' || groupEv.type === 'combo' || groupEv.type === 'fullpack';
+        const pillBg = isMaster ? PINK_SOFT : BEIGE;
+        let pillStyle = `display:block;background:${pillBg};color:#2A2A2A;height:44px;line-height:44px;text-align:center;font-family:${NUM_FONT};font-weight:500;font-size:26px;letter-spacing:-0.3px`;
+        if (grpPos === 'grp-start')      pillStyle += `;border-radius:22px 0 0 22px;margin-left:14px`;
+        else if (grpPos === 'grp-end')   pillStyle += `;border-radius:0 22px 22px 0;margin-right:14px`;
+        // grp-mid 는 rounded 없음, margin 없음 → 옆 셀과 딱 붙음
+        dateBadge = `<div style="${pillStyle}">${d}</div>`;
+      } else if (primaryEv) {
+        const label = (pickEventLabel(primaryEv) || '') + '';
+        let bg = BEIGE;
+        if (primaryEv.type === 'beginner') bg = PINK;
+        else if (primaryEv.type === 'consult') bg = GREEN;
+        if (label.includes('OT')) bg = BLUE;
+        dateBadge = `<span style="display:inline-block;width:44px;height:44px;line-height:44px;background:${bg};color:#FFFFFF;border-radius:50%;font-family:${NUM_FONT};font-weight:500;font-size:24px;text-align:center">${d}</span>`;
+      } else if (dow === 0) {
+        dateBadge = `<span style="display:inline-block;width:44px;height:44px;line-height:44px;background:${PINK};color:#FFFFFF;border-radius:50%;font-family:${NUM_FONT};font-weight:500;font-size:24px;text-align:center">${d}</span>`;
+      } else if (dow === 6) {
+        dateBadge = `<span style="display:inline-block;width:44px;height:44px;line-height:44px;background:${BEIGE};color:#FFFFFF;border-radius:50%;font-family:${NUM_FONT};font-weight:500;font-size:24px;text-align:center">${d}</span>`;
+      } else {
+        dateBadge = `<span style="font-family:${NUM_FONT};font-weight:500;font-size:28px;color:#2A2A2A">${d}</span>`;
+      }
+
+      let individualHtml = '';
+      let belowHtml = ''; // pill 아래 라벨 텍스트 (검정, 배경 없음)
+
+      evs.forEach(ev => {
+        if (ev.type === 'holiday') {
+          individualHtml += `<div style="font-family:${NUM_FONT};font-size:22px;color:#B0A090;margin-top:12px;font-weight:400">휴무</div>`;
+          return;
+        }
+        const t = getType(ev.type);
+        const label = pickEventLabel(ev) || t.name;
+
+        if (ev.groupId) {
+          // 라벨은 그룹 한 셀에만 표시 (2일 그룹=start · 3일+ 그룹=첫 mid)
+          const grpPos = groupPosition(curYear, curMonth, d, ev);
+          let showLabel = '';
+          if (grpPos === 'grp-start') {
+            // 2일 그룹만 start 에서 표시 (nxt 가 바로 grp-end)
+            const nxt = new Date(curYear, curMonth-1, d+1);
+            const nxtKey = `${nxt.getFullYear()}-${nxt.getMonth()+1}-${nxt.getDate()}`;
+            const nxtEv = (events[nxtKey] || []).find(e => e.groupId === ev.groupId);
+            const nxtPos = nxtEv ? groupPosition(nxt.getFullYear(), nxt.getMonth()+1, nxt.getDate(), nxtEv) : '';
+            if (nxtPos === 'grp-end') showLabel = label;
+          } else if (grpPos === 'grp-mid') {
+            // 첫 mid 셀에만 표시 (앞이 grp-start 인 mid) — 4일 이상 그룹의 여러 mid 중복 방지
+            const prv = new Date(curYear, curMonth-1, d-1);
+            const prvKey = `${prv.getFullYear()}-${prv.getMonth()+1}-${prv.getDate()}`;
+            const prvEv = (events[prvKey] || []).find(e => e.groupId === ev.groupId);
+            const prvPos = prvEv ? groupPosition(prv.getFullYear(), prv.getMonth()+1, prv.getDate(), prvEv) : '';
+            if (prvPos === 'grp-start') showLabel = label;
+          }
+          if (showLabel) {
+            const isDirect = ev.type === 'master' || ev.type === 'combo' || ev.type === 'fullpack';
+            const displayInstructor = ev.instructor || (isDirect ? '원장 직강' : '');
+            // absolute position → 흐름에서 빼서 인접 셀 침범 허용 (원장님 완성본처럼 pill 폭에 걸침)
+            const wrapStyle = `position:absolute;top:72px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:${NUM_FONT};font-weight:500;color:#2A2A2A;line-height:1.35;pointer-events:none;z-index:2`;
+            belowHtml += `<div style="${wrapStyle};font-size:22px">${showLabel}</div>`;
+            if (displayInstructor) {
+              belowHtml += `<div style="${wrapStyle};top:104px;font-size:20px">(${displayInstructor})</div>`;
+            }
+          }
+        } else {
+          // 개별 이벤트 → 셀 하단 텍스트 (원장님 완성본: "12기 이지클래스 (5-2)" 자동 줄바꿈)
+          individualHtml += `<div style="font-family:${NUM_FONT};font-size:19px;color:#2A2A2A;margin-top:10px;line-height:1.35;font-weight:400;word-break:keep-all;padding:0 6px">${label}</div>`;
+        }
+      });
+
+      table += `<div style="text-align:center;padding:18px 0 12px;position:relative;overflow:visible">
+        ${dateBadge}
+        ${individualHtml}
+        ${belowHtml}
+      </div>`;
+
+      d++;
+    }
+
+    table += `</div>`;
+  }
+  table += `</div>`;
+
+  wrap.innerHTML = header + table;
+
+  // 하단 안내 + 브랜드 (Great Vibes 필기체)
+  const footer = document.createElement('div');
+  footer.innerHTML = `
+    <div style="text-align:center;margin-top:28px;padding:0 20px">
+      <div style="font-size:22px;color:#3D2818;font-weight:600;letter-spacing:0.5px;line-height:1.6">휴무와 수업 외의 날짜는 전부 시술 예약 가능합니다. 예약 및 방문 시 참고 부탁드립니다.</div>
+    </div>
+    <div style="text-align:center;margin-top:22px;padding:34px 0 36px;background:#EFE4D0">
+      <img src="/static/artbrows-logo.png" alt="ARTbrows" style="height:88px;width:auto;display:inline-block;vertical-align:middle" crossorigin="anonymous">
+    </div>
+  `;
+  wrap.appendChild(footer);
+
+  document.body.appendChild(wrap);
+  if (previewOnly) return;  // 미리보기 모드 — 화면에 렌더만 하고 다운로드 스킵
+
+  try {
+    const canvas = await html2canvas(wrap, {
+      scale: 1,
+      backgroundColor: '#F5EED8',
+      logging: false,
+      useCORS: true
+    });
+    const link = document.createElement('a');
+    link.download = `ARTbrows-${curYear}-${months[curMonth]}-일정.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+  } catch (e) {
+    alert('PNG 저장 실패: ' + e.message);
+  } finally {
+    document.body.removeChild(wrap);
+  }
+}
+
+async function publishToSNS() {
+  // ① PNG 자동 저장
+  await exportPng();
+  // ② 다음 스텝 안내 + 인스타·카톡 바로 열기
+  const wrap = document.createElement('div');
+  wrap.id = 'publish-guide';
+  wrap.style.cssText = 'position:fixed;inset:0;background:rgba(61,40,24,0.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px';
+  wrap.innerHTML = `
+    <div style="background:#fff;border-radius:20px;padding:30px 32px;max-width:460px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.3)" onclick="event.stopPropagation()">
+      <div style="text-align:center;margin-bottom:6px">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#FFB78A,#FF4D7E);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;margin:0 auto 14px">📤</div>
+        <h2 style="font-family:'Nanum Myeongjo',serif;font-size:22px;color:#3D2818;margin-bottom:6px">PNG 저장 완료</h2>
+        <p style="font-size:13px;color:#8B6452;line-height:1.65">다운로드 폴더에 <b>ARTbrows-일정.png</b>가 저장되었어요.<br>아래에서 올리실 곳을 눌러 열어드릴게요.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px">
+        <a href="https://www.instagram.com/artbrows_academy/" target="_blank" rel="noopener" style="display:block;background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);color:#fff;padding:14px 12px;border-radius:12px;text-decoration:none;text-align:center;font-weight:700;font-size:13px">
+          📷 인스타 열기<br><span style="font-size:11px;font-weight:500;opacity:0.9">@artbrows_academy</span>
+        </a>
+        <a href="https://open.kakao.com/o/gWeAkSzi" target="_blank" rel="noopener" style="display:block;background:linear-gradient(135deg,#FEE500,#FDB700);color:#3D2818;padding:14px 12px;border-radius:12px;text-decoration:none;text-align:center;font-weight:700;font-size:13px">
+          💬 카톡 K1<br><span style="font-size:11px;font-weight:500;opacity:0.8">수강생 채널</span>
+        </a>
+      </div>
+      <div style="background:#FFF5EE;border-radius:10px;padding:12px 14px;margin-top:16px;font-size:12px;color:#8B6452;line-height:1.6">
+        📌 <b>PNG 를 그대로 올리시면 끝</b>이에요. 인스타는 스토리·피드, 카톡은 K1 채널에 이미지 첨부. 자동 게시는 다음 업데이트에서 연결됩니다.
+      </div>
+      <button onclick="document.getElementById('publish-guide').remove()" style="width:100%;margin-top:14px;padding:12px;background:#FAD7C7;color:#3D2818;border:none;border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer">닫기</button>
+    </div>
+  `;
+  wrap.onclick = (e) => { if (e.target === wrap) wrap.remove(); };
+  document.body.appendChild(wrap);
+}
+
+function updateStats() {
+  let cls = 0, rev = 0, hrs = 0;
+  Object.keys(events).forEach(k => {
+    if (k.startsWith(`${curYear}-${curMonth}-`)) {
+      events[k].forEach(ev => {
+        const t = getType(ev.type);
+        cls++;
+        rev += eventPrice(ev) * 3;  // 3인 평균 · override 우선
+        hrs += (t.hours || 0);
+      });
+    }
+  });
+  document.getElementById('stat-classes').textContent = cls;
+  document.getElementById('stat-students').textContent = (cls*3) + '명';
+  document.getElementById('stat-revenue').textContent = (rev/10000).toFixed(0) + '만';
+  document.getElementById('stat-time').textContent = hrs + '시간';
+}
+
+render();
+
+// ============ 수업 종류 관리 ============
+let TYPES_DRAFT = null;
+
+function openTypesManager(){
+  TYPES_DRAFT = JSON.parse(JSON.stringify(TYPES));
+  renderTypesList();
+  document.getElementById('types-modal').classList.add('show');
+}
+function closeTypesManager(){
+  TYPES_DRAFT = null;
+  document.getElementById('types-modal').classList.remove('show');
+}
+
+function renderTypesList(){
+  const wrap = document.getElementById('types-list');
+  wrap.innerHTML = '';
+  Object.entries(TYPES_DRAFT).forEach(([id, t]) => {
+    const builtin = BUILTIN_IDS.includes(id);
+    const usedCount = countTypeUsage(id);
+    const row = document.createElement('div');
+    row.className = 'trow ' + (builtin ? 'builtin' : 'new');
+    row.style.setProperty('--c', t.color || '#FF4D7E');
+    row.innerHTML = `
+      <div class="trow-hdr">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="tag ${builtin?'b':'n'}">${builtin?'기본':'신규'}</span>
+          <span style="font-size:11.5px;color:#8B6452">${usedCount>0? `현재 ${usedCount}개 일정에 사용 중` : '사용 안 됨'}</span>
+        </div>
+        <button type="button" class="del-t" ${builtin?'disabled':''} onclick="removeType('${id}')" title="${builtin?'기본 종류는 삭제 불가 (이름·시간·가격은 편집 가능)':'삭제'}">×</button>
+      </div>
+      <div class="fields">
+        <div>
+          <span class="lbl">이름</span>
+          <input type="text" data-id="${id}" data-field="name" value="${t.name.replace(/"/g,'&quot;')}">
+        </div>
+        <div>
+          <span class="lbl">시간(H)</span>
+          <input type="number" step="0.5" min="0" data-id="${id}" data-field="hours" value="${t.hours}">
+        </div>
+        <div>
+          <span class="lbl">수강료(원)</span>
+          <input type="number" step="1000" min="0" data-id="${id}" data-field="price" value="${t.price}">
+        </div>
+        <div>
+          <span class="lbl">시작</span>
+          <input type="time" data-id="${id}" data-field="defaultStart" value="${t.defaultStart||'10:00'}">
+        </div>
+        <div>
+          <span class="lbl">종료</span>
+          <input type="time" data-id="${id}" data-field="defaultEnd" value="${t.defaultEnd||'12:00'}">
+        </div>
+      </div>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+function countTypeUsage(id){
+  let n = 0;
+  Object.values(events).forEach(day => day.forEach(ev => { if (ev.type === id) n++; }));
+  return n;
+}
+
+function addType(){
+  // draft 에 인라인 편집 반영 (사용자가 뭔가 쳤을 수도)
+  collectDraft();
+  const id = 'user_' + Date.now().toString(36);
+  TYPES_DRAFT[id] = {name:'새 수업', price:100000, hours:2, defaultStart:'10:00', defaultEnd:'12:00', color:'#FFD8A8'};
+  renderTypesList();
+  // 새 행의 이름 인풋에 포커스
+  setTimeout(() => {
+    const inp = document.querySelector(`#types-list input[data-id="${id}"][data-field="name"]`);
+    if (inp) { inp.focus(); inp.select(); }
+  }, 30);
+}
+
+function removeType(id){
+  if (BUILTIN_IDS.includes(id)) { alert('기본 종류는 삭제할 수 없습니다. 이름·시간·가격은 편집 가능합니다.'); return; }
+  const used = countTypeUsage(id);
+  if (used > 0) {
+    if (!confirm(`이 종류를 사용 중인 일정이 ${used}개 있습니다.\n\n삭제하면 그 일정들은 "삭제된 종류" 로 표시됩니다.\n(달력 자체는 지워지지 않고 편집으로 다른 종류로 바꾸실 수 있습니다.)\n\n그래도 삭제할까요?`)) return;
+  }
+  collectDraft();
+  delete TYPES_DRAFT[id];
+  renderTypesList();
+}
+
+function collectDraft(){
+  document.querySelectorAll('#types-list input[data-id]').forEach(inp => {
+    const id = inp.dataset.id, f = inp.dataset.field;
+    if (!TYPES_DRAFT[id]) return;
+    let v = inp.value;
+    if (f === 'hours' || f === 'price') v = parseFloat(v) || 0;
+    TYPES_DRAFT[id][f] = v;
+  });
+}
+
+function saveTypesManager(){
+  collectDraft();
+  // 유효성 — 이름 빈 것 확인
+  for (const [id, t] of Object.entries(TYPES_DRAFT)) {
+    if (!t.name || !t.name.trim()) { alert('이름이 비어 있는 수업 종류가 있습니다.'); return; }
+  }
+  TYPES = TYPES_DRAFT;
+  saveTypes();
+  syncPushTypes();  // 서버에도 전체 교체
+  renderTypeOptions();
+  render();
+  renderEventList();
+  closeTypesManager();
+  alert('수업 종류를 저장했어요.');
+}
+
+// URL fragment 로 모달 미리 열기 — 사용법 문서·QA 링크용
+// 예: #openday=21&mode=weekly&type=custom&autoadd=1&reset=1
+(function(){
+  const p = new URLSearchParams(location.hash.slice(1));
+  if (p.get('reset') === '1') { events = {}; localStorage.setItem('artbrows-classes','{}'); render(); }
+  const d = parseInt(p.get('openday'));
+  if (d) {
+    const m = p.get('mode');
+    const t = p.get('type');
+    openModal(d);
+    if (m && ['single','range','weekly'].includes(m)) setMode(m);
+    if (t) { document.getElementById('ev-type').value = t; onTypeChanged(); }
+    if (p.get('autoadd') === '1') {
+      if (t === 'custom') document.getElementById('ev-name').value = '테스트 특강';
+      // range 모드일 때 rangeEnd=+N 이면 종료일 = 시작 + N일
+      const rangeAdd = parseInt(p.get('rangeAdd'));
+      if (m === 'range' && rangeAdd) {
+        const endDt = new Date(curYear, curMonth-1, d + rangeAdd);
+        document.getElementById('ev-range-end').value = isoDate(endDt.getFullYear(), endDt.getMonth()+1, endDt.getDate());
+        updateRangeCount();
+      }
+      const _a = window.alert; window.alert = ()=>{};
+      addEvent();
+      window.alert = _a;
+    }
+    const then = p.get('then');
+    if (then) { closeModal(); openModal(parseInt(then)); }
+  }
+  if (p.get('opentypes') === '1') openTypesManager();
+  if (p.get('closeAll') === '1') { closeModal(); }
+  // PNG 미리보기용 훅 — wrap 만 생성해서 body 에 append 후 스크린샷
+  if (p.get('previewPng') === '1') {
+    closeModal();
+    setTimeout(() => window._debugExportPng && window._debugExportPng(), 300);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>{{ platform_name }} — {{ tagline }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800;900&family=Pretendard:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',sans-serif;background:#0B0907;color:#F5EDE3;line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+  .hero{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 30px;text-align:center;background:radial-gradient(ellipse at center,rgba(224,192,136,0.06),transparent 70%)}
+  .chip{display:inline-block;background:#161617;color:#E0C088;font-weight:700;font-size:11px;letter-spacing:5px;padding:9px 22px;border-radius:24px;margin-bottom:20px;border:1px solid #2A2A2A}
+  h1{font-family:'Nanum Myeongjo',serif;font-weight:900;font-size:54px;line-height:1.18;letter-spacing:-1px;margin-bottom:14px}
+  h1 em{font-style:normal;color:#E0C088}
+  .lead{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;color:#CBC8C1;margin-top:18px}
+  .saas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;margin:40px auto 0}
+  @media(max-width:900px){.saas-grid{grid-template-columns:1fr}}
+  .saas{background:#161617;border:1px solid #2A2A2A;border-top:4px solid var(--c);border-radius:14px;padding:28px;text-align:left;text-decoration:none;color:inherit;transition:transform 0.25s, border-color 0.3s}
+  .saas:hover{transform:translateY(-4px);border-color:var(--c)}
+  .saas.a{--c:#FFB78A}
+  .saas.b{--c:#E0C088}
+  .saas.c{--c:#FAD7C7}
+  .saas .badge{font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--c);font-weight:700;line-height:1}
+  .saas .label{font-size:10.5px;letter-spacing:3px;color:var(--c);font-weight:700;margin-top:4px}
+  .saas h3{font-family:'Nanum Myeongjo',serif;color:#F5EDE3;font-size:22px;font-weight:800;margin:6px 0 8px}
+  .saas p{font-size:13.5px;color:#CBC8C1;line-height:1.7}
+  footer{padding:18px;text-align:center;font-size:11px;color:#8A8A84}
+  footer a{color:#E0C088;margin:0 6px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div>
+    <div class="chip">PLATFORM · 3 SAAS · LUXURY DARK</div>
+    <h1>{{ platform_name }} — <em>{{ tagline }}</em></h1>
+    <p class="lead">극사실 / 超写实 — 30년 노하우의 디지털 트윈</p>
+
+    <div class="saas-grid">
+      <a class="saas a" href="/static/lab.html">
+        <div class="badge">A</div>
+        <div class="label">학원·강의·홈페이지 · LIVE</div>
+        <h3>강의 일정 · 마스터 작품집</h3>
+        <p>원장님 매월 손작업 → 자동. 5 강의 카테고리 + 회원 등급 + 공모전.</p>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #2A2A2A;display:flex;flex-wrap:wrap;gap:6px">
+          <span style="background:#0B0907;color:#FFB78A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px">📅 강의 달력</span>
+          <span style="background:#0B0907;color:#FFB78A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px">📚 마스터 작품집</span>
+          <span style="background:#0B0907;color:#FFB78A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px">👥 회원 관리</span>
+        </div>
+      </a>
+      <a class="saas b" href="/static/coming-soon.html?saas=B">
+        <div class="badge">B</div>
+        <div class="label">수강생·시술자 광고 · 준비 중</div>
+        <h3>사진 1장 → 멀티 자동 광고</h3>
+        <p>인스타·페북·블로그·유튜브 자동. 직접 집행 + ROAS 측정 + 자기 패턴 학습.</p>
+      </a>
+      <a class="saas c" href="/static/coming-soon.html?saas=C">
+        <div class="badge">C</div>
+        <div class="label">Face Lab v7 시뮬 · 준비 중</div>
+        <h3>펜슬 디지털 트윈</h3>
+        <p>정면+측면 → 원장님 30년 패턴 매칭 → 2D + 3D 결과. Unreal MetaHuman 6체.</p>
+      </a>
+    </div>
+  </div>
+</div>
+<footer>
+  <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-bottom:10px">
+    <a href="https://eyebrows.staris.cloud/" target="_blank" rel="noopener" style="background:rgba(255,111,132,0.12);color:#FF8FA3;padding:6px 14px;border-radius:8px;border:1px solid rgba(255,111,132,0.3);font-weight:700;font-size:12px;text-decoration:none">🌐 외부 홈페이지 ↗</a>
+    <a href="https://jangmiji.staris.cloud/" target="_blank" rel="noopener" style="background:rgba(224,192,136,0.12);color:#E0C088;padding:6px 14px;border-radius:8px;border:1px solid rgba(224,192,136,0.3);font-weight:700;font-size:12px;text-decoration:none">🛠 운영진 포털 ↗</a>
+    <a href="/static/lab.html" style="background:rgba(224,192,136,0.12);color:#E0C088;padding:6px 14px;border-radius:8px;border:1px solid rgba(224,192,136,0.3);font-weight:700;font-size:12px;text-decoration:none">장미지 연구소 →</a>
+  </div>
+  © ARTbrows 2026 · <a href="/api/docs">API Docs</a> · <a href="/health">Health</a>
+</footer>
+</body>
+</html>

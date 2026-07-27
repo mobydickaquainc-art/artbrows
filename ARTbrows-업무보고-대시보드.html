@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTbrows · 업무 보고 대시보드</title>
+<style>
+  :root{
+    --apricot:#FBEAE2; --apricot2:#F7DCD2; --cream:#FFFBF5; --ink:#3A2A26;
+    --muted:#9A6A5E; --coral:#FF7A66; --hotpink:#FF6F84; --line:#F0D6CC;
+    --done:#5BAE8A; --doing:#E8A33D; --wait:#C2A9A0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--apricot);color:var(--ink);
+    font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+    line-height:1.65;padding:28px 18px 60px}
+  .wrap{max-width:1080px;margin:0 auto}
+  a{color:inherit}
+  .serif{font-family:'Nanum Myeongjo','Apple SD Gothic Neo',serif}
+
+  /* header */
+  .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+    gap:14px;background:linear-gradient(135deg,#FF8FA3,#FF7A66);color:#fff;
+    border-radius:22px;padding:26px 30px;box-shadow:0 10px 26px rgba(255,122,102,.30)}
+  .top .brand{font-size:13px;letter-spacing:.35em;font-weight:700;opacity:.92}
+  .top h1{font-size:27px;font-weight:800;margin-top:4px}
+  .top .meta{text-align:right;font-size:13px;line-height:1.7;opacity:.95}
+  .badge{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.5);
+    padding:4px 12px;border-radius:999px;font-weight:700;font-size:12.5px;margin-top:4px}
+
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+  .stat{background:var(--cream);border-radius:16px;padding:18px 20px;box-shadow:0 5px 16px rgba(232,169,155,.18)}
+  .stat .k{font-size:12px;color:var(--coral);font-weight:800;letter-spacing:.04em}
+  .stat .v{font-size:22px;font-weight:800;margin-top:4px}
+  .stat .s{font-size:12.5px;color:var(--muted)}
+
+  /* section */
+  section{background:var(--cream);border-radius:20px;padding:26px 28px;margin:16px 0;
+    box-shadow:0 5px 18px rgba(232,169,155,.16)}
+  .h{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
+  .h .num{font-size:12px;color:#fff;background:var(--coral);border-radius:8px;padding:2px 9px;font-weight:800}
+  .h h2{font-size:20px;font-weight:800}
+  .h .hint{margin-left:auto;font-size:12.5px;color:var(--muted)}
+
+  /* roadmap */
+  .phase{margin:12px 0}
+  .phase .row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .phase .name{font-weight:700;font-size:15px}
+  .phase .pct{margin-left:auto;font-size:13px;font-weight:800;color:var(--muted)}
+  .bar{height:11px;background:var(--apricot2);border-radius:999px;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:999px;
+    background:linear-gradient(90deg,#FF8FA3,#FF7A66)}
+  .chip{font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:999px;color:#fff}
+  .c-done{background:var(--done)} .c-doing{background:var(--doing)} .c-wait{background:var(--wait)}
+  .phase small{color:var(--muted);font-size:12.5px}
+
+  /* team */
+  .team{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+  .member{background:var(--apricot);border-radius:14px;padding:12px 13px;border:1px solid var(--line);
+    display:flex;flex-direction:column;gap:5px}
+  .member .av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;font-size:14px;margin-bottom:4px}
+  .member .nm{font-weight:800;font-size:14.5px;line-height:1.15}
+  .member .ro{font-size:11px;color:var(--coral);font-weight:800;letter-spacing:.02em}
+  .member .now{font-size:11.5px;color:var(--muted);line-height:1.4}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
+  .member .tag{font-size:9.5px;letter-spacing:.06em;font-weight:800;padding:1px 6px;border-radius:6px;
+    background:#fff;color:var(--coral);align-self:flex-start;margin-top:2px}
+  .member .tag.dev{color:#2E7B57;background:rgba(91,174,138,.15)}
+  .member .tag.new{color:#8A5F16;background:rgba(232,163,61,.18)}
+
+  /* kanban */
+  .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .col{background:var(--apricot);border-radius:14px;padding:14px}
+  .col .ct{font-weight:800;font-size:13.5px;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .task{background:var(--cream);border-radius:10px;padding:9px 12px;margin:7px 0;font-size:13px;
+    border-left:3px solid var(--line)}
+  .col.done .task{border-left-color:var(--done)}
+  .col.doing .task{border-left-color:var(--doing)}
+  .col.wait .task{border-left-color:var(--wait)}
+
+  /* deliverables */
+  .files{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+  .file{display:block;text-decoration:none;background:var(--apricot);border:1px solid var(--line);
+    border-radius:14px;padding:14px;transition:.15s}
+  .file:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(232,169,155,.30)}
+  .file .ext{font-size:11px;font-weight:800;color:var(--coral)}
+  .file .fn{font-size:13.5px;font-weight:700;margin-top:4px}
+  .file .fd{font-size:12px;color:var(--muted);margin-top:2px}
+  .files-h{font-size:13px;font-weight:800;color:var(--muted);margin-top:6px}
+
+  /* timeline */
+  .tl{position:relative;padding-left:22px}
+  .tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .day{position:relative;margin-bottom:18px}
+  .day::before{content:"";position:absolute;left:-19px;top:4px;width:12px;height:12px;border-radius:50%;
+    background:var(--coral);border:3px solid var(--cream)}
+  .day .date{font-weight:800;font-size:14px}
+  .day .date span{font-weight:600;color:var(--muted);font-size:12.5px;margin-left:6px}
+  .day ul{list-style:none;margin-top:6px}
+  .day li{font-size:13.5px;color:#5a4540;padding-left:14px;position:relative;margin:4px 0}
+  .day li::before{content:"·";position:absolute;left:2px;color:var(--coral);font-weight:800}
+
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:24px;line-height:1.8}
+  .note{background:#FFF3EF;border:1px dashed var(--coral);border-radius:12px;padding:10px 14px;
+    font-size:12.5px;color:#9A6A5E;text-align:center;margin-top:16px}
+
+  /* D-day + 이번 주 히트맵 */
+  .dday-wrap{background:linear-gradient(135deg,#3A2A26 0%,#5A3830 100%);color:#FFFBF5;
+    border-radius:22px;padding:22px 26px;margin:18px 0;box-shadow:0 10px 26px rgba(58,42,38,.28);
+    display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center}
+  .dday-badge{text-align:center;padding-right:24px;border-right:1px solid rgba(255,251,245,.18)}
+  .dday-num{font-family:'Nanum Myeongjo',serif;font-size:64px;font-weight:800;line-height:1;
+    color:#FFC93C;letter-spacing:-.02em}
+  .dday-label{font-size:11.5px;letter-spacing:.28em;font-weight:800;margin-top:6px;opacity:.85}
+  .dday-target{font-size:14px;font-weight:700;margin-top:8px;color:#FFDCB0}
+  .dday-target b{color:#FFFBF5}
+  .heat-title{font-size:12px;letter-spacing:.24em;font-weight:800;opacity:.72;margin-bottom:10px}
+  .heat-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .heat-cell{background:rgba(255,251,245,.06);border:1px solid rgba(255,251,245,.10);
+    border-radius:10px;padding:8px 6px;text-align:center;min-height:74px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px}
+  .heat-cell.today{background:rgba(255,201,60,.14);border-color:#FFC93C;box-shadow:0 0 0 2px rgba(255,201,60,.25) inset}
+  .heat-dow{font-size:10.5px;letter-spacing:.16em;opacity:.72;font-weight:700}
+  .heat-date{font-family:'Nanum Myeongjo',serif;font-size:19px;font-weight:800}
+  .heat-mark{font-size:14px;line-height:1;margin-top:2px}
+  .heat-tag{font-size:9.5px;letter-spacing:.04em;opacity:.86;font-weight:700;line-height:1.25;
+    max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}
+  .heat-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:11.5px;opacity:.85}
+  .heat-legend span{display:inline-flex;align-items:center;gap:5px}
+  .heat-legend em{font-style:normal;font-weight:700}
+  @media(max-width:820px){
+    .dday-wrap{grid-template-columns:1fr;text-align:center;gap:18px}
+    .dday-badge{padding-right:0;border-right:none;border-bottom:1px solid rgba(255,251,245,.18);padding-bottom:16px}
+    .heat-grid{grid-template-columns:repeat(7,1fr);gap:3px}
+    .heat-cell{min-height:60px;padding:6px 3px}
+    .heat-date{font-size:15px}
+    .heat-tag{font-size:8.5px}
+  }
+
+  /* 07-13 결정 도넛 + 미결 카드 */
+  .donut-wrap{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:center;margin-bottom:18px}
+  .donut{width:200px;height:200px;border-radius:50%;position:relative;margin:0 auto;
+    background:conic-gradient(#5BAE8A 0% 62.5%, #E8A33D 62.5% 100%)}
+  .donut::before{content:"";position:absolute;inset:28px;background:var(--cream);border-radius:50%}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;z-index:2}
+  .donut-big{font-family:'Nanum Myeongjo',serif;font-size:40px;font-weight:800;color:#3A2A26;line-height:1}
+  .donut-small{font-size:11px;letter-spacing:.16em;color:var(--muted);font-weight:800;margin-top:3px}
+  .donut-legend{display:flex;flex-direction:column;gap:10px;font-size:13.5px}
+  .donut-legend .row{display:flex;align-items:center;gap:10px}
+  .donut-legend .sq{width:14px;height:14px;border-radius:4px}
+  .donut-legend b{font-size:15px}
+  .donut-legend small{color:var(--muted);font-size:12px}
+  .pending-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  .pcard{background:var(--apricot);border:1px solid var(--line);border-radius:12px;padding:12px 13px;
+    display:flex;flex-direction:column;gap:3px;border-left:4px solid var(--doing)}
+  .pcard .k{font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--coral)}
+  .pcard .t{font-size:13.5px;font-weight:800;color:var(--ink)}
+  .pcard .m{font-size:11.5px;color:var(--muted)}
+  .pcard.hot{border-left-color:#E86464;background:#FFF3EF}
+  .pcard.hot .k{color:#E86464}
+
+  /* Action Items 매트릭스 */
+  .ai-matrix{display:grid;grid-template-columns:120px repeat(6,1fr);gap:5px;margin-top:8px}
+  .ai-h{font-size:10.5px;letter-spacing:.05em;color:var(--muted);font-weight:800;text-align:center;
+    padding:8px 4px;line-height:1.25}
+  .ai-hp{background:var(--apricot);border-radius:8px}
+  .ai-name{font-size:13px;font-weight:800;color:var(--ink);padding:12px 10px;
+    background:var(--apricot);border-radius:8px;display:flex;align-items:center}
+  .ai-cell{text-align:center;padding:12px 4px;border-radius:8px;font-size:15px;
+    background:#F9EBE4;border:1px solid transparent;line-height:1}
+  .ai-cell.done{background:rgba(91,174,138,.16);border-color:#5BAE8A;color:#2E7B57}
+  .ai-cell.doing{background:rgba(232,163,61,.16);border-color:#E8A33D;color:#8A5F16}
+  .ai-cell.late{background:rgba(232,100,100,.14);border-color:#E86464;color:#9A2E2E}
+  .ai-cell.wait{background:#F4E2D8;color:#B39B90}
+  .ai-cell.na{background:transparent;color:#D6C0B4;font-size:11px}
+  .ai-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12px;color:var(--muted)}
+  .ai-legend span{display:inline-flex;align-items:center;gap:5px}
+
+  /* 카드뉴스 12x6 매트릭스 */
+  .cn-matrix{display:grid;grid-template-columns:140px repeat(6,1fr);gap:4px;font-size:11.5px}
+  .cn-h{font-size:10.5px;letter-spacing:.03em;color:var(--muted);font-weight:800;text-align:center;
+    padding:8px 3px;line-height:1.2;background:var(--apricot);border-radius:6px}
+  .cn-kind{font-size:12px;font-weight:800;color:var(--ink);padding:8px 10px;
+    background:var(--apricot);border-radius:6px;display:flex;align-items:center}
+  .cn-kind small{font-family:'Menlo','Courier New',monospace;font-size:9.5px;color:var(--muted);margin-left:6px;font-weight:400}
+  .cn-c{text-align:center;padding:9px 3px;border-radius:6px;background:#F9EBE4;font-size:15px;line-height:1}
+  .cn-c.s3{background:linear-gradient(135deg,#FF7A66,#FF6F84);color:#fff}
+  .cn-c.s2{background:linear-gradient(135deg,#FFB59F,#FF9AAF);color:#fff}
+  .cn-c.s1{background:#F4CFC0;color:#5A3830}
+  .cn-c.s0{background:#FBEAE2;color:#C2A9A0;font-size:11px}
+  .cn-legend{display:flex;gap:14px;margin-top:12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+  .cn-legend span{display:inline-flex;align-items:center;gap:5px}
+  .cn-legend .sq{width:14px;height:14px;border-radius:4px}
+
+  /* 파이프라인 4-스텝 */
+  .pipe{display:grid;grid-template-columns:repeat(4,1fr) 0;gap:14px;margin-top:20px;position:relative}
+  .pstep{background:linear-gradient(180deg,#FFFBF5,#FBEAE2);border:1px solid var(--line);
+    border-radius:14px;padding:16px 14px;text-align:center;position:relative;
+    box-shadow:0 4px 12px rgba(232,169,155,.14)}
+  .pstep + .pstep::before{content:"→";position:absolute;left:-16px;top:50%;transform:translateY(-50%);
+    color:var(--coral);font-weight:800;font-size:20px;z-index:2}
+  .pstep .pn{font-size:10.5px;letter-spacing:.24em;color:var(--coral);font-weight:800}
+  .pstep .pt{font-family:'Nanum Myeongjo',serif;font-size:17px;font-weight:800;margin-top:6px;color:var(--ink)}
+  .pstep .pd{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .pstep .psec{display:inline-block;background:#3A2A26;color:#FFC93C;padding:3px 8px;border-radius:999px;
+    font-size:10px;letter-spacing:.1em;font-weight:800;margin-top:8px}
+  .pstep.warn{background:linear-gradient(180deg,#FFF3EF,#FBEAE2);border-color:var(--coral)}
+
+  @media(max-width:820px){
+    .donut-wrap{grid-template-columns:1fr;gap:18px}
+    .pending-cards{grid-template-columns:1fr}
+    .ai-matrix{grid-template-columns:90px repeat(6,1fr);font-size:11px}
+    .ai-h{font-size:9.5px;padding:6px 2px}
+    .ai-name{font-size:11px;padding:8px 6px}
+    .ai-cell{padding:8px 2px;font-size:13px}
+    .cn-matrix{grid-template-columns:110px repeat(6,1fr)}
+    .cn-h{font-size:9px;padding:6px 2px}
+    .cn-kind{font-size:10px;padding:6px 6px}
+    .cn-kind small{display:none}
+    .cn-c{padding:6px 2px;font-size:12px}
+    .pipe{grid-template-columns:1fr;gap:24px}
+    .pstep + .pstep::before{content:"↓";left:50%;top:-19px;transform:translateX(-50%)}
+  }
+
+  @media(max-width:820px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .team,.kanban{grid-template-columns:1fr}
+    .files{grid-template-columns:repeat(2,1fr)}
+    .top .meta{text-align:left}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a href="index.html" style="display:inline-block;margin-bottom:14px;font-weight:800;color:#9A6A5E;font-size:13.5px;text-decoration:none">← ARTbrows 포털 홈</a>
+
+  <!-- HEADER -->
+  <div class="top">
+    <div>
+      <div class="brand">ARTBROWS · 극사실눈썹 창시자</div>
+      <h1>업무 보고 대시보드</h1>
+    </div>
+    <div class="meta">
+      보고 대상 · 대표님 / 회장님<br>
+      마지막 업데이트 · <b>2026-07-27 (일) 새벽</b><br>
+      <span class="badge">✨ 카드뉴스 시연 대개편 + 홈페이지 유미 벤치 4 Phase 완료 · 대표님 「완료」 트리거 → 기획서 v1.2 → v1.3</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="k">현재 단계</div><div class="v">홍보 홈페이지 착수</div><div class="s">07-13 회의 결정 10건 확정</div></div>
+    <div class="stat"><div class="k">확정 도메인</div><div class="v">artbrow.co.kr</div><div class="s">가비아 · 법인 결제 · 14,000원/년</div></div>
+    <div class="stat"><div class="k">🎯 1차 오픈</div><div class="v">2026-08월 말</div><div class="s">회장님 미국 출국 전 (기존 08-10 → 이동)</div></div>
+    <div class="stat"><div class="k">이번 주 미션</div><div class="v">메뉴·PG 확정</div><div class="s">07-14~18 · 4인 배정</div></div>
+  </div>
+
+  <!-- D-day + 이번 주 마감 히트맵 -->
+  <div class="dday-wrap">
+    <div class="dday-badge">
+      <div class="dday-num">D-41</div>
+      <div class="dday-label">TO OPEN</div>
+      <div class="dday-target">🎯 오픈 <b>2026-08-28 (금)</b></div>
+    </div>
+    <div>
+      <div class="heat-title">이번 주 마감 히트맵 · 07-14 → 07-20</div>
+      <div class="heat-grid">
+        <div class="heat-cell">
+          <div class="heat-dow">화</div><div class="heat-date">14</div>
+          <div class="heat-mark">✅</div><div class="heat-tag">착수</div>
+        </div>
+        <div class="heat-cell">
+          <div class="heat-dow">수</div><div class="heat-date">15</div>
+          <div class="heat-mark">✅</div><div class="heat-tag">기획 정리</div>
+        </div>
+        <div class="heat-cell">
+          <div class="heat-dow">목</div><div class="heat-date">16</div>
+          <div class="heat-mark">🟠</div><div class="heat-tag">카페24 지연</div>
+        </div>
+        <div class="heat-cell">
+          <div class="heat-dow">금</div><div class="heat-date">17</div>
+          <div class="heat-mark">✅</div><div class="heat-tag">카드뉴스+3언어</div>
+        </div>
+        <div class="heat-cell today">
+          <div class="heat-dow">토</div><div class="heat-date">18</div>
+          <div class="heat-mark">🔴</div><div class="heat-tag">PG 마감·검수</div>
+        </div>
+        <div class="heat-cell">
+          <div class="heat-dow">일</div><div class="heat-date">19</div>
+          <div class="heat-mark">⚪</div><div class="heat-tag">대기</div>
+        </div>
+        <div class="heat-cell">
+          <div class="heat-dow">월</div><div class="heat-date">20</div>
+          <div class="heat-mark">📅</div><div class="heat-tag">회의 09:00</div>
+        </div>
+      </div>
+      <div class="heat-legend">
+        <span><em>✅</em> 완료</span>
+        <span><em>🟠</em> 부분·지연</span>
+        <span><em>🔴</em> 마감 미이행</span>
+        <span><em>⚪</em> 대기</span>
+        <span><em>📅</em> 회의</span>
+        <span style="opacity:.6">·</span>
+        <span style="color:#FFC93C"><em>◆</em> 오늘</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. 로드맵 진행률 -->
+  <section>
+    <div class="h"><span class="num">01</span><h2>단계 · 로드맵 진행률</h2><span class="hint">기획 → 플랜 → 스케줄 → 개발 (하네스 공법)</span></div>
+
+    <div class="phase">
+      <div class="row"><span class="name">Phase 0 · 기반 정비</span><span class="chip c-done">완료</span><span class="pct">100%</span></div>
+      <div class="bar"><i style="width:100%"></i></div>
+      <small>산출물 복구·힉스필드 Plus 결제·MCP 연결·유나 채용 완료 ✓</small>
+    </div>
+    <div class="phase">
+      <div class="row"><span class="name">Phase 1 · 인스타 모집 콘텐츠</span><span class="chip c-doing">진행 중</span><span class="pct">65%</span></div>
+      <div class="bar"><i style="width:65%"></i></div>
+      <small>첫 모집 카드 ✓ · STORY 시리즈 6편 영상·썸네일·게시패키지 ✓ · 카드 5종(후킹·커리큘럼·CTA·차별점·REVIEWS) ✓ · 모녀 캐러셀 ✓ · 랜딩↔카드 연결 ✓ · 카카오 채널·인스타 실제 운영 대기</small>
+    </div>
+    <div class="phase">
+      <div class="row"><span class="name">Phase 2 · 광고 플랫폼 & 모집 퍼널</span><span class="chip c-wait">대기</span><span class="pct">0%</span></div>
+      <div class="bar"><i style="width:0%"></i></div>
+      <small>상세페이지 → 상담 신청 퍼널 · (선택) 유료 광고</small>
+    </div>
+    <div class="phase">
+      <div class="row"><span class="name">Phase 3 · 콘텐츠 자동화 웹앱</span><span class="chip c-wait">대기</span><span class="pct">0%</span></div>
+      <div class="bar"><i style="width:0%"></i></div>
+      <small>블로그/인스타 콘텐츠 자동 생성 (최종 목표)</small>
+    </div>
+  </section>
+
+  <!-- 2. 07-13 회의 결정 상태 -->
+  <section>
+    <div class="h"><span class="num">02</span><h2>07-13 회의 결정 상태</h2><span class="hint">확정 10건 · 미결 6건 · 63% 완료</span></div>
+
+    <div class="donut-wrap">
+      <div class="donut">
+        <div class="donut-center">
+          <div class="donut-big">63%</div>
+          <div class="donut-small">DECIDED</div>
+        </div>
+      </div>
+      <div class="donut-legend">
+        <div class="row"><span class="sq" style="background:#5BAE8A"></span><span><b>확정 10건</b> <small>· 도메인·오픈일·결제 방식·카페24·개발 순서 등</small></span></div>
+        <div class="row"><span class="sq" style="background:#E8A33D"></span><span><b>미결 6건</b> <small>· PG사·상표권·로고·상품 등록·자격증·브랜드 확장</small></span></div>
+        <div class="row" style="margin-top:6px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px">
+          <span>🎯 다음 회의 <b style="color:var(--ink)">2026-07-20 (월) 09:00</b> — 미결 최소 A·D 확정 목표</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="files-h" style="margin-top:6px">미결 6건 브레이크아웃 · 마감 표시</div>
+    <div class="pending-cards">
+      <div class="pcard hot">
+        <div class="k">A · 오늘 마감 🔥</div>
+        <div class="t">PG사 확정</div>
+        <div class="m">토스 / 네이버 / 카카오 / 유니시스 / KCP · 원장님·박대표</div>
+      </div>
+      <div class="pcard">
+        <div class="k">B</div>
+        <div class="t">상표권 재출원</div>
+        <div class="m">「극사실 아트 브로우」 조합 · 변리사 별도 회의</div>
+      </div>
+      <div class="pcard">
+        <div class="k">C</div>
+        <div class="t">로고·CI·BI</div>
+        <div class="m">대표님·원장님 · 별도 회의</div>
+      </div>
+      <div class="pcard hot">
+        <div class="k">D · 07-16 지남 🔴</div>
+        <div class="t">카페24 상품 등록</div>
+        <div class="m">이지 클래스 69만원 우선 · 이서연·박대표</div>
+      </div>
+      <div class="pcard">
+        <div class="k">E</div>
+        <div class="t">문신사 자격증</div>
+        <div class="m">회장님 위원회 문의</div>
+      </div>
+      <div class="pcard">
+        <div class="k">F · 중장기</div>
+        <div class="t">브랜드 확장 「아트페이스」</div>
+        <div class="m">별도 로드맵</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AI 직원 현황 -->
+  <section>
+    <div class="h"><span class="num">03</span><h2>팀 · 사람 1 + AI 직원 9</h2><span class="hint">2026-07 기준 · 8 SaaS PM + 개발·커뮤 신설</span></div>
+    <div class="team">
+
+      <div class="member">
+        <div class="av" style="background:#3A2A26">정</div>
+        <div class="nm">정주</div>
+        <div class="ro">PD · 총괄</div>
+        <div class="now"><span class="dot" style="background:var(--done)"></span>프로젝트 총괄·방향 결정</div>
+        <div class="tag">사람</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#FF8FA3,#FF7A66)">이</div>
+        <div class="nm">이서연</div>
+        <div class="ro">기획·마케팅</div>
+        <div class="now"><span class="dot" style="background:var(--doing)"></span>메뉴·카테고리 · 홈피 카피 · 싱가폴 3안</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#FFC93C,#FF7A66)">유</div>
+        <div class="nm">유나</div>
+        <div class="ro">그래픽·비주얼</div>
+        <div class="now"><span class="dot" style="background:var(--done)"></span>키비주얼 · 힉스필드 브랜드 이미지</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#5BAE8A,#3E8E6E)">다</div>
+        <div class="nm">김다은</div>
+        <div class="ro">SaaS-A PM</div>
+        <div class="now"><span class="dot" style="background:var(--doing)"></span>홈페이지·강의 · 시술→수강생 funnel</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#4A90E2,#2E5FB8)">서</div>
+        <div class="nm">박서윤</div>
+        <div class="ro">SaaS-B PM</div>
+        <div class="now"><span class="dot" style="background:var(--wait)"></span>광고·마케팅 · B2B 에이전시</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#A66BC9,#7B4AB8)">예</div>
+        <div class="nm">최예진</div>
+        <div class="ro">SaaS-C PM · Face Lab</div>
+        <div class="now"><span class="dot" style="background:var(--wait)"></span>패턴 라이브러리 v7 준비</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#FF9A56,#E8663D)">별</div>
+        <div class="nm">이한별</div>
+        <div class="ro">SaaS-D PM</div>
+        <div class="now"><span class="dot" style="background:var(--doing)"></span>카페24 상품 등록 · 이지 클래스 69만</div>
+        <div class="tag new">🔥 07-16 마감</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#7DBF8B,#4A9260)">민</div>
+        <div class="nm">김민서</div>
+        <div class="ro">Face Lab 실무</div>
+        <div class="now"><span class="dot" style="background:var(--wait)"></span>패턴 DB · 정면+측면 매칭 로직</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#3A3A3A,#0B0907)">승</div>
+        <div class="nm">한승철</div>
+        <div class="ro">풀스택 20년차</div>
+        <div class="now"><span class="dot" style="background:var(--done)"></span>홈피 카드뉴스+3언어 (07-17 ✓)</div>
+        <div class="tag dev">개발</div>
+      </div>
+
+      <div class="member">
+        <div class="av" style="background:linear-gradient(135deg,#FFE066,#F9B814)">하</div>
+        <div class="nm">송하은</div>
+        <div class="ro">채널 커뮤니케이션</div>
+        <div class="now"><span class="dot" style="background:var(--doing)"></span>카톡·인스타·오픈채팅 5개방</div>
+        <div class="tag new">신규</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. 이번 주 Action Items 매트릭스 -->
+  <section>
+    <div class="h"><span class="num">04</span><h2>이번 주 Action Items · 담당 매트릭스</h2><span class="hint">07-13 회의 배정 · 07-14~07-20</span></div>
+
+    <div class="ai-matrix">
+      <div class="ai-h ai-hp"></div>
+      <div class="ai-h ai-hp">도메인·서버</div>
+      <div class="ai-h ai-hp">PG사</div>
+      <div class="ai-h ai-hp">상품·메뉴</div>
+      <div class="ai-h ai-hp">상표권·자격증</div>
+      <div class="ai-h ai-hp">싱가폴·외국인</div>
+      <div class="ai-h ai-hp">홈피·콘텐츠</div>
+
+      <div class="ai-name">회장님</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell doing">⚡</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+
+      <div class="ai-name">대표님 · 이서연</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell doing">⚡</div>
+      <div class="ai-cell doing">⚡</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell doing">⚡</div>
+      <div class="ai-cell doing">⚡</div>
+
+      <div class="ai-name">원장님</div>
+      <div class="ai-cell done">✅</div>
+      <div class="ai-cell late">🔴</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell wait">⚪</div>
+
+      <div class="ai-name">박대표 · 개발</div>
+      <div class="ai-cell doing">⚡</div>
+      <div class="ai-cell late">🔴</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell na">—</div>
+      <div class="ai-cell done">✅</div>
+    </div>
+
+    <div class="ai-legend">
+      <span>✅ 완료</span>
+      <span>⚡ 진행 중</span>
+      <span>🔴 마감 지남</span>
+      <span>⚪ 대기 (다음 주)</span>
+      <span>— 미배정</span>
+    </div>
+
+    <div class="note" style="margin-top:14px;text-align:left">
+      <b style="color:#E86464">🔴 이번 주 즉시 확정 필요</b> ·
+      <b>PG사</b> = 원장님·박대표 (오늘 마감) ·
+      <b>카페24 상품 등록</b> = 이서연·박대표 (07-16 지남 · 07-20 회의 전 확정 목표)
+    </div>
+  </section>
+
+  <!-- 5. 작업 진행 + 작업물 -->
+  <section>
+    <div class="h"><span class="num">05</span><h2>작업 진행 · 작업물</h2><span class="hint">할 일 / 진행 중 / 완료</span></div>
+    <div class="kanban">
+      <div class="col wait">
+        <div class="ct"><span class="chip c-wait">할 일</span></div>
+        <div class="task">카카오 채널 개설 (대표님) → 카드/랜딩에 연결</div>
+        <div class="task">브랜드 자료 수급 (가격·커리큘럼·후기·사진) → REVIEWS 카드 채움</div>
+        <div class="task">컷5 변신 추가 6컷 업그레이드 (선택)</div>
+        <div class="task">인스타 실제 업로드·운영 (시리즈 4편 게시 시작)</div>
+        <div class="task">STORY · 05 페르소나 기획 (시리즈 확장 시)</div>
+      </div>
+      <div class="col doing">
+        <div class="ct"><span class="chip c-doing">진행 중</span></div>
+        <div class="task">Phase 1 인스타 콘텐츠 제작</div>
+        <div class="task">복구 문서에 브랜드 자료 채우기 (자료 대기)</div>
+      </div>
+      <div class="col done">
+        <div class="ct"><span class="chip c-done">완료</span></div>
+        <div class="task">★ <b>06/24 Blender MCP 정착</b> + 「장미지 시그니처 마네킹 헤드」 GLB + 16컷 자동 그리드 (31크 · 8분)</div>
+        <div class="task">★ 06/24 Blender MCP 도입 가이드 · 결과 페이지 2종 · 메모리 2종 · PROGRESS 신규 섹션</div>
+        <div class="task">프로젝트 정의 · CLAUDE.md</div>
+        <div class="task">브랜드 자료 분석</div>
+        <div class="task">도구·워크플로 확정</div>
+        <div class="task">전체 로드맵 재정비</div>
+        <div class="task">누락 산출물 5종 복구</div>
+        <div class="task">업무 보고 대시보드</div>
+        <div class="task">통합 포털 홈·웹앱·개발과정 페이지</div>
+        <div class="task">이미지·영상 도구 힉스필드 단일 통합</div>
+        <div class="task">힉스필드 MCP 연결 (Plus·인증 완료)</div>
+        <div class="task">디자인 도구 역할 분담 (Canva·Claude)</div>
+        <div class="task">산출물 외부 공유 임시 배포 (터널·18000)</div>
+        <div class="task">힉스필드 Plus 결제 (크레딧 1,010)</div>
+        <div class="task">그래픽 디자이너 유나 채용</div>
+        <div class="task">힉스필드 크레딧 단가 실측 (이미지1·영상22.5)</div>
+        <div class="task">첫 인스타 모집 카드 완성</div>
+        <div class="task">콘텐츠 갤러리 신설 (gallery.html)</div>
+        <div class="task">포털 홈 화려 에디토리얼 리뉴얼</div>
+        <div class="task">마스코트 '도비' 도입 (반려견 기반)</div>
+        <div class="task">코믹 지브리 쇼츠 완성 + 유튜브 게시 ✓</div>
+        <div class="task">인스타 모집 광고 이미지 + 광고 쇼츠 ✓</div>
+        <div class="task">정보형 쇼츠 "왜 극사실눈썹인가" ✓</div>
+        <div class="task">수강생 성장기 스토리텔링 쇼츠 (24초) ✓</div>
+        <div class="task">성장 스토리 시리즈 · 직장인편 (24초) ✓</div>
+        <div class="task">모집 카드 3종 기획·시안 (Raptor 인수) ✓</div>
+        <div class="task">랜딩↔카드 3종 연결 + 임시 상담 안내 ✓</div>
+        <div class="task">디자인 시스템 가이드 + 쇼츠 썸네일 시리즈 4종 시안 ✓</div>
+        <div class="task">시리즈 주인공 4명 일러스트 살구톤 재생성 (힉스필드) ✓</div>
+        <div class="task">인스타 프로필 그리드 9칸 모킹 ✓</div>
+        <div class="task">인스타 그리드 운영 가이드 (역순 게시·2주 캘린더·캡션) ✓</div>
+        <div class="task">카드 3종 살구톤 PNG 완성본 (Playwright 스크린샷, 0크레딧) ✓</div>
+        <div class="task">쇼츠 썸네일 4종 PNG 완성본 (시리즈 코믹·성장기·직장인·신부) ✓</div>
+        <div class="task">BRAND 인용 + MASCOT 도비 카드 2종 PNG (그리드 9칸 완성) ✓</div>
+        <div class="task">인스타 그리드 9칸 실사 PNG 모킹 (폰 프레임 + 9개 실사 배치) ✓</div>
+        <div class="task">신부편 쇼츠 검수 + 유튜브 게시 패키지 (제목/설명/태그/체크리스트) ✓</div>
+        <div class="task">직장인편 쇼츠 검수 + 유튜브 게시 패키지 (시리즈 게시 순서 정합용) ✓</div>
+        <div class="task">STORY · 04 부업맘편 「수아」 페르소나 + 시나리오 기획 ✓</div>
+        <div class="task">수아 캐릭터 일러스트 3종 (기본 + 살구톤 + 가족 모먼트) ✓</div>
+        <div class="task">부업맘편 시나리오 컷 1·2·3 일러스트 (9:16, 거실/새벽/완성) ✓</div>
+        <div class="task">부업맘편 썸네일 PNG (STORY · 04, 시리즈 4종과 통일) ✓</div>
+        <div class="task">부업맘편 쇼츠 영상 완성 (24초, 한글 자막, BGM 재활용) ✓</div>
+        <div class="task">부업맘편 유튜브 게시 패키지 (시리즈 4편 마지막) ✓</div>
+        <div class="task">인스타 그리드·운영가이드 STORY 4편 구조로 갱신 ✓</div>
+        <div class="task">카드 5종 확장: 차별점 + REVIEWS PNG 추가 ✓</div>
+        <div class="task">STORY · 05 시니어편 「선영」 페르소나 + 시나리오 기획 ✓</div>
+        <div class="task">선영 캐릭터 일러스트 3종 (기본 + 살구톤 + 모녀 모먼트) ✓</div>
+        <div class="task">시니어편 시나리오 컷 1·2·3 일러스트 (9:16) ✓</div>
+        <div class="task">시니어편 쇼츠 영상 완성 (24초, 한글 자막, 모녀 모먼트) ✓</div>
+        <div class="task">시니어편 썸네일 PNG (STORY · 05, 시리즈 5종 통일) ✓</div>
+        <div class="task">시니어편 유튜브 게시 패키지 (시리즈 5편 완결 자료) ✓</div>
+        <div class="task">「두 세대의 두 번째 인생」 모녀 캐러셀 6장 + 운영가이드 ✓</div>
+        <div class="task">모녀 캐러셀 3번 슬라이드 가독성 개선 (인물 축소·상단 배치) ✓</div>
+        <div class="task">STORY · 06 미대생편 「민지」 페르소나 + 시나리오 기획 ✓</div>
+        <div class="task">민지 캐릭터 일러스트 3종 (기본 + 살구톤 + 친구 모먼트) ✓</div>
+        <div class="task">미대생편 시나리오 컷 1·2·3 일러스트 (9:16, 작업실/드로잉/완성) ✓</div>
+        <div class="task">미대생편 쇼츠 영상 완성 (24초, 한글 자막, 시리즈 6편째) ✓</div>
+        <div class="task">미대생편 썸네일 PNG (STORY · 06, 시리즈 6종 통일) ✓</div>
+        <div class="task">미대생편 유튜브 게시 패키지 (시리즈 6편 완결 자료) ✓</div>
+        <div class="task">STORY · 07 미용 종사자편 「하영」 기획 (동종업계 전환 직결) ✓</div>
+        <div class="task">하영 캐릭터 일러스트 3종 (시안1·살구톤·동료 모먼트, 3크레딧) ✓</div>
+        <div class="task">미용 종사자편 시나리오 컷 1·2·3 (9:16, 가위와 펜이 한 화면에, 3크레딧) ✓</div>
+      </div>
+    </div>
+
+    <div class="files-h">완성 작업물 (클릭하면 열림)</div>
+    <div class="files">
+      <a class="file" href="Blender-3D-Lab.html" style="background:linear-gradient(135deg,#3A1A2A,#0B0907);color:#F5EDE3;border-color:#FF8FBB"><div class="ext" style="background:#FF8FBB;color:#0B0907">★ 3D Lab</div><div class="fn" style="color:#E0C088">★ Blender 3D Lab — 작업 허브</div><div class="fd" style="color:#D6C9B8">8 섹션 · 프로젝트 + 자산 + 도구 + 백로그</div></a>
+      <a class="file" href="원장님자료-분석리포트-20260624.html"><div class="ext">06/24</div><div class="fn">원장님 자료 분석 리포트</div><div class="fd">블록커 #2 진척</div></a>
+      <a class="file" href="https://eyebrows.staris.cloud" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#2A211C,#0B0907);color:#F5EDE3;border-color:#A8854E"><div class="ext" style="background:#C9A66B;color:#0B0907">★ LIVE</div><div class="fn" style="color:#E0C088">새 메인 사이트 ↗</div><div class="fd" style="color:#D6C9B8">eyebrows.staris.cloud</div></a>
+      <a class="file" href="https://eyebrows.staris.cloud/admin/history" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#2A211C,#161311);color:#F5EDE3;border-color:#A8854E"><div class="ext" style="background:#C9A66B;color:#0B0907">LIVE</div><div class="fn" style="color:#E0C088">활동 히스토리 ↗</div><div class="fd" style="color:#D6C9B8">모집·문자·결제 타임라인</div></a>
+      <a class="file" href="https://eyebrows.staris.cloud/admin" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#2A211C,#161311);color:#F5EDE3;border-color:#A8854E"><div class="ext" style="background:#C9A66B;color:#0B0907">LIVE</div><div class="fn" style="color:#E0C088">학원 관리자 ↗</div><div class="fd" style="color:#D6C9B8">lead + 💬 문자 발송</div></a>
+      <a class="file" href="광고-IG-69만원.html"><div class="ext" style="background:#C9A66B;color:#0B0907">06/16</div><div class="fn">인스타 광고 4종 (69만원)</div><div class="fd">Higgsfield · 광고 갤러리</div></a>
+      <a class="file" href="메인홈.html"><div class="ext">06/15</div><div class="fn">새 메인홈 (정적 사본)</div><div class="fd">청담 톤 + portrait C</div></a>
+      <a class="file" href="전체-기획-설계-도식.html"><div class="ext">06/15</div><div class="fn">전체 기획·설계 도식</div><div class="fd">9 섹션 · 라운드 로드맵</div></a>
+      <a class="file" href="회의-20260615-플랫폼구조.html"><div class="ext">06/15</div><div class="fn">전직원 회의록 + 한승철</div><div class="fd">플랫폼 구조 5축</div></a>
+      <a class="file" href="오늘-방향성-도식.html"><div class="ext">06/15</div><div class="fn">5축 전략 방향성</div><div class="fd">자동포스팅·AI응답·중·미·웹앱</div></a>
+      <a class="file" href="translate-zh.html"><div class="ext">06/15</div><div class="fn">중국어 강의 번역 PoC</div><div class="fd">STT + GPT 자동</div></a>
+      <a class="file" href="personas/한승철-풀스택개발.md"><div class="ext">MD</div><div class="fn">한승철 페르소나</div><div class="fd">CTO 신규 (20년차)</div></a>
+      <a class="file" href="docs/개발-루프-원칙.md"><div class="ext">MD</div><div class="fn">개발 루프 원칙</div><div class="fd">하네스 공법 5단계</div></a>
+      <a class="file" href="docs/artbrows-전체로드맵.md"><div class="ext">MD</div><div class="fn">전체 로드맵</div><div class="fd">4단계 플랜·스케줄</div></a>
+      <a class="file" href="docs/PROGRESS.md"><div class="ext">MD</div><div class="fn">진행상황</div><div class="fd">현재 단계 기록</div></a>
+      <a class="file" href="docs/artbrows-도구워크플로-확정안.md"><div class="ext">MD</div><div class="fn">도구·워크플로</div><div class="fd">도구·비용 확정안</div></a>
+      <a class="file" href="docs/artbrows-기획마케팅안.html"><div class="ext">HTML</div><div class="fn">기획·마케팅안</div><div class="fd">포지셔닝·퍼널</div></a>
+      <a class="file" href="personas/이서연-기획마케팅.md"><div class="ext">MD</div><div class="fn">이서연 페르소나</div><div class="fd">AI 직원 정의</div></a>
+      <a class="file" href="assets/artbrows-파이프라인-비용도식.svg"><div class="ext">SVG</div><div class="fn">파이프라인 도식</div><div class="fd">제작·월비용</div></a>
+      <a class="file" href="landing-pages/artbrows-모집-기본.html"><div class="ext">HTML</div><div class="fn">모집 상세 · 기본</div><div class="fd">수강생 모집</div></a>
+      <a class="file" href="landing-pages/artbrows-모집-럭셔리에디토리얼.html"><div class="ext">HTML</div><div class="fn">모집 상세 · 럭셔리</div><div class="fd">에디토리얼</div></a>
+      <a class="file" href="assets/모집카드시안/모집카드-3종-기획.html"><div class="ext">HTML</div><div class="fn">모집 카드 3종 기획</div><div class="fd">Phase 1 실행</div></a>
+      <a class="file" href="assets/모집카드시안/모집카드-3종-기획.md"><div class="ext">MD</div><div class="fn">카드 3종 기획</div><div class="fd">후킹·커리큘럼·CTA</div></a>
+      <a class="file" href="assets/모집카드시안/모집카드-3종-실제시안.html"><div class="ext">HTML</div><div class="fn">카드 3종 실사 시안</div><div class="fd">실제 디자인</div></a>
+      <a class="file" href="assets/모집카드시안/모집카드-3종-실제시안.md"><div class="ext">MD</div><div class="fn">카드 3종 실사 기획</div><div class="fd">Phase 1 실행</div></a>
+      <a class="file" href="docs/랜딩-상담퍼널-초안.md"><div class="ext">MD</div><div class="fn">랜딩·상담 퍼널 초안</div><div class="fd">Phase 1 실행</div></a>
+      <a class="file" href="docs/디자인시스템-가이드.md"><div class="ext">MD</div><div class="fn">디자인 시스템 가이드</div><div class="fd">카드↔쇼츠 톤 통일</div></a>
+      <a class="file" href="assets/모집카드시안/쇼츠썸네일-시리즈4종.html"><div class="ext">HTML</div><div class="fn">쇼츠 썸네일 시리즈 4종</div><div class="fd">1:1 + 9:16 시안</div></a>
+      <a class="file" href="assets/모집카드시안/인스타-그리드-9칸-모킹.html"><div class="ext">HTML</div><div class="fn">인스타 그리드 9칸 모킹</div><div class="fd">프로필 첫인상 시뮬레이션</div></a>
+      <a class="file" href="docs/인스타-그리드-운영가이드.md"><div class="ext">MD</div><div class="fn">인스타 운영 가이드</div><div class="fd">역순 게시·캘린더·캡션</div></a>
+      <a class="file" href="assets/모집카드시안/카드-후킹-살구.png"><div class="ext">PNG</div><div class="fn">카드 · 후킹 (살구톤)</div><div class="fd">1080×1080 완성본</div></a>
+      <a class="file" href="assets/모집카드시안/카드-커리큘럼-살구.png"><div class="ext">PNG</div><div class="fn">카드 · 커리큘럼 (살구톤)</div><div class="fd">1080×1080 완성본</div></a>
+      <a class="file" href="assets/모집카드시안/카드-cta-살구.png"><div class="ext">PNG</div><div class="fn">카드 · CTA (살구톤)</div><div class="fd">1080×1080 완성본</div></a>
+      <a class="file" href="assets/모집카드시안/카드-차별점-살구.png"><div class="ext">PNG</div><div class="fn">카드 · 차별점 (살구톤)</div><div class="fd">1080×1080 4가지 강점</div></a>
+      <a class="file" href="assets/모집카드시안/카드-reviews-살구.png"><div class="ext">PNG</div><div class="fn">카드 · REVIEWS (살구톤)</div><div class="fd">자료 대기 톤</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-도비편-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · 코믹 도비편</div><div class="fd">1080×1080</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-성장기-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · STORY 01 하은</div><div class="fd">1080×1080</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-직장인-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · STORY 02 지우</div><div class="fd">1080×1080</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-신부-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · STORY 03 예린</div><div class="fd">1080×1080</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-부업맘-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · STORY 04 수아</div><div class="fd">1080×1080 부업맘</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-시니어-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · STORY 05 선영</div><div class="fd">1080×1080 시니어</div></a>
+      <a class="file" href="assets/모집카드시안/썸네일-미대생-1080.png"><div class="ext">PNG</div><div class="fn">썸네일 · STORY 06 민지</div><div class="fd">1080×1080 미대생</div></a>
+      <a class="file" href="docs/유튜브-게시-미대생편-패키지.md"><div class="ext">MD</div><div class="fn">미대생편 유튜브 게시 패키지</div><div class="fd">시리즈 6편 완결</div></a>
+      <a class="file" href="assets/시리즈-부업맘편/부업맘편-쇼츠-완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">부업맘편 쇼츠 (STORY 04)</div><div class="fd">24초 1080×1920</div></a>
+      <a class="file" href="assets/시리즈-시니어편/시니어편-쇼츠-완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">시니어편 쇼츠 (STORY 05)</div><div class="fd">24초 1080×1920</div></a>
+      <a class="file" href="assets/시리즈-미대생편/미대생편-쇼츠-완성.mp4"><div class="ext">▶ 쇼츠</div><div class="fn">미대생편 쇼츠 (STORY 06)</div><div class="fd">24초 1080×1920</div></a>
+      <a class="file" href="docs/유튜브-게시-부업맘편-패키지.md"><div class="ext">MD</div><div class="fn">부업맘편 유튜브 게시 패키지</div><div class="fd">시리즈 4편</div></a>
+      <a class="file" href="docs/유튜브-게시-시니어편-패키지.md"><div class="ext">MD</div><div class="fn">시니어편 유튜브 게시 패키지</div><div class="fd">시리즈 5편 완결</div></a>
+      <a class="file" href="docs/모녀-캐러셀-운영가이드.md"><div class="ext">MD</div><div class="fn">모녀 캐러셀 운영가이드</div><div class="fd">6장 캡션·해시태그</div></a>
+      <a class="file" href="assets/모집카드시안/카드-brand-인용-1080.png"><div class="ext">PNG</div><div class="fn">카드 · BRAND 인용</div><div class="fd">1080×1080 명언</div></a>
+      <a class="file" href="assets/모집카드시안/카드-mascot-도비-1080.png"><div class="ext">PNG</div><div class="fn">카드 · MASCOT 도비</div><div class="fd">1080×1080 마스코트</div></a>
+      <a class="file" href="assets/모집카드시안/인스타-그리드-9칸-실사.png"><div class="ext">PNG</div><div class="fn">인스타 그리드 9칸 실사</div><div class="fd">1320×2000 운영자료</div></a>
+      <a class="file" href="docs/유튜브-게시-신부편-패키지.md"><div class="ext">MD</div><div class="fn">신부편 유튜브 게시 패키지</div><div class="fd">제목/설명/태그/체크리스트</div></a>
+      <a class="file" href="docs/유튜브-게시-직장인편-패키지.md"><div class="ext">MD</div><div class="fn">직장인편 유튜브 게시 패키지</div><div class="fd">먼저 업로드 권고</div></a>
+      <a class="file" href="docs/STORY-04-부업맘편-수아-기획.md"><div class="ext">MD</div><div class="fn">STORY · 04 부업맘편 기획</div><div class="fd">「수아」 페르소나·5컷 시나리오</div></a>
+      <a class="file" href="docs/STORY-05-시니어편-선영-기획.md"><div class="ext">MD</div><div class="fn">STORY · 05 시니어편 기획</div><div class="fd">「선영」 페르소나·세대 연결</div></a>
+      <a class="file" href="docs/STORY-06-미대생편-민지-기획.md"><div class="ext">MD</div><div class="fn">STORY · 06 미대생편 기획</div><div class="fd">「민지」 23세·진로</div></a>
+      <a class="file" href="docs/STORY-07-미용종사자편-하영-기획.md"><div class="ext">MD</div><div class="fn">STORY · 07 미용 종사자편 기획</div><div class="fd">「하영」 28세·전환 직결</div></a>
+      <a class="file" href="index.html"><div class="ext">HTML</div><div class="fn">통합 포털 홈</div><div class="fd">전체 연결 허브</div></a>
+      <a class="file" href="개발과정.html"><div class="ext">HTML</div><div class="fn">개발 과정</div><div class="fd">구축 일지·결정</div></a>
+      <a class="file" href="webapp.html"><div class="ext">HTML</div><div class="fn">웹앱 (준비중)</div><div class="fd">Phase 3 예고</div></a>
+      <a class="file" href="gallery.html"><div class="ext">HTML</div><div class="fn">콘텐츠 갤러리</div><div class="fd">이미지·영상 모음</div></a>
+      <a class="file" href="https://youtube.com/shorts/DF-7i_clWgw"><div class="ext">▶ 쇼츠</div><div class="fn">코믹 쇼츠 6컷 (유튜브)</div><div class="fd">눈썹 없던 그녀와 도비</div></a>
+      <a class="file" href="assets/모집카드시안/artbrows-모집카드B-완성.png"><div class="ext">PNG</div><div class="fn">모집 카드 완성</div><div class="fd">창시자 직강</div></a>
+      <a class="file" href="personas/유나-그래픽디자이너.md"><div class="ext">MD</div><div class="fn">유나 페르소나</div><div class="fd">그래픽 AI 직원</div></a>
+      <a class="file" href="assets/광고/광고이미지-모집.png"><div class="ext">PNG</div><div class="fn">인스타 모집 광고</div><div class="fd">정공법 프리미엄</div></a>
+      <a class="file" href="회의록.html"><div class="ext">HTML</div><div class="fn">회의록</div><div class="fd">전직원 기획 회의</div></a>
+      <a class="file" href="https://youtube.com/shorts/Eni8T-MTRrs"><div class="ext">▶ 쇼츠</div><div class="fn">성장 스토리 쇼츠 (유튜브)</div><div class="fd">평범했던 그녀의 새로운 시작</div></a>
+      <a class="file" href="gallery.html"><div class="ext">▶ 쇼츠</div><div class="fn">시리즈 · 직장인편</div><div class="fd">사원증을 벗고, 전문가가 되다</div></a>
+    </div>
+  </section>
+
+  <!-- 4. 일일 작업 로그 -->
+  <section>
+    <div class="h"><span class="num">06</span><h2>일일 작업 로그</h2><span class="hint">날짜별 타임라인</span></div>
+    <div class="tl">
+      <div class="day">
+        <div class="date">2026-07-23 <span>수요일 · 오늘 · 저녁 리부트</span></div>
+        <ul>
+          <li><b>★★★★ 카드뉴스 Track A 완결 + Track B 리부트 착수 (저녁) 🔀</b> — 대표님 피드백 「카드뉴스 아직 맘에 안 든다 · 요즘 트렌디·센서티브 재조사 · 기획부터 다시 · 지금까지 한 것은 아트브로우즈 스타일로 잘 정리」. 하네스 공법 · 개발 STOP · 기획 회귀. <b>Track A = ARTbrows Style System v1.0</b> 정본화 (17 스타일 · 12 kind · 앵커 = 12 Rebellion Serif · 시안 4세트 archived) · <b>Track B = Fable 5 세션 인스타 트렌드 재조사</b> (인계 브리핑 준비). 정본 <code>docs/ARTBROWS-STYLE-SYSTEM-v1.md</code> + <code>docs/CARDNEWS-REBOOT-BRIEFING-2026-07-23.md</code>. 다음 세션에서 대표님이 <code>/model fable-5</code> 실행 후 브리핑 문서로 즉시 착수 가능.</li>
+          <li><b>인스타 chrome 자동 오버레이 스타일별 opt-out 완료 🎨</b> — 대표님 스크린샷 피드백 (Silhouette 이미지 얼굴 위 @artbrows_academy 배지 겹침). <code>StylePreset</code> 에 <code>showInstaChrome</code> 필드 추가 + Silhouette/Broken Grid/Grain Frame 3종 자동 OFF · Rebellion Serif/Vertical Column 2종 ON. view/edit 페이지 wrapper 자동 매핑 · CSS <code>.no-insta-chrome</code> opt-out. 5 시안 curl 검증 통과 (12·14=ON · 13·15·16=OFF).</li>
+          <li><b>★★★ 카드뉴스 스타일 시스템 11→17 확장 · 원장님 Top 5 승격 결정 🎨</b> — 전직원 10명 관점 진단 세션 → 원장님이 「요즘 인스타에서 확 눈을 사로잡는」 신 5종 승격 확정 (Blur Reveal 제외). <b>실행 순서 = 병행</b> (코드 + 시안 동시). 정본 <code>docs/CARDNEWS-STATUS-AND-NEW-STYLES-2026-07-23.md</code>.</li>
+          <li><b>신규 5 스타일 프리셋 추가 (`style-presets.ts` order 12~16) 🧩</b> — <b>12 Rebellion Serif</b> (Vogue 진화형·대문자 사진 침범) · <b>13 Grain Frame Editorial</b> (Kinfolk 저널·아틀리에) · <b>14 Vertical Column Story</b> (NYT T Magazine 3단·저장률 2배) · <b>15 Broken Grid Editorial</b> (Prada FW26 룩북·오프셋) · <b>16 Silhouette Reveal</b> (Dior/YSL 미스터리 훅). 각 스타일 <code>recommendedKinds</code>·<code>copyToneHints</code>·<code>layoutHints</code>·<code>useCase</code> 정의. <code>STYLE_PRESET_LIST</code> 자동 정렬 → UI/API 3종/agents/orchestrator 별도 수정 없이 반영.</li>
+          <li><b>Silhouette Reveal 임시 이미지 · Gemini 3 Pro Image Preview 첫 시도 성공 🎭</b> — 원장님 실 촬영 대기 상태 임시 처리. 스크립트 <code>app-next/scripts/generate-silhouette-2026-07-23.mjs</code> (폴백 체인 6개 모델). 입력 <code>founder-persona/founder-01.png</code> → 출력 <code>founder-persona/silhouette-01.png</code> (575 KB · 다크 배경 + 골드 rim light + 프로필 실루엣 + 좌측 여백). ⚠️ 원장님 실 촬영 후 교체 예정.</li>
+          <li><b>시안 5세트 JSON (원장님 검토용) 📋</b> — <code>app-next/content/cardnews/2026-07-23-style{12,13,14,15,16}-*.json</code>. 각 6장 · 매거진 kind 조합 · SAFE POOL 재사용 (크레딧 0원). 각 JSON 에 <code>stylePreset</code> 필드 명시 → 편집기·미리보기에서 스타일 톤 검증 가능. 콘텐츠: 12 「HYPER REAL」 · 13 「선릉 · 오후 3시」 · 14 「털 같은 눈썹 3원칙 Ⅰ.Ⅱ.Ⅲ.」 · 15 「결.」 룩북 · 16 「20년 · 한 사람의 손끝」 미스터리.</li>
+          <li><b>CARDNEWS-STYLE-REFERENCE 정본 확장 📚</b> — <code>docs/CARDNEWS-STYLE-REFERENCE-2026-07-20.md</code> 에 12~16 섹션 신규 추가. 각 스타일 컨셉·시각·주 kind·어휘·사용 목적·시안 파일명 완비.</li>
+          <li><b>PROGRESS.md 최상단 07-23 섹션 신규 + 메모리 저장 + 대시보드 헤더·배지·일일 로그 갱신 🔄</b> — <code>artbrows-cardnews-new-5-styles-2026-07-23.md</code> 메모리 신규 + MEMORY 인덱스 추가. 남은 결정: 각 시안 원장 「살릴 것/톤 조정/폐기」 표시 · 원장 실루엣 실 촬영 스케줄 · 15기 모집 발송 최종 스타일.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-07-17 <span>금요일</span></div>
+        <ul>
+          <li><b>🎯 아침 카톡 회의 · 브랜드 방향 대전환 (원장님·본부장·박대표)</b> — 원장님 11:42 「원색 계열 피함」 · 본부장 「발랄 X 젊음 X · 프로페셔널 오피스 톤」 · 「6장 카드뉴스는 각 장 레이아웃 달라야」 지시. 어제 (07-16) 「아트브로우 (달력톤)」 = 홈피 방향과 상충 → <b>폐기 확정</b>.</li>
+          <li><b>원장님 통합 브랜드 가이드 2장 정본 지정 · 6톤 팔레트 확립 🎨</b> — <code>public/brand/founder/2026-07-17-integrated-guide-1·2.png</code>. 6톤 (treatment 다크챠콜·founder 뉴트럴베이지·review 딥버건디·classroom 딥세이지·detail 아이보리·reels 미디엄챠콜) + 콘텐츠 필러 40/20/15/15/10 + 비주얼 통일 규칙 (웜톤·세미매트·Canva 브랜드킷).</li>
+          <li><b>artbrows style 모듈 정형화 (`src/lib/artbrows/`) 🏛</b> — 원장님 지시사항 코드화. <code>tokens.ts</code> (색·폰트·6톤 팔레트·콘텐츠 필러·비주얼 규칙·금지 목록) + <code>tokens.css</code> (--ab-* 변수 + 카테고리 유틸리티 클래스) + README (원문 정본·갱신 이력). "모든 UI 는 이 모듈 밖 색/폰트 임의 사용 금지" 원칙.</li>
+          <li><b>카드뉴스 12종 레이아웃 컴포넌트 (원장님 정본 톤 · 각 장 다른 레이아웃) 🃏</b> — CoverFounder·NumberBig·IconDuo/Trio·Checklist·PortraitFrame·ProductHero·QuoteBold·SignatureStyle·CurriculumRow·PriceTable·ClosingCTA. 모든 컴포넌트 <code>slideFrameProps(category)</code> → 6톤 카테고리 자동 · 색·폰트 리터럴 0건 (--ab-* 토큰만).</li>
+          <li><b>★★★ 카드뉴스 프로젝트 관리 시스템 (모비딕 방식 채택) 📁</b> — 8인 AI 직원 회의: MySQL/Supabase/JSON 3안 논의 → <b>모비딕 방식 (로컬 JSON + 파일 시스템) 최종 채택</b>. 근거: 원장님 「파일로 저장」 요구·mobydick-hub `fs.readFile/writeFile` + mobydick-detail-agent `{id}/*` 검증된 패턴·07-13 연구소 PC 이관 계획과 정합·회사 표준 통일. 저장 = <code>app-next/content/cardnews/{id}.json</code> (git 관리). API (GET/POST/PUT/DELETE/duplicate/upload) + 대시보드 (목록·신규·복제·보관·삭제·JSON import/export) + 3분할 편집기 (슬라이드 리스트·kind별 폼·실시간 미리보기) + 뷰어 (게시용).</li>
+          <li><b>파일 업로드 기능 📤</b> — <code>POST /api/cardnews/upload</code> (multipart · 15MB · png/jpeg/webp/gif/svg) → <code>public/brand/uploads/</code> 저장. 편집기 이미지 필드에 <b>「📁 업로드」 버튼 + 미리보기 썸네일 + × 지우기</b> · cover-founder·portrait-frame·product-hero 3 kind 에 적용.</li>
+          <li><b>카드뉴스 다국어 (Phase 1 · KO/EN/中 통합) 🌏</b> — 데이터 모델 <code>translations: { ko, en, zh }</code> · 기존 최상위 <code>slides</code> 자동 마이그레이션. 편집기 상단 언어 탭 + 「기본 언어에서 복사」 · 미리보기 <code>?lang=</code> 파라미터 + 스위처 UI · 대시보드 각 프로젝트 행에 3언어 pill.</li>
+          <li><b>홈페이지 3언어 (Phase 2 · i18n) 🌍</b> — <code>src/lib/i18n/messages.ts</code> 홈피 전체 텍스트 KO/EN/ZH 딕셔너리 (Hero·Philosophy·Pillars·Tracks·Axes·Global·CTA·Footer) + <code>HomePage.tsx</code> 공통 렌더 컴포넌트 + <code>/en</code>·<code>/zh</code> 페이지 신설 + GNB 언어 스위처 실 링크 + Noto Serif SC/Sans SC 폰트 로드. ⚠️ EN/ZH 번역 초안 · 원장님·본부장 검수 대기.</li>
+          <li><b>홈페이지 500 → 200 복구 🔧</b> — 원인: <code>/메인홈무드/</code> 한글 폴더 URL 이 Next.js 16 preload 헤더 ByteString 변환 실패. 해결: <code>public/메인홈무드/</code> → <code>public/hero-mood/</code> 영문 rename + page.tsx 5곳 URL 갱신 → 200 복구.</li>
+          <li><b>상단 GNB 유틸리티 바 (본부장 스토리보드 첫 페이지 반영) 🧭</b> — 톡·인스타 아이콘 · <code>ARTBROWS & ACADEMY</code> 워드마크 · 5개 메인 메뉴 (대표원장·극사실눈썹이란·아카데미·커리큘럼·시술가격) · [교육문의][시술상담] 골드 CTA. 기존 하단 GNB (딥 블랙+골드) 는 <code>top: 48px</code> 로 이동.</li>
+          <li><b>정본 문서 4종 신설 (`app-next/docs/`) 📝</b> — BRAND-DIRECTION-2026-07-17 (원장님 정본 톤 통합) · MEETING-2026-07-17-KATALK (카톡 회의록) · HOMEPAGE-STORYBOARD-2026-07-17 (본부장 스토리보드 텍스트) · CARD-NEWS-LAYOUT-LIBRARY-2026-07-17 (12종 × 6카테고리 매트릭스 + 벤치마크 5장 분석). <code>public/brand/founder/</code> 원장님 자료 · <code>public/brand/ref/</code> 본부장 벤치마크 분리.</li>
+          <li><b>PROGRESS.md + 대시보드 + _site 자동 갱신 🔄</b> — PROGRESS 최상단 07-17 섹션 신규 + 대시보드 헤더·배지·일일 로그 갱신 + _site 동기화.</li>
+          <li><b>🪄 카드뉴스 AI 자동 생성 파이프라인 (모비딕 detail-agent 이식 · Gemini+OpenAI 병렬) ★★★</b> — <b>4 Agent</b> (trend-researcher · vision-analyzer · stylist · copywriter) + orchestrator. <b>멀티 모델 스택</b>: Gemini 2.5 Flash + OpenAI GPT-4o 병렬 (Anthropic 키 있으면 자동 확장). API <code>GET/POST /api/cardnews/generate</code>. UI 대시보드 「🪄 자동 생성」 버튼 → 모달 (목적·언어·슬라이드수·모델 선택 최대 2개·트렌드 조사·Vision 옵션). <b>검증</b>: Gemini 단독 4장 <b>55초</b> · Gemini+OpenAI 병렬 4장 <b>58초</b> · 원장님 정본 톤 (「결」「손끝」「무게」「본질」) 재사용 · 각 슬라이드 2안 뚜렷한 다양성 확인. <code>src/lib/cardnews-agents/</code> 5파일 (types/models/prompts/agents/orchestrator).</li>
+          <li><b>🗑 삭제 버튼 추가</b> — 대시보드 draft 행에 「보관」 옆 즉시 완전삭제 버튼 · 편집기 상단 툴바에도 「🗑 삭제」 버튼 (confirm → 대시보드 자동 이동).</li>
+          <li><b>🧹 AI 응답 태그 렌더 버그 수정</b> — Gemini/OpenAI 가 headline 안에 <code>&lt;gold&gt;</code>·<code>&lt;highlight&gt;</code> 태그 삽입 → 텍스트로 렌더되는 문제. 프롬프트에 <b>마크업 태그 절대 금지</b> 섹션 추가 + <code>sanitize.ts</code> 후처리 유틸 신설 (재귀 문자열 정제 + <code>highlight</code> 자동 추출). 재생성 3장 검증 · tag/markdown issues <b>0건</b>.</li>
+          <li><b>🎨 10 스타일 프리셋 (원장님 요구 · ARTbrows 기본)</b> — 10 프리셋: [1] <b>artbrows</b> (기본 · 원장님 정본) + [2~9] 트렌드 8종 (minimal-editorial · bold-question · numbered-steps · quote-focus · before-after · data-card · poem-verse · announcement) + [10] <b>live-trend</b> (실시간 조사). 프리셋별 <code>copyToneHints</code> + <code>layoutHints</code> 정의 → stylist/copywriter 프롬프트 삽입. 프리셋 사용 시 트렌드 조사 스킵 → <b>~10~15초 단축</b> (대량 생성 유리). UI: 스타일 선택 2열 그리드 · artbrows 기본. 검증: artbrows(14s) · bold-question(9s) · live-trend(20s) 3종 정상 작동.</li>
+          <li><b>🔀 편집기 대안 안 교체 UI (자동 생성 후속)</b> — <code>CardnewsProject.autoVariants</code> 필드 신설, 자동 생성 시 모든 모델 안(Gemini/OpenAI/...) 을 프로젝트 파일에 함께 저장. <b>편집기 우측 미리보기 하단</b>에 「🪄 AI 대안 안 카드」 (자동 생성 프로젝트만 표시) — 각 안 클릭 → confirm → 슬라이드 즉시 교체. 원장님·본부장이 편집 중 다른 모델 안 자유롭게 골라 확정 가능. 검증: 3장×2모델=6안 저장·편집기 UI 렌더 확인.</li>
+          <li><b>★★★ 🎬 Progressive 자동 생성 (슬라이드별 팝업 + 20초 타이머) — 원장님 요구</b> — "한 장 한 장 나오면 미리보기 팝업으로 · 답 없으면 20초 후 자동 진행". <b>백엔드 3 API 분리</b> (<code>prepare</code>+<code>slide</code>+<code>finalize</code>) + orchestrator 재구조. 프론트 <b>4-스텝 위저드</b> (setup→preparing→slide 팝업 반복→saving). 슬라이드 팝업 = 2 모델 안 나란히 · 클릭 선택 (골드 테두리) · 3 버튼 (여기까지 저장·다음→(Xs)·닫기). <b>20초 카운트다운</b> = 답 없으면 <code>setInterval</code> 자동 <code>onNext()</code>. <b>부분 저장</b> 언제든 가능. 검증: prepare 200 · slide 200 (6.4s) · dashboard 200.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-07-16 <span>목요일</span></div>
+        <ul>
+          <li><b>🎯 캘린더 PNG 렌더 원장님 완성본 톤 매칭 🗓️</b> — 원장님이 「8월 수업 일정 안내」 완성본 이미지를 정본으로 지정. <code>calendar.html</code> PNG 렌더 함수 통째 재구성: 세리프 폰트(Playfair Display) → <b>Pretendard sans-serif</b>, 원 배지 규칙(일=핑크·토=베이지·이벤트별 색·OT=파랑), pill 이 셀 사이 자연스레 이어짐, pill 아래 라벨 <code>position:absolute</code> + 첫 mid 셀만 표시로 3일+ 그룹 좌우 침범 겹침 해소. <code>pickEventLabel()</code> 도 이벤트 <code>title</code>/<code>name</code> 우선 반환 (기존은 type 이름만).</li>
+          <li><b>enrollment 캐러셀 6장 - 프리뷰 이미지 렌더 + 「아트브로우 (달력톤)」 스타일 신규 🎨</b> — 프리뷰 모달 카드에 편집 화면과 동일한 이미지 렌더 로직 추가 (배정한 실사진 카드 상단 40% 표시 + 배지에 🖼️). 스타일 chip 에 <b>아트브로우 (달력톤)</b> 신규 (크림 배경 #F5EED8 + Pretendard Black 검정 헤드라인 + 핑크 액센트 #F09FBB + 검정 CTA · 캘린더 완성본과 톤 통일).</li>
+          <li><b>로고 원본 유지 · 전 스타일 통일 ✒️</b> — 원장님 완성본 하단 필기체 「ARTbrows」 로고 = <b>Google Fonts Caveat Bold</b>. <code>.slide-brand</code> 를 Caveat Bold 24px 로 통일 · 모든 스타일별 <code>font-family</code> override 전부 제거 (동적 스타일 포함) · 배경 대비용 색만 남김. 크림 살구·Luxury Dark·K-Beauty·Editorial·손글씨·Y2K·아트브로우 어느 스타일이든 로고 폰트 동일.</li>
+          <li><b>이미지·텍스트·로고 겹침 해소 · 카드 6장 크기 통일 📐</b> — 이미지 wrap 을 flex 흐름 첫 아이템으로 (<code>height:32%</code> + 카드 padding 상쇄 margin) · <code>.slide-preview.has-img</code> = <code>justify-content:flex-start</code> + <code>overflow:hidden</code> · CTA·brand <code>flex-shrink:0</code> · headline·body <code>flex-shrink:1;overflow:hidden</code> (넘치면 자연 잘림) · 카드 padding 24→16px · headline 22→17px · body 12.5→11px · brand <code>margin-top:auto</code> 로 하단 고정. 6장 이미지 크기 완전 통일 (object-fit:cover + 동일 32% 높이).</li>
+          <li><b>Canva 원장님 자료 실사 조회 🔍</b> — MCP 로 원장님 Canva 자료 검색·확인 (「이지클래스 수업일정 본점」 8pg, 「calendar의 사본」 5pg). Canva API 는 폰트 family 반환 안 함 확인 → 시각 분석으로 원장님 로고 = Caveat Bold 판정. 기존 <code>/static/artbrows-logo.png</code> 이미지도 동일 톤 필기체로 존재 확인.</li>
+          <li><b>PROGRESS.md + 대시보드 자동 갱신 🔄</b> — <code>docs/PROGRESS.md</code> 최상단에 07-16 섹션 신규 (calendar/enrollment 두 화면 변경 상세) + 대시보드 헤더 일자·배지 갱신 + 일일 로그 07-16 블록 최상단 추가 + _site 동기화.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-07-13 <span>월요일</span></div>
+        <ul>
+          <li><b>🎯 회장님·대표님·원장님 전체 회의 (09:23 ~ 10:29 · 66분 10초)</b> — 홍보 홈페이지·쇼핑몰 4개 기능 스펙 확정. 클로바노트 전사 66분 분량 정리 → 회의록 정본 <code>artbrows-platform-py/docs/MEETING-2026-07-13-MINUTES.md</code> 신설 (12안건·확정 10건·미결정 6건·Action Items 4인 배정).</li>
+          <li><b>★ 도메인 확정 · <code>artbrow.co.kr</code></b> — <code>artbrow.com</code> 은 이미 타인 소유 · <code>artbrow.co.kr</code> 공석 → 오늘 잡음. 가비아 · <b>법인 계정 결제</b> · 1년 14,000원. 대표님이 결제 후 박대표에게 구글 계정 접근권 부여 예정. 나중에 브랜드 확장 시 (아트페이스 등) 재검토.</li>
+          <li><b>★ 개발 순서 3단계 확정</b> — ① 홍보 홈페이지 + 상담 접수(통 확보) → ② 간단 LMS(수강생 히스토리) → ③ 쇼핑몰 결제단. 한 번에 전부는 1년 프로젝트 → 단계별. 백엔드 보안은 박대표 백엔드 전문가 활용(별도 비용 X).</li>
+          <li><b>★★★ 1차 오픈일 변경 · 08-10 → 8월 말</b> — 회장님 미국 출국 전 오픈. 이번 주(07-14~18) 메뉴·카테고리 확정 → 담주(07-21~25) 콘텐츠·이미지 전달 → 이후 4주 개발. 박대표 "저를 갈아 넣으신…" (승낙).</li>
+          <li><b>결제 대상 확정 · 이지 클래스 69만원만</b> — 온라인 강의 판매는 지금 X (영상 송출 등 복잡). 한 페이지 상품 홈페이지 + PG 결제. 소묘·눈썹 235만·660만 세트는 결제 대상 X. 인스타 결제 대신 홈페이지 자체 결제 (DB 확보 목적).</li>
+          <li><b>쇼핑몰 방식 · 카페24 확정 (07-13 오후)</b> — 자체 개발 X. 07-16 마감: 카페24 계정 개설 + 상품 등록 범위 (이지 클래스 69만 우선 · 세트/종합은 상담 유도). PG 선택은 카페24 지원 목록에서.</li>
+          <li><b>싱가폴 진출 · 브로우 하우스 답변 수령</b> — 프랜차이즈 아이브로우 바에서 "협업 사항 이메일로" 요청. 대표님(이서연) 이번 주 <b>프로포즈 3안</b> 준비 발송 (팝업 · 정기방문 · 아카데미).</li>
+          <li><b>외국인 마케팅 · B2B 에이전시 우선</b> — 원장님 인스타 글로벌 계정 아이디어 → 회장님·대표님 반대. 청담·신사동 성형·치과 패키지 에이전시 접근이 CTR·전환 우수. 인스타 글로벌은 보조.</li>
+          <li><b>모델 섭외 진행 · PT 셀럽 남성 컨택</b> — 요청 사양: 얼굴 정면 증명사진(생얼) + 눈썹 디테일 컷 + <b>이전 시술 경험 여부(처음 우선)</b>. 조건 확인 후 일정 조율.</li>
+          <li><b>경쟁사 분석 결과 (이서연 정리 중)</b> — 원장님급 하이퀄 없음. 경쟁자 홍보 키워드(미술·수상·심사·강남·경력) 다 원장님도 해당 → 우리가 이길 수 있음. 킬러 콘텐츠 = <b>재건 케이스(나이든 아저씨)</b> CTR 2배. 젊은 여자·남자 위주 X → 다양성·재건·시니어 톤.</li>
+          <li><b>PROGRESS.md + 대시보드 자동 갱신 🔄</b> — <code>docs/PROGRESS.md</code> 최상단 「07-13 회의 확정」 섹션 신규 + 07-10 견적 섹션에 오픈일 변경 취소선 처리. 대시보드 헤더 일자·배지·STATS 4칸 전면 교체 (도메인·오픈일·이번 주 미션 반영).</li>
+          <li><b>07-06 회의록도 함께 정본화 📝</b> — 지난주 원장님 회의(39분 47초, 콘텐츠·광고 자동화 마스터 요청 + 캘린더 UI 피드백)도 <code>MEETING-2026-07-06-MINUTES.md</code> 로 정리. 협업 사이클 확정(원장님→본부장 구조화→박대표 구현→카톡방 실시간 피드백) + 비포·애프터 촬영 방식 <b>모델 사전 촬영으로 전환</b>.</li>
+          <li><b>🟡 결정 대기 (주중) · 6건</b> — A) PG사 선택(07-18) B) 상표권 「극사실 아트 브로우」 재출원(변리사) C) 로고·CI·BI(별도 회의) D) 쇼핑몰 8월말 범위(07-16) E) 문신사 국가자격증(회장님) F) 브랜드명 확장(중장기).</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-07-06 <span>월요일</span></div>
+        <ul>
+          <li><b>🎯 원장님 카톡 피드백 4건 (22:28~22:40)</b> — 강의 달력 스샷 + ① 화·수·목 요일 반복 원함 ② "아직 일정 없음" 자리에 특강 등 자유 입력 ③ 달력 이미지 요일·일자 더 크게·심플 ④ "프로그램 사용법 설명 필요? 전체 메뉴화만 된 거죠?"</li>
+          <li><b>① 요일 반복 UX ✨</b> — <code>web/static/calendar.html</code> 모달에 <b>[하루 / 연속 N일 / 요일 반복]</b> 3-토글 신설. 요일 반복 모드: 월~일 체크박스(핑크 강조) + 반복 주 수 입력 → 자동으로 여러 날 채움 (예: 화·수·목 × 4주 = 12개 일정 한 번에). 연속 N일 모드: 일수 입력만.</li>
+          <li><b>② 커스텀 특강 자유 입력 ✎</b> — 수업 종류 dropdown 5번째로 <code>✎ 커스텀 특강 (제목 직접 입력)</code> 추가. 선택 시 「특강 제목」 입력 필드 자동 노출. 커스텀 이벤트는 달력에 오렌지 dashed 테두리로 시각 구분. 범례에도 추가.</li>
+          <li><b>③ PNG 렌더 재설계 📸</b> — 날짜 20→<b>52px</b>, 요일 헤더 13→<b>32px</b> (Cormorant Garamond + Nanum Myeongjo). 통계·범례 제거해 심플 카드로. 이벤트는 최대 2건까지만 표기, 나머지는 「+N」. 헤더에 <b>2026.7월</b> 대형 세리프 + "@artbrows_academy" 태그.</li>
+          <li><b>④ 사용법 페이지 신규 🆕</b> — <code>web/static/calendar-usage-guide.html</code> · 3분 5스텝 가이드 (날짜 클릭 → 반복 모드 선택 → 수업/커스텀 → 결과 확인 → PNG 저장) + FAQ 5문항 + <b>「지금 어디까지 되어있나」 솔직 상태표</b> (작동 6종·미연결 3종: 다기기 동기화·인스타 자동 게시·수강생 카톡 알림). 상단 컨트롤바에 「? 사용법」 진입 버튼 추가.</li>
+          <li><b>브라우저 검증 완료 ✓</b> — Edge headless 스샷 3장(메인 달력 · 모달 요일반복+커스텀 · 모달 연속N일) 육안 확인. URL fragment QA 훅 <code>#openday=21&mode=weekly&type=custom</code> 정착 — 향후 사용법 문서 링크 재활용 가능.</li>
+          <li><b>자동 갱신 4종 세트 🔄</b> — <code>docs/PROGRESS.md</code> 신규 섹션 「2026-07-06 원장님 UI 피드백 4건 반영」 표 형태 + 대시보드 헤더 일자·배지 갱신 + 오늘 로그 신설. platform-py 는 Cloudflare Quick Tunnel 서빙이라 _site 복사 불필요.</li>
+          <li><b>다음 원장님 확인 대기 🎯</b> — 새 화면 열어 실제 사용 소감 + 「사용법 페이지」 3분 훑어보시고 부족한 스텝/설명 있는지.</li>
+          <li><b>🚨 대표님 리마인드 · 원장님 실제 강의·수강 정보 확정 💰</b> — 그동안 코드 seed 가 부정확했음. 이번에 <b>원장님 실제 판매 상품 6종</b> 확정 seed 반영: <b>이지클래스 99만(3H·일요일)</b> · <b>극사실 소묘 66만(3일 연강·11-18시·그림만·눈썹 사전)</b> · <b>극사실 눈썹 169만(7H·실습·소묘 이후)</b> · <b>★★ 소묘+눈썹 세트 235만(대표 상품)</b> · <b>★★★ 종합 패키지 660만(이지+소묘+극사실3+제거+레이저)</b> · 상담 1.9만. <b>1년 제자반 990만 폐지 예정</b>. TYPES 에 <code>note</code> 필드 추가. 프론트 <code>calendar.html</code> + 서버 <code>web/db.py</code> seed 동시 갱신.</li>
+          <li><b>🤝 대표님 「파트너 계약 체결 · 파트너만 이지클래스 강의」 즉시 반영</b> — 원장님 시간 확보 전략 확정: 이지클래스 = <b>파트너 위임</b>, 원장님은 <b>극사실 소묘·눈썹·235만·660만</b> 프리미엄에만 집중. 코드 반영: TYPES.beginner.note 「파트너 계약 체결 · 파트너만 강의」 · 이벤트 모달에 <code>강사 (선택)</code> 인풋 신설 (비워두면 원장님 직강, 이름 넣으면 파트너 위임) · 이벤트 목록에 <b>👤 강사명</b> 그린 배지 · 서버 스키마 <code>calendar_events.instructor</code> 컬럼 추가 + 마이그레이션 ALTER 자동. <b>홍보 각도 재정의</b>: 「원장님이 직접 뽑은 파트너 강사」 스토리 → 이지클래스 홍보 무기 확보 · 「원장 직강 = 극사실만」 프리미엄 세그멘테이션 완성.</li>
+          <li><b>🚨 이번달 수강 모집 부재 · 매출 급락 경고 📉</b> — 대표님 리포트: 이번달 <b>수강 모집 상세페이지 못 올림</b> · 일정만 게시. 이지클래스 <b>69→99만원 인상</b> 후 <b>이전 6-10명 → 이번달 0명</b>. 인상 자체는 무리 아니나 홍보 부재가 결정타. <b>대응 필요</b>: (1) 이지클래스 인스타 카드 급조 (2) 235만·660만 세트 상세페이지 우선 (원장님 실제 매출 지레) (3) 극사실 소묘·눈썹 커리큘럼 연계 스토리 카드. Higgsfield + Claude Code 로 다음 세션 즉시 착수 가능.</li>
+          <li><b>대표님 「1·a」 다기기 동기화 MVP 착수 ☁</b> — 원장님 데이터가 이 PC 브라우저에만 저장되던 문제 해결. <b>SQLite 백엔드 신설</b>: <code>calendar_types</code> + <code>calendar_events</code> 두 테이블 + <code>web/db.py</code> 커넥션 헬퍼 + startup 자동 시딩. <b>FastAPI 라우터 신설</b> <code>web/routers/calendar.py</code>: GET/PUT types · GET/POST bulk/DELETE events · DELETE by group_id. <b>프론트 sync layer</b>: bootSync 로 앱 시작 시 서버 데이터 pull · localStorage fallback · addEvent/delEvent/saveTypesManager 에 push 훅 · <b>첫 접속 시 로컬 데이터 → 서버 자동 마이그레이션</b> (백업 키 저장). 「☁ 서버 연결됨」 그린 배지 상단 노출. <b>서버 재시작 필요</b>(대표님 대기): <code>python -m uvicorn web.app:app --host 0.0.0.0 --port 8001 --reload</code>.</li>
+          <li><b>대표님 「운영진 포털·외부 홈페이지 안보임」+「연구소에서 다 접속 가능하게」 즉시 반영 🧭</b> — lab.html 상단 네비 재편: 「← 플랫폼 홈 · 장미지 연구소 · 📅 강의 달력 · 🌐 외부 홈 ↗ · 🛠 운영진 포털 ↗ · <b>☰ 전체 메뉴 ▾</b>」 5개 액션 + 골드 그라디언트 드롭다운 신설. <b>드롭다운 15개 링크 4카테고리</b>: SaaS A 앱 6종(달력·사용법·수강안내·작품집·회원·공모전) + SaaS B/C 준비 중 + 외부(eyebrows.staris.cloud·jangmiji.staris.cloud) + 문서(대시보드·기획서·Blender Lab·Face Lab 리포트) + 개발도구(일지·API·Health). home.html footer 에도 「외부 홈·운영진 포털·연구소」 3개 진입점 골드 pill 추가.</li>
+          <li><b>원장님 「초급반 쭉 3개 연결 · 3일 강의면 합쳐진 칸으로」 즉시 반영 🎨</b> — 같은 groupId 이벤트가 같은 주(week) 안에서 연속되면 <b>하나의 이어진 바</b>로 시각화. <code>groupPosition()</code> 헬퍼로 앞·뒤·주경계 판단 → grp-start/mid/end 클래스. CSS: 셀 padding(8) + gap(6) = 14px 만큼 margin 음수 + border-radius 조정 + <code>.day overflow:visible</code>. 이름은 시작 셀에만 표시(중간·끝은 배경만). PNG 렌더도 동일 로직 (padding 14 + gap 10 → margin 24px) 이라 <b>원장님 6월 사진 예시의 「극사실 소묘수업 12기 23·24·25」 스타일 매치</b>. 주 경계 걸치면 자연스럽게 두 개 바로 분리.</li>
+          <li><b>원장님 「시작과 종료일 정하면 날짜들을 합쳐야 됨」 즉시 반영 📆</b> — 기존 「연속 N일」(숫자만) → <b>「기간」</b> 모드로 리네임 + <b>시작일·종료일 2 date 픽커</b>로 교체. 「요일 반복」도 「반복 주 수」 → <b>「종료일 date 픽커」</b>로 통일. 두 모드 모두 하단에 <b>「N일치·N개 자동 채워집니다」</b> 실시간 갯수 표시 (요일 체크·날짜 변경 시 즉시 재계산). openModal 마다 date 인풋 리셋 후 clicked day 기준 seed. groupLabel 도 「매주 화·수·목 × 12회」 로 실제 생성 개수 반영.</li>
+          <li><b>원장님 테스트 중 「📤 게시하기」 즉시 개선 📤</b> — 기존 alert stub → <b>PNG 자동 저장 + 인스타/카톡 K1 진입 팝업</b>. 인스타 (@artbrows_academy) 그라디언트 버튼 + 카톡 K1 (open.kakao.com/o/gWeAkSzi) 노랑 버튼 2열. 아래 팁 카드에서 "PNG 를 그대로 올리시면 끝" 안내.</li>
+          <li><b>원장님 「사진 저장 스타일 예시 · 홈페이지 연결」 즉시 반영 🏠🗓</b> — 원장님이 6월 일정 안내 이미지 예시 공유. ① lab.html (장미지 연구소) 상단 네비 리팩터 — 좌측에 <b>「← 플랫폼 홈」 골드 버튼</b> + 브랜드 로고 링크 홈으로 통일 + 우측 「강의 달력·개발 일지·API」 3개 액션. 잘못된 링크(장미지-연구소.html) 제거. ② TYPES 에 <code>holiday</code> built-in 6번째 추가 (배경 없이 회색 이탤릭 「휴무」 텍스트) → 원장님이 요일 반복으로 <b>「매주 일·수·목·금 = 휴무」</b> 지정 가능. PNG 렌더에서도 holiday 는 배경 없이 회색 텍스트만 → 원장님 예시와 근접 매치.</li>
+          <li><b>원장님 「요금 수정이 다 되어야 함」 즉시 반영 💰</b> — 일정 추가 모달에 <b>「이번 일정만 다른 요금」</b> 오버라이드 인풋 추가. 비워두면 종류 기본 요금, 값 넣으면 그 일정만 다른 요금 적용 (프로모션·조기등록 할인 등). placeholder 는 dropdown 변경 시 <b>기본 XX원</b> 자동 갱신, 「↺ 기본으로」 미니 버튼. 이벤트 목록에 <code>💰 다른요금</code> 핫핑크 배지로 시각 구분. 통계(예상 수익) 는 override 우선 계산. <code>eventPrice()</code>·<code>formatPrice()</code> 헬퍼 도입. 부수: URL fragment <code>type=</code> 반영 시 <code>onTypeChanged()</code> 호출 안 되던 버그도 함께 수정.</li>
+          <li><b>플랫폼 홈페이지 링크 깨짐 즉시 수정 🔗</b> — 대표님 「홈에서 연결이 안 되는데?」 피드백. A/B/C 카드 링크가 존재 안 하는 <code>/a</code> <code>/b</code> <code>/c</code> 로 걸려 있어 404. 수정: A → <code>/static/lab.html</code> (SaaS A 대시보드) + 카드 하단에 「강의 달력·마스터 작품집·회원 관리」 chip 3개 인라인. B/C → <code>/static/coming-soon.html?saas=B|C</code> 신규 페이지 (Luxury Dark 톤, 진행 상황 카드 + SaaS A 우회 링크 + 홈 백 버튼). 서버 재시작 없이 즉시 반영.</li>
+          <li><b>대표님 「2」 결정 즉시 반영 ⚙</b> — 「수업 종류 직접 편집」 기능 추가. TYPES 를 localStorage 기반 mutable 로 리팩터 · <code>⚙ 종류 관리</code> 모달에서 이름·시간·수강료·기본 시작·종료를 인라인 편집. 「+ 새 수업 종류 추가」 → 신규 종류 무제한 추가 · 기본 5종은 편집만 가능(삭제 불가). 종류 선택 시 시작·종료 시간 자동 입력. <code>getType()</code> 안전 헬퍼로 삭제된 종류 참조 crash 방지. 범례도 TYPES 기반 동적 생성. 사용법 페이지에 STEP 6 신설.</li>
+          <li><b>대표님 「1」 결정 즉시 반영 ↺</b> — 「반복 규칙 전체 삭제」 기능 추가. 요일 반복·연속 N일로 만든 이벤트에 <code>groupId</code>+<code>groupLabel</code> 자동 부여, 이벤트 목록에 <b>「↺ 매주 화·수·목 × 4주」</b> 오렌지 배지 표시, × 삭제 버튼 클릭 시 <b>「1=이 하루만 / 2=반복 규칙 전체 12개」</b> 선택 대화상자. 단일 이벤트는 기존 UX 유지. 사용법 페이지 FAQ 「12개 다 지우려면?」 <span style="background:#D4F5D4;color:#2F7A2F;font-size:10px;padding:2px 6px;border-radius:4px">NEW</span> 표기로 갱신.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-24 <span>수요일</span></div>
+        <ul>
+          <li><b>🎯 대표님 요청</b> — "MCP 로 연동 가능하면 제일 좋겠다. 클로드코드에서 제어 가능한 퀄리티 뛰어난 3D model 구현"</li>
+          <li><b>오전 — 사전 연구 + 도입 가이드 📚</b> — 원장님 자료 분석 리포트 + 3D 시뮬레이션 연구(Rodin·Meshy·Hunyuan 비교) + 리얼리즘 연구 + Blender MCP 도입 가이드 + addon.py(118KB) + .mcp.json 등록</li>
+          <li><b>오후 — Blender MCP 정착 🔧</b> — 대표님 Blender 설치 + addon 활성화(5분). Claude 가 사이드패널 손 안 대고 Python 으로 Hyper3D Rodin 자동 주입(<code>vibecoding</code> trial). 핸드셰이크 검증 + PoC Suzanne + HDR 1080×1080 렌더 1장 성공.</li>
+          <li><b>본격 생성 — 「장미지 시그니처 마네킹 헤드」 🎨</b> — Hyper3D 잔량 부족(<code>vibecoding</code> 공용) → A안 채택(Higgsfield <code>image_to_3d</code> Meshy). nano_banana_2 마네킹 1장(1크) → image_to_3d 30크 → GLB 6.96MB → Blender 자동 임포트(0.785배 auto-scale) → 1080×1080 렌더 본 결과.</li>
+          <li><b>1 GLB 무한 변형 검증 — 16컷 그리드 ✨</b> — PolyHaven HDR 4종(brown_02·blue·brown_04·cyclorama) × 카메라 4각도(Front·45°·Profile·Back) = 16 PNG + PIL 4×4 그리드 시트(2380×2290). 모두 0크. 「다운로드 → 즉시 렌더」 묶음 패턴으로 HDR 익명 이름 회피.</li>
+          <li><b>비용·자산 결산 💰</b> — 힉스필드 386 → 355(31크). 자산 24종(이미지 1 · GLB 1 · 렌더 PNG 21 · 그리드 1). 자산 단가 <b>장당 약 1.3 크</b> (이전 일러스트 1크/장 대비 폭락).</li>
+          <li><b>자동 갱신 4종 세트 🔄</b> — 메모리 신규(blender-mcp-pipeline) + 갱신(higgsfield-usage) + MEMORY 인덱스 + PROGRESS.md 신규 섹션 + index.html 카드 + 대시보드 STATS·칸반·작업물·일일 로그 + _site 동기화 진행.</li>
+          <li><b>★ Next — 시그니처 마네킹 캐러셀 6장 ✨</b> — 「어떤 조명에서도 같은 한 줄」 후킹 + 4 무드(Wood/Blue/Natural/Dramatic) + 「당신의 한 줄을 찾으세요」 CTA. 1080×1080 인스타 표준. <b>0크 추가</b> (1차 GLB 31크에서 무한 파생). 후킹·CTA 카드는 Edge headless 로 HTML→PNG. ARTbrows 첫 3D 마케팅 자산 + 새 카테고리 「Signature Series」 신설.</li>
+          <li><b>운영가이드 작성 📋</b> — <code>docs/시그니처마네킹-캐러셀-운영가이드.md</code> 9 섹션 (콘셉트·구조·캡션·해시태그·게시 타이밍·톤 매뉴얼·비용·확장 시나리오·관련 자산).</li>
+          <li><b>★ 측면 시그니처 캐러셀 (Profile Edition · Chapter 02) ✨</b> — 같은 4 HDR × Right Profile 각도 + 측면 전용 후킹/CTA 2장. "옆에서 봐도 한 줄로 흐릅니다". 좌측 align + 90° 워터마크 디자인으로 정면 시리즈와 명확히 분기. <b>0크 추가</b>. 운영가이드 v2 갱신 — 정면(D+0) + 측면(D+3) 동시 운영 패턴 + 측면 전용 캡션·해시태그 신설.</li>
+          <li><b>★ 360° 회전 릴스 영상 (Chapter Reel) 🎬</b> — Blender EEVEE 60 프레임 360° 회전 (34.6초 렌더 · EEVEE legacy) + ffmpeg stream_loop 2회 + 한글 자막 burn-in(맑은고딕 Bold) + 신부편 BGM 재활용. 결과: <b>5초 1080×1920 H.264+AAC 1MB</b> 인스타 릴스 표준. 0크 추가. 자막 시퀀스 「어떤 조명에서도 → 같은 한 줄(핫핑크) → 당신의 한 줄을 찾으세요 → @artbrows.korea / 상담 신청」. 운영가이드 v3 §8-B 영상 섹션 + ffmpeg 레시피 + 확장 시나리오 3종.</li>
+          <li><b>★ 무드별 릴스 4편 (Mood Reels) 🎬🎬🎬🎬</b> — 같은 GLB × 4 HDR(Wood/Blue/Natural/Dramatic) × 60프레임 회전 = 4편 5초 릴스 (1.08 / 1.17 / 1.01 / 0.88 MB). EEVEE 22초 × 4 = 약 90초 렌더 + ffmpeg merge 약 20초 = 총 약 2분. <b>0크 추가</b>. 인스타 D+0~D+12 격일 4편 게시 패턴 권장. 운영가이드 v4 §8-C 무드별 릴스 섹션 신설 + ROI 결산 (1 GLB → 36 자산 → 장당 0.86 크).</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-19 <span>금요일</span></div>
+        <ul>
+          <li><b>전직원 회의 — 실사 채택본 결정 🎯</b> — 이서연·유나·한승철 합동 회의. 핵심 블록커 3종 식별(실사 채택 미결정·카카오 채널 13일째 보류·원장님 자료 수령 미확인). 대표님 「1」 컨펌 → 유나 추천 채택. <b>02 셀카무드 → 메인홈 hero 교체</b>(hero-portrait-C → hero-portrait-E-셀카무드, alt 갱신) · <b>03 아틀리에 드로잉 → STORY 07 컷2 실사 적용</b>(기존 일러스트 컷2-승 은 「과거 자산」 보존) · 01 살롱 보류(준비된 미소 톤 다큐 톤 불일치). pending-decisions §0 해결, STORY 7편 B안 확정(신규 실사·기존 7편 보존).</li>
+          <li><b>회의록 PROGRESS.md 기록 📝</b> — 직원 발언 요약 + 회의 결정 + 다음 단계(STORY 07 하영 실사 컷1·3·4·5 + Veo 3.1) 명시.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-18 <span>목요일</span></div>
+        <ul>
+          <li><b>비주얼 톤 전면 재확정 — 실사 통일 🎨</b> — 대표님 「애니풍은 안맞아서 쇼츠영상도 리얼로 가야 한다」 명시. 메모리 visual-direction-hyperreal 강화(쇼츠·영상 포함, 금지 키워드 illustration/anime/comic/cartoon/ghibli 등). Soul 2.0 실사 톤 테스트 컷 3장 → assets/실사테스트-20260618/ (잔여 832.46, 3장 0.36 크레딧).</li>
+          <li><b>중국 세미나 번역 SQLite 캐시 도입 💾</b> — 「용량 큰것은 한번 번역해 두면 너무 아깝다」 — scripts/translations.db SQLite(WAL 모드) · 영상 SHA-256 키 · 영상 원본 _stream/&lt;jid&gt;/ 영구 아카이브 · 의존성 0. 백엔드(/api/start_translate · /api/upload_finalize · /api/process) 전부 캐시 적중 시 STT/번역 건너뜀. 신규 엔드포인트 3종(/api/cache_list · /api/cache/&lt;hash&gt; · /api/cache_check). UI translate-zh.html 에 「캐시 적중」 배지 + 즉시 자막 표시.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-17 <span>수요일</span></div>
+        <ul>
+          <li><b>활동 히스토리 시스템 신설 📜</b> — 학원(eyebrows)에서 일어나는 모든 활동(모집 신청·문자 발송·결제 등)이 Supabase events 테이블에 자동 기록 → /admin/history 시간순 타임라인 → 운영진 포털에 진입 카드 2종 신설(활동 히스토리·학원 관리자). 대표님 지시 「운영진 홈페이지에서 계속 히스토리로」 그대로 구현.</li>
+          <li><b>도메인 라이브 + SSL 자동 발급 🌐</b> — 가비아 A 레코드(eyebrows → 76.76.21.21) → Vercel 인식 → Let's Encrypt 자동 SSL → <b>https://eyebrows.staris.cloud</b> 라이브. 가비아 호스트가 eyebrows 로 등록되어 더 짧은 도메인 채택.</li>
+          <li><b>운영진 포털 ↔ 학원 사이트 연결 🔗</b> — eyebrows.staris.cloud nav 에 "운영진 ↗" 메뉴 추가 → 한 번 클릭으로 jangmiji.staris.cloud 진입. 운영진 포털 작업물 섹션에 월·화 산출물 7종 카드 + 갤러리에 광고 4종 + 메인홈 무드 8종 섹션 추가.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-16 <span>화요일</span></div>
+        <ul>
+          <li><b>인스타 광고 4종 (69만원 모집) 🎯</b> — Hero portrait + Eyebrow macro + Curriculum + CTA typo. 1024×1024 정사각 · 다크 럭셔리 톤. 광고 갤러리 페이지(광고-IG-69만원.html) 신설 + 운영 가이드 동봉.</li>
+          <li><b>모집 신청 폼 + DB + SMS + 관리자 페이지 풀세트 🎓</b> — /enroll 폼 → Supabase leads 자동 저장 → /admin 실시간 표시 → 💬 문자 발송 모달(템플릿 4종) → K1 카톡방 자동 박힘. End-to-end 검증 통과(실 lead 저장 → /admin 표시).</li>
+          <li><b>Vercel 배포 + 인증 풀세트 🚀</b> — Next.js 16 + Tailwind 4 + Supabase 클라이언트 풀스택 → Vercel 프로덕션 라이브 → 환경변수 4종 일괄 푸시 → SSO 보호 해제 → 모든 routes 200.</li>
+          <li><b>portrait C 적용 (저작권 안전 변형) 🎨</b> — 메인 hero 가 원장님 reference 와 너무 흡사하다는 지적 → 완전 다른 인물(검정 단발 + 크림 터틀넥)로 재생성 후 적용. 보조 portrait A/B/D 도 갤러리 보관.</li>
+          <li><b>K1 카톡방 링크 박힘 💬</b> — open.kakao.com/o/gWeAkSzi · SMS 템플릿 2종(수강 결제 안내 + 수강 완료 K1 초대) + 메인홈 footer 에 표시.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-15 <span>월요일</span></div>
+        <ul>
+          <li><b>플랫폼 전면 리브랜드 결정 🔥</b> — 새 도메인 eyebrows-main.staris.cloud(→ eyebrows.staris.cloud 로 단축) + 새 톤 「청담 느낌(럭셔리 메타포) + 선릉·봉은사 본진」 + 모든 비주얼 「리얼 극사실 · 코믹 금지」 통일. 9개 컨펌(스택·호스팅·다국어·결제 PG·광고 채널·출시 일정 등).</li>
+          <li><b>한승철 · 풀스택 CTO 신규 채용 🧑‍💻</b> — 20년차 풀스택 AI 에이전트 페르소나. 첫 임무: eyebrows-main 인프라 설계(Next.js + Supabase + Vercel + 토스+카카오 PG).</li>
+          <li><b>5축 전략 결정 ★</b> — ① 일일 자동 포스팅 ② 다채널 AI 응답 ③ 중국 진출(위챗) ④ 미국 진출(LA 2026-09 출장) ⑤ 통합 자동화 웹앱. 각각 별 라운드로 진행.</li>
+          <li><b>중국어 강의 번역 PoC 🎙️</b> — translate-zh.html + scripts/server.py(Flask STT + Whisper + GPT 자동 번역). 데모 영상 2분36초 → 47 세그먼트 자동 번역 검증.</li>
+          <li><b>danzi → ARTbrows 메모리 이주 📚</b> — 학원 트랙 결정(유미코리아 벤치마크 · 69만원 평생수강 · K1 카톡방) 모두 academy-business-context 메모리로 통합.</li>
+          <li><b>새 메인홈 v1.1 청담 톤 + Higgsfield 무드컷 4종 🏠</b> — 메인홈.html (정적) 첫 셋업. 다크·골드·누드 톤 + atelier/eyebrow/hand/cheongdam 4컷.</li>
+          <li><b>전체 기획·설계 도식 9 섹션 + 전직원 회의록 📐</b> — 전체-기획-설계-도식.html + 회의-20260615-플랫폼구조.html. 결정사항·라운드 로드맵·결정대기 한 페이지.</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-11 <span>목요일</span></div>
+        <ul>
+          <li><b>전직원 정기 보고 📋</b> — 이서연(기획·마케팅) + 유나(그래픽) 합동 보고. STORY 시리즈 6편 영상 합성 완료 + 인스타 그리드·카드·랜딩 준비 100%. 남은 건 카카오 채널 개설과 유튜브 업로드.</li>
+          <li><b>미대생편 영상 사양 검수 ✅</b> — 1080×1920 · 24초 · H.264 · 6.4MB · AAC · 시리즈 톤 1~5편과 완벽 일관 · 한글 자막 4컷 완벽 렌더링 → 그대로 게시 가능 판정</li>
+          <li><b>미대생편 썸네일 PNG (STORY · 06) 🏷️</b> — 「전공 너머, 새로운 한 발」 1080×1080 — 시리즈 6종 모두 동일 디자인 시스템 (살구핑크 그라데이션 + 명조 헤드 + 핫핑크 STORY · 06 칩 + 민지 살구톤 일러스트). 시니어편 템플릿 재활용 (Edge 헤드리스, 크레딧 0).</li>
+          <li><b>미대생편 유튜브 게시 패키지 📦</b> — 검수 PASS, 제목 추천 「전공 너머, 새로운 한 발 — ARTbrows 미대생편」, 설명·태그·카테고리·시리즈 6편 게시 순서·인스타 동시 게시·시리즈 완결 마케팅(연령 스펙트럼 20대↔50대 · Z세대 공유 시너지 · 6편 캐러셀·졸업/진로 시즌 캠페인화)까지 동봉. <b>STORY 시리즈 6편 완결 — 게시 자료 100% 완성</b>.</li>
+          <li><b>PROGRESS·대시보드·_site 자동 갱신 🔄</b> — Phase 1 진행률 60→65%, 완성 작업물 55→59건+, 칸반·작업물 목록·일일 로그·일자 모두 갱신</li>
+          <li><b>STORY · 07 미용 종사자편 「하영」 기획안 📝</b> — 대표님 B안 선택 → 28세 헤어 디자이너 페르소나 · <b>시리즈 처음 모객 전환 직결 페르소나(동종업계 영역 확장)</b> · 5컷 시나리오(컷1 마감 후 미용실 거울 앞에서 손 보기 · 컷2 정기 휴무 스튜디오 드로잉 · 컷3 「가위와 펜이 한 화면에」 · 컷4 동료 디자이너에게 보여주기) · 헤드라인 「기술 위에, 한 줄 더」 · STORY · 02 직장인편↔07 미용편 「직장 안에서 한 발 더」 묶음 캐러셀 제안 · 약 6 크레딧 예상 · 결정 대기 8항</li>
+          <li><b>하영 캐릭터 일러스트 3종 🎨</b> — 결정 대기 8항 OK → 즉시 제작. 시안1(묶음머리+베이지 앞치마+검은 셔츠+빗 들고 차분한 미소+장미·꽃 모티프 배경) · 살구톤(단발 웨이브+베이지 카디건+환한 미소+시리즈 다른 캐릭터와 동일 톤·썸네일 그리드용) · 동료 모먼트(미용실 인테리어 거울+헤어 도구 선반 안에서 하영이 패드 들고 자랑+동료 디자이너가 살피는 장면). <b>시리즈 7번째 페르소나 완성</b>, 헤어 디자이너 직업 정체성(앞치마·빗·살롱) 명확 표현 — 시리즈 톤 완벽 통일 (힉스필드 nano_banana, 3크레딧 사용, 잔여 105.5)</li>
+          <li><b>미용 종사자편 시나리오 컷 1·2·3 🎬</b> — 컷1(기·마감 후 미용실 거울 앞에 앉아 손 보는 하영·따뜻한 백라이트와 펜던트 조명·가위와 빗 정돈), 컷2(승·햇살 들어오는 스튜디오 책상에서 눈썹 드로잉+가위·패드·노트·화분이 한 책상에), 컷3(전·완성 패드+환한 미소+등 뒤 거울과 헤어 도구 벽 진열로 「가위와 펜이 한 화면에」 메시지 완벽 시각화) — 9:16, 헤드라인 「기술 위에, 한 줄 더」 시각적 완성 (힉스필드 nano_banana, 3크레딧 사용, 잔여 102.5)</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-06 <span>토요일</span></div>
+        <ul>
+          <li><b>전직원 회의(6/6) 완료</b> — 모집 카드 3종 + 쇼츠 1편 추가 제작, 랜딩/상담 퍼널 준비</li>
+          <li><b>Raptor(claude.ai) 작업 인수</b> — 카드 3종 기획·시안 + 랜딩/상담 퍼널 초안</li>
+          <li><b>랜딩↔카드 3종 연결 완료</b> — 메인 랜딩 = 럭셔리 에디토리얼, 카드 CTA `a href` 연결, 커리큘럼 3단계 반영, 상담 채널 「준비 중」 임시 명시</li>
+          <li>카카오 채널 개설 시도 → 보류 (대표님 일정 시 재개)</li>
+          <li><b>디자인 시스템 가이드 + 쇼츠 썸네일 시리즈 4종 시안</b> — 카드↔쇼츠 톤 일치를 위해 살구핑크·핫핑크·명조 헤드 통합 시스템 정의, 시리즈 4종(코믹·성장기·직장인·신부) 1:1/9:16 썸네일 HTML 시안 제작</li>
+          <li><b>시리즈 주인공 4명 일러스트 살구톤 재생성 🎨</b> — 도비편(주인공+도비·한복풍)·하은·지우·예린을 모두 살구핑크 그라데이션 배경으로 통일 (힉스필드 nano_banana, 4크레딧 소비)</li>
+          <li><b>인스타 프로필 그리드 9칸 모킹 📱</b> — 카드 3종(후킹·커리큘럼·CTA) + 쇼츠 썸네일 4종 + 브랜드 인용 + 마스코트 도비를 3×3 격자에 배치, 폰 프레임으로 실제 인스타 프로필 시뮬레이션</li>
+          <li><b>인스타 그리드 운영 가이드 📋</b> — 9칸 첫인상을 위한 「역순 게시법」, 2주 캘린더, 시리즈별 캡션 6종, 해시태그 3그룹, 릴스·스토리 하이라이트 4종, KPI(D+14/D+30), FAQ까지 실무 단위 문서화</li>
+          <li><b>카드 3종 살구톤 PNG 완성본 🎴</b> — 후킹·커리큘럼·CTA 카드를 디자인 시스템 그대로 1080×1080 HTML로 작성 후 Playwright 스크린샷으로 바로 PNG 굽기 (크레딧 0)</li>
+          <li><b>쇼츠 썸네일 4종 PNG 완성본 🎬</b> — 코믹 도비편·성장기·직장인·신부 시리즈를 동일 디자인 시스템으로 1080×1080 PNG 굽기 (크레딧 0). 카드 3종 + 썸네일 4종 = <b>인스타 그리드 7칸 완성 자산</b></li>
+          <li><b>BRAND 인용 + MASCOT 도비 카드 2종 PNG 🏷️</b> — 그리드 9칸 자산 완전 채움. BRAND="기술은 따라 할 수 있어도, 기준은 만든 사람에게서 나옵니다." + MASCOT="도비와 함께, 다정한 시작" (크레딧 0)</li>
+          <li><b>인스타 그리드 9칸 실사 PNG 모킹 📱</b> — 9개 완성 PNG를 폰 프레임 안에 실사로 배치한 1320×2000 미리보기 PNG. 운영·보고용 단일 자료로 활용 가능</li>
+          <li><b>신부편 쇼츠 검수 + 유튜브 게시 패키지 🎬</b> — 사양 PASS (1080×1920·24초·H.264·44.1kHz), 컷 흐름 검증, 제목 시안 3종·설명·태그·시리즈 게시 순서(2편 먼저)·인스타 동시 게시·체크리스트까지 정리. 게시는 대표님 수동.</li>
+          <li><b>직장인편 쇼츠 검수 + 유튜브 게시 패키지 🎬</b> — 동일 사양 PASS, 「사원증」 디테일이 직장인 정체성 강화. 시리즈 1→2→3 정합 위해 <b>신부편보다 먼저 업로드 권고</b>.</li>
+          <li><b>STORY · 04 부업맘편 「수아」 기획안 📝</b> — 38세 워킹맘 페르소나 · 5컷 시나리오(가족 모먼트 컷 추가) · 헤드라인 「엄마가 빛나면, 우리도 빛납니다」 · 제작 파이프라인 7~8 크레딧 · 결정 대기 5항 정리</li>
+          <li><b>수아 캐릭터 일러스트 3종 🎨</b> — 기본·살구톤(썸네일용)·딸 가족 모먼트 — 시리즈 톤 완벽 통일 (힉스필드 nano_banana, 3크레딧 소비)</li>
+          <li><b>부업맘편 시나리오 컷 1·2·3 일러스트 🎬</b> — 컷1(늦은밤 거실+거울), 컷2(새벽 식탁+눈썹 드로잉+곰인형), 컷3(완성 패드+환한 미소) — 스토리 흐름 정확, 9:16 (힉스필드 nano_banana, 3크레딧 소비)</li>
+          <li><b>부업맘편 썸네일 PNG (STORY · 04) 🏷️</b> — 「엄마가 빛나면, 우리도 빛납니다」 1080×1080 — 시리즈 4종(도비편/하은/지우/예린)과 동일 디자인 시스템 (Edge 헤드리스, 크레딧 0). 그리드 9칸 자산이 시리즈 5번째까지 확장.</li>
+          <li><b>부업맘편 쇼츠 영상 완성 🎬</b> — 컷1~4 일러스트 + 엔드카드(신부편 재활용) + 신부편 BGM 재활용 · ffmpeg drawtext로 한글 자막 4컷 burn-in · 페이드 인/아웃 · 24초 1080×1920 H.264 6.4MB (크레딧 0)</li>
+          <li><b>부업맘편 유튜브 게시 패키지 📦</b> — 검수 PASS, 제목 추천 「엄마가 빛나면, 우리도 빛납니다 — ARTbrows 부업맘편」, 설명·태그·카테고리·시리즈 4편 게시 순서·인스타 동시 게시·「가족 모먼트」 차별 활용 제안까지 동봉</li>
+          <li><b>인스타 그리드·운영가이드 4편 구조 갱신 🔄</b> — 그리드 (3,3) MASCOT 자리를 STORY · 04(수아)로 교체, 모킹 PNG 재생성. 운영가이드 게시 순서·2주 캘린더·하이라이트 4종 모두 STORY 4편 완결 구조로 갱신.</li>
+          <li><b>카드 5종 확장 — 차별점 + REVIEWS 🎴</b> — CARD · 차별점(「다른 학원과는 다른 4가지」 + 창시자 직강·소수정예·1위 기준·실전 감각) + CARD · REVIEWS(「수강생의 이야기가 곧 공개됩니다」 자료 대기 톤). 1080×1080 PNG, 크레딧 0.</li>
+          <li><b>STORY · 05 시니어편 「선영」 기획안 📝</b> — 54세 시니어 페르소나 · 50대 새 연령대 개척 · 5컷 시나리오(딸과의 세대 연결 컷) · 헤드라인 「엄마의 두 번째 인생은, 이제부터입니다」 · 부업맘편(수아)↔시니어편(선영) 모녀 시너지 활용안 · 약 6 크레딧 예상</li>
+          <li><b>선영 캐릭터 일러스트 3종 🎨</b> — 기본(살짝 묶음·차분한 미소)·살구톤(단발 웨이브·썸네일용)·모녀 모먼트(50대 어머니+30대 딸 안기) — 시리즈 5번째 페르소나 완성 (힉스필드 nano_banana, 3크레딧 소비)</li>
+          <li><b>시니어편 시나리오 컷 1·2·3 🎬</b> — 컷1(안락의자 거울+따뜻한 햇살), 컷2(안경 쓰고 책상 드로잉+화분), 컷3(완성 패드+환한 미소+한국 살창문) — 9:16, 한국적 거실 분위기 잘 살아남 (힉스필드 큐 1.5분 대기 후 완료, 3크레딧 소비)</li>
+          <li><b>시니어편 쇼츠 영상 완성 🎬</b> — 컷1~4 + 엔드카드(부업맘편 재활용) + 시리즈 공통 BGM · ffmpeg drawtext 한글 자막 4컷 burn-in · 24초 1080×1920 6.5MB · 마지막 모녀 모먼트 컷이 「엄마의 두 번째 인생은, 이제부터입니다」 메시지를 완벽 구현 (크레딧 0)</li>
+          <li><b>시니어편 썸네일 PNG (STORY · 05) 🏷️</b> — 「엄마의 두 번째 인생은, 이제부터입니다」 1080×1080 — 시리즈 5종 모두 동일 디자인 시스템 (Edge 헤드리스, 크레딧 0)</li>
+          <li><b>시니어편 유튜브 게시 패키지 + 시리즈 완결 마케팅 📦</b> — 검수 PASS, 제목 추천 「엄마의 두 번째 인생은, 이제부터입니다 — ARTbrows 시니어편」, 설명·태그·체크리스트·부업맘↔시니어 모녀 시너지 활용안·5편 캐러셀 게시안까지 동봉. <b>시리즈 5편 게시 자료 완벽 세트 완성</b>.</li>
+          <li><b>「두 세대의 두 번째 인생」 모녀 캐러셀 6장 + 운영가이드 💞</b> — 부업맘(수아)↔시니어(선영) 모녀 시너지를 인스타 캐러셀 6장(후킹·STORY04·모녀 모먼트·STORY05·통합·CTA)으로 풀어냄. 캡션·해시태그·게시 타이밍·스토리 후속 활용 정리. 가족 공유 유발 마케팅 자산 (크레딧 0).</li>
+          <li><b>모녀 캐러셀 3번 가독성 개선 🔧</b> — 큰 원형 인물(760)을 440으로 축소·상단 배치, 헤드라인을 인물 아래로 분리, 폰트 50px 조정 — 인물·헤드라인 모두 명확하게 보임 (Edge 헤드리스, 크레딧 0).</li>
+          <li><b>STORY · 06 미대생편 「민지」 기획안 📝</b> — 23세 미대 4학년 페르소나 · 20대 초반 새 연령대 개척으로 시리즈 연령 스펙트럼 완성 (20대 초반 ↔ 50대) · 5컷 시나리오(부모/친구 자랑 컷 포함) · 헤드라인 「전공 너머, 새로운 한 발」 · Z세대 공유율 시너지 활용안 · 약 6 크레딧 예상.</li>
+          <li><b>민지 캐릭터 일러스트 3종 🎨</b> — 기본(앞치마+붓·사색)·살구톤(꽃문양 배경·밝은 미소·썸네일용)·친구 모먼트(작업실에서 친구와 패드 함께 보며 자랑) — 시리즈 6번째 페르소나 완성, 시니어편 모녀와 차별되는 또래 공감 컷 (힉스필드 nano_banana, 3크레딧 소비)</li>
+          <li><b>미대생편 시나리오 컷 1·2·3 🎬</b> — 컷1(졸업 캔버스 옆 진로 고민·노을 창), 컷2(앞치마+묶음머리로 책상에서 눈썹 드로잉·화구·꽃), 컷3(완성 패드+환한 미소+이젤·캔버스 배경) — 9:16, 「예술의 손이 직업이 되다」 메시지 시각적 완벽 구현 (힉스필드 nano_banana, 3크레딧 소비)</li>
+          <li><b>미대생편 쇼츠 영상 완성 🎬</b> — 컷1~4 + 엔드카드 + 시리즈 공통 BGM · ffmpeg drawtext 한글 자막 4컷 burn-in · 24초 1080×1920 6.6MB · 시리즈 6편째 영상 완성, 마지막 컷 「재능에 길이 더해지면, 직업이 됩니다」가 친구와 함께 보여주며 Z세대 공유율 기대 (크레딧 0)</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-05 <span>목요일</span></div>
+        <ul>
+          <li><b>수강생 성장기 스토리텔링 쇼츠 완성 🎬</b> — 시나리오 「평범했던 그녀의 새로운 시작」 · 주인공 '하은' 캐릭터 고정 + 기승전결 6컷(하이브리드: 핵심컷 AI모션) · 24초 · 갤러리·유튜브 게시</li>
+          <li><b>성장 스토리 시리즈화 → 직장인편 완성 🎬</b> — 새 주인공 '지우'(직장인·사원증) · 1편 템플릿 재활용 · 24초 쇼츠 · 갤러리 게시</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-04 <span>목요일</span></div>
+        <ul>
+          <li>인스타 원생 모집 광고 — 이미지 1 + 쇼츠 1 제작 ('정공법 프리미엄' 톤, 전직원 회의)</li>
+          <li>정보형 쇼츠 "왜 극사실눈썹인가" 제작 · GitHub 영구 호스팅 전환 (포털 공개)</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-03 <span>수요일</span></div>
+        <ul>
+          <li>대시보드 자동 갱신 규칙 도입 · 힉스필드 Plus 결제 + MCP 연결(크레딧 1,010) · 그래픽 디자이너 '유나' 채용</li>
+          <li>첫 인스타 모집 카드 완성 (힉스필드 무드 + 한글 카피 합성)</li>
+          <li>콘텐츠 갤러리 신설 + 포털 홈 화려 에디토리얼 리뉴얼 (힉스필드 히어로)</li>
+          <li>마스코트 '도비' 도입 (대표님 반려견 기반 지브리 캐릭터)</li>
+          <li><b>코믹 지브리 쇼츠 "눈썹 없던 그녀와 도비의 인생역전" 완성 → 유튜브 게시 🎬</b> (주인공+도비 5컷·"장미지 눈썹 연구소" 간판·ffmpeg 편집)</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-02 <span>화요일</span></div>
+        <ul>
+          <li>전체 로드맵 4단계(Phase 0~3)로 재정비 → 플랜·스케줄·결정대기 문서화</li>
+          <li>폴더에 없던 누락 산출물 5종(6파일) 전부 복구 (페르소나·확정안·도식·기획안·상세페이지 2종)</li>
+          <li>대표님·회장님용 업무 보고 대시보드 제작</li>
+          <li>통합 포털 홈 + 웹앱 준비 + 개발과정 페이지 제작, 디자인 도구 역할 분담(그래픽=Canva·사이트=Claude)</li>
+          <li>이미지·영상 도구 힉스필드 단일 통합 결정, 힉스필드 MCP 등록(계정 인증 대기)</li>
+          <li>완성 산출물을 외부 주소(터널·18000)로 공유 가능하게 임시 배포</li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="date">2026-06-01 <span>월요일</span></div>
+        <ul>
+          <li>프로젝트 정의 · CLAUDE.md 작성</li>
+          <li>브랜드 자료 분석 (인스타 카드 7종) → 커리큘럼·가격·톤 파악</li>
+          <li>제작 도구 확정 (이미지=Nano Banana Pro · 영상=힉스필드 Veo 3.1)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 카드뉴스 시스템 도식 -->
+  <section>
+    <div class="h"><span class="num">07</span><h2>카드뉴스 시스템 · 12종 × 6톤 · 자동 생성 파이프라인</h2><span class="hint">07-17 완성 · 원장님 통합 브랜드 가이드 반영</span></div>
+
+    <div class="files-h" style="margin-top:0">12종 슬라이드 레이아웃 × 6톤 카테고리 매트릭스</div>
+    <div class="cn-matrix">
+      <div class="cn-h"></div>
+      <div class="cn-h">treatment<br><span style="opacity:.6">시술</span></div>
+      <div class="cn-h">founder<br><span style="opacity:.6">원장</span></div>
+      <div class="cn-h">review<br><span style="opacity:.6">후기</span></div>
+      <div class="cn-h">classroom<br><span style="opacity:.6">강의</span></div>
+      <div class="cn-h">detail<br><span style="opacity:.6">상세</span></div>
+      <div class="cn-h">reels<br><span style="opacity:.6">릴스</span></div>
+
+      <div class="cn-kind">cover-founder <small>표지</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s1">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">number-big <small>넘버</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s1">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">icon-duo <small>2아이콘</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s2">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">icon-trio <small>3아이콘</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s2">·</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">checklist <small>체크</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s1">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">portrait-frame <small>인물</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s1">·</div>
+
+      <div class="cn-kind">product-hero <small>제품</small></div>
+      <div class="cn-c s3">●</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s2">·</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">quote-bold <small>인용</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s1">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">signature-style <small>대비</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s2">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">curriculum-row <small>회차표</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s2">·</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">price-table <small>가격</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div>
+
+      <div class="cn-kind">closing-cta <small>마무리</small></div>
+      <div class="cn-c s0">·</div><div class="cn-c s3">●</div><div class="cn-c s0">·</div><div class="cn-c s0">·</div><div class="cn-c s2">·</div><div class="cn-c s0">·</div>
+    </div>
+
+    <div class="cn-legend">
+      <span><span class="sq" style="background:linear-gradient(135deg,#FF7A66,#FF6F84)"></span>강 · 대표 조합</span>
+      <span><span class="sq" style="background:linear-gradient(135deg,#FFB59F,#FF9AAF)"></span>중</span>
+      <span><span class="sq" style="background:#F4CFC0"></span>약</span>
+      <span><span class="sq" style="background:#FBEAE2"></span>사용 안 함</span>
+      <span style="opacity:.6">·</span>
+      <span>본부장 지시: 「각 슬라이드마다 레이아웃이 달라야」 → 12종 조합 자유</span>
+    </div>
+
+    <div class="files-h" style="margin-top:24px">자동 생성 파이프라인 · 🪄 4-스텝 위저드</div>
+    <div class="pipe">
+      <div class="pstep">
+        <div class="pn">STEP 01</div>
+        <div class="pt">Setup</div>
+        <div class="pd">목적 · 언어 (KO/EN/中) · 슬라이드 수 · 10 스타일 프리셋 · 모델 (Gemini+OpenAI 병렬)</div>
+        <div class="psec">사용자 입력</div>
+      </div>
+      <div class="pstep">
+        <div class="pn">STEP 02</div>
+        <div class="pt">Preparing</div>
+        <div class="pd">트렌드 조사 (선택) → 스타일리스트 → 슬라이드 뼈대 (skeleton) N장 완성</div>
+        <div class="psec">30~60 초</div>
+      </div>
+      <div class="pstep warn">
+        <div class="pn">STEP 03</div>
+        <div class="pt">Slide × N</div>
+        <div class="pd">한 장씩 팝업 · 2안 나란히 표시 (Gemini / OpenAI) · 클릭 선택 · 답 없으면 다음으로</div>
+        <div class="psec">20 초 카운트다운</div>
+      </div>
+      <div class="pstep">
+        <div class="pn">STEP 04</div>
+        <div class="pt">Saving</div>
+        <div class="pd">확정 슬라이드 + 모든 안 (autoVariants) 저장 → 편집기에서 대안 안 즉시 교체 가능</div>
+        <div class="psec">JSON 저장</div>
+      </div>
+    </div>
+
+    <div class="note" style="text-align:left;margin-top:14px">
+      <b>💡 원장님·본부장 검수 안내 (2026-07-20 회의)</b> · 로컬 <code style="background:#fff;padding:1px 6px;border-radius:4px">http://localhost:3000/cardnews</code> 접속 → 🪄 자동 생성 클릭 · 목적 「15기 이지클래스 모집」 · 스타일 「ARTbrows 정본」 · 6장 · 20초 카운트다운 지나면 자동 진행 · 편집기에서 결과 확인 · 상세 사용법은 <a href="app-next/docs/CARDNEWS-CHECKUP-2026-07-18.md" style="color:var(--coral);font-weight:700">CARDNEWS-CHECKUP-2026-07-18.md</a>
+    </div>
+  </section>
+
+  <div class="note">※ 본 대시보드는 2026-07-18 기준입니다. ‘작업할 때마다 자동 갱신’ 규칙이 적용되어, 진행상황이 바뀔 때마다 최신 상태로 업데이트됩니다.</div>
+
+  <footer>
+    ARTbrows 업무 보고 대시보드 · 보고 대상 대표님 / 회장님<br>
+    작성 정주(PD) · AI 직원 이서연(기획·마케팅) · 하네스 공법(기획→플랜→스케줄→개발)
+  </footer>
+
+</div>
+</body>
+</html>

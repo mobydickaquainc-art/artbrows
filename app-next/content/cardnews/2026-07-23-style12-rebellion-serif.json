@@ -1,0 +1,81 @@
+{
+  "id": "2026-07-23-style12-rebellion-serif",
+  "title": "12 Rebellion Serif · 브랜드 파워 훅 (★ 앵커)",
+  "slug": "2026-07-23-style12-rebellion-serif",
+  "status": "draft",
+  "createdAt": "2026-07-23T09:00:00.000Z",
+  "updatedAt": "2026-07-23T09:00:00.000Z",
+  "defaultLang": "ko",
+  "aspect": "portrait",
+  "stylePreset": "rebellion-serif",
+  "translations": {
+    "ko": {
+      "title": "REBELLION SERIF · 원장 검토용 시안",
+      "slides": [
+        {
+          "kind": "magazine-cover",
+          "category": "founder",
+          "volume": "VOL 15 · 2026",
+          "brand": "ARTBROWS",
+          "headline": "HYPER\nREAL",
+          "subheadline": "털 같은 눈썹 · SINCE 1세대",
+          "imageSrc": "/brand/ai-generated/founder-persona/founder-01.png",
+          "imageAlt": "장미지 원장 · 극사실눈썹 창시자",
+          "signatureLabel": "MIJI JANG · 20YR CRAFT"
+        },
+        {
+          "kind": "hero-portrait",
+          "category": "founder",
+          "imageSrc": "/brand/ads/ig-69/01-hero-portrait.png",
+          "imageAlt": "원장 아틀리에 · 극사실 크래프트",
+          "bottomLabel": "THE ORIGINAL",
+          "cornerBadge": "ARTBROW"
+        },
+        {
+          "kind": "pullquote-editorial",
+          "category": "founder",
+          "quote": "MASTER.",
+          "signature": "Miji Jang",
+          "signatureRole": "ARTBROWS · SINCE THE ORIGINAL"
+        },
+        {
+          "kind": "magazine-cover",
+          "category": "treatment",
+          "volume": "ISSUE 07",
+          "brand": "ARTBROW",
+          "headline": "CRAFT\nOVER\nHYPE",
+          "subheadline": "20년 · 8,000+ 시술 · 특허 3장",
+          "imageSrc": "/brand/ai-generated/macro/macro-02.png",
+          "imageAlt": "매크로 클로즈업 · 결의 디테일",
+          "signatureLabel": "SEONLEUNG ATELIER"
+        },
+        {
+          "kind": "atelier-scene",
+          "category": "classroom",
+          "imageSrc": "/brand/ai-generated/atelier/atelier-01.png",
+          "imageAlt": "선릉 본원 · 1:1 마스터 클래스",
+          "eyebrow": "MASTERCLASS · 소수정예",
+          "headline": "결은 손끝에서\n완성된다.",
+          "bottomColumns": [
+            { "label": "본원",   "value": "선릉·삼성" },
+            { "label": "경력",   "value": "20년+" },
+            { "label": "수강",   "value": "900+ 배출" }
+          ]
+        },
+        {
+          "kind": "cta-editorial",
+          "category": "founder",
+          "eyebrow": "NOW ENROLLING · 15기",
+          "headline": "당신의 손에서도\n결이 남을 수 있습니다.",
+          "highlight": "결이 남을",
+          "signature": "Miji Jang",
+          "cta": "교육 상담 신청 →",
+          "ctaHref": "/enroll",
+          "subline": "선릉 본원 · 원장 직접 지도 · 소수정예"
+        }
+      ]
+    },
+    "en": { "title": "", "slides": [] },
+    "zh": { "title": "", "slides": [] }
+  }
+}
