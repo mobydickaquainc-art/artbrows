@@ -58,6 +58,7 @@ export interface ConsultSummary {
   instagram?: string;
   course?: string;
   channel?: string;
+  message?: string;
 }
 
 function genId(): string {
@@ -95,6 +96,7 @@ export async function listConsults(): Promise<ConsultSummary[]> {
         status: r.status, type: r.type, name: r.name, phone: r.phone,
         email: r.email, kakao_id: r.kakao_id, instagram: r.instagram,
         course: r.course, channel: r.channel,
+        message: (r as unknown as { message?: string }).message,
       });
     } catch { /* skip corrupt */ }
   }
