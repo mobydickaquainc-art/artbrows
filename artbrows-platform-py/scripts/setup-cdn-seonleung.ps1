@@ -121,8 +121,9 @@ http {
     }
 }
 '@
-$nginxConf | Out-File -Encoding utf8 $confPath -Force
-Write-Host "  OK written: $confPath"
+# IMPORTANT: Nginx does not accept BOM. Use .NET WriteAllText with UTF8 no BOM.
+[System.IO.File]::WriteAllText($confPath, $nginxConf, (New-Object System.Text.UTF8Encoding($false)))
+Write-Host "  OK written (no BOM): $confPath"
 Write-Host ""
 
 # --- Nginx logs folder ---
