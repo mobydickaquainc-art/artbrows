@@ -8,6 +8,17 @@ const nextConfig: NextConfig = {
   // TODO: 별도 커밋으로 각 파일 개별 fix 후 이 옵션 제거
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
+  // 2026-07-29 · 선릉 CDN 하이브리드 · /brand/* · /hero-mood/* 를 cdn.artbrows.co.kr 로 rewrites
+  //   Vercel 은 코드만 서빙 · 이미지는 선릉 Nginx (D:\media) 에서 서빙
+  //   Cloudflare 프록시 + 캐시 + SSL 무료
+  //   dev 는 로컬 public/ 우선 (기존 방식) · production 만 CDN
+  async rewrites() {
+    if (process.env.NODE_ENV !== "production") return [];
+    return [
+      { source: "/brand/:path*",     destination: "https://cdn.artbrows.co.kr/brand/:path*" },
+      { source: "/hero-mood/:path*", destination: "https://cdn.artbrows.co.kr/hero-mood/:path*" },
+    ];
+  },
 };
 
 export default nextConfig;
