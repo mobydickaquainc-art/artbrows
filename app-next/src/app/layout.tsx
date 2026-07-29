@@ -19,8 +19,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Nanum+Pen+Script&family=Black+Han+Sans&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Nanum+Pen+Script&family=Black+Han+Sans&family=Space+Mono:wght@400;700&display=swap"
           rel="stylesheet"
+        />
+        {/* Pretendard 가변 폰트 (원장님/본부장 시안 폰트) */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+          crossOrigin=""
         />
       </head>
       <body suppressHydrationWarning>

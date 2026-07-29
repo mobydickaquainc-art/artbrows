@@ -9,8 +9,10 @@
 'use client';
 
 import Link from 'next/link';
+import { Fragment } from 'react';
 
-const KAKAO_K1 = 'https://open.kakao.com/o/gWeAkSzi';
+const KAKAO_K1 = 'https://open.kakao.com/o/gWeAkSzi';                        // 무료 강의방 (수강생 락인)
+const KAKAO_CHANNEL = 'https://pf.kakao.com/_BxnBWK';                        // 카카오 채널 (1:1 상담 정본 · 시안 제공)
 const INSTA = 'https://www.instagram.com/artbrows_academy/';
 const PHONE = '010-3239-5453';
 const NAVER_MAP = 'https://pcmap.place.naver.com/place/1291899054/home?from=map&fromPanelNum=1';
@@ -144,9 +146,8 @@ export default function HomeV2Content() {
             <p style={pBase}>
               그렇게 답을 찾기 시작했고, 만화가를 꿈꾸며 어릴 적 보던 해부학 책을 다시 펼쳐보며, 눈썹은 그 사람만의 골격과 모류 방향을 읽어내는 데서 시작해야 한다는 것을 깨달았습니다. 반영구 기법에 소묘의 원리를 정식으로 접목한 것 — 그것이 극사실눈썹의 시작이었습니다.
             </p>
-            <div style={{ marginTop: 24, padding: 20, background: '#ECE0D2', borderLeft: '3px solid #B85C34', fontSize: 17, lineHeight: 1.7 }}>
-              「진짜 눈썹은 시술이 아니라 소묘다.」
-              <div style={{ marginTop: 8, fontSize: 13, color: '#7A6C5D' }}>— 장미지 대표원장</div>
+            <div style={{ marginTop: 24, padding: 20, background: '#ECE0D2', borderLeft: '3px solid #B85C34', fontSize: 19, fontWeight: 700, lineHeight: 1.7 }}>
+              &ldquo;나는 고객이 원하는 눈썹을 그리고 있는가.&rdquo;
             </div>
           </div>
         </section>
@@ -159,7 +160,15 @@ export default function HomeV2Content() {
             <p style={pBase}>
               극사실눈썹은 정해진 패턴을 그리는 시술이 아니라, 얼굴을 소묘하듯 관찰하고 설계하는 기법입니다. 골격, 눈매, 원래 모류의 결과 방향을 먼저 읽고 단순히 그리는 것이 아닌, 본연의 아름다움에 한 올 한 올 생장감을 불어넣는 작업. 똑같은 시간을 쓰더라도 전혀 다른 차원의 결과가 나오는 이유입니다.
             </p>
-            <div style={{ marginTop: 20, textAlign: 'center', fontWeight: 900, fontSize: 21, color: '#B85C34' }}>
+            {/* 시안 · 극사실눈썹 결과 예시 이미지 (원장님이 실 인물 사진 주시면 교체) */}
+            <div style={{ border: '1px solid rgba(20,16,15,0.12)', padding: 4, marginTop: 24, background: '#F7EFE6' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/ai-generated/founder-persona/founder-03.png" alt="극사실눈썹 결과 예시" style={{ width: '100%', display: 'block' }} />
+            </div>
+            <div style={{ marginTop: 14, textAlign: 'center', fontFamily: "'Pretendard', sans-serif", fontStyle: 'italic', fontSize: 15.5, color: '#7A6C5D', lineHeight: 1.6 }}>
+              &ldquo;진짜를 그리면 인상이 달라진다, 인생이 달라진다&rdquo;
+            </div>
+            <div style={{ marginTop: 24, textAlign: 'center', fontWeight: 900, fontSize: 21, color: '#B85C34' }}>
               패턴이 아닌 · 소묘
             </div>
           </div>
@@ -182,23 +191,25 @@ export default function HomeV2Content() {
               <img src={FOUNDER_KV} alt="장미지 대표원장" style={{ width: '100%' }} />
             </div>
 
-            <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
-              <div style={{ flex: 1, display: 'flex', background: '#14100F', borderRadius: 6, overflow: 'hidden' }}>
-                {[
-                  { n: '20년+', d: '창시자 경력' },
-                  { n: '8,000+', d: '누적 시술' },
-                  { n: '1,000+', d: '누적 수강생' },
-                ].map((s, i) => (
-                  <div key={i} style={{ flex: 1, textAlign: 'center', padding: '14px 6px', borderRight: i < 2 ? '1px solid rgba(247,239,230,0.18)' : 'none' }}>
-                    <div style={{ fontWeight: 900, fontSize: 19, color: '#D9945F', lineHeight: 1.2 }}>{s.n}</div>
-                    <div style={{ fontSize: 12, color: '#ECE0D2', marginTop: 3 }}>{s.d}</div>
-                  </div>
-                ))}
-              </div>
+            {/* 시안 · 통계 2 pill × 4 항목 */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
+              {[
+                [{ n: '20년+', d: '시술 경력' }, { n: '10,000+', d: '누적 시술' }],
+                [{ n: '1,000+', d: '누적 수강생' }, { n: '3장', d: '특허·상표' }],
+              ].map((row, ri) => (
+                <div key={ri} style={{ display: 'flex', background: '#14100F', borderRadius: 6, overflow: 'hidden' }}>
+                  {row.map((s, i) => (
+                    <div key={i} style={{ flex: 1, textAlign: 'center', padding: '14px 6px', borderRight: i < row.length - 1 ? '1px solid rgba(247,239,230,0.18)' : 'none' }}>
+                      <div style={{ fontWeight: 900, fontSize: 19, color: '#D9945F', lineHeight: 1.2 }}>{s.n}</div>
+                      <div style={{ fontSize: 12, color: '#ECE0D2', marginTop: 3 }}>{s.d}</div>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
 
             <p style={pBase}>
-              20년+ 시술 · 8,000건+ 케이스 축적. 「극사실눈썹」 기법 · 상표 · 머신 특허 3장 보유 (특허 10-2863985). 경력 5~10년차 원장님들도 스킬업 재교육을 받으러 오는 정본 방법론의 원본입니다.
+              「극사실눈썹」 기법 · 상표 · 머신 특허 3장 보유 (특허 10-2863985). 경력 5~10년차 원장님들도 스킬업 재교육을 받으러 오는 정본 방법론의 원본입니다.
             </p>
 
             <ul style={{ marginTop: 22, borderTop: '1px solid rgba(20,16,15,0.12)', listStyle: 'none', padding: 0 }}>
@@ -214,6 +225,15 @@ export default function HomeV2Content() {
                 </li>
               ))}
             </ul>
+
+            {/* 시안 · 원장님 인용 quote-block + 손글씨 서명 */}
+            <div style={{ marginTop: 24, padding: 20, background: '#ECE0D2', borderLeft: '3px solid #B85C34', fontSize: 17, lineHeight: 1.7 }}>
+              &ldquo;극사실눈썹은 단순한 시술이 아니라, 한 사람의 표정과 인생을 바꾸는 일입니다.&rdquo;
+            </div>
+            <div style={{ marginTop: 36, textAlign: 'right' }}>
+              <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 13, color: '#7A6C5D' }}>ARTBROWS 대표원장</div>
+              <div style={{ fontFamily: "'Nanum Pen Script', cursive", fontSize: 36, color: '#14100F', marginTop: 4 }}>장미지</div>
+            </div>
           </div>
         </section>
 
@@ -312,6 +332,27 @@ export default function HomeV2Content() {
                   <h4 style={{ fontSize: 15.5, fontWeight: 700, marginTop: 4 }}>{s.t}</h4>
                   <div style={{ fontSize: 12.5, color: '#7A6C5D', marginTop: 4 }}>{s.d}</div>
                 </div>
+              ))}
+            </div>
+
+            {/* 시안 · 교육시스템 flow */}
+            <h3 style={{ marginTop: 32, textAlign: 'center', fontSize: 17, fontWeight: 700 }}>창업반의 체계적인 교육시스템</h3>
+            <div style={{ display: 'flex', alignItems: 'stretch', gap: 4, marginTop: 20 }}>
+              {[
+                { n: '01', l: '수업' },
+                { n: '02', l: '원장시연' },
+                { n: '03', l: '실습' },
+                { n: '04', l: '피드백' },
+              ].map((s, i, arr) => (
+                <Fragment key={i}>
+                  <div style={{ flex: 1, textAlign: 'center', background: 'rgba(20,16,15,.08)', border: '1px solid rgba(20,16,15,.12)', borderRadius: 6, padding: '16px 2px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 13.5, color: '#B85C34', fontWeight: 700, letterSpacing: '.03em' }}>{s.n}</div>
+                    <div style={{ fontSize: 14.5, fontWeight: 800, color: '#14100F', marginTop: 5, whiteSpace: 'nowrap' }}>{s.l}</div>
+                  </div>
+                  {i < arr.length - 1 && (
+                    <div style={{ color: '#B85C34', fontSize: 15, flex: 'none', alignSelf: 'center' }}>→</div>
+                  )}
+                </Fragment>
               ))}
             </div>
 
@@ -423,13 +464,27 @@ export default function HomeV2Content() {
           </div>
         </section>
 
-        {/* Sticky Bottom Bar */}
-        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#14100F', borderTop: '1px solid rgba(247,239,230,0.18)', padding: '10px 16px', zIndex: 100, display: 'flex', gap: 8 }}>
-          <a href={`tel:${PHONE}`} style={{ flex: 1, textAlign: 'center', padding: '14px 12px', background: '#B85C34', color: '#F7EFE6', fontWeight: 700, fontSize: 15, borderRadius: 2 }}>
+        {/* Footer */}
+        <footer style={{ background: '#14100F', color: '#B7A996', padding: '32px 24px 40px', fontSize: 14, lineHeight: 1.8 }}>
+          <div style={{ maxWidth: 520, margin: '0 auto' }}>
+            <div style={{ padding: '5px 0' }}>
+              <b style={{ color: '#F7EFE6', fontWeight: 500 }}>ARTBROWS ACADEMY</b> · 극사실눈썹전문 아카데미
+            </div>
+            <div style={{ padding: '5px 0' }}>서울 강남구 · 선릉역 · 삼성중앙역 인근</div>
+            <div style={{ padding: '5px 0' }}>TEL {PHONE} · 인스타 @artbrows_academy</div>
+            <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(247,239,230,0.18)', fontSize: 13, color: '#6b5c4f' }}>
+              © ARTBROWS ACADEMY (주식회사 미지아카데미). All rights reserved.
+            </div>
+          </div>
+        </footer>
+
+        {/* Sticky Bottom Bar (시안 정본 · 전화 + 카카오 채널) */}
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, display: 'flex', background: '#14100F', borderTop: '1px solid rgba(247,239,230,0.18)' }}>
+          <a href={`tel:${PHONE}`} style={{ flex: 1, textAlign: 'center', padding: '18px 10px', fontSize: 17, fontWeight: 700, background: '#B85C34', color: '#F7EFE6' }}>
             📞 전화 상담
           </a>
-          <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textAlign: 'center', padding: '14px 12px', background: '#FFE812', color: '#14100F', fontWeight: 700, fontSize: 15, borderRadius: 2 }}>
-            💬 카톡 K1
+          <a href={KAKAO_CHANNEL} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textAlign: 'center', padding: '18px 10px', fontSize: 17, fontWeight: 700, background: '#F7EFE6', color: '#14100F' }}>
+            💬 카카오 상담
           </a>
         </div>
 
