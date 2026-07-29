@@ -1,472 +1,447 @@
 /**
- * /sophia · Sophia Brow (sophiabrow.com) 구조 클론 + ARTbrows 콘텐츠 오버레이
- * 2026-07-27 · 대표님 지시 「Sophia 구조 그대로 · 우리 장미지 아카데미 내용 덮어 씌워라」
+ * /sophia · 원장님·본부장님 시안 (course-detail_6.html · 2026-07-29) 기반 재작성
+ * 정체성: Warm paper (#F7EFE6) + Ink (#14100F) + Pigment (#B85C34) + Brass (#D9945F)
+ * Mobile-first (max-width 520px) · 편집자적 톤 · 아카데미 정규 커리큘럼 안내
  *
- * 참조 구조 (16 섹션):
- *  1. GNB · 소개·본원·포트폴리오·교육·상담
- *  2. Hero — ACADEMY 대헤드 + 배너
- *  3. Reservation CTA
- *  4. About — 원장 브랜드 인트로 (잔흔 복구 → 우리는 「패턴 X」로 오버레이)
- *  5. 4대 카테고리 그리드 (Sophia PMU 3열 → 우리 4열)
- *  6. Before/After 갤러리
- *  7. 도발적 훅 카피
- *  8. Location & 카톡 CTA (Sophia 4개 → 우리 선릉·삼성 4개)
- *  9. Founder Profile — 원장 자격증·SNS
- * 10. Academy Overview — 프로그램 카드 3장
- * 11. Why ARTbrows — 대기하는 이유
- * 12. Work Quality — 원장 기술력
- * 13. Advanced Technique — 상위 1% 극사실
- * 14. Correction — 잔흔 복구 Before/After
- * 15. Final CTA — 명품눈썹 대사
- * 16. Portfolio Gallery — 24장
+ * 이관: Vercel 배포 · 이미지는 선릉 CDN (cdn.artbrows.co.kr · rewrites)
  */
 
 import Link from 'next/link';
 
 const KAKAO_K1 = 'https://open.kakao.com/o/gWeAkSzi';
 const INSTA = 'https://www.instagram.com/artbrows_academy/';
+const PHONE = '010-3239-5453';
+const NAVER_MAP = 'https://pcmap.place.naver.com/place/1291899054/home?from=map&fromPanelNum=1';
+const KAKAO_MAP = 'https://map.kakao.com/link/search/서울 강남구 봉은사로68길 55-3 2층';
 
 const HERO_MAIN = '/brand/hero-main-20260724.jpg';
 const FOUNDER = '/brand/ai-generated/founder-persona/founder-03.png';
 const FOUNDER_KV = '/brand/founder-key-visual-2026-07-17.png';
 
-// 인스타 정본 카드뉴스 6장 (Sophia 갤러리 대체용 상단 배너)
-const INSTA_CARDS = [
+// 원장 실 강의 다큐 4장 (Art Gallery 후보)
+const CLASS_DOCS = [
+  '/brand/class-documentary/KakaoTalk_20260724_191428055.jpg',
+  '/brand/class-documentary/KakaoTalk_20260724_191617717_02.jpg',
+  '/brand/class-documentary/KakaoTalk_20260724_191628747_01.jpg',
+  '/brand/class-documentary/KakaoTalk_20260724_191628747_03.jpg',
+];
+// 인스타 정본 카드뉴스 (Graduates' Work 후보)
+const REF_CARDS = [
   '/brand/reference-cards-2026-07-24/01-cover-macroface.png',
   '/brand/reference-cards-2026-07-24/02-founder-lecture.png',
   '/brand/reference-cards-2026-07-24/03-question1-why.png',
   '/brand/reference-cards-2026-07-24/04-question2-sketch.png',
-  '/brand/reference-cards-2026-07-24/05-question3-who.png',
-  '/brand/reference-cards-2026-07-24/06-question4-how.png',
-];
-
-// 실 강의 다큐 8장 (포트폴리오 갤러리)
-const CLASS_DOCS = [
-  '/brand/class-documentary/KakaoTalk_20260724_191428055.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191617717_01.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191617717_02.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191617717_03.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191628747_01.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191628747_02.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191628747_03.jpg',
-  '/brand/class-documentary/KakaoTalk_20260724_191628747_04.jpg',
-];
-
-// 4대 카테고리 이미지
-const PILLARS = [
-  { src: '/brand/ai-generated/macro/macro-01.png', title: '눈썹', en: 'BROW', tag: '극사실눈썹 창시자 정본' },
-  { src: '/brand/ai-generated/hand-pencil/hand-01.png', title: '아이라인', en: 'EYELINE', tag: '2027-10 합법화 대비' },
-  { src: '/brand/ai-generated/atelier/atelier-01.png', title: '입술', en: 'LIP', tag: '원장님 컬러 시그니처' },
-  { src: '/brand/ai-generated/atelier/atelier-02.png', title: '헤어라인', en: 'HAIRLINE', tag: '결의 재현 · 자연스러움' },
 ];
 
 export const metadata = {
-  title: '장미지 ARTbrows · 극사실눈썹 창시자 아카데미',
-  description: 'Sophia Brow 구조 참조 · 장미지 원장 · 극사실눈썹 창시자 · 선릉·삼성 본원',
+  title: '극사실눈썹 | ARTBROWS ACADEMY 정규 커리큘럼 안내',
+  description: '특허받은 극사실눈썹, 창시자 장미지 대표원장이 직접 가르치는 4단계 커리큘럼. 이지클래스부터 실전실습까지.',
 };
 
-export default function SophiaStylePage() {
-  return (
-    <main style={{ background: 'var(--bg-deep)', color: 'var(--text)', minHeight: '100vh' }}>
+// ─── style helpers ───
+const wrap: React.CSSProperties = { maxWidth: 520, margin: '0 auto', padding: '0 24px' };
+const sectionBase: React.CSSProperties = { padding: '64px 0', position: 'relative' };
+const label: React.CSSProperties = {
+  fontFamily: "'Space Mono', monospace",
+  fontSize: 13, letterSpacing: '.16em', textTransform: 'uppercase',
+  color: '#D9945F', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14,
+};
+const h2Serif: React.CSSProperties = {
+  fontFamily: "'Pretendard', -apple-system, sans-serif",
+  fontSize: 26, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.5,
+};
+const pBase: React.CSSProperties = { marginTop: 16, color: '#241C19', fontSize: 18.5, lineHeight: 1.65 };
 
-      {/* ═══ 1. HEADER GNB ═══ */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(46,35,25,.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--line)' }}>
-        <div style={wrap()}>
-          <div style={{ display: 'flex', alignItems: 'center', padding: '18px 0', gap: 20 }}>
-            <Link href="/sophia" style={{ fontFamily: '"Nanum Myeongjo", serif', fontSize: 26, fontWeight: 700, color: 'var(--gold-light)', textDecoration: 'none', letterSpacing: '-.01em' }}>
-              장미지 <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, letterSpacing: '.24em', color: 'var(--gold)', fontWeight: 500, marginLeft: 8, textTransform: 'uppercase' }}>ARTBROWS</span>
+export default function SophiaPage() {
+  return (
+    <>
+      <style>{`
+        html { scroll-behavior: smooth; }
+        body {
+          background: #F7EFE6;
+          color: #14100F;
+          font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          overflow-x: hidden;
+          line-height: 1.65;
+          padding-bottom: 76px;
+        }
+        .sophia-page a { color: inherit; text-decoration: none; }
+        .sophia-page img { max-width: 100%; display: block; }
+        .sophia-page .label-line::before {
+          content: ""; width: 18px; height: 1px; background: #D9945F; display: inline-block;
+        }
+        .sophia-page .btn-primary {
+          display: block; text-align: center; padding: 15px 20px;
+          font-size: 18.5px; font-weight: 700; border-radius: 2px;
+          background: #B85C34; color: #F7EFE6;
+        }
+        .sophia-page .btn-ghost {
+          display: block; text-align: center; padding: 15px 20px;
+          font-size: 18.5px; font-weight: 700; border-radius: 2px;
+          border: 1px solid rgba(247,239,230,0.18); color: #F7EFE6;
+        }
+      `}</style>
+
+      <main className="sophia-page">
+
+        {/* ═══ 상단 네비 ═══ */}
+        <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'rgba(20,16,15,.94)', backdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(247,239,230,0.18)' }}>
+          <div style={{ ...wrap, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 24px' }}>
+            <Link href="/sophia" style={{ fontFamily: "'Space Mono', monospace", fontSize: 17, color: '#F7EFE6', fontWeight: 700, letterSpacing: '.04em' }}>
+              ART<span style={{ color: '#D9945F' }}>BROWS</span>
             </Link>
-            <nav style={{ display: 'flex', gap: 22, marginLeft: 'auto' }}>
-              <a href="#about" style={gnbLink()}>소개</a>
-              <a href="#location" style={gnbLink()}>선릉·삼성 본원</a>
-              <a href="#portfolio" style={gnbLink()}>포트폴리오</a>
-              <a href="#academy" style={gnbLink()}>교육</a>
-              <a href="#consult" style={gnbLink()}>상담</a>
-            </nav>
-            <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer"
-              style={{ marginLeft: 14, padding: '11px 22px', background: 'var(--gold)', color: 'var(--bg-deep)', fontWeight: 700, fontSize: 13, letterSpacing: '.08em', textDecoration: 'none', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
-              카톡 상담
+            <a href={`tel:${PHONE}`} style={{ fontFamily: "'Space Mono', monospace", fontSize: 12.5, color: '#14100F', background: '#D9945F', padding: '8px 12px', borderRadius: 2 }}>
+              상담 →
             </a>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* ═══ 2. HERO — ACADEMY 대헤드 ═══ */}
-      <section style={{ padding: '90px 0 100px', background: 'linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-card) 100%)', position: 'relative', overflow: 'hidden' }}>
-        <div style={wrap()}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <div style={eyebrow()}>Since 2005 · Seonleung × Samseong</div>
-            <h1 className="serif" style={{ fontSize: 88, fontWeight: 300, color: 'var(--text)', lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 24 }}>
-              Academy
-            </h1>
-            <p style={{ fontSize: 20, color: 'var(--text-soft)', maxWidth: 780, margin: '0 auto', lineHeight: 1.75 }}>
-              장미지 아카데미 · 극사실눈썹 마스터 과정을 수료한 모든 졸업생에게 · 매출로 이어질 수밖에 없는 <b style={{ color: 'var(--gold-light)' }}>창업 브랜딩 · 카톡 마케팅 · 인스타 자동화</b>까지 제공합니다.
+        {/* ═══ HERO ═══ */}
+        <section style={{ background: '#14100F', color: '#F7EFE6', paddingTop: 52 }}>
+          <div style={{ position: 'relative' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={HERO_MAIN} alt="ARTbrows Academy" style={{ width: '100%', height: '78vh', maxHeight: 560, minHeight: 400, objectFit: 'cover', objectPosition: 'center 15%' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,16,15,.55) 0%, rgba(20,16,15,.15) 30%, rgba(20,16,15,.55) 62%, rgba(20,16,15,.98) 100%)' }} />
+            <span style={{ position: 'absolute', left: 24, top: 20, zIndex: 2, fontFamily: "'Space Mono', monospace", fontSize: 12.5, letterSpacing: '.1em', color: '#D9945F', border: '1px solid rgba(247,239,230,0.18)', padding: '6px 12px' }}>
+              HYPERREAL BROW
+            </span>
+            <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 2, padding: '0 24px 26px' }}>
+              <h1 style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.4, textAlign: 'center', letterSpacing: '-0.02em' }}>
+                <em style={{ fontStyle: 'normal', color: '#D9945F', fontSize: 22, fontWeight: 600, display: 'inline-block' }}>진짜에 가깝게!</em><br />
+                <span style={{ fontSize: 44, fontWeight: 800, display: 'inline-block', marginTop: 4 }}>극사실눈썹</span>
+              </h1>
+              <p style={{ textAlign: 'center', color: '#B7A996', fontSize: 17.5, marginTop: 12 }}>
+                진짜 눈썹처럼 자연스러운 극사실기법 특허 기술!<br />
+                아트브로우가 최고의 반영구 전문가를 양성합니다.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 20 }}>
+                <a className="btn-primary" href={`tel:${PHONE}`}>시술/교육 상담 →</a>
+                <a className="btn-ghost" href="#roadmap">커리큘럼 보기</a>
+              </div>
+            </div>
+          </div>
+          {/* Hero proof strip */}
+          <div style={{ margin: '0 24px', transform: 'translateY(-1px)', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid rgba(247,239,230,0.18)', borderTop: 'none', overflow: 'hidden' }}>
+            {[
+              { n: '20년+', d: '창시자 경력' },
+              { n: '8,000+', d: '누적 시술' },
+              { n: '1,000+', d: '누적 수강생' },
+            ].map((s, i) => (
+              <div key={i} style={{ textAlign: 'center', padding: '14px 6px', borderRight: i < 2 ? '1px solid rgba(247,239,230,0.18)' : 'none', background: '#14100F' }}>
+                <div style={{ fontFamily: "'Pretendard', sans-serif", fontWeight: 900, fontSize: 20, color: '#D9945F' }}>{s.n}</div>
+                <div style={{ fontSize: 12, color: '#B7A996', marginTop: 4 }}>{s.d}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ 01 · The Origin ═══ */}
+        <section style={sectionBase}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>01 · The Origin</div>
+            <h2 style={h2Serif}>극사실눈썹의 시작</h2>
+            <p style={{ ...pBase, marginTop: 14, fontSize: 20, fontWeight: 700, color: '#B85C34' }}>
+              천 명의 고객, 단 하나의 눈썹 패턴.
             </p>
-            <div style={{ marginTop: 34, display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="#academy" style={ctaPrimary()}>더 알아보기 →</a>
-              <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={ctaGhost()}>카톡 상담</a>
+            <p style={pBase}>20년간 장미지 원장은 늘 같은 장면을 마주했습니다.</p>
+            <p style={pBase}>
+              둥근 얼굴, 각진 얼굴, 긴 얼굴, 평평한 얼굴, 역삼각형 얼굴 등 — 얼굴형은 달라도 모든 사람에게, 모든 반영구 시술자가 일자눈썹만 시술했습니다. &ldquo;왜 진짜 눈썹이랑 결도 다르고, 방향도 어색하게 따로 놀까?&rdquo;
+            </p>
+            <p style={pBase}>
+              그렇게 답을 찾기 시작했고, 만화가를 꿈꾸며 어릴 적 보던 해부학 책을 다시 펼쳐보며, 눈썹은 그 사람만의 골격과 모류 방향을 읽어내는 데서 시작해야 한다는 것을 깨달았습니다. 반영구 기법에 소묘의 원리를 정식으로 접목한 것 — 그것이 극사실눈썹의 시작이었습니다.
+            </p>
+            <div style={{ marginTop: 24, padding: 20, background: '#ECE0D2', borderLeft: '3px solid #B85C34', fontSize: 17, lineHeight: 1.7 }}>
+              「진짜 눈썹은 시술이 아니라 소묘다.」
+              <div style={{ marginTop: 8, fontSize: 13, color: '#7A6C5D' }}>— 장미지 대표원장</div>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 14, aspectRatio: '2/1', maxWidth: 1160, margin: '0 auto' }}>
-            <div style={{ overflow: 'hidden', border: '1px solid var(--line)' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={HERO_MAIN} alt="원장님 강의 시연" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 62%' }} />
-            </div>
-            <div style={{ overflow: 'hidden', border: '1px solid var(--line)' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={FOUNDER} alt="장미지 원장 페르소나" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </section>
+
+        {/* ═══ 02 · Define ═══ */}
+        <section style={{ ...sectionBase, background: '#ECE0D2' }}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>02 · What is Hyperreal Brow</div>
+            <h2 style={h2Serif}>극사실눈썹이란?</h2>
+            <p style={pBase}>
+              극사실눈썹은 정해진 패턴을 그리는 시술이 아니라, 얼굴을 소묘하듯 관찰하고 설계하는 기법입니다. 골격, 눈매, 원래 모류의 결과 방향을 먼저 읽고 단순히 그리는 것이 아닌, 본연의 아름다움에 한 올 한 올 생장감을 불어넣는 작업. 똑같은 시간을 쓰더라도 전혀 다른 차원의 결과가 나오는 이유입니다.
+            </p>
+            <div style={{ marginTop: 20, textAlign: 'center', fontWeight: 900, fontSize: 21, color: '#B85C34' }}>
+              패턴이 아닌 · 소묘
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ═══ 3. RESERVATION STRIP ═══ */}
-      <div style={{ background: 'var(--bg-card2)', borderTop: '1px solid var(--gold-deep)', borderBottom: '1px solid var(--gold-deep)', padding: '22px 0' }}>
-        <div style={{ ...wrap(), display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, letterSpacing: '.4em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 600 }}>강의 캘린더</span>
-          <span className="serif" style={{ fontSize: 22, color: 'var(--text)', fontWeight: 300 }}>
-            8월 15기 창업반 · 이지반 · 소묘 3일 집중 <b style={{ color: 'var(--gold-light)' }}>모집 중</b>
-          </span>
-          <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={ctaGhost()}>예약 상황 보러가기 →</a>
-        </div>
-      </div>
-
-      {/* ═══ 4. ABOUT — 원장 브랜드 인트로 ═══ */}
-      <section id="about" style={{ padding: '100px 0', background: 'var(--bg-deep)' }}>
-        <div style={wrap()}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 60, alignItems: 'center' }}>
-            <div style={{ overflow: 'hidden', border: '1px solid var(--line)', aspectRatio: '3/4' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={FOUNDER_KV} alt="장미지 원장" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        {/* ═══ 03 · Master · 장미지 대표원장 ═══ */}
+        <section style={sectionBase}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>03 · Master</div>
+            <div style={{ marginTop: 26, fontSize: 17, color: '#D9945F', fontWeight: 700 }}>
+              국내 눈썹문신의 정점에 있는 MASTER
             </div>
-            <div>
-              <div style={eyebrow()}>ABOUT · 창시자</div>
-              <h2 className="serif" style={{ fontSize: 56, fontWeight: 300, color: 'var(--text)', lineHeight: 1.15, marginBottom: 24, letterSpacing: '-.015em' }}>
-                Miji Jang
-              </h2>
-              <p style={{ fontSize: 17, color: 'var(--text-soft)', lineHeight: 1.85, marginBottom: 18 }}>
-                최근 잘못된 패턴 스탬프 반영구로 붉고 어색한 눈썹이 남은 경우가 많습니다. 저희를 찾는 분들 중 <b style={{ color: 'var(--gold-light)' }}>10명 중 6명 이상</b>이 「극사실로 자연스럽게 다시 그려주세요」라며 방문하십니다.
-              </p>
-              <p style={{ fontSize: 15, color: 'var(--muted)', lineHeight: 1.85 }}>
-                20년+ 시술 · 8,000건+ 케이스 · 900여명 수강생 배출. 국내 유일 <b style={{ color: 'var(--gold)' }}>극사실눈썹 특허 3장</b> (기법·상표·머신 특허 10-2863985) 보유. 경력 5~10년차 원장님들도 스킬업 재교육을 받으러 오는 <b style={{ color: 'var(--gold-light)' }}>정본 방법론의 원본</b>입니다.
-              </p>
-              <div style={{ marginTop: 26, display: 'flex', gap: 22, flexWrap: 'wrap' }}>
+            <h2 style={{ ...h2Serif, fontSize: 30, fontWeight: 900, marginTop: 4 }}>장미지 대표원장</h2>
+            <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 13, color: '#D9945F', marginTop: 8, letterSpacing: '.06em' }}>
+              ARTBROWS ACADEMY · FOUNDER
+            </div>
+
+            <div style={{ border: '1px solid rgba(20,16,15,0.12)', padding: 4, marginTop: 24 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={FOUNDER_KV} alt="장미지 대표원장" style={{ width: '100%' }} />
+            </div>
+
+            {/* Stat pill */}
+            <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
+              <div style={{ flex: 1, display: 'flex', background: '#14100F', borderRadius: 6, overflow: 'hidden' }}>
                 {[
-                  { n: '20', u: '년+', l: '창시자 경력' },
-                  { n: '8,000', u: '+', l: '누적 시술' },
-                  { n: '900', u: '+', l: '누적 수강생' },
-                  { n: '3', u: '장', l: '특허 · 상표 · 기법' },
+                  { n: '20년+', d: '창시자 경력' },
+                  { n: '8,000+', d: '누적 시술' },
+                  { n: '1,000+', d: '누적 수강생' },
                 ].map((s, i) => (
-                  <div key={i} style={{ minWidth: 88 }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-                      <span className="serif" style={{ fontSize: 34, color: 'var(--gold-light)', fontWeight: 300, lineHeight: 1 }}>{s.n}</span>
-                      <span className="serif" style={{ fontSize: 16, color: 'var(--gold)' }}>{s.u}</span>
-                    </div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 10, letterSpacing: '.28em', color: 'var(--muted)', textTransform: 'uppercase', marginTop: 6 }}>{s.l}</div>
+                  <div key={i} style={{ flex: 1, textAlign: 'center', padding: '14px 6px', borderRight: i < 2 ? '1px solid rgba(247,239,230,0.18)' : 'none' }}>
+                    <div style={{ fontWeight: 900, fontSize: 19, color: '#D9945F', lineHeight: 1.2 }}>{s.n}</div>
+                    <div style={{ fontSize: 12, color: '#ECE0D2', marginTop: 3 }}>{s.d}</div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══ 5. 4대 카테고리 (PMU) ═══ */}
-      <section id="portfolio" style={{ padding: '100px 0', background: 'var(--bg-card)' }}>
-        <div style={wrap()}>
-          <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <div style={eyebrow()}>HYPERREAL · 4대 카테고리</div>
-            <h2 className="serif" style={{ fontSize: 56, fontWeight: 300, color: 'var(--text)', lineHeight: 1.15, letterSpacing: '-.015em' }}>Hyperreal</h2>
-            <p style={{ fontSize: 17, color: 'var(--text-soft)', maxWidth: 720, margin: '18px auto 0', lineHeight: 1.75 }}>
-              장미지 아카데미는 <b style={{ color: 'var(--gold-light)' }}>선릉·삼성 본원</b>에서 모든 카테고리에 동일한 극사실 방법론을 적용합니다. 「진짜 머리카락·진짜 눈썹·그 사람 원래 입술」의 결을 그대로 재현합니다.
+            <p style={pBase}>
+              20년+ 시술 · 8,000건+ 케이스 축적. 「극사실눈썹」 기법 · 상표 · 머신 특허 3장 보유 (특허 10-2863985). 경력 5~10년차 원장님들도 스킬업 재교육을 받으러 오는 정본 방법론의 원본입니다.
             </p>
+
+            <ul style={{ marginTop: 22, borderTop: '1px solid rgba(20,16,15,0.12)', listStyle: 'none', padding: 0 }}>
+              {[
+                'ARTBROWS ACADEMY 총괄 대표원장',
+                '극사실눈썹 기법·상표·머신 특허 3장 등록',
+                '누적 수강생 1,000+ · 창업 수백여명 배출',
+                '2027-10 반영구 준합법화 대비 · 국내 유일 표준 방법론',
+              ].map((c, i) => (
+                <li key={i} style={{ display: 'flex', gap: 12, padding: '13px 0', borderBottom: '1px solid rgba(20,16,15,0.12)', fontSize: 17.5 }}>
+                  <span style={{ color: '#B85C34', fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>0{i + 1}</span>
+                  <span>{c}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-            {PILLARS.map((p, i) => (
-              <div key={i} style={{ background: 'var(--bg-deep)', border: '1px solid var(--line)', overflow: 'hidden', transition: 'transform .25s' }}>
-                <div style={{ aspectRatio: '4/5', overflow: 'hidden' }}>
+        </section>
+
+        {/* ═══ 04 · Art Gallery (원장님 작품) ═══ */}
+        <section style={{ ...sectionBase, background: '#ECE0D2' }}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>04 · Art Gallery</div>
+            <div style={{ fontSize: 15, color: '#D9945F', fontWeight: 700 }}>국내 ONE TOP!</div>
+            <h2 style={{ ...h2Serif, marginTop: 4 }}>장미지 원장의 Art Gallery</h2>
+            <p style={{ marginTop: 12, color: '#7A6C5D', fontSize: 15 }}>극사실눈썹으로 완성한 실제 작품들입니다.</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 22 }}>
+              {CLASS_DOCS.map((src, i) => (
+                <div key={i} style={{ aspectRatio: '1/1', border: '1px solid rgba(20,16,15,0.12)', background: '#F7EFE6', position: 'relative', overflow: 'hidden' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.src} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.05)' }} />
+                  <img src={src} alt={`WORK ${String(i + 1).padStart(2, '0')}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', top: 10, left: 10, fontFamily: "'Space Mono', monospace", fontSize: 11, color: '#D9945F', letterSpacing: '.05em', background: 'rgba(20,16,15,.6)', padding: '3px 8px' }}>
+                    WORK {String(i + 1).padStart(2, '0')}
+                  </div>
                 </div>
-                <div style={{ padding: '20px 20px 22px' }}>
-                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 10, letterSpacing: '.28em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>{p.en}</div>
-                  <h3 className="serif" style={{ fontSize: 24, color: 'var(--gold-light)', fontWeight: 700, marginBottom: 6, letterSpacing: '-.005em' }}>{p.title}</h3>
-                  <p style={{ fontSize: 12.5, color: 'var(--text-soft)', lineHeight: 1.6 }}>{p.tag}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 6. BEFORE/AFTER — 인스타 정본 6장 ═══ */}
-      <section style={{ padding: '80px 0', background: 'var(--bg-deep)' }}>
-        <div style={wrap()}>
-          <div style={{ marginBottom: 30 }}>
-            <div style={eyebrow()}>@artbrows_academy · Instagram</div>
-            <h2 className="serif" style={{ fontSize: 40, color: 'var(--text)', fontWeight: 300, letterSpacing: '-.005em' }}>
-              Correction · 잘못된 반영구, 극사실로 다시.
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
-            {INSTA_CARDS.map((src, i) => (
-              <div key={i} style={{ aspectRatio: '1/1', overflow: 'hidden', border: '1px solid var(--line-soft)' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`인스타 정본 ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.03)' }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 7. 브랜드 도발 훅 ═══ */}
-      <section style={{ padding: '100px 0', background: 'linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-card2) 100%)', textAlign: 'center' }}>
-        <div style={wrap()}>
-          <h2 className="serif" style={{ fontSize: 64, fontWeight: 300, color: 'var(--gold-light)', lineHeight: 1.2, letterSpacing: '-.015em', maxWidth: 1000, margin: '0 auto' }}>
-            극사실눈썹 창시자를 모른다면 <br /><b style={{ color: 'var(--text)', fontWeight: 700 }}>반영구를 배우지 마세요.</b>
-          </h2>
-          <div style={{ marginTop: 34 }}>
-            <a href={INSTA} target="_blank" rel="noopener noreferrer" style={{ ...ctaGhost(), fontSize: 12, padding: '14px 30px' }}>
-              @artbrows_academy 팔로우 →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 8. LOCATION & 카톡 CTA ═══ */}
-      <section id="location" style={{ padding: '100px 0', background: 'var(--bg-card)' }}>
-        <div style={wrap()}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={eyebrow()}>LOCATION · 오시는 길</div>
-            <h2 className="serif" style={{ fontSize: 44, color: 'var(--text)', fontWeight: 300 }}>선릉 본원 <span style={{ color: 'var(--muted)' }}>|</span> 삼성 본원</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
-            {[
-              { name: '선릉 본원', addr: '서울 강남구 · 선릉 · 봉은사 인근', kk1: '선릉 수강 문의', kk2: '선릉 시술 문의' },
-              { name: '삼성 본원', addr: '서울 강남구 · 삼성 · 대치 사이', kk1: '삼성 수강 문의', kk2: '삼성 시술 문의' },
-            ].map((loc, i) => (
-              <div key={i} style={{ padding: '36px 32px', background: 'var(--bg-deep)', border: '1px solid var(--line)' }}>
-                <h3 className="serif" style={{ fontSize: 28, color: 'var(--gold-light)', fontWeight: 700, marginBottom: 8, letterSpacing: '-.005em' }}>{loc.name}</h3>
-                <p style={{ fontSize: 14, color: 'var(--text-soft)', marginBottom: 24 }}>{loc.addr}</p>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ ...ctaPrimary(), fontSize: 12, padding: '11px 20px', flex: '1 1 45%', textAlign: 'center' }}>{loc.kk1}</a>
-                  <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ ...ctaGhost(), fontSize: 12, padding: '11px 20px', flex: '1 1 45%', textAlign: 'center' }}>{loc.kk2}</a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 9. FOUNDER PROFILE ═══ */}
-      <section style={{ padding: '100px 0', background: 'var(--bg-deep)' }}>
-        <div style={wrap()}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60, alignItems: 'center' }}>
-            <div style={{ overflow: 'hidden', border: '1px solid var(--line)', aspectRatio: '3/4' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={FOUNDER} alt="장미지 원장" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.08)' }} />
+              ))}
             </div>
-            <div>
-              <div style={eyebrow()}>Founder · 대표원장</div>
-              <h2 className="serif" style={{ fontSize: 42, color: 'var(--text)', fontWeight: 300, letterSpacing: '-.01em', lineHeight: 1.25, marginBottom: 20 }}>
-                「눈썹여왕」이라 불리는 <br /><b style={{ color: 'var(--gold-light)', fontWeight: 700 }}>장미지 대표원장</b>
-              </h2>
-              <p style={{ fontSize: 16, color: 'var(--text-soft)', lineHeight: 1.85, marginBottom: 26 }}>
-                국내 반영구 시장을 <b style={{ color: 'var(--gold-light)' }}>「극사실눈썹」이라는 새 표준</b>으로 재정의한 창시자. 5~10년차 원장님들도 스킬업 재교육을 받으러 오는 <b style={{ color: 'var(--gold)' }}>정본 방법론의 원본</b>입니다.
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, marginBottom: 30 }}>
-                {[
-                  '장미지 ARTbrows 아카데미 총괄 대표원장',
-                  '「극사실눈썹」 기법 · 상표 · 머신 특허 3장 (특허 10-2863985)',
-                  '누적 시술 8,000+ 케이스 · 900+ 수강생 · 창업 수백여명 배출',
-                  '2027-10 반영구 준합법화 대비 국내 유일 표준 방법론',
-                ].map((c, i) => (
-                  <li key={i} style={{ padding: '10px 0', borderBottom: '1px dashed var(--line)', color: 'var(--text)', fontSize: 14, display: 'flex', gap: 12 }}>
-                    <span style={{ color: 'var(--gold)', fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 12 }}>0{i + 1}</span>{c}
-                  </li>
-                ))}
-              </ul>
-              <div style={{ display: 'flex', gap: 16 }}>
-                <a href={INSTA} target="_blank" rel="noopener noreferrer" style={socialLink()}>Instagram → @artbrows_academy</a>
-                <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={socialLink()}>Kakao K1 → 무료 강의방</a>
-              </div>
+            <div style={{ marginTop: 14, fontSize: 11.5, color: '#B7A996', textAlign: 'center' }}>
+              작품 이미지는 원장님 승인 후 순차 업데이트됩니다
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ═══ 10. ACADEMY OVERVIEW ═══ */}
-      <section id="academy" style={{ padding: '100px 0', background: 'var(--bg-card)' }}>
-        <div style={wrap()}>
-          <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <div style={eyebrow()}>ACADEMY · 프로그램</div>
-            <h2 className="serif" style={{ fontSize: 44, color: 'var(--text)', fontWeight: 300, letterSpacing: '-.01em', lineHeight: 1.25 }}>
-              경력직 원장님들도 다시 찾는 <br /><b style={{ color: 'var(--gold-light)', fontWeight: 700 }}>장미지 아카데미</b>
-            </h2>
-            <p style={{ fontSize: 16, color: 'var(--text-soft)', maxWidth: 720, margin: '18px auto 0', lineHeight: 1.75 }}>
-              극사실을 배운 후 <b style={{ color: 'var(--gold-light)' }}>월 수천만 원~억대 매출</b>도 가능합니다. 교육만 제공하지 않고 <b style={{ color: 'var(--gold-light)' }}>「제2의 장미지」</b>를 만드는 창업·브랜딩·마케팅까지 함께합니다.
+        {/* ═══ 05 · Curriculum Roadmap ═══ */}
+        <section id="roadmap" style={{ ...sectionBase, background: '#F7EFE6' }}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>05 · Curriculum Roadmap</div>
+            <h2 style={h2Serif}>국내유일 극사실눈썹 교육 아카데미</h2>
+            <p style={{ marginTop: 14, color: '#7A6C5D', fontSize: 18.5 }}>
+              아트브로우 아카데미는 진짜 내 눈썹처럼 섬세하고 자연스러운 극사실 기법을 처음으로 정립하고 시술·교육하는 전문 뷰티 아카데미입니다.
             </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
-            {[
-              { tag: '창업반 15기 · 890만', title: '반영구 창업 마스터', desc: '소묘 3회 + 눈썹 5회 + 창업 브랜딩 · 8월 개강' },
-              { tag: '이지반 15기 · 69만', title: '이지클래스 · 입문 3주', desc: '토·일·월 3반 · 재직자 프리미엄 입문' },
-              { tag: '극사실 169만', title: '극사실눈썹 특화', desc: '원장 직강 · 결의 재현 원리 · 실전 케이스' },
-            ].map((p, i) => (
-              <div key={i} style={{ padding: '30px 26px 32px', background: 'var(--bg-deep)', border: '1px solid var(--line)' }}>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '.24em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 14 }}>{p.tag}</div>
-                <h3 className="serif" style={{ fontSize: 24, color: 'var(--gold-light)', fontWeight: 700, letterSpacing: '-.005em', lineHeight: 1.35, marginBottom: 12 }}>{p.title}</h3>
-                <p style={{ fontSize: 13.5, color: 'var(--text-soft)', lineHeight: 1.75 }}>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 32, textAlign: 'center' }}>
-            <span style={{ display: 'inline-block', padding: '14px 26px', background: 'rgba(224,192,136,.10)', border: '1px solid var(--gold-deep)', fontFamily: 'Inter, sans-serif', fontSize: 12, letterSpacing: '.28em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 700 }}>
-              올해 500+ 경력직 원장 재교육 신청
-            </span>
-          </div>
-        </div>
-      </section>
+            <p style={{ marginTop: 14, fontSize: 20.5, fontWeight: 700, color: '#14100F' }}>
+              입문부터 심화까지 3단계로 이어지는 원장 직강 정규 커리큘럼
+            </p>
+            <p style={{ marginTop: 14, color: '#7A6C5D', fontSize: 18.5 }}>각 과정은 독립적으로도 수강하실 수 있습니다.</p>
 
-      {/* ═══ 11. WHY ARTbrows · 대기 이유 ═══ */}
-      <section style={{ padding: '100px 0', background: 'var(--bg-deep)' }}>
-        <div style={{ ...wrap(), maxWidth: 900, textAlign: 'center' }}>
-          <div style={eyebrow()}>WHY · 왜 대기하면서까지 찾는가</div>
-          <h2 className="serif" style={{ fontSize: 44, fontWeight: 300, color: 'var(--text)', lineHeight: 1.3, letterSpacing: '-.01em', marginBottom: 26 }}>
-            <b style={{ color: 'var(--gold-light)', fontWeight: 700 }}>1~2개월 대기</b>하면서까지 <br />왜 장미지 원장님을 찾을까요?
-          </h2>
-          <p style={{ fontSize: 17, color: 'var(--text-soft)', lineHeight: 1.9 }}>
-            머신으로 <b style={{ color: 'var(--gold-light)' }}>한 올 한 올 그려내는 극사실 기법</b>은, 일반 자연눈썹 기법과 자연스러움에서 <b style={{ color: 'var(--gold-light)' }}>결정적 차이</b>가 있습니다. 진짜 눈썹과 구별되지 않는 이유는, 「털의 결」 자체를 관찰해 재현하기 때문입니다.
-          </p>
-          <a href="#academy" style={{ ...ctaGhost(), display: 'inline-block', marginTop: 30 }}>
-            다른 곳보다 결이 얇을 수밖에 없는 이유? →
+            <div style={{ marginTop: 34, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+              {[
+                { n: '01', title: '이지클래스', price: '69만원', audience: '반영구 입문자, 오래전에 배운 분, 아직 선 하나가 자신 없는 분', desc: '눈썹의 기초 이론과 실습을 처음부터 제대로 배우는 입문 과정.', meta: '일요일 5주 · 3시간×5회 (15H)' },
+                { n: '02', title: '극사실기초 소묘수업', price: '66만원', audience: '이지클래스 졸업생, 경력자, 헤어스트록 수강자', desc: '진짜 눈썹을 보고 그리는 원리 수업. 배운 이론을 실전 시술에 녹여내는 과정.', meta: '3일 집중' },
+                { n: '03', title: '극사실눈썹 강의', price: '169만원', audience: '소묘 과정 이수자, 극사실눈썹을 실전 시술로 완성하고 싶은 분', desc: '원장 직강 · 결의 재현 원리 · 실전 케이스 중심.', meta: '3일 집중 · 원장 직강' },
+              ].map((step, i, arr) => (
+                <div key={i} style={{ display: 'flex', gap: 16, padding: '0 0 34px 0', position: 'relative' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 44, position: 'relative' }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#14100F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Pretendard', sans-serif", fontWeight: 900, fontSize: 21, color: '#D9945F', zIndex: 1 }}>
+                      {step.n}
+                    </div>
+                    {i < arr.length - 1 && (
+                      <div style={{ position: 'absolute', top: 44, bottom: -34, width: 2, background: 'rgba(20,16,15,0.12)', left: '50%', transform: 'translateX(-50%)' }} />
+                    )}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ fontSize: 20, fontWeight: 700 }}>{step.title}</h3>
+                    <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 16, color: '#B85C34', marginTop: 4 }}>{step.price}</div>
+                    <div style={{ fontSize: 15.5, color: '#7A6C5D', marginTop: 8 }}>
+                      <b>대상 ·</b> {step.audience}
+                    </div>
+                    <div style={{ marginTop: 8, fontSize: 15.5, color: '#241C19' }}>{step.desc}</div>
+                    <div style={{ marginTop: 6, fontSize: 13, color: '#7A6C5D', fontFamily: "'Space Mono', monospace" }}>{step.meta}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ 06 · Flagship (창업반) ═══ */}
+        <section style={{ ...sectionBase, background: '#ECE0D2' }}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>06 · Flagship</div>
+            <h2 style={{ ...h2Serif, fontSize: 26 }}>극사실눈썹 단기창업반<br />(교육+창업멘토링)</h2>
+            <p style={pBase}>이지클래스부터 실전실습까지 전 과정을 통합한 6개월 플래그십 과정. 기술 습득은 물론 실제 창업까지 이어지는 로드맵을 함께 설계합니다.</p>
+
+            <h3 style={{ marginTop: 24, fontSize: 18, fontWeight: 700 }}>왜 단기창업반인가요?</h3>
+            <ul style={{ marginTop: 12, paddingLeft: 20, lineHeight: 1.9, color: '#241C19', fontSize: 16.5 }}>
+              <li>이지클래스부터 창업 컨설팅까지, 기술과 창업을 하나의 로드맵으로 연결합니다</li>
+              <li>소묘·강의 각 4회 반복 수강으로 실력의 완성도를 끌어올립니다</li>
+              <li>장미지 대표원장이 전 과정을 직접 지도하고, 창업 이후까지 함께합니다</li>
+            </ul>
+
+            <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
+              {[
+                { st: 'STEP 1', t: '이지클래스', d: '반영구 입문 정석과정' },
+                { st: 'STEP 2', t: '극사실기초 소묘', d: '4회 반복 수강' },
+                { st: 'STEP 3', t: '극사실눈썹 강의', d: '4회 반복 수강' },
+                { st: 'STEP 4', t: '실전실습', d: '창업 실전 과정' },
+                { st: 'STEP 5', t: '무제한 실습', d: '베드 무료오픈' },
+                { st: 'STEP 6', t: '창업 컨설팅', d: '인테리어+마케팅' },
+              ].map((s, i) => (
+                <div key={i} style={{ padding: '16px 14px', background: '#F7EFE6', border: '1px solid rgba(20,16,15,0.12)' }}>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, color: '#D9945F', letterSpacing: '.08em', fontWeight: 700 }}>{s.st}</div>
+                  <h4 style={{ fontSize: 15.5, fontWeight: 700, marginTop: 4 }}>{s.t}</h4>
+                  <div style={{ fontSize: 12.5, color: '#7A6C5D', marginTop: 4 }}>{s.d}</div>
+                </div>
+              ))}
+            </div>
+
+            <h3 style={{ marginTop: 26, fontSize: 16, fontWeight: 700 }}>이런 분께 추천합니다</h3>
+            <ul style={{ marginTop: 10, paddingLeft: 20, lineHeight: 1.8, color: '#241C19', fontSize: 15.5 }}>
+              <li>반영구 전문가로 확실하게 자리 잡고 싶은 분</li>
+              <li>기술 습득을 넘어 실제 창업까지 계획하고 있는 분</li>
+              <li>단발성 수강이나 독학으로는 한계를 느낀 분</li>
+              <li>창업 준비부터 사후 지원까지 든든하게 받고 싶은 분</li>
+            </ul>
+
+            <div style={{ marginTop: 22, padding: 16, background: '#14100F', color: '#F7EFE6', textAlign: 'center' }}>
+              <div style={{ fontSize: 15 }}>수강료는 상담을 통해 안내드립니다</div>
+            </div>
+
+            <a className="btn-primary" href={`tel:${PHONE}`} style={{ marginTop: 14 }}>단기창업반 상담 신청 →</a>
+          </div>
+        </section>
+
+        {/* ═══ 07 · Graduates' Work ═══ */}
+        <section style={sectionBase}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>07 · Graduates&apos; Work</div>
+            <div style={{ fontSize: 15, color: '#D9945F', fontWeight: 700 }}>수강생 졸업작품</div>
+            <h2 style={{ ...h2Serif, marginTop: 4 }}>아카데미 수강생 Gallery</h2>
+            <p style={{ marginTop: 12, color: '#7A6C5D', fontSize: 15 }}>ARTBROWS ACADEMY를 수료한 수강생들의 실제 작품입니다.</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 22 }}>
+              {REF_CARDS.map((src, i) => (
+                <div key={i} style={{ aspectRatio: '1/1', border: '1px solid rgba(20,16,15,0.12)', background: '#ECE0D2', position: 'relative', overflow: 'hidden' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt={`WORK ${String(i + 1).padStart(2, '0')}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', top: 10, left: 10, fontFamily: "'Space Mono', monospace", fontSize: 11, color: '#D9945F', letterSpacing: '.05em', background: 'rgba(20,16,15,.6)', padding: '3px 8px' }}>
+                    WORK {String(i + 1).padStart(2, '0')}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 14, fontSize: 11.5, color: '#B7A996', textAlign: 'center' }}>
+              작품 이미지는 수강생 동의 후 순차 업데이트됩니다
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ 08 · Location ═══ */}
+        <section style={{ ...sectionBase, background: '#ECE0D2' }}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>08 · Location</div>
+            <h2 style={h2Serif}>찾아오시는 길</h2>
+            <div style={{ marginTop: 20, padding: 20, background: '#F7EFE6', border: '1px solid rgba(20,16,15,0.12)' }}>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#14100F' }}>ARTBROWS ACADEMY</div>
+              <div style={{ marginTop: 8, fontSize: 15.5, color: '#241C19' }}>서울 강남구 봉은사로68길 55-3 2층</div>
+              <div style={{ marginTop: 4, fontSize: 13, color: '#7A6C5D' }}>선릉역 · 삼성중앙역 인근</div>
+              <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <a href={NAVER_MAP} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 14px', background: '#14100F', color: '#F7EFE6', textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
+                  네이버 지도에서 보기 →
+                </a>
+                <a href={KAKAO_MAP} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 14px', border: '1px solid #14100F', color: '#14100F', textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
+                  카카오맵에서 보기 →
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ 09 · FAQ ═══ */}
+        <section style={sectionBase}>
+          <div style={wrap}>
+            <div className="label-line" style={label}>09 · FAQ</div>
+            <h2 style={h2Serif}>자주 묻는 질문</h2>
+            <div style={{ marginTop: 22 }}>
+              {[
+                { q: '어떤 순서로 수강해야 하나요?', a: '이지클래스 → 극사실눈썹 소묘 3일 → 극사실눈썹 3일 집중수업 → 실전실습 순으로 진행하시는 것을 권장합니다. 이미 현직 경력이 있다면 심화반부터 바로 시작하실 수도 있습니다.' },
+                { q: '재료비도 포함인가요?', a: '수강료에 재료비는 별도이며, 개인 재료 사용도 가능합니다.' },
+                { q: '수업 일정은 어떻게 확인하나요?', a: '수업 일정은 매달 계획되어 전월에 스케줄이 공지됩니다. 정확한 다음 일정은 전화 또는 카카오채널로 문의해 주세요.' },
+                { q: '경력이 없어도 창업반 수강이 가능한가요?', a: '네, 단기창업반은 이지클래스부터 실전실습까지 전 과정을 포함하고 있어 입문자도 창업까지 이어지는 커리큘럼을 밟으실 수 있습니다.' },
+              ].map((f, i) => (
+                <details key={i} style={{ padding: '14px 0', borderBottom: '1px solid rgba(20,16,15,0.12)' }}>
+                  <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: 16.5, color: '#14100F', listStyle: 'none' }}>
+                    <span style={{ color: '#B85C34', fontFamily: "'Space Mono', monospace", marginRight: 8 }}>Q.</span>{f.q}
+                  </summary>
+                  <p style={{ marginTop: 10, fontSize: 15.5, color: '#241C19', lineHeight: 1.7 }}>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ FINAL CTA ═══ */}
+        <section style={{ ...sectionBase, background: '#14100F', color: '#F7EFE6', textAlign: 'center' }}>
+          <div style={wrap}>
+            <div className="label-line" style={{ ...label, justifyContent: 'center' }}>Start Now</div>
+            <h2 style={{ ...h2Serif, fontSize: 26, color: '#F7EFE6', lineHeight: 1.5 }}>
+              <em style={{ fontStyle: 'normal' }}>
+                <span style={{ color: '#F7EFE6' }}>극사실눈썹 창시자</span><br />
+                <span style={{ color: '#D9945F' }}>장미지의 아트브로우</span>에서 시작하세요.
+              </em>
+            </h2>
+            <p style={{ marginTop: 14, color: '#B7A996', fontSize: 17 }}>
+              궁금하신 부분이나 자세한 상담은 언제든 전화 또는 카카오채널로 안내해드리겠습니다.
+            </p>
+            <div style={{ marginTop: 26, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <a className="btn-primary" href={`tel:${PHONE}`}>전화 상담 · {PHONE}</a>
+              <a className="btn-ghost" href={KAKAO_K1} target="_blank" rel="noopener noreferrer">카톡 K1 무료 강의방 →</a>
+              <a className="btn-ghost" href={INSTA} target="_blank" rel="noopener noreferrer">@artbrows_academy 팔로우</a>
+            </div>
+            <div style={{ marginTop: 28, fontFamily: "'Space Mono', monospace", fontSize: 12, color: '#7A6C5D', letterSpacing: '.06em' }}>
+              서울 강남구 · 선릉역 · 삼성중앙역 인근
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ Sticky Bottom Bar ═══ */}
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#14100F', borderTop: '1px solid rgba(247,239,230,0.18)', padding: '10px 16px', zIndex: 100, display: 'flex', gap: 8 }}>
+          <a href={`tel:${PHONE}`} style={{ flex: 1, textAlign: 'center', padding: '14px 12px', background: '#B85C34', color: '#F7EFE6', fontWeight: 700, fontSize: 15, borderRadius: 2 }}>
+            📞 전화 상담
+          </a>
+          <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textAlign: 'center', padding: '14px 12px', background: '#FFE812', color: '#14100F', fontWeight: 700, fontSize: 15, borderRadius: 2 }}>
+            💬 카톡 K1
           </a>
         </div>
-      </section>
 
-      {/* ═══ 12. WORK QUALITY ═══ */}
-      <section style={{ padding: '100px 0', background: 'var(--bg-card)' }}>
-        <div style={wrap()}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 60, alignItems: 'center' }}>
-            <div>
-              <div style={eyebrow()}>QUALITY · 기술력</div>
-              <h2 className="serif" style={{ fontSize: 44, color: 'var(--text)', fontWeight: 300, letterSpacing: '-.01em', lineHeight: 1.3, marginBottom: 20 }}>
-                작업 직후에도 <br /><b style={{ color: 'var(--gold-light)', fontWeight: 700 }}>진하지 않은 자연스러움</b>
-              </h2>
-              <p style={{ fontSize: 16, color: 'var(--text-soft)', lineHeight: 1.85 }}>
-                지난 1·2월에만 <b style={{ color: 'var(--gold-light)' }}>168명의 경력직 원장</b>께 스킬업 교육을 제공했습니다. 20년+ 경력이 오래되었다고 저절로 가능한 기법이 아닙니다. <b style={{ color: 'var(--gold)' }}>매일 스케치를 반복하고 결의 흐름을 다시 관찰</b>해야 도달합니다.
-              </p>
-              <a href="#academy" style={{ ...ctaGhost(), display: 'inline-block', marginTop: 24 }}>
-                원장님은 매일 이렇게 연습합니다 →
-              </a>
-            </div>
-            <div style={{ overflow: 'hidden', border: '1px solid var(--line)', aspectRatio: '4/5' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={CLASS_DOCS[2]} alt="원장 강의 · 자세 교정" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.06)' }} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 13. ADVANCED TECHNIQUE ═══ */}
-      <section style={{ padding: '100px 0', background: 'var(--bg-deep)' }}>
-        <div style={{ ...wrap(), maxWidth: 900, textAlign: 'center' }}>
-          <div style={eyebrow()}>TECHNIQUE · 상위 1%</div>
-          <h2 className="serif" style={{ fontSize: 44, color: 'var(--text)', fontWeight: 300, letterSpacing: '-.01em', lineHeight: 1.3, marginBottom: 22 }}>
-            상위 <b style={{ color: 'var(--gold-light)', fontWeight: 700 }}>1% 작업자</b>만 가능하다는 <br />극사실 헤어스트록 기법
-          </h2>
-          <p style={{ fontSize: 16, color: 'var(--text-soft)', lineHeight: 1.85 }}>
-            장미지 원장님을 찾는 방문자 중 <b style={{ color: 'var(--gold-light)' }}>50% 이상이 잘못된 반영구 복구</b>를 위해 내원하십니다. 올해 <b style={{ color: 'var(--gold-light)' }}>500명 이상의 현직 원장</b>이 잔흔 제거·극사실 재교육을 신청하셨습니다.
-          </p>
-          <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ ...ctaGhost(), display: 'inline-block', marginTop: 30 }}>
-            역대 최고 잔흔 개선 사례 보러 가기 →
-          </a>
-        </div>
-      </section>
-
-      {/* ═══ 14. CORRECTION · 8장 다큐 갤러리 ═══ */}
-      <section style={{ padding: '80px 0', background: 'var(--bg-card)' }}>
-        <div style={wrap()}>
-          <div style={{ textAlign: 'center', marginBottom: 36 }}>
-            <div style={eyebrow()}>Live Class · 선릉 본원</div>
-            <h2 className="serif" style={{ fontSize: 40, color: 'var(--text)', fontWeight: 300, letterSpacing: '-.005em' }}>
-              현장 다큐멘터리
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridAutoRows: '230px', gap: 10 }}>
-            {CLASS_DOCS.map((src, i) => (
-              <div key={i} style={{
-                overflow: 'hidden',
-                background: 'var(--bg-deep)',
-                border: '1px solid var(--line-soft)',
-                gridColumn: i === 0 ? 'span 2' : 'span 1',
-                gridRow: i === 0 ? 'span 2' : 'span 1',
-              }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`강의 현장 ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(1.04)' }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 15. FINAL CTA ═══ */}
-      <section id="consult" style={{ padding: '110px 0', background: 'linear-gradient(180deg, var(--bg-deep) 0%, #0F0C0A 100%)', textAlign: 'center' }}>
-        <div style={wrap()}>
-          <h2 className="serif" style={{ fontSize: 60, fontWeight: 300, color: 'var(--gold-light)', lineHeight: 1.2, letterSpacing: '-.015em', maxWidth: 1000, margin: '0 auto 30px' }}>
-            장미지 아카데미에서 배우면 <br /><b style={{ color: 'var(--text)', fontWeight: 700 }}>평생의 기술이 됩니다.</b>
-          </h2>
-          <div style={{ marginTop: 30, display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ ...ctaPrimary(), fontSize: 14, padding: '16px 34px' }}>카톡 K1 · 무료 강의방 →</a>
-            <a href="#academy" style={{ ...ctaGhost(), fontSize: 14, padding: '16px 34px' }}>커리큘럼 보러 가기</a>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 16. FOOTER ═══ */}
-      <footer style={{ padding: '46px 0 60px', background: '#0A0806', borderTop: '1px solid var(--line-soft)' }}>
-        <div style={{ ...wrap(), display: 'flex', gap: 40, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-          <div style={{ flex: '1 1 260px' }}>
-            <div style={{ fontFamily: '"Nanum Myeongjo", serif', fontSize: 22, fontWeight: 700, color: 'var(--gold-light)', letterSpacing: '-.01em' }}>
-              장미지 <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, letterSpacing: '.24em', color: 'var(--gold)', fontWeight: 500, marginLeft: 8, textTransform: 'uppercase' }}>ARTBROWS</span>
-            </div>
-            <p style={{ marginTop: 12, fontSize: 12, color: 'var(--muted)', lineHeight: 1.7 }}>
-              극사실눈썹 창시자 장미지 · 선릉·삼성 본원 · 2005~ · 극사실은 상표·기법·머신 3장 특허 등록
-            </p>
-          </div>
-          <div style={{ flex: '1 1 200px' }}>
-            <div style={{ ...eyebrow(), fontSize: 10, marginBottom: 12 }}>Locations</div>
-            <p style={{ fontSize: 13, color: 'var(--text-soft)', margin: '4px 0' }}>선릉 본원 · 강남구 선릉</p>
-            <p style={{ fontSize: 13, color: 'var(--text-soft)', margin: '4px 0' }}>삼성 본원 · 강남구 삼성</p>
-          </div>
-          <div style={{ flex: '1 1 200px' }}>
-            <div style={{ ...eyebrow(), fontSize: 10, marginBottom: 12 }}>Social</div>
-            <a href={INSTA} target="_blank" rel="noopener noreferrer" style={{ display: 'block', fontSize: 13, color: 'var(--text-soft)', textDecoration: 'none', margin: '4px 0' }}>@artbrows_academy</a>
-            <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" style={{ display: 'block', fontSize: 13, color: 'var(--text-soft)', textDecoration: 'none', margin: '4px 0' }}>Kakao K1 무료 강의방</a>
-          </div>
-        </div>
-      </footer>
-
-    </main>
+      </main>
+    </>
   );
-}
-
-// ─── style helpers ───
-function wrap(): React.CSSProperties {
-  return { maxWidth: 1280, margin: '0 auto', padding: '0 28px' };
-}
-function eyebrow(): React.CSSProperties {
-  return { fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '.45em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 14 };
-}
-function gnbLink(): React.CSSProperties {
-  return { fontFamily: '"Nanum Myeongjo", serif', fontSize: 15, color: 'var(--text-soft)', textDecoration: 'none', letterSpacing: '.02em', transition: 'color .15s' };
-}
-function ctaPrimary(): React.CSSProperties {
-  return { display: 'inline-block', padding: '14px 30px', background: 'var(--gold)', color: 'var(--bg-deep)', fontFamily: 'Inter, sans-serif', fontSize: 12, letterSpacing: '.16em', fontWeight: 700, textDecoration: 'none', textTransform: 'uppercase' };
-}
-function ctaGhost(): React.CSSProperties {
-  return { display: 'inline-block', padding: '14px 30px', background: 'transparent', border: '1px solid var(--gold-deep)', color: 'var(--gold-light)', fontFamily: 'Inter, sans-serif', fontSize: 12, letterSpacing: '.16em', fontWeight: 600, textDecoration: 'none', textTransform: 'uppercase' };
-}
-function socialLink(): React.CSSProperties {
-  return { fontFamily: 'Inter, sans-serif', fontSize: 12, letterSpacing: '.12em', color: 'var(--text-soft)', textDecoration: 'none', padding: '10px 16px', border: '1px solid var(--line)', transition: 'all .15s' };
 }
