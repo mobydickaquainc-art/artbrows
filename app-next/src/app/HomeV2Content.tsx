@@ -10,6 +10,12 @@
 
 import Link from 'next/link';
 import { Fragment } from 'react';
+import { getMessages } from '@/lib/i18n/messages';
+
+// 기본 언어 ko · (다국어 라우팅은 /en · /zh 로 별도)
+const lang = 'ko' as const;
+const m = getMessages(lang);
+const LANG_HREF = { ko: '/', en: '/en', zh: '/zh' } as const;
 
 const KAKAO_K1 = 'https://open.kakao.com/o/gWeAkSzi';                        // 무료 강의방 (수강생 락인)
 const KAKAO_CHANNEL = 'https://pf.kakao.com/_BxnBWK';                        // 카카오 채널 (1:1 상담 정본 · 시안 제공)
@@ -84,17 +90,70 @@ export default function HomeV2Content() {
 
       <main className="home-v2">
 
-        {/* 상단 네비 */}
-        <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'rgba(20,16,15,.94)', backdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(247,239,230,0.18)' }}>
-          <div style={{ ...wrap, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 24px' }}>
-            <Link href="/" style={{ fontFamily: "'Space Mono', monospace", fontSize: 17, color: '#F7EFE6', fontWeight: 700, letterSpacing: '.04em' }}>
-              ART<span style={{ color: '#D9945F' }}>BROWS</span>
-            </Link>
-            <a href={`tel:${PHONE}`} style={{ fontFamily: "'Space Mono', monospace", fontSize: 12.5, color: '#14100F', background: '#D9945F', padding: '8px 12px', borderRadius: 2 }}>
-              상담 →
-            </a>
+        {/* 기존 GNB 유지 · HomePageDesktop 스타일 그대로 · 다크 톤 (HERO 다크와 정합) */}
+        <nav className="top" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'linear-gradient(180deg, rgba(11,9,7,0.96) 0%, rgba(11,9,7,0.88) 100%)', backdropFilter: 'blur(10px)', borderBottom: '1px solid var(--line-soft)' }}>
+          <div className="wrap">
+            <div className="nav-row" style={{ display: 'flex', alignItems: 'center', gap: 20, minHeight: 62 }}>
+              {/* LEFT: icons + brand */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" aria-label="KakaoTalk K1"
+                  style={{ color: 'var(--rose-soft)', display: 'inline-flex', width: 20, height: 20 }}>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.84 1.84 5.32 4.6 6.72L5.4 21.6c-.09.28.22.51.47.35l4.4-2.9c.56.06 1.13.1 1.73.1 5.52 0 10-3.58 10-8s-4.48-8-10-8z" /></svg>
+                </a>
+                <a href={INSTA} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                  style={{ color: 'var(--rose-soft)', display: 'inline-flex', width: 20, height: 20 }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" /></svg>
+                </a>
+                <div className="brand" style={{ marginLeft: 6 }}>
+                  {m.gnb.brand}<span className="sub">{m.gnb.brandSub}</span>
+                </div>
+              </div>
+
+              {/* MIDDLE: 4 메뉴 */}
+              <ul style={{ display: 'flex', gap: 28, listStyle: 'none', margin: '0 auto', padding: 0 }}>
+                <li><a href="#master">대표원장</a></li>
+                <li><a href="#define">장미지 극사실눈썹</a></li>
+                <li><a href="#gallery">포트폴리오</a></li>
+                <li><a href="#roadmap">아카데미</a></li>
+              </ul>
+
+              {/* RIGHT: lang + 2 CTA */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div className="lang">
+                  <Link href={LANG_HREF.ko} className={'on'}>{m.langLabels.ko}</Link>
+                  <Link href={LANG_HREF.en} className={''}>{m.langLabels.en}</Link>
+                  <Link href={LANG_HREF.zh} className={''}>{m.langLabels.zh}</Link>
+                </div>
+                <a href="https://jangmiji.staris.cloud" target="_blank" rel="noopener noreferrer"
+                  style={{ color: 'var(--gold-light)', fontSize: 11, letterSpacing: '0.24em', padding: '4px 10px', borderLeft: '1px solid var(--line)', textTransform: 'uppercase' }}>
+                  {m.gnb.menu.admin}
+                </a>
+                <Link href="/enroll"
+                  style={{
+                    marginLeft: 4, padding: '9px 18px',
+                    background: 'transparent',
+                    color: 'var(--gold-light)', fontWeight: 500, fontSize: 11,
+                    letterSpacing: '.14em', textDecoration: 'none', borderRadius: 0,
+                    border: '1px solid var(--gold-deep)', textTransform: 'uppercase',
+                    whiteSpace: 'nowrap', flexShrink: 0,
+                  }}>
+                  교육 상담
+                </Link>
+                <Link href="/consult"
+                  style={{
+                    padding: '9px 18px',
+                    background: 'var(--gold)',
+                    color: 'var(--bg-deep)', fontWeight: 700, fontSize: 11,
+                    letterSpacing: '.14em', textDecoration: 'none', borderRadius: 0,
+                    border: '1px solid var(--gold)', textTransform: 'uppercase',
+                    whiteSpace: 'nowrap', flexShrink: 0,
+                  }}>
+                  시술 상담
+                </Link>
+              </div>
+            </div>
           </div>
-        </header>
+        </nav>
 
         {/* HERO */}
         <section style={{ background: '#14100F', color: '#F7EFE6', paddingTop: 52 }}>
@@ -156,7 +215,7 @@ export default function HomeV2Content() {
         </section>
 
         {/* 02 · Define */}
-        <section style={{ ...sectionBase, background: '#ECE0D2' }}>
+        <section id="define" style={{ ...sectionBase, background: '#ECE0D2' }}>
           <div style={wrap}>
             <div className="label-line" style={label}>02 · What is Hyperreal Brow</div>
             <h2 style={h2Serif}>극사실눈썹이란?</h2>
@@ -178,7 +237,7 @@ export default function HomeV2Content() {
         </section>
 
         {/* 03 · Master */}
-        <section style={sectionBase}>
+        <section id="master" style={sectionBase}>
           <div style={wrap}>
             <div className="label-line" style={label}>03 · Master</div>
             <div style={{ marginTop: 26, fontSize: 17, color: '#D9945F', fontWeight: 700 }}>
@@ -241,7 +300,7 @@ export default function HomeV2Content() {
         </section>
 
         {/* 04 · Art Gallery */}
-        <section style={{ ...sectionBase, background: '#ECE0D2' }}>
+        <section id="gallery" style={{ ...sectionBase, background: '#ECE0D2' }}>
           <div style={wrap}>
             <div className="label-line" style={label}>04 · Art Gallery</div>
             <div style={{ fontSize: 15, color: '#D9945F', fontWeight: 700 }}>국내 ONE TOP!</div>
