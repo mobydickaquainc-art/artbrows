@@ -92,56 +92,49 @@ export default function HomeV2Content({ lang = 'ko' }: { lang?: Lang } = {}) {
 
       <main className="home-v2">
 
-        {/* 기존 GNB (2줄 다크) · HomePageDesktop 스타일 · lang 동적 */}
-        <nav className="top" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'linear-gradient(180deg, rgba(11,9,7,0.96) 0%, rgba(11,9,7,0.88) 100%)', backdropFilter: 'blur(10px)', borderBottom: '1px solid var(--line-soft)' }}>
-          <div className="wrap">
-            <div className="nav-row" style={{ display: 'flex', alignItems: 'center', gap: 20, minHeight: 62 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <a href={KAKAO_K1} target="_blank" rel="noopener noreferrer" aria-label="KakaoTalk K1"
-                  style={{ color: 'var(--rose-soft)', display: 'inline-flex', width: 20, height: 20 }}>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.84 1.84 5.32 4.6 6.72L5.4 21.6c-.09.28.22.51.47.35l4.4-2.9c.56.06 1.13.1 1.73.1 5.52 0 10-3.58 10-8s-4.48-8-10-8z" /></svg>
-                </a>
-                <a href={INSTA} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                  style={{ color: 'var(--rose-soft)', display: 'inline-flex', width: 20, height: 20 }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" /></svg>
-                </a>
-                <div className="brand" style={{ marginLeft: 6 }}>
-                  {m.gnb.brand}<span className="sub">{m.gnb.brandSub}</span>
-                </div>
-              </div>
-
-              <ul style={{ display: 'flex', gap: 28, listStyle: 'none', margin: '0 auto', padding: 0 }}>
-                <li><a href="#master">{T('gnbMasterMenu')}</a></li>
-                <li><a href="#define">{T('gnbHyperMenu')}</a></li>
-                <li><a href="#gallery">{T('gnbGalleryMenu')}</a></li>
-                <li><a href="#roadmap">{T('gnbAcademyMenu')}</a></li>
-              </ul>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div className="lang">
-                  <Link href={LANG_HREF.ko} className={lang === 'ko' ? 'on' : ''}>{m.langLabels.ko}</Link>
-                  <Link href={LANG_HREF.en} className={lang === 'en' ? 'on' : ''}>{m.langLabels.en}</Link>
-                  <Link href={LANG_HREF.zh} className={lang === 'zh' ? 'on' : ''}>{m.langLabels.zh}</Link>
-                </div>
-                <a href="https://jangmiji.staris.cloud" target="_blank" rel="noopener noreferrer"
-                  style={{ color: 'var(--gold-light)', fontSize: 11, letterSpacing: '0.24em', padding: '4px 10px', borderLeft: '1px solid var(--line)', textTransform: 'uppercase' }}>
-                  {m.gnb.menu.admin}
-                </a>
-                <Link href="/enroll"
-                  style={{ marginLeft: 4, padding: '9px 18px', background: 'transparent', color: 'var(--gold-light)', fontWeight: 500, fontSize: 11, letterSpacing: '.14em', textDecoration: 'none', borderRadius: 0, border: '1px solid var(--gold-deep)', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                  {T('gnbCtaCourse')}
-                </Link>
-                <Link href="/consult"
-                  style={{ padding: '9px 18px', background: 'var(--gold)', color: 'var(--bg-deep)', fontWeight: 700, fontSize: 11, letterSpacing: '.14em', textDecoration: 'none', borderRadius: 0, border: '1px solid var(--gold)', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                  {T('gnbCtaProc')}
-                </Link>
-              </div>
+        {/* 모바일 우선 GNB (2줄) · globals.css 의존 제거 · 375px 뷰포트 완전 표시
+            Row1: brand · lang toggle · 전화 CTA
+            Row2: 4 메뉴 균등 분배 (scroll fallback) */}
+        <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'rgba(11,9,7,0.96)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(232,201,174,0.15)' }}>
+          {/* Row 1 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', minHeight: 48 }}>
+            <div style={{ fontFamily: "'Nanum Myeongjo', serif", fontSize: 17, fontWeight: 700, color: '#F7EFE6', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+              {m.gnb.brand}
+              <span style={{ fontFamily: "'Inter', 'Space Mono', sans-serif", fontSize: 9.5, color: '#D9945F', letterSpacing: '.18em', marginLeft: 6, fontWeight: 500, textTransform: 'uppercase' }}>
+                {m.gnb.brandSub}
+              </span>
             </div>
+
+            <div style={{ display: 'flex', gap: 3, marginLeft: 'auto', flexShrink: 0 }}>
+              <Link href={LANG_HREF.ko} style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.08em', padding: '4px 6px', border: '1px solid', borderColor: lang === 'ko' ? '#6B4530' : 'rgba(107,74,53,0.4)', color: lang === 'ko' ? '#E8C9AE' : '#B89880' }}>{m.langLabels.ko}</Link>
+              <Link href={LANG_HREF.en} style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.08em', padding: '4px 6px', border: '1px solid', borderColor: lang === 'en' ? '#6B4530' : 'rgba(107,74,53,0.4)', color: lang === 'en' ? '#E8C9AE' : '#B89880' }}>{m.langLabels.en}</Link>
+              <Link href={LANG_HREF.zh} style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.08em', padding: '4px 6px', border: '1px solid', borderColor: lang === 'zh' ? '#6B4530' : 'rgba(107,74,53,0.4)', color: lang === 'zh' ? '#E8C9AE' : '#B89880' }}>{m.langLabels.zh}</Link>
+            </div>
+
+            <a href={`tel:${PHONE}`} aria-label={T('gnbCtaProc')} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 32, background: '#D9945F', color: '#14100F', borderRadius: 2, flexShrink: 0 }}>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.3 21 3 13.7 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1z"/></svg>
+            </a>
           </div>
+
+          {/* Row 2 : menu · 균등 분배 · 폰트 축소 */}
+          <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, borderTop: '1px solid rgba(232,201,174,0.10)' }}>
+            {[
+              { href: '#master', label: T('gnbMasterMenu') },
+              { href: '#define', label: T('gnbHyperMenu') },
+              { href: '#gallery', label: T('gnbGalleryMenu') },
+              { href: '#roadmap', label: T('gnbAcademyMenu') },
+            ].map((item, i, arr) => (
+              <li key={i} style={{ flex: 1, textAlign: 'center', borderRight: i < arr.length - 1 ? '1px solid rgba(232,201,174,0.08)' : 'none' }}>
+                <a href={item.href} style={{ display: 'block', padding: '10px 4px', fontFamily: "'Nanum Myeongjo', 'Noto Serif SC', serif", fontSize: 13, color: '#E8D0B5', whiteSpace: 'nowrap' }}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
 
-        {/* HERO */}
-        <section style={{ background: '#14100F', color: '#F7EFE6', paddingTop: 52 }}>
+        {/* HERO — GNB 2줄(약 88px) 여백 확보 */}
+        <section style={{ background: '#14100F', color: '#F7EFE6', paddingTop: 88 }}>
           <div style={{ position: 'relative' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={HERO_MAIN} alt="ARTbrows Academy" style={{ width: '100%', height: '78vh', maxHeight: 560, minHeight: 400, objectFit: 'cover', objectPosition: 'center 15%' }} />
