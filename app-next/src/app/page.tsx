@@ -12,5 +12,5 @@ export const metadata = {
 };
 
 export default function Home() {
-  return <HomeV2Content />;
+  return <HomeV2Content lang="ko" />;
 }

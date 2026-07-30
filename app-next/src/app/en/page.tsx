@@ -1,5 +1,5 @@
 import { MESSAGES } from '@/lib/i18n/messages';
-import HomePage from '../HomePage';
+import HomeV2Content from '../HomeV2Content';
 
 export const metadata = {
   title: MESSAGES.en.meta.title,
@@ -7,5 +7,5 @@ export const metadata = {
 };
 
 export default function EnHome() {
-  return <HomePage lang="en" />;
+  return <HomeV2Content lang="en" />;
 }

@@ -10,11 +10,8 @@
 
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { getMessages } from '@/lib/i18n/messages';
+import { getMessages, type Lang } from '@/lib/i18n/messages';
 
-// 기본 언어 ko · (다국어 라우팅은 /en · /zh 로 별도)
-const lang = 'ko' as const;
-const m = getMessages(lang);
 const LANG_HREF = { ko: '/', en: '/en', zh: '/zh' } as const;
 
 const KAKAO_K1 = 'https://open.kakao.com/o/gWeAkSzi';                        // 무료 강의방 (수강생 락인)
@@ -56,7 +53,8 @@ const h2Serif: React.CSSProperties = {
 };
 const pBase: React.CSSProperties = { marginTop: 16, color: '#241C19', fontSize: 18.5, lineHeight: 1.65 };
 
-export default function HomeV2Content() {
+export default function HomeV2Content({ lang = 'ko' }: { lang?: Lang } = {}) {
+  const m = getMessages(lang);
   return (
     <>
       <style>{`
@@ -120,9 +118,9 @@ export default function HomeV2Content() {
               {/* RIGHT: lang + 2 CTA */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div className="lang">
-                  <Link href={LANG_HREF.ko} className={'on'}>{m.langLabels.ko}</Link>
-                  <Link href={LANG_HREF.en} className={''}>{m.langLabels.en}</Link>
-                  <Link href={LANG_HREF.zh} className={''}>{m.langLabels.zh}</Link>
+                  <Link href={LANG_HREF.ko} className={lang === 'ko' ? 'on' : ''}>{m.langLabels.ko}</Link>
+                  <Link href={LANG_HREF.en} className={lang === 'en' ? 'on' : ''}>{m.langLabels.en}</Link>
+                  <Link href={LANG_HREF.zh} className={lang === 'zh' ? 'on' : ''}>{m.langLabels.zh}</Link>
                 </div>
                 <a href="https://jangmiji.staris.cloud" target="_blank" rel="noopener noreferrer"
                   style={{ color: 'var(--gold-light)', fontSize: 11, letterSpacing: '0.24em', padding: '4px 10px', borderLeft: '1px solid var(--line)', textTransform: 'uppercase' }}>
