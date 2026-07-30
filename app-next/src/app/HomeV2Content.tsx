@@ -18,11 +18,14 @@ const PHONE = '010-3239-5453';
 const NAVER_MAP = 'https://pcmap.place.naver.com/place/1291899054/home?from=map&fromPanelNum=1';
 const KAKAO_MAP = 'https://map.kakao.com/link/search/서울 강남구 봉은사로68길 55-3 2층';
 
-const HERO_MAIN = '/brand/hero-main-20260724.jpg';
-const FOUNDER_KV = '/brand/founder-key-visual-2026-07-17.png';
+// 2026-07-30 · 원장님/본부장님 시안 course-detail_8.html 에서 추출한 정본 이미지
+const HERO_MAIN = '/brand/course8-2026-07-30/01-hero.jpg';            // 원장 소묘 근접 다큐
+const DEFINE_IMG = '/brand/course8-2026-07-30/02-define.jpg';         // 극사실 결과 예시 (젊은 여성 자연 눈썹)
+const FOUNDER_KV = '/brand/course8-2026-07-30/03-founder.jpg';        // 장미지 원장 프로필
+const GALLERY_WORK1 = '/brand/course8-2026-07-30/04-gallery-work1.jpg'; // 시술 전 눈썹
 
 const CLASS_DOCS = [
-  '/brand/class-documentary/KakaoTalk_20260724_191428055.jpg',
+  GALLERY_WORK1,                                                        // WORK 01 · 시안 정본
   '/brand/class-documentary/KakaoTalk_20260724_191617717_02.jpg',
   '/brand/class-documentary/KakaoTalk_20260724_191628747_01.jpg',
   '/brand/class-documentary/KakaoTalk_20260724_191628747_03.jpg',
@@ -160,10 +163,10 @@ export default function HomeV2Content() {
             <p style={pBase}>
               극사실눈썹은 정해진 패턴을 그리는 시술이 아니라, 얼굴을 소묘하듯 관찰하고 설계하는 기법입니다. 골격, 눈매, 원래 모류의 결과 방향을 먼저 읽고 단순히 그리는 것이 아닌, 본연의 아름다움에 한 올 한 올 생장감을 불어넣는 작업. 똑같은 시간을 쓰더라도 전혀 다른 차원의 결과가 나오는 이유입니다.
             </p>
-            {/* 시안 · 극사실눈썹 결과 예시 이미지 (원장님이 실 인물 사진 주시면 교체) */}
+            {/* 시안 정본 · 극사실 결과 예시 (course-detail_8) */}
             <div style={{ border: '1px solid rgba(20,16,15,0.12)', padding: 4, marginTop: 24, background: '#F7EFE6' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/ai-generated/founder-persona/founder-03.png" alt="극사실눈썹 결과 예시" style={{ width: '100%', display: 'block' }} />
+              <img src={DEFINE_IMG} alt="극사실눈썹 결과 예시" style={{ width: '100%', display: 'block' }} />
             </div>
             <div style={{ marginTop: 14, textAlign: 'center', fontFamily: "'Pretendard', sans-serif", fontStyle: 'italic', fontSize: 15.5, color: '#7A6C5D', lineHeight: 1.6 }}>
               &ldquo;진짜를 그리면 인상이 달라진다, 인생이 달라진다&rdquo;
