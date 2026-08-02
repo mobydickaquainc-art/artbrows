@@ -27,6 +27,9 @@ const VISIT_LABEL: Record<string, string> = {
   weekday_am: "평일 오전", weekday_pm: "평일 오후", weekday_evening: "평일 저녁",
   weekend: "주말", any: "무관",
 };
+const LOCATION_LABEL: Record<string, string> = {
+  seonleung: "선릉", samseong: "삼성", any: "무관",
+};
 
 export const runtime = "nodejs";
 export const maxDuration = 8;   // 여유 (Kakao 자체는 5s 요구 · 우리는 3s 이내 응답 목표)
@@ -157,9 +160,9 @@ export async function POST(req: Request) {
       "",
       `성함: ${name}`,
       `연락처: ${phone}`,
-      interest ? `관심: ${interest.replace("_", " ")}` : null,
-      visit_time ? `상담 가능: ${visit_time.replace("_", " ")}` : null,
-      location ? `지점: ${location}` : null,
+      interest ? `관심: ${INTEREST_LABEL[interest] ?? interest}` : null,
+      visit_time ? `상담 가능: ${VISIT_LABEL[visit_time] ?? visit_time}` : null,
+      location ? `지점: ${LOCATION_LABEL[location] ?? location}` : null,
       "",
       "원장님이 24시간 안 답 드립니다 💛",
     ].filter(Boolean).join("\n");
