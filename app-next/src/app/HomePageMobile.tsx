@@ -34,6 +34,7 @@ const LANG_TAB: { key: Lang; label: string; href: string }[] = [
 export default function HomePageMobile({ lang }: { lang: Lang }) {
   const [closeupIdx, setCloseupIdx] = useState(0);
   const [baIdx, setBaIdx] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // GNB scroll fade · 200px 지나면 사라짐 (sophia 방식)
   const [gnbVisible, setGnbVisible] = useState(true);
@@ -42,6 +43,10 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   const closeupPrev = () => setCloseupIdx((i) => (i - 1 + CLOSEUP_IMGS.length) % CLOSEUP_IMGS.length);
   const closeupNext = () => setCloseupIdx((i) => (i + 1) % CLOSEUP_IMGS.length);
@@ -51,33 +56,60 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
   return (
     <main style={{ background: '#0B0907', color: '#F5EDE3', minHeight: '100vh', overflowX: 'hidden' }}>
 
-      {/* ── GNB · 장미지 ARTBROWS + 언어 스위처 · scroll fade ── */}
+      {/* ── GNB · 햄버거 (좌) + 언어 (우) · scroll fade · artbrows.co.kr 스타일 참조 ── */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 80,
-        background: 'linear-gradient(180deg,rgba(11,9,7,.95),rgba(11,9,7,.7) 70%,transparent)',
+        background: 'linear-gradient(180deg,rgba(11,9,7,.9),rgba(11,9,7,.5) 70%,transparent)',
         padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         opacity: gnbVisible ? 1 : 0,
         pointerEvents: gnbVisible ? 'auto' : 'none',
         transition: 'opacity 300ms ease',
       }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'baseline', gap: 6, textDecoration: 'none', color: '#F5EDE3', minWidth: 0 }}>
-          <span style={{ fontFamily: "'Nanum Myeongjo',serif", fontSize: 15, fontWeight: 700, color: '#E0C088', letterSpacing: '.02em' }}>장미지</span>
-          <span style={{ fontFamily: "'Cormorant Garamond','Inter',serif", fontSize: 11, fontWeight: 500, letterSpacing: '.22em', whiteSpace: 'nowrap' }}>ARTBROWS</span>
-        </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+        <button onClick={() => setMenuOpen((v) => !v)} aria-label="menu"
+          style={{ background: 'transparent', border: 'none', color: '#E0C088', width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}>
+          {menuOpen ? (
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+          )}
+        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           {LANG_TAB.map((t) => (
             <Link key={t.key} href={t.href}
               style={{
-                padding: '3px 7px', minWidth: 22, textAlign: 'center',
-                fontSize: 10.5, letterSpacing: '.04em', fontWeight: 700,
+                padding: '4px 9px', minWidth: 26, textAlign: 'center',
+                fontSize: 11, letterSpacing: '.04em', fontWeight: 700,
                 textDecoration: 'none',
                 color: t.key === lang ? '#F5EDE3' : '#8A7B6C',
-                border: '1px solid rgba(224,192,136,.3)',
+                border: `1px solid ${t.key === lang ? 'rgba(224,192,136,.6)' : 'rgba(224,192,136,.25)'}`,
                 borderRadius: 2,
+                background: t.key === lang ? 'rgba(224,192,136,.12)' : 'transparent',
               }}>{t.label}</Link>
           ))}
         </div>
       </nav>
+
+      {/* 햄버거 오버레이 · artbrows.co.kr 메뉴 4개 참조 */}
+      {menuOpen ? (
+        <div style={{ position: 'fixed', inset: '52px 0 0 0', background: 'rgba(11,9,7,.98)', zIndex: 79, padding: 24, overflowY: 'auto' }}>
+          {[
+            { l: '대표원장', h: '/#master' },
+            { l: '장미지 극사실눈썹', h: '/#define' },
+            { l: '포트폴리오', h: '/#gallery' },
+            { l: '아카데미', h: '/#roadmap' },
+            { l: '상담 신청', h: '/consult' },
+            { l: '오시는 길', h: '/contact' },
+            { l: '무료 강의 (K1 카톡방)', h: 'https://open.kakao.com/o/gWeAkSzi', ext: true },
+            { l: '인스타그램', h: 'https://www.instagram.com/artbrows_academy/', ext: true },
+          ].map((it) => (
+            <a key={it.l} href={it.h} target={it.ext ? '_blank' : undefined} rel={it.ext ? 'noopener noreferrer' : undefined}
+              onClick={() => setMenuOpen(false)}
+              style={{ display: 'block', padding: '18px 8px', borderBottom: '1px solid rgba(224,192,136,.15)', color: '#F5EDE3', textDecoration: 'none', fontFamily: "'Nanum Myeongjo',serif", fontSize: 18 }}>
+              {it.l} <span style={{ float: 'right', color: '#E0C088' }}>→</span>
+            </a>
+          ))}
+        </div>
+      ) : null}
 
       {/* ── HERO · 시안 원본 통짜 (사진 + 극사실눈썹 + 창시자 + 국내최초 pill 전부 포함) ── */}
       <section style={{ width: '100%', background: '#0B0907' }}>
