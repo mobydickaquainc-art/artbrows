@@ -69,29 +69,16 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </nav>
 
-      {/* ── HERO · 원장 얼굴 실 aspect (1080x810 = 4/3) · 텍스트는 하단 별도 섹션 (Canva 원본 구조) ── */}
-      <section style={{ width: '100%', background: '#0B0907', paddingTop: 8 }}>
+      {/* ── HERO · 시안 원본 통짜 (사진 + 극사실눈썹 + 창시자 + 국내최초 pill 전부 포함) ── */}
+      <section style={{ width: '100%', background: '#0B0907' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={HERO_IMG}
-          alt="장미지 원장"
+          src={`${CANVA}/hero-full.jpg`}
+          alt="극사실눈썹 · 창시자 ARTbrows 장미지 원장 · 국내최초 극사실눈썹 수강 시작"
           width={1080}
-          height={810}
+          height={1220}
           style={{ width: '100%', height: 'auto', display: 'block' }}
         />
-      </section>
-      <section style={{ padding: '20px 16px 8px', background: '#0B0907', textAlign: 'center' }}>
-        <h1 style={{
-          fontFamily: "'Nanum Myeongjo',serif",
-          fontSize: 44, fontWeight: 800, lineHeight: 1,
-          color: '#F5EDE3', margin: 0, letterSpacing: '-.01em',
-        }}>극사실눈썹</h1>
-        <div style={{ marginTop: 14, fontFamily: "'Nanum Myeongjo',serif", fontSize: 13.5, color: '#E0C088', letterSpacing: '.02em' }}>
-          창시자 <b style={{ fontWeight: 700 }}>ARTbrows</b> 장미지 원장
-        </div>
-        <div style={{ marginTop: 5, fontSize: 11, color: 'rgba(245,237,227,.65)', letterSpacing: '.08em' }}>
-          국내최초 극사실눈썹 수강 시작
-        </div>
       </section>
 
       {/* ── INTRO · 브랜드 선언 카피 (Pretendard bold · 3줄) ── */}
