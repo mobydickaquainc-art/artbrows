@@ -8,7 +8,7 @@
  *   ⚠ FloatingCTA 제거 (시안에 없음) · 햄버거 메뉴 제거 (시안에 없음)
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { Lang } from '@/app/cardnews/types';
 
@@ -35,6 +35,14 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
   const [closeupIdx, setCloseupIdx] = useState(0);
   const [baIdx, setBaIdx] = useState(0);
 
+  // GNB scroll fade · 200px 지나면 사라짐 (sophia 방식)
+  const [gnbVisible, setGnbVisible] = useState(true);
+  useEffect(() => {
+    const onScroll = () => setGnbVisible(window.scrollY < 200);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const closeupPrev = () => setCloseupIdx((i) => (i - 1 + CLOSEUP_IMGS.length) % CLOSEUP_IMGS.length);
   const closeupNext = () => setCloseupIdx((i) => (i + 1) % CLOSEUP_IMGS.length);
   const baPrev = () => setBaIdx((i) => Math.max(0, i - 1));
@@ -43,12 +51,14 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
   return (
     <main style={{ background: '#0B0907', color: '#F5EDE3', minHeight: '100vh', overflowX: 'hidden' }}>
 
-      {/* ── GNB · 장미지 ARTBROWS + 언어 스위처 (햄버거 없음) ── */}
+      {/* ── GNB · 장미지 ARTBROWS + 언어 스위처 · scroll fade ── */}
       <nav style={{
-        position: 'sticky', top: 0, zIndex: 80,
-        background: '#0B0907',
-        borderBottom: '1px solid rgba(224,192,136,.12)',
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 80,
+        background: 'linear-gradient(180deg,rgba(11,9,7,.95),rgba(11,9,7,.7) 70%,transparent)',
         padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        opacity: gnbVisible ? 1 : 0,
+        pointerEvents: gnbVisible ? 'auto' : 'none',
+        transition: 'opacity 300ms ease',
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'baseline', gap: 6, textDecoration: 'none', color: '#F5EDE3', minWidth: 0 }}>
           <span style={{ fontFamily: "'Nanum Myeongjo',serif", fontSize: 15, fontWeight: 700, color: '#E0C088', letterSpacing: '.02em' }}>장미지</span>
