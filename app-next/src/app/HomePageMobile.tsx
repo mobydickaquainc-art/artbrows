@@ -76,7 +76,7 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
           src={`${CANVA}/hero-full.jpg`}
           alt="극사실눈썹 · 창시자 ARTbrows 장미지 원장 · 국내최초 극사실눈썹 수강 시작"
           width={1080}
-          height={1220}
+          height={1170}
           style={{ width: '100%', height: 'auto', display: 'block' }}
         />
       </section>
