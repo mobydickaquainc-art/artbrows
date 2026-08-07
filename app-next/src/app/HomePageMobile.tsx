@@ -280,20 +280,16 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
           배우는 기술의 수준 자체가 다릅니다.
         </p>
       </section>
-      <section style={{ padding: '0', background: '#0B0907' }}>
+      {/* 매크로 눈썹 + 「진짜 눈썹을 반영구로 재현하기 위해」 카피 + 강의 사진 통짜 (Canva 원본) */}
+      <section style={{ padding: '0 0 24px', background: '#0B0907' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${CANVA}/p2-macro-brow.jpg`} alt="눈썹 매크로" style={{ width: '100%', display: 'block' }} />
-      </section>
-      <section style={{ padding: '24px 24px 20px', background: '#0B0907', textAlign: 'center' }}>
-        <p style={{ fontSize: 13, color: '#F5EDE3', lineHeight: 1.65, fontWeight: 500, letterSpacing: '-.005em', margin: 0 }}>
-          진짜 눈썹을 반영구로 재현하기 위해<br/>
-          진짜 눈썹을 보고, 그리고, 패턴화 하는 소묘에서 부터<br/>
-          <b style={{ color: '#E0C088', fontWeight: 700 }}>극사실눈썹 수업</b>은 시작합니다.
-        </p>
-      </section>
-      <section style={{ padding: '0 20px 40px', background: '#0B0907' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${CANVA}/p2-class-photo.jpg`} alt="강의 사진" style={{ width: '100%', display: 'block' }} />
+        <img
+          src={`${CANVA}/p2-brow-copy-class.jpg`}
+          alt="진짜 눈썹을 반영구로 재현하기 위해 · 진짜 눈썹을 보고 그리고 패턴화 하는 소묘에서 부터 극사실눈썹 수업은 시작합니다"
+          width={1080}
+          height={1680}
+          style={{ width: '100%', height: 'auto', display: 'block' }}
+        />
       </section>
 
       {/* ── 초보를 프로로 만드는곳 · 비교표 ── */}
@@ -378,33 +374,26 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* ── 초보 수강생 작품 (실 사진 도착 시 재활성) ── */}
-      <section style={{ padding: '20px 20px 40px', background: '#0B0907', textAlign: 'center' }}>
+      {/* ── 초보 수강생 작품 (Canva 통짜) ── */}
+      <section style={{ padding: '20px 20px 8px', background: '#0B0907', textAlign: 'center' }}>
         <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
           초보 수강생 작품
         </h2>
         <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
           경력자 같은 초보 수강생들의 실제 작품
         </p>
-        <div style={{
-          marginTop: 16, padding: '18px 14px',
-          border: '1px dashed rgba(224,192,136,.35)', borderRadius: 6,
-          fontSize: 11.5, color: '#8A7B6C', letterSpacing: '-.005em',
-        }}>
-          실 수강생 작품 사진 준비 중
-        </div>
+      </section>
+      <section style={{ padding: '0 0 24px', background: '#0B0907' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${CANVA}/p2-works-full.jpg`} alt="수강생 작품 · 초보수강생 극사실눈썹 첫실습 · 극사실눈썹 수강생 두번째 실습" width={1080} height={860} style={{ width: '100%', height: 'auto', display: 'block' }} />
       </section>
 
       {/* ═════════ PAGE 3 · FAQ + 오시는 길 + 소셜 + 최종 CTA ═════════ */}
 
-      {/* ── 경험한 사람만 아는 차이 (헤딩만 · 후기는 소셜 grid 로 흡수) ── */}
-      <section style={{ padding: '20px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
-          경험한 사람만 아는 차이
-        </h2>
-        <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
-          수강생후기와 고객님들 후기입니다.
-        </p>
+      {/* ── 경험한 사람만 아는 차이 (Canva 통짜 · 헤딩+subtitle+리뷰 grid 포함) ── */}
+      <section style={{ padding: '0 0 20px', background: '#0B0907' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${CANVA}/p2-reviews-full.jpg`} alt="경험한 사람만 아는 차이 · 수강생후기와 고객님들 후기입니다" width={1080} height={1180} style={{ width: '100%', height: 'auto', display: 'block' }} />
       </section>
 
       {/* ── FAQ (자주 묻는 질문 · 아코디언) ── */}
