@@ -12,23 +12,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { Lang } from '@/app/cardnews/types';
 
-// 2026-08-07 · CDN 다운 대비 로컬 자산으로 임시 매핑 · 원장 실 사진 도착 시 재교체
-const HERO_IMG = '/brand/course8-2026-07-30/03-founder.jpg';
-const BEFORE_TREATMENT_IMG = '/brand/founder-real-2026-08-03/miji01w.png';
-// 시안 close-up 은 완성 눈썹의 클로즈업 포트레이트 → kidol-brow (실 인물 얼굴 + 눈썹) 활용
-const CLOSEUP_IMGS = [
-  '/brand/hero/kidol-brow-01.png',
-  '/brand/hero/kidol-brow-02.png',
-  '/brand/hero/kidol-brow-03.png',
-];
-// B/A · 실 촬영 도착 시 교체
-const BA_LEFT = '/brand/ai-generated/client/client-01.png';
-const BA_RIGHT = '/brand/ai-generated/client/client-03.png';
-// 특허 원본 이미지는 CDN 이관 후 복구. 지금은 텍스트 카드로 대체.
+// 2026-08-07 · 원장 Canva 시안 (2026-08-06) 에서 crop 한 정본 이미지 사용
+const CANVA = '/preview/canva';
+const HERO_IMG = `${CANVA}/hero-portrait.jpg`;
+const BEFORE_TREATMENT_IMG = `${CANVA}/before-face.jpg`;
+const CLOSEUP_IMGS = [`${CANVA}/closeup-portrait.jpg`];
+const BA_LEFT = `${CANVA}/ba-left.jpg`;
+const BA_RIGHT = `${CANVA}/ba-right.jpg`;
 const PATENTS = [
-  { no: '10-2639903', kind: '특허' },
-  { no: '40-2300477', kind: '상표' },
-  { no: '10-2863985', kind: '특허' },
+  { no: '10-2639903', kind: '특허', src: `${CANVA}/patent-01.jpg` },
+  { no: '40-2300477', kind: '상표', src: `${CANVA}/patent-02.jpg` },
+  { no: '10-2863985', kind: '특허', src: `${CANVA}/patent-03.jpg` },
 ];
 
 const LANG_TAB: { key: Lang; label: string; href: string }[] = [
@@ -134,36 +128,17 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </p>
       </section>
 
-      {/* ── 특허 3장 (텍스트 카드 · 원본 스캔 CDN 복구 시 이미지 교체) ── */}
+      {/* ── 특허 3장 (Canva 시안 실 스캔 crop) ── */}
       <section style={{ padding: '8px 20px 40px', background: '#0B0907' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
           {PATENTS.map((p) => (
-            <div key={p.no} style={{
-              aspectRatio: '3/4', padding: '18px 8px',
-              background: '#F5EDE3', color: '#0B0907',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
-              textAlign: 'center', border: '1px solid rgba(11,9,7,.18)',
-            }}>
-              <div style={{
-                fontFamily: "'Nanum Myeongjo',serif", fontSize: 11.5, fontWeight: 700,
-                letterSpacing: '.02em', color: '#5A4632',
-              }}>대한민국</div>
-              <div style={{
-                fontFamily: "'Nanum Myeongjo',serif", fontSize: 22, fontWeight: 800,
-                color: '#B08862', lineHeight: 1,
-              }}>
-                {p.kind}
-              </div>
-              <div style={{
-                fontFamily: "'Cormorant Garamond','Nanum Myeongjo',serif", fontSize: 10,
-                color: '#5A4632', letterSpacing: '.03em', fontWeight: 600,
-              }}>
-                증서
-              </div>
+            <div key={p.no} style={{ aspectRatio: '3/4', background: '#F5EDE3', overflow: 'hidden' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.src} alt={`${p.kind} 제 ${p.no}호`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, textAlign: 'center' }}>
+        <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, textAlign: 'center' }}>
           {PATENTS.map((p) => (
             <div key={p.no} style={{ fontSize: 10, color: '#B8A897', letterSpacing: '.01em', lineHeight: 1.35 }}>
               {p.kind} 제 {p.no}호
@@ -205,7 +180,7 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
             </div>
           </div>
           <div style={{ fontSize: 11.5, color: '#B8A897', lineHeight: 1.6, letterSpacing: '-.005em' }}>
-            털의 구조와 비율, 눈썹의 형태를 고려하여 눈썹의 결이 잡히듯 그리는 기술로 · 고객의 완벽한 비율을 조정하여 눈썹으로 인상을 바꾸는 기술
+            뼈의 구조와 비율, 눈썹의 형태를 고려하여 눈썹의 질감까지 그리는 기술로 · 고객의 완벽한 비율을 조정하며 눈썹으로 인상을 바꾸는 기술
           </div>
         </div>
 
