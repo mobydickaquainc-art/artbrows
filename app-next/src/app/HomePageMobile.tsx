@@ -389,23 +389,20 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* ── 초보 수강생 작품 ── */}
-      <section style={{ padding: '20px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
+      {/* ── 초보 수강생 작품 (실 사진 도착 시 재활성) ── */}
+      <section style={{ padding: '20px 20px 40px', background: '#0B0907', textAlign: 'center' }}>
         <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
           초보 수강생 작품
         </h2>
         <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
           경력자 같은 초보 수강생들의 실제 작품
         </p>
-      </section>
-      <section style={{ padding: '8px 20px 40px', background: '#0B0907' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          {[1, 2, 3, 4].map((n) => (
-            <div key={n} style={{ aspectRatio: '4/5', overflow: 'hidden', background: '#14100C' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${CANVA}/p2-work-0${n}.jpg`} alt={`수강생 작품 ${n}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-            </div>
-          ))}
+        <div style={{
+          marginTop: 16, padding: '18px 14px',
+          border: '1px dashed rgba(224,192,136,.35)', borderRadius: 6,
+          fontSize: 11.5, color: '#8A7B6C', letterSpacing: '-.005em',
+        }}>
+          실 수강생 작품 사진 준비 중
         </div>
       </section>
 
