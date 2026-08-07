@@ -384,18 +384,10 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* ── 초보 수강생 작품 (Canva 통짜) ── */}
-      <section style={{ padding: '20px 20px 8px', background: '#0B0907', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
-          초보 수강생 작품
-        </h2>
-        <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
-          경력자 같은 초보 수강생들의 실제 작품
-        </p>
-      </section>
+      {/* ── 초보 수강생 작품 (Canva 통짜 · 헤딩+subtitle+4장 grid 전부 포함) ── */}
       <section style={{ padding: '0 0 24px', background: '#0B0907' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${CANVA}/p2-works-full.jpg`} alt="수강생 작품 · 초보수강생 극사실눈썹 첫실습 · 극사실눈썹 수강생 두번째 실습" width={1080} height={860} style={{ width: '100%', height: 'auto', display: 'block' }} />
+        <img src={`${CANVA}/p2-works-full.jpg`} alt="초보 수강생 작품 · 경력자 같은 초보 수강생들의 실제 작품 · 4장 grid" width={1080} height={1650} style={{ width: '100%', height: 'auto', display: 'block' }} />
       </section>
 
       {/* ═════════ PAGE 3 · FAQ + 오시는 길 + 소셜 + 최종 CTA ═════════ */}
