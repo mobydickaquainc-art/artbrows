@@ -454,22 +454,12 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* ── 인스타그램 · 유튜브 쇼츠 grid ── */}
-      <section style={{ padding: '32px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 20, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
-          인스타그램 · 유튜브 쇼츠
-        </h2>
-      </section>
-      <section style={{ padding: '8px 20px 20px', background: '#0B0907' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <a key={n} href="https://www.instagram.com/artbrows_academy/" target="_blank" rel="noopener noreferrer"
-              style={{ aspectRatio: '1/1', overflow: 'hidden', background: '#14100C', display: 'block' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${CANVA}/p3-social-0${n}.jpg`} alt={`SNS ${n}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-            </a>
-          ))}
-        </div>
+      {/* ── 인스타그램 · 유튜브 쇼츠 (Canva 통짜 · 헤딩+6장 grid) ── */}
+      <section style={{ padding: '32px 0 20px', background: '#0B0907' }}>
+        <a href="https://www.instagram.com/artbrows_academy/" target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${CANVA}/p3-social-full.jpg`} alt="인스타그램 · 유튜브 쇼츠 · @ARTbrows_academy" width={1080} height={1150} style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </a>
       </section>
 
       {/* ── 소셜 링크 pill 3개 ── */}
