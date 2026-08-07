@@ -280,10 +280,274 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* 하단 여백 · 시안엔 FloatingCTA 없음 */}
+      {/* ═════════ PAGE 2 · 아카데미 차별화 + 커리큘럼 + 수강생 작품 ═════════ */}
+
+      {/* ── 일반 반영구 vs ARTbrows 차이 ── */}
+      <section style={{ padding: '40px 20px 20px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3', lineHeight: 1.35 }}>
+          일반 반영구 아카데미와<br/>무엇이 다른가?
+        </h2>
+        <p style={{ marginTop: 8, fontSize: 12.5, color: '#B8A897', letterSpacing: '-.005em' }}>
+          배우는 기술의 수준 자체가 다릅니다.
+        </p>
+      </section>
+      <section style={{ padding: '0', background: '#0B0907' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${CANVA}/p2-macro-brow.jpg`} alt="눈썹 매크로" style={{ width: '100%', display: 'block' }} />
+      </section>
+      <section style={{ padding: '24px 24px 20px', background: '#0B0907', textAlign: 'center' }}>
+        <p style={{ fontSize: 13, color: '#F5EDE3', lineHeight: 1.65, fontWeight: 500, letterSpacing: '-.005em', margin: 0 }}>
+          진짜 눈썹을 반영구로 재현하기 위해<br/>
+          진짜 눈썹을 보고, 그리고, 패턴화 하는 소묘에서 부터<br/>
+          <b style={{ color: '#E0C088', fontWeight: 700 }}>극사실눈썹 수업</b>은 시작합니다.
+        </p>
+      </section>
+      <section style={{ padding: '0 20px 40px', background: '#0B0907' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${CANVA}/p2-class-photo.jpg`} alt="강의 사진" style={{ width: '100%', display: 'block' }} />
+      </section>
+
+      {/* ── 초보를 프로로 만드는곳 · 비교표 ── */}
+      <section style={{ padding: '20px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
+          초보를 프로로 만드는곳
+        </h2>
+        <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
+          극사실 눈썹 창시자가 1:1 밀착으로 직접 가르칩니다.
+        </p>
+      </section>
+      <section style={{ padding: '8px 20px 40px', background: '#0B0907' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, color: '#F5EDE3' }}>
+          <thead>
+            <tr style={{ background: '#14100C' }}>
+              <th style={{ padding: '10px 8px', textAlign: 'left', fontWeight: 700, borderBottom: '1px solid rgba(224,192,136,.2)', width: '35%' }}></th>
+              <th style={{ padding: '10px 8px', textAlign: 'center', fontWeight: 700, borderBottom: '1px solid rgba(224,192,136,.2)', color: '#8A7B6C' }}>일반 아카데미</th>
+              <th style={{ padding: '10px 8px', textAlign: 'center', fontWeight: 800, borderBottom: '1px solid rgba(224,192,136,.4)', color: '#E0C088' }}>ARTbrows</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              ['접근 방식', '정해진 패턴 적용', '1:1 맞춤 소묘'],
+              ['직강 여부', '조교·강사 진행', '창시자 100% 직강'],
+              ['기술 근거', '표준 커리큘럼', '특허 3건 보유 기술'],
+              ['수료 후', '사후관리 없음', '평생 A/S 피드백'],
+            ].map(([k, a, b]) => (
+              <tr key={k} style={{ borderBottom: '1px solid rgba(224,192,136,.1)' }}>
+                <td style={{ padding: '10px 8px', color: '#B8A897', fontWeight: 600 }}>{k}</td>
+                <td style={{ padding: '10px 8px', textAlign: 'center', color: '#8A7B6C', fontSize: 11.5 }}>{a}</td>
+                <td style={{ padding: '10px 8px', textAlign: 'center', color: '#F5EDE3', fontWeight: 700, fontSize: 11.5 }}>{b}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {/* ── 단계별 커리큘럼 로드맵 ── */}
+      <section style={{ padding: '20px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
+          단계별 커리큘럼 로드맵
+        </h2>
+        <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
+          입문부터 창업까지, 단계별로 완성됩니다.
+        </p>
+      </section>
+      <section style={{ padding: '0', background: '#0B0907' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${CANVA}/p2-lip-illustration.jpg`} alt="커리큘럼 시각" style={{ width: '100%', display: 'block' }} />
+      </section>
+      <section style={{ padding: '24px 20px 20px', background: '#0B0907' }}>
+        {[
+          { n: 1, t: '이지클래스', d: '입문자를 위한 기초과정: 주1회 5주 15시간 오전11~2시' },
+          { n: 2, t: '극사실소묘수업', d: '소묘원리 집중 3일 수업\n월 1회 3일 오전 11시~오후 6시까지' },
+          { n: 3, t: '극사실눈썹 3일', d: '소묘를 얼굴에 시술하는 극사실눈썹 3일 수업\n월 1회 3일 오전 11~오후 6시 실습가능수업' },
+          { n: 4, t: '단기창업반', d: '6개월 통합과정, 창업 멘토링, 마케팅, 샵이용 모두 포함 성공적 창업제시' },
+        ].map((c) => (
+          <div key={c.n} style={{
+            display: 'grid', gridTemplateColumns: '28px 1fr', gap: 12, alignItems: 'start',
+            padding: '12px 12px', marginBottom: 8,
+            border: '1px solid rgba(224,192,136,.35)', borderRadius: 4,
+          }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: 99,
+              background: 'linear-gradient(135deg,#E0C088,#B08862)', color: '#0B0907',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 12, fontWeight: 900, marginTop: 2,
+            }}>{c.n}</div>
+            <div>
+              <div style={{ fontSize: 13.5, fontWeight: 800, color: '#F5EDE3', letterSpacing: '-.005em' }}>{c.t}</div>
+              <div style={{ marginTop: 3, fontSize: 11.5, color: '#B8A897', lineHeight: 1.55, whiteSpace: 'pre-line' }}>{c.d}</div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ── CTA 2 (중간 위치) ── */}
+      <section style={{ padding: '4px 20px 32px', background: '#0B0907' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          <Link href="/consult?type=procedure" style={ctaOutlineStyle()}>원장시술상담신청</Link>
+          <Link href="/consult?type=academy" style={ctaFilledStyle()}>교육상담신청</Link>
+        </div>
+      </section>
+
+      {/* ── 초보 수강생 작품 ── */}
+      <section style={{ padding: '20px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
+          초보 수강생 작품
+        </h2>
+        <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
+          경력자 같은 초보 수강생들의 실제 작품
+        </p>
+      </section>
+      <section style={{ padding: '8px 20px 40px', background: '#0B0907' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          {[1, 2, 3, 4].map((n) => (
+            <div key={n} style={{ aspectRatio: '4/5', overflow: 'hidden', background: '#14100C' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${CANVA}/p2-work-0${n}.jpg`} alt={`수강생 작품 ${n}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═════════ PAGE 3 · FAQ + 오시는 길 + 소셜 + 최종 CTA ═════════ */}
+
+      {/* ── 경험한 사람만 아는 차이 (헤딩만 · 후기는 소셜 grid 로 흡수) ── */}
+      <section style={{ padding: '20px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
+          경험한 사람만 아는 차이
+        </h2>
+        <p style={{ marginTop: 6, fontSize: 12.5, color: '#B8A897' }}>
+          수강생후기와 고객님들 후기입니다.
+        </p>
+      </section>
+
+      {/* ── FAQ (자주 묻는 질문 · 아코디언) ── */}
+      <section style={{ padding: '32px 20px 20px', background: '#0B0907' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 20, fontWeight: 800, margin: '0 0 14px', color: '#F5EDE3' }}>
+          자주 묻는 질문
+        </h2>
+        {[
+          { q: '수강 순서는 어떻게 되나요?', a: '이지클래스 → 극사실기초 소묘수업 → 극사실눈썹 감의 순으로 진행되는 것을 권장합니다. 경력에 따라 상담 후 단계를 조정할 수 있습니다.' },
+          { q: '재료비는 별도인가요?', a: '수강료에 포함 여부는 과정별로 다릅니다. 상담 시 안내드립니다.' },
+          { q: '일정은 어떻게 진행되나요?', a: '월 개강 일정과 신청 방식은 상담 시 안내드립니다.' },
+          { q: '입문자도 수강 가능한가요?', a: '네, 이지클래스는 입문자 대상으로 설계되어 있어 미경험자도 수강 가능합니다.' },
+        ].map((f, i) => (
+          <details key={i} style={{ padding: '12px 14px', borderTop: i === 0 ? '1px solid rgba(224,192,136,.15)' : 'none', borderBottom: '1px solid rgba(224,192,136,.15)' }}>
+            <summary style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', listStyle: 'none', fontSize: 13, fontWeight: 700, color: '#F5EDE3' }}>
+              <span>{f.q}</span>
+              <span style={{ color: '#E0C088', fontSize: 16, fontWeight: 400, marginLeft: 8 }}>+</span>
+            </summary>
+            <div style={{ marginTop: 8, fontSize: 12, color: '#B8A897', lineHeight: 1.65 }}>{f.a}</div>
+          </details>
+        ))}
+      </section>
+
+      {/* ── ARTbrows 미지아카데미 · 오시는 길 ── */}
+      <section style={{ padding: '32px 20px 16px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 22, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
+          ARTbrows 미지아카데미
+        </h2>
+      </section>
+      <section style={{ padding: '0 20px 12px', background: '#0B0907' }}>
+        <a href="https://map.naver.com/p/search/미지아카데미" target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${CANVA}/p3-map.jpg`} alt="지도" style={{ width: '100%', display: 'block' }} />
+        </a>
+      </section>
+      <section style={{ padding: '8px 20px 20px', background: '#0B0907' }}>
+        <div style={{ fontSize: 12.5, color: '#F5EDE3', lineHeight: 1.7 }}>
+          <div><b style={{ color: '#E0C088', fontWeight: 700 }}>주소</b> · 서울 강남구 봉은사로68길 55-3 2층</div>
+          <div style={{ marginTop: 4 }}><b style={{ color: '#E0C088', fontWeight: 700 }}>교통</b> · 선릉역·삼성중앙역 인근</div>
+        </div>
+        <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          <a href="https://map.naver.com/p/search/미지아카데미" target="_blank" rel="noopener noreferrer" style={ctaOutlineStyle()}>네이버지도</a>
+          <a href="https://map.kakao.com/link/search/서울 강남구 봉은사로68길 55-3 2층" target="_blank" rel="noopener noreferrer" style={ctaOutlineStyle()}>카카오맵</a>
+        </div>
+      </section>
+
+      {/* ── 인스타그램 · 유튜브 쇼츠 grid ── */}
+      <section style={{ padding: '32px 20px 12px', background: '#0B0907', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Pretendard',sans-serif", fontSize: 20, fontWeight: 800, margin: 0, color: '#F5EDE3' }}>
+          인스타그램 · 유튜브 쇼츠
+        </h2>
+      </section>
+      <section style={{ padding: '8px 20px 20px', background: '#0B0907' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <a key={n} href="https://www.instagram.com/artbrows_academy/" target="_blank" rel="noopener noreferrer"
+              style={{ aspectRatio: '1/1', overflow: 'hidden', background: '#14100C', display: 'block' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${CANVA}/p3-social-0${n}.jpg`} alt={`SNS ${n}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 소셜 링크 pill 3개 ── */}
+      <section style={{ padding: '20px 20px 32px', background: '#0B0907' }}>
+        {[
+          { l: '인스타그램: @ARTbrows_academy', h: 'https://www.instagram.com/artbrows_academy/' },
+          { l: 'youtube: @artbrows5453', h: 'https://www.youtube.com/@artbrows5453' },
+          { l: 'blog: https://blog.naver.com/artbrows/', h: 'https://blog.naver.com/artbrows/' },
+        ].map((s) => (
+          <a key={s.l} href={s.h} target="_blank" rel="noopener noreferrer"
+            style={{ display: 'block', padding: '13px 16px', marginBottom: 10, textAlign: 'center', textDecoration: 'none', color: '#F5EDE3', fontSize: 12.5, fontWeight: 600, background: '#14100C', border: '1px solid rgba(224,192,136,.3)', borderRadius: 99 }}>
+            {s.l}
+          </a>
+        ))}
+      </section>
+
+      {/* ── 최종 CTA 카드 2개 (교육 → 시술) ── */}
+      <section style={{ padding: '16px 20px 20px', background: '#0B0907' }}>
+        <div style={{
+          padding: '24px 20px', textAlign: 'center',
+          background: 'linear-gradient(135deg,#1A140E,#14100C)', border: '1px solid rgba(224,192,136,.3)',
+          marginBottom: 12, borderRadius: 6,
+        }}>
+          <div style={{ fontFamily: "'Nanum Myeongjo',serif", fontSize: 17, fontWeight: 700, color: '#F5EDE3', lineHeight: 1.4 }}>
+            창시자의 기술,<br/>당신도 배울 수 있습니다
+          </div>
+          <div style={{ marginTop: 6, fontSize: 11.5, color: '#B8A897' }}>
+            이지클래스 · 소묘수업 · 극사실눈썹 감의 · 플래그십 창업반
+          </div>
+          <Link href="/consult?type=academy" style={{ ...ctaFilledStyle(), display: 'inline-block', marginTop: 14, padding: '12px 32px' }}>교육상담신청</Link>
+        </div>
+        <div style={{
+          padding: '24px 20px', textAlign: 'center',
+          background: 'linear-gradient(135deg,#1A140E,#14100C)', border: '1px solid rgba(224,192,136,.3)',
+          borderRadius: 6,
+        }}>
+          <div style={{ fontFamily: "'Nanum Myeongjo',serif", fontSize: 17, fontWeight: 700, color: '#F5EDE3', lineHeight: 1.4 }}>
+            지금 시술을 원하신다면
+          </div>
+          <div style={{ marginTop: 6, fontSize: 11.5, color: '#B8A897' }}>
+            원장 단독 시술 · 소수 인원만 진행
+          </div>
+          <Link href="/consult?type=procedure" style={{ ...ctaFilledStyle(), display: 'inline-block', marginTop: 14, padding: '12px 32px' }}>원장시술상담신청</Link>
+        </div>
+      </section>
+
+      {/* 하단 여백 */}
       <div style={{ height: 24, background: '#0B0907' }} />
     </main>
   );
+}
+
+function ctaOutlineStyle(): React.CSSProperties {
+  return {
+    padding: '13px 6px', textAlign: 'center', textDecoration: 'none',
+    background: 'transparent', border: '1px solid rgba(224,192,136,.55)',
+    color: '#F5EDE3', fontSize: 12, fontWeight: 700, borderRadius: 2,
+    letterSpacing: '-.005em', display: 'block',
+  };
+}
+function ctaFilledStyle(): React.CSSProperties {
+  return {
+    padding: '13px 6px', textAlign: 'center', textDecoration: 'none',
+    background: 'linear-gradient(135deg,#E0C088,#B08862)',
+    color: '#0B0907', fontSize: 12, fontWeight: 800, borderRadius: 2,
+    letterSpacing: '-.005em', display: 'block',
+  };
 }
 
 function arrowStyle(side: 'left' | 'right'): React.CSSProperties {
