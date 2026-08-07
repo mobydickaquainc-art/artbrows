@@ -253,30 +253,10 @@ export default function HomePageMobile({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* ── Before / After 얼굴 좌우 분할 (중앙 배지) ── */}
+      {/* ── Before / After 얼굴 좌우 (Canva 통짜 · 배지·화살표 포함) ── */}
       <section style={{ padding: '24px 0 0', background: '#0B0907' }}>
-        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-          <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', background: '#000' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BA_LEFT} alt="Before" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 30%', display: 'block' }} />
-            <button onClick={baPrev} aria-label="이전"
-              style={{ ...arrowStyle('left'), left: 6, background: 'transparent', border: 'none', fontSize: 22, color: '#F5EDE3' }}>‹‹</button>
-          </div>
-          <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', background: '#000' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BA_RIGHT} alt="After" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 30%', display: 'block' }} />
-            <button onClick={baNext} aria-label="다음"
-              style={{ ...arrowStyle('right'), right: 6, background: 'transparent', border: 'none', fontSize: 22, color: '#F5EDE3' }}>››</button>
-          </div>
-          <div style={{
-            position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-            padding: '10px 14px', textAlign: 'center', pointerEvents: 'none',
-          }}>
-            <div style={{ fontFamily: "'Nanum Myeongjo',serif", fontSize: 12.5, color: '#F5EDE3', fontWeight: 700, letterSpacing: '.02em', textShadow: '0 2px 8px rgba(0,0,0,.85)', lineHeight: 1.4 }}>
-              극사실눈썹<br/>창시자 장미지
-            </div>
-          </div>
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${CANVA}/p1-ba-full.jpg`} alt="Before / After · 극사실눈썹 창시자 장미지" width={1080} height={1000} style={{ width: '100%', height: 'auto', display: 'block' }} />
       </section>
 
       {/* ── 통계 3칸 + CTA 2 (시안 하단 · 배경 조금 밝은 상자) ── */}
